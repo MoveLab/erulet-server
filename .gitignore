@@ -1,0 +1,6 @@
+servulet/settings_local.py
+servulet/settings_local*
+servulet/settings/local.pyc
+*pyc
+*.egg-info
+.idea/*
