@@ -1,12 +1,18 @@
-from django.conf.urls import patterns, include, url
+from django.conf.urls import *
+from django.conf.urls.i18n import i18n_patterns
+from django.views.generic.base import RedirectView
+from django.core.urlresolvers import reverse
+from django.contrib.gis import admin
+from django.conf import settings
+from django.conf.urls.static import static
 
-from django.contrib import admin
 admin.autodiscover()
 
+# Wire up our API using automatic URL routing.
+# Additionally, we include login URLs for the browseable API.
 urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'servulet.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-
     url(r'^admin/', include(admin.site.urls)),
-)
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api/', include('appulet.urls')),
+) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL,
+                                                                             document_root=settings.MEDIA_ROOT)

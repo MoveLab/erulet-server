@@ -1,0 +1,22 @@
+{% extends "rest_framework/base.html" %}
+
+{% block title %}
+        Erulet Server
+{% endblock %}
+
+{% block branding %}
+        <a class='brand' rel="nofollow" href='/api'>Erulet API</a>
+{% endblock %}
+
+{% block userlinks %}
+        <li><a href="/api/routes/">Routes</a></li>
+        <li><a href="/api/tracks/">Tracks</a></li>
+        <li><a href="/api/steps/">Steps</a></li>
+        <li><a href="/api/highlights/">Highlights</a></li>
+        <li><a href="/api/interactive_images/">Interactive Images</a></li>
+        <li><a href="/api/boxes/">Boxes</a></li>
+        <li><a href="/api/ratings/">Ratings</a></li>
+        <li><a href="/api/media/">Media</a></li>
+        {{ block.super}}
+{% endblock %}
+
