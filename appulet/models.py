@@ -77,7 +77,7 @@ class Route(models.Model):
 class Step(models.Model):
     id = models.CharField(max_length=40, primary_key=True, default=make_random_id())
     absolute_time = models.DateTimeField(blank=True, null=True)
-    track = models.ForeignKey(Track, blank=True, null=True)
+    track = models.ForeignKey(Track, blank=True, null=True, related_name='steps')
     route = models.ForeignKey(Route, blank=True, null=True)
     reference = models.OneToOneField(Reference, blank=True, null=True)
     order = models.IntegerField(blank=True, null=True)
@@ -104,3 +104,15 @@ class Rating(models.Model):
     time = models.DateTimeField()
     highlight = models.ForeignKey(Highlight, blank=True, null=True)
     route = models.ForeignKey(Route, blank=True, null=True)
+
+
+def GPX_Folder(instance, filename):
+    return "uploaded_gpx_files/%s" % (filename)
+
+
+class gpxFile(models.Model):
+    title = models.CharField("Title", max_length=100)
+    gpx_file = models.FileField(upload_to=GPX_Folder, blank=True)
+
+    def __unicode__(self):
+        return self.title

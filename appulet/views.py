@@ -11,6 +11,14 @@ import os
 import zipfile
 import StringIO
 from django.http import HttpResponse
+import gpxpy
+import gpxpy.gpx
+from django.conf import settings
+from django.shortcuts import render_to_response
+from django.http import HttpResponseRedirect
+from django.core.context_processors import csrf
+from appulet.forms import UploadGpxForm
+
 
 
 class ReadOnlyModelViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -120,6 +128,11 @@ class TrackViewSet(ReadWriteOnlyModelViewSet):
     serializer_class = TrackSerializer
 
 
+class TrackNestedViewSet(ReadWriteOnlyModelViewSet):
+    queryset = Track.objects.all()
+    serializer_class = TrackNestedSerializer
+
+
 class BoxViewSet(ReadOnlyModelViewSet):
     queryset = Box.objects.all()
     serializer_class = BoxSerializer
@@ -133,6 +146,11 @@ class ReferenceViewSet(ReadOnlyModelViewSet):
 class RouteViewSet(ReadWriteOnlyModelViewSet):
     queryset = Route.objects.all()
     serializer_class = RouteSerializer
+
+
+class RouteNestedViewSet(ReadOnlyModelViewSet):
+    queryset = Route.objects.all()
+    serializer_class = RouteNestedSerializer
 
 
 class StepViewSet(ReadWriteOnlyModelViewSet):
@@ -150,3 +168,40 @@ class CustomBrowsableAPIRenderer(BrowsableAPIRenderer):
         return JSONRenderer()
 
 
+# function for parsing and saving data from gpx file to our database
+# function is called after the gpx_file is uploaded
+def SaveGPXtoPostGIS(f, file_instance):
+
+    gpx_file = open(settings.MEDIA_ROOT+ '/uploaded_gpx_files'+'/' + f.name)
+    gpx = gpxpy.parse(gpx_file)
+
+    if gpx.waypoints:
+        for waypoint in gpx.waypoints:
+            new_step = Step()
+            if waypoint.latitude:
+                new_step.latitude = waypoint.latitude
+                new_step.longitude = waypoint.longitude
+            new_step.save()
+
+
+def upload_gpx(request):
+    args = {}
+    args.update(csrf(request))
+
+    if request.method == 'POST':
+        file_instance = gpxFile()
+        form = UploadGpxForm(request.POST, request.FILES, instance=file_instance)
+        args['form'] = form
+        if form.is_valid():
+            form.save()
+            SaveGPXtoPostGIS(request.FILES['gpx_file'], file_instance)
+
+            return HttpResponseRedirect('success/')
+
+    else:
+        args['form'] = UploadGpxForm()
+
+    return render_to_response('myapp/form.html', args)
+
+def upload_success(request):
+    return render_to_response('myapp/success.html')

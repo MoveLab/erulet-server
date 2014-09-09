@@ -5,7 +5,6 @@ import csv
 from django.utils.encoding import smart_str
 from django.http.response import HttpResponse
 
-
 admin.site.register(Track)
 admin.site.register(Route)
 admin.site.register(Step)
@@ -14,3 +13,4 @@ admin.site.register(Reference)
 admin.site.register(InteractiveImage)
 admin.site.register(Box)
 admin.site.register(Rating)
+admin.site.register(gpxFile)

@@ -2,9 +2,42 @@ from rest_framework import serializers
 from appulet.models import *
 
 
+class HighlightSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Highlight
+
+
+class HighlightNestedSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Highlight
+        fields = ('id','created_by', 'name', 'long_text', 'radius', 'type', 'step')
+
+
+class StepSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Step
+
+
+class StepNestedSerializer(serializers.ModelSerializer):
+    highlight = HighlightNestedSerializer(many=False)
+
+    class Meta:
+        model = Step
+        fields = ('id', 'absolute_time', 'order', 'latitude', 'longitude', 'altitude', 'precision', 'highlight')
+
+
 class TrackSerializer(serializers.ModelSerializer):
     class Meta:
         model = Track
+
+
+class TrackNestedSerializer(serializers.ModelSerializer):
+    steps = StepNestedSerializer(many=True)
+
+    class Meta:
+        model = Track
+        fields = ('id', 'name', 'steps')
 
 
 class InteractiveImageSerializer(serializers.ModelSerializer):
@@ -27,14 +60,12 @@ class RouteSerializer(serializers.ModelSerializer):
         model = Route
 
 
-class HighlightSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Highlight
+class RouteNestedSerializer(serializers.ModelSerializer):
+    track = TrackNestedSerializer(many=False)
 
-
-class StepSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Step
+        model = Route
+        fields = ('id', 'id_route_based_on', 'description', 'local_carto', 'name', 'track')
 
 
 class RatingSerializer(serializers.ModelSerializer):
