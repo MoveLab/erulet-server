@@ -50,6 +50,7 @@ INSTALLED_APPS = (
     'django.contrib.gis',
     'rest_framework.authtoken',
     'appulet',
+    'frontulet',
     'rest_framework',
     'leaflet',
 )
