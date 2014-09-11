@@ -1,4 +1,5 @@
 {% extends "frontulet/base.html" %}
+{% load staticfiles %}
 
 {% block main_body %}
 
@@ -16,7 +17,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Project name</a>
+              <a class="navbar-brand" href="#">Erulet</a>
             </div>
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
@@ -55,12 +56,13 @@
       </ol>
       <div class="carousel-inner">
         <div class="item active">
-          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="First slide">
+          <img alt="First slide" src={% static "servulet/photos/2007-09-08_-_(09ax)_Capçalera_de_Caldes.jpg" %}>
           <div class="container">
             <div class="carousel-caption">
-              <h1>Example headline.</h1>
-              <p>Note: If you're viewing this page via a <code>file://</code> URL, the "next" and "previous" Glyphicon buttons on the left and right might not load/display properly due to web browser security rules.</p>
-              <p><a class="btn btn-lg btn-primary" href="#" role="button">Sign up today</a></p>
+              <h1>Meet Erulet</h1>
+              <p>Erulet is a figure from Aranese mythology. He is a gnome who lives hidden in the forests, representing the spirit of nature. And he comes to you now . . . in an app.</p>
+              <p><a class="btn btn-lg btn-primary" href="#" role="button">Start your adventure</a></p>
+                "<a href="https://commons.wikimedia.org/wiki/File:2007-09-08_-_(09ax)_Cap%C3%A7alera_de_Caldes.JPG#mediaviewer/File:2007-09-08_-_(09ax)_Cap%C3%A7alera_de_Caldes.JPG">2007-09-08 - (09ax) Capçalera de Caldes</a>" by Josep Borrut - <span class="int-own-work">Own work</span>. Licensed under <a href="http://creativecommons.org/licenses/by-sa/3.0" title="Creative Commons Attribution-Share Alike 3.0">CC BY-SA 3.0</a> via <a href="//commons.wikimedia.org/wiki/">Wikimedia Commons</a>.
             </div>
           </div>
         </div>
@@ -68,8 +70,8 @@
           <img src="data:image/gif;base64,R0lGODlhAQABAIAAAGZmZgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" alt="Second slide">
           <div class="container">
             <div class="carousel-caption">
-              <h1>Another example headline.</h1>
-              <p>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit.</p>
+              <h1>Discover the waters of the Val d'Aran</h1>
+              <p>Erulet will guide you through a series of adventures, along rivers and around mountain lakes. He will </p>
               <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
             </div>
           </div>
