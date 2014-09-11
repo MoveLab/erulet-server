@@ -9,3 +9,13 @@ def show_landing_page(request):
 def show_privacy_policy(request):
     context = {}
     return render(request, 'frontulet/privacy.html', context)
+
+
+def show_map(request):
+    context = {}
+    return render(request, 'frontulet/map.html', context)
+
+
+def show_landing_page(request):
+    context = {}
+    return render(request, 'frontulet/landing_page.html', context)

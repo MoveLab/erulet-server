@@ -22,8 +22,9 @@
             <div class="navbar-collapse collapse">
               <ul class="nav navbar-nav">
                 <li class="active"><a href="#">Home</a></li>
+                <li><a href="#">Routes</a></li>
+                <li><a href={% url "show_map" %}>Map</a></li>
                 <li><a href="#about">About</a></li>
-                <li><a href="#contact">Contact</a></li>
               </ul>
             </div>
           </div>
@@ -151,11 +152,12 @@
 
       <!-- /END THE FEATURETTES -->
 
-
       <!-- FOOTER -->
       <footer>
         <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>&copy; 2014 John R.B. Palmer, Agustí Escobar, Frederic Bartumeus, Lluís Camarero, Jordi Catalan &middot; <a href="{% url "show_privacy_policy" %}">Privacy</a> &middot; <a href="http://github.com/MoveLab/erulet-server/blob/master/LICENSE.md">Terms</a></p>
+        <p>&copy; 2014 John R.B. Palmer, Agustí Escobar, Frederic Bartumeus, Lluís Camarero, Jordi Catalan &middot; <a href="{% url "show_privacy_policy" %}">Privacy</a> &middot; <a href="http://github.com/MoveLab/erulet-server/blob/master/LICENSE.md">Terms</a></p><br>
+
+          <p>Erulet is built from free and open source code. Check out our <a href="api">API</a> or fork us on <a href="http://github.com/MoveLab">Github</a>!</p>
 
 
           <p> Photo credits:</p>
