@@ -80,6 +80,7 @@ class Step(models.Model):
     track = models.ForeignKey(Track, blank=True, null=True, related_name='steps')
     route = models.ForeignKey(Route, blank=True, null=True)
     reference = models.OneToOneField(Reference, blank=True, null=True)
+    interactive_image = models.OneToOneField(InteractiveImage, blank=True, null=True)
     order = models.IntegerField(blank=True, null=True)
     latitude = models.FloatField()
     longitude = models.FloatField()

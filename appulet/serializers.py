@@ -10,7 +10,25 @@ class HighlightSerializer(serializers.ModelSerializer):
 class HighlightNestedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Highlight
-        fields = ('id','created_by', 'name', 'long_text', 'radius', 'type', 'step')
+        fields = ('id', 'created_by', 'name', 'long_text', 'radius', 'type', 'step')
+
+
+class BoxSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Box
+
+
+class InteractiveImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InteractiveImage
+
+
+class InteractiveImageNestedSerializer(serializers.ModelSerializer):
+    box = BoxSerializer(many=True)
+
+    class Meta:
+        model = InteractiveImage
+        fields = ('id', 'image_file', 'original_height', 'original_width', 'box')
 
 
 class StepSerializer(serializers.ModelSerializer):
@@ -21,10 +39,11 @@ class StepSerializer(serializers.ModelSerializer):
 
 class StepNestedSerializer(serializers.ModelSerializer):
     highlight = HighlightNestedSerializer(many=False)
+    interactive_image = InteractiveImageNestedSerializer(many=False)
 
     class Meta:
         model = Step
-        fields = ('id', 'absolute_time', 'order', 'latitude', 'longitude', 'altitude', 'precision', 'highlight')
+        fields = ('id', 'absolute_time', 'order', 'latitude', 'longitude', 'altitude', 'precision', 'highlight', 'interactive_image')
 
 
 class TrackSerializer(serializers.ModelSerializer):
@@ -38,16 +57,6 @@ class TrackNestedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Track
         fields = ('id', 'name', 'steps')
-
-
-class InteractiveImageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = InteractiveImage
-
-
-class BoxSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Box
 
 
 class ReferenceSerializer(serializers.ModelSerializer):
