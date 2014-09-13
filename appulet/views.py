@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.generics import mixins
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from django.db.models import Q
-from serializers import *
-from models import *
+from appulet.serializers import *
+from appulet.models import *
 import os
 import zipfile
 import StringIO
@@ -17,6 +17,7 @@ from django.conf import settings
 from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
+from django.core.urlresolvers import reverse
 from appulet.forms import UploadGpxForm
 
 
@@ -175,13 +176,28 @@ def SaveGPXtoPostGIS(f, file_instance):
     gpx_file = open(settings.MEDIA_ROOT+ '/uploaded_gpx_files'+'/' + f.name)
     gpx = gpxpy.parse(gpx_file)
 
-    if gpx.waypoints:
-        for waypoint in gpx.waypoints:
-            new_step = Step()
-            if waypoint.latitude:
-                new_step.latitude = waypoint.latitude
-                new_step.longitude = waypoint.longitude
-            new_step.save()
+    if gpx.tracks:
+        for track in gpx.tracks:
+            new_track = Track()
+            if track.name is not None:
+                new_track.name = track.name
+                new_track.save()
+                new_route = Route()
+                new_route.name = track.name
+                new_route.track = new_track
+                new_route.save()
+                if track.segments:
+                    for segment in track.segments:
+                        if segment.points:
+                            this_order_number = 1
+                            for point in segment.points:
+                                    new_step = Step()
+                                    new_step.track = new_track
+                                    new_step.latitude = point.latitude
+                                    new_step.longitude = point.longitude
+                                    new_step.order = this_order_number
+                                    new_step.save()
+                                    this_order_number += 1
 
 
 def upload_gpx(request):
@@ -196,12 +212,13 @@ def upload_gpx(request):
             form.save()
             SaveGPXtoPostGIS(request.FILES['gpx_file'], file_instance)
 
-            return HttpResponseRedirect('success/')
+            return HttpResponseRedirect(reverse('show_upload_success'))
 
     else:
         args['form'] = UploadGpxForm()
 
-    return render_to_response('myapp/form.html', args)
+    return render_to_response('appulet/gpx_upload.html', args)
+
 
 def upload_success(request):
-    return render_to_response('myapp/success.html')
+    return render_to_response('appulet/success.html')

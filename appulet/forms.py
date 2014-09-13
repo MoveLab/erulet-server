@@ -1,7 +1,8 @@
 from django import forms
-from appulet.models import gpxFile
+from appulet.models import gpxFile, Route
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
+
 
 class UploadGpxForm(forms.ModelForm):
 
@@ -24,3 +25,6 @@ class UploadGpxForm(forms.ModelForm):
         return uploaded_file
 
 
+class RouteForm(forms.ModelForm):
+    class Meta:
+        model = Route

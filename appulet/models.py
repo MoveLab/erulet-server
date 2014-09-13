@@ -10,13 +10,8 @@ from django.utils.timezone import utc
 from django.utils.translation import ugettext_lazy as _
 
 
-def make_random_id():
-    result = "%s" % (uuid.uuid4())
-    return result
-
-
 class Track(models.Model):
-    id = models.CharField(max_length=40, primary_key=True, default=make_random_id())
+    uuid = models.CharField(max_length=40, blank=True)
     name = models.CharField(max_length=200, default='unnamed track')
 
     def __unicode__(self):
@@ -32,14 +27,14 @@ def make_media_uuid(path):
 
 
 class InteractiveImage(models.Model):
-    id = models.CharField(max_length=40, primary_key=True, default=make_random_id())
+    uuid = models.CharField(max_length=40, blank=True)
     image_file = models.ImageField(upload_to=make_media_uuid('erulet_interactive_images'))
     original_height = models.IntegerField()
     original_width = models.IntegerField()
 
 
 class Box(models.Model):
-    id = models.CharField(max_length=40, primary_key=True, default=make_random_id())
+    uuid = models.CharField(max_length=40, blank=True)
     interactive_image = models.ForeignKey(InteractiveImage)
     message = models.TextField()
     max_y = models.IntegerField()
@@ -53,18 +48,18 @@ class Box(models.Model):
 
 
 class Reference(models.Model):
-    id = models.CharField(max_length=40, primary_key=True, default=make_random_id())
+    uuid = models.CharField(max_length=40, blank=True)
     name = models.CharField(max_length=200, default='unnamed reference')
     content = models.FileField(upload_to=make_media_uuid('erulet_references'))
 
 
 class Route(models.Model):
-    id = models.CharField(max_length=40, primary_key=True, default=make_random_id())
-    id_route_based_on = models.CharField(max_length=40, blank=True)
+    uuid = models.CharField(max_length=40, blank=True)
+    id_route_based_on = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL)
     created_by = models.ForeignKey(User, blank=True, null=True)
     description = models.TextField(blank=True)
     interactive_image = models.OneToOneField(InteractiveImage, blank=True, null=True)
-    local_carto = models.CharField(max_length=200, blank=True)
+    local_carto = models.FileField(upload_to=make_media_uuid('erulet_carto'), blank=True, null=True)
     name = models.CharField(max_length=200, default='unnamed route')
     reference = models.OneToOneField(Reference, blank=True, null=True)
     track = models.OneToOneField(Track, blank=True, null=True)
@@ -75,7 +70,7 @@ class Route(models.Model):
 
 
 class Step(models.Model):
-    id = models.CharField(max_length=40, primary_key=True, default=make_random_id())
+    uuid = models.CharField(max_length=40, blank=True)
     absolute_time = models.DateTimeField(blank=True, null=True)
     track = models.ForeignKey(Track, blank=True, null=True, related_name='steps')
     route = models.ForeignKey(Route, blank=True, null=True)
@@ -89,7 +84,7 @@ class Step(models.Model):
 
 
 class Highlight(models.Model):
-    id = models.CharField(max_length=40, primary_key=True, default=make_random_id())
+    uuid = models.CharField(max_length=40, blank=True)
     created_by = models.ForeignKey(User, blank=True, null=True)
     name = models.CharField(max_length=100, default='unnamed highlight')
     long_text = models.CharField(max_length=2000, blank=True)

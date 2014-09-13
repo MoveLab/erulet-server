@@ -1,5 +1,5 @@
 from django.shortcuts import render
-
+from appulet.models import *
 
 def show_landing_page(request):
     context = {}
@@ -12,8 +12,8 @@ def show_privacy_policy(request):
 
 
 def show_map(request):
-    context = {}
-    return render(request, 'frontulet/map.html', context)
+    context = {'routes': Route.objects.all()}
+    return render(request, 'frontulet/map_routes.html', context)
 
 
 def show_landing_page(request):
