@@ -74,7 +74,7 @@ class RouteNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ('id', 'uuid', 'id_route_based_on', 'description', 'local_carto', 'name', 'track')
+        fields = ('id', 'uuid', 'id_route_based_on', 'created_by', 'description', 'interactive_image', 'local_carto', 'name', 'reference', 'track')
 
 
 class RatingSerializer(serializers.ModelSerializer):

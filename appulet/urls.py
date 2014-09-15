@@ -18,7 +18,7 @@ router.register(r'highlights', views.HighlightViewSet)
 
 urlpatterns = patterns('appulet.views',
     url(r'^media/$', 'post_media'),
-    url(r'^gpx_track/$', 'upload_gpx'),
+    url(r'^new_route/$', 'make_new_route'),
     url(r'^success/$', 'upload_success', name='show_upload_success'),
     url(r'^', include(router.urls)),
 )

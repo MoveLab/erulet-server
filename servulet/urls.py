@@ -6,6 +6,7 @@ from django.contrib.gis import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from frontulet.views import show_landing_page, show_privacy_policy, show_map
+from appulet.views import make_new_route
 
 admin.autodiscover()
 
@@ -16,5 +17,6 @@ urlpatterns = patterns('',
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include('appulet.urls')),
     url(r'^map/', show_map, name='show_map'),
+    url(r'^new_route/', make_new_route, name='make_new_route'),
     url(r'^privacy/', show_privacy_policy, name='show_privacy_policy'),
     url(r'^$', show_landing_page, name='show_landing_page'),) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

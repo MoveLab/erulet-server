@@ -1,16 +1,17 @@
 from django import forms
-from appulet.models import gpxFile, Route
+from appulet.models import Route
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 
 
-class UploadGpxForm(forms.ModelForm):
+class RouteForm(forms.ModelForm):
 
     class Meta:
-        model = gpxFile
+        model = Route
+        fields = ['name', 'description', 'gpx_track', 'gpx_waypoints', 'gpx_pois']
 
     def clean_gpx_file(self):
-        uploaded_file = self.cleaned_data['gpx_file']
+        uploaded_file = self.cleaned_data['gpx_track']
         print uploaded_file.content_type
 
         content_type = uploaded_file.content_type
@@ -23,8 +24,3 @@ class UploadGpxForm(forms.ModelForm):
             raise forms.ValidationError(_('Filetype not supported.'))
 
         return uploaded_file
-
-
-class RouteForm(forms.ModelForm):
-    class Meta:
-        model = Route

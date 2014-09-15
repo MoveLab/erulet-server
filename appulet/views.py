@@ -18,8 +18,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
-from appulet.forms import UploadGpxForm
-
+from appulet.forms import RouteForm
 
 
 class ReadOnlyModelViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -169,11 +168,9 @@ class CustomBrowsableAPIRenderer(BrowsableAPIRenderer):
         return JSONRenderer()
 
 
-# function for parsing and saving data from gpx file to our database
-# function is called after the gpx_file is uploaded
-def SaveGPXtoPostGIS(f, file_instance):
+def parse_gpx_track(f, file_instance):
 
-    gpx_file = open(settings.MEDIA_ROOT+ '/uploaded_gpx_files'+'/' + f.name)
+    gpx_file = open(settings.MEDIA_ROOT + file_instance.gpx_track.name)
     gpx = gpxpy.parse(gpx_file)
 
     if gpx.tracks:
@@ -200,24 +197,72 @@ def SaveGPXtoPostGIS(f, file_instance):
                                     this_order_number += 1
 
 
-def upload_gpx(request):
+def parse_gpx_waypoints(f, file_instance):
+
+    gpx_file = open(settings.MEDIA_ROOT + file_instance.gpx_waypoints.name)
+    gpx = gpxpy.parse(gpx_file)
+
+    if gpx.waypoints:
+        this_track = file_instance.track
+        for waypoint in gpx.waypoints:
+            new_step = Step()
+            new_step.latitude = waypoint.latitude
+            new_step.longitude = waypoint.longitude
+            new_step.altitude = waypoint.elevation
+            new_step.track = this_track
+            new_step.save()
+
+            new_highlight = Highlight()
+            new_highlight.type = 1
+            new_highlight.name = waypoint.name
+            new_highlight.step = new_step
+            new_highlight.save()
+
+
+
+def parse_gpx_pois(f, file_instance):
+
+    gpx_file = open(settings.MEDIA_ROOT + file_instance.gpx_waypoints.name)
+    gpx = gpxpy.parse(gpx_file)
+
+    if gpx.waypoints:
+        this_track = file_instance.track
+        for waypoint in gpx.waypoints:
+            new_step = Step()
+            new_step.latitude = waypoint.latitude
+            new_step.longitude = waypoint.longitude
+            new_step.altitude = waypoint.elevation
+            new_step.track = this_track
+            new_step.save()
+
+            new_highlight = Highlight()
+            new_highlight.type = 0
+            new_highlight.name = waypoint.name
+            new_highlight.step = new_step
+            new_highlight.save()
+
+
+
+def make_new_route(request):
     args = {}
     args.update(csrf(request))
 
     if request.method == 'POST':
-        file_instance = gpxFile()
-        form = UploadGpxForm(request.POST, request.FILES, instance=file_instance)
+        file_instance = Route()
+        form = RouteForm(request.POST, request.FILES, instance=file_instance)
         args['form'] = form
         if form.is_valid():
             form.save()
-            SaveGPXtoPostGIS(request.FILES['gpx_file'], file_instance)
+            parse_gpx_track(request.FILES['gpx_track'], file_instance)
+            parse_gpx_waypoints(request.FILES['gpx_waypoints'], file_instance)
+            parse_gpx_pois(request.FILES['gpx_pois'], file_instance)
 
             return HttpResponseRedirect(reverse('show_upload_success'))
 
     else:
-        args['form'] = UploadGpxForm()
+        args['form'] = RouteForm()
 
-    return render_to_response('appulet/gpx_upload.html', args)
+    return render_to_response('appulet/create_route.html', args)
 
 
 def upload_success(request):

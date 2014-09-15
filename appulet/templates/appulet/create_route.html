@@ -1,8 +1,35 @@
-{% if form.is_multipart %}
-    <form enctype="multipart/form-data" method="post" action="#">{% csrf_token %}
-{% else %}
-    <form method="post" action="#">{% csrf_token %}
-{% endif %}
-{{ form.as_p }}
-<input type="submit" value="Submit" />
-</form>
+{% extends "frontulet/base.html" %}
+{% load staticfiles %}
+
+{% block bootstrap_style %}
+{{ block.super }}
+    <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css" %}>
+   {% endblock %}
+
+{% block head_additions %}
+    <link rel="stylesheet" href={% static "frontulet/form_style.css" %}>
+{% endblock %}
+
+{% block body_property_extras %}role="document"{% endblock %}
+
+{% block page_id %}routes{% endblock %}
+
+{% block main_body %}
+
+    <div class="container theme-showcase" role="main">
+
+        <div class="starter-template" style="position:relative">
+
+            {% if form.is_multipart %}
+                <form role="form" enctype="multipart/form-data" method="post" action="#">{% csrf_token %}
+            {% else %}
+                <form role="form" method="post" action="#">{% csrf_token %}
+            {% endif %}
+            {{ form.as_p }}
+            <input type="submit" value="Submit"/>
+            </form>
+
+        </div>
+    </div>
+
+{% endblock %}

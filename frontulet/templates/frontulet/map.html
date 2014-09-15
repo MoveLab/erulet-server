@@ -1,178 +1,191 @@
-{% extends "frontulet/map_base.html" %}
+{% extends "frontulet/base.html" %}
 {% load i18n %}
 {% load staticfiles %}
+{% load leaflet_tags %}
 
-{% block head_additions %}
-
-     <script src="{% static "frontulet/map_scripts.js" %}"></script>
-
+{% block bootstrap_style %}
+{{ block.super }}
     <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap.min.css" %}>
     <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css" %}>
-    <link rel="stylesheet" href={% static "frontulet/map_app_style.css" %}>
-<script>
-// The following code is adapted from Creare's 'Implied Consent' EU Cookie Law Banner v:2.4
-// Conceived by Robert Kent, James Bavington & Tom Foyster
+{% endblock %}
+{% block head_additions %}
 
-var dropCookie = true;                      // false disables the Cookie, allowing you to style the banner
-var cookieDuration = 14;                    // Number of days before the cookie expires, and the banner reappears
-var cookieName = 'complianceCookie';        // Name of our cookie
-var cookieValue = 'on';                     // Value of cookie
+   <link rel="stylesheet" href={% static "frontulet/map_style.css" %}>
 
-function createDiv(){
-    var bodytag = document.getElementsByTagName('body')[0];
-    var div = document.createElement('div');
-    div.style.textAlign='center';
-    div.style.backgroundColor='#F6D10A';
-    div.setAttribute('id','cookie-law');
-    div.innerHTML = "{% trans 'Our website uses cookies. By continuing we assume your permission to deploy cookies. For more information on our site policies, please see our' %} <a href='{% url 'show_privacy_policy' %}'' rel='nofollow' title='{% trans 'Privacy Policy' %}'>{% trans 'privacy policy' %}</a>.&nbsp;&nbsp;<a class='close-cookie-banner' href='javascript:void(0);' onclick='removeMe();'><span style='cursor: pointer;'>X</span></a>";
- // Be advised the Close Banner 'X' link requires jQuery
+    <script src="{% static "frontulet/map_scripts.js" %}"></script>
 
-    // bodytag.appendChild(div); // Adds the Cookie Law Banner just before the closing </body> tag
-    // or
-  bodytag.insertBefore(div,bodytag.firstChild); // Adds the Cookie Law Banner just after the opening <body> tag
+    {% leaflet_js %}
+    {% leaflet_css %}
 
-    document.getElementsByTagName('body')[0].className+=' cookiebanner'; //Adds a class tothe <body> tag when the banner is visible
+    <script>
 
-}
+        // The following code is adapted from Creare's 'Implied Consent' EU Cookie Law Banner v:2.4
+        // Conceived by Robert Kent, James Bavington & Tom Foyster
 
+        var dropCookie = true;                      // false disables the Cookie, allowing you to style the banner
+        var cookieDuration = 14;                    // Number of days before the cookie expires, and the banner reappears
+        var cookieName = 'complianceCookie';        // Name of our cookie
+        var cookieValue = 'on';                     // Value of cookie
 
-function createCookie(name,value,days) {
-    if (days) {
-        var date = new Date();
-        date.setTime(date.getTime()+(days*24*60*60*1000));
-        var expires = "; expires="+date.toGMTString();
-    }
-    else var expires = "";
-    if(window.dropCookie) {
-        document.cookie = name+"="+value+expires+"; path=/";
-    }
-}
+        function createDiv() {
+            var bodytag = document.getElementsByTagName('body')[0];
+            var div = document.createElement('div');
+            div.style.textAlign = 'center';
+            div.style.backgroundColor = '#F6D10A';
+            div.setAttribute('id', 'cookie-law');
+            div.innerHTML = "{% trans 'Our website uses cookies. By continuing we assume your permission to deploy cookies. For more information on our site policies, please see our' %} <a href='{% url 'show_privacy_policy' %}'' rel='nofollow' title='{% trans 'Privacy Policy' %}'>{% trans 'privacy policy' %}</a>.&nbsp;&nbsp;<a class='close-cookie-banner' href='javascript:void(0);' onclick='removeMe();'><span style='cursor: pointer;'>X</span></a>";
+            // Be advised the Close Banner 'X' link requires jQuery
 
-function checkCookie(name) {
-    var nameEQ = name + "=";
-    var ca = document.cookie.split(';');
-    for(var i=0;i < ca.length;i++) {
-        var c = ca[i];
-        while (c.charAt(0)==' ') c = c.substring(1,c.length);
-        if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
-    }
-    return null;
-}
+            // bodytag.appendChild(div); // Adds the Cookie Law Banner just before the closing </body> tag
+            // or
+            bodytag.insertBefore(div, bodytag.firstChild); // Adds the Cookie Law Banner just after the opening <body> tag
 
-function eraseCookie(name) {
-    createCookie(name,"",-1);
-}
+            document.getElementsByTagName('body')[0].className += ' cookiebanner'; //Adds a class tothe <body> tag when the banner is visible
 
-window.onload = function(){
-    if(checkCookie(window.cookieName) != window.cookieValue){
-        createDiv();
-    }
-}
-
-function removeMe(){
-	var element = document.getElementById('cookie-law');
-	element.parentNode.removeChild(element);
-    createCookie(window.cookieName,window.cookieValue, window.cookieDuration); // Create the cookie
-
-}
-
-//
+        }
 
 
+        function createCookie(name, value, days) {
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                var expires = "; expires=" + date.toGMTString();
+            }
+            else var expires = "";
+            if (window.dropCookie) {
+                document.cookie = name + "=" + value + expires + "; path=/";
+            }
+        }
 
-</script>
+        function checkCookie(name) {
+            var nameEQ = name + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        function eraseCookie(name) {
+            createCookie(name, "", -1);
+        }
+
+        window.onload = function () {
+            if (checkCookie(window.cookieName) != window.cookieValue) {
+                createDiv();
+            }
+        }
+
+        function removeMe() {
+            var element = document.getElementById('cookie-law');
+            element.parentNode.removeChild(element);
+            createCookie(window.cookieName, window.cookieValue, window.cookieDuration); // Create the cookie
+
+        }
+
+
+    </script>
+
+
+    <script type="text/javascript">
+
+        function map_init_basic(map, options) {
+
+            map.on('zoomend', function (e) {
+                saveMapState(map)
+            });
+            map.on('dragend', function (e) {
+                saveMapState(map)
+            });
+
+
+            var colors = ['red', 'yellow', 'blue', 'green', 'purple', 'orange'];
+
+            var color_counter = 0;
+
+            {% for route in routes %}
+
+                var these_latlngs = [];
+
+                {% for step in route.track.steps.all %}
+
+                    these_latlngs[these_latlngs.length] = [{{  step.latitude }}, {{ step.longitude }}];
+
+                {% endfor %}
+
+                var polyline = L.polyline(these_latlngs, {weight: 5, opacity: 1, color: 'black'}).addTo(map);
+                var polyline = L.polyline(these_latlngs, {weight: 2, opacity: 1, color: colors[color_counter % colors.length]}).addTo(map);
+
+                color_counter++;
+
+            {% endfor %}
+
+        }
+
+    </script>
+
 
 {% endblock %}
+
+{% block page_id %}map{% endblock %}
 
 {% block main_body %}
 
-
-<!-- NAVBAR
-================================================== -->
-    <div class="navbar-wrapper">
-      <div class="container">
-
-        <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="#">Erulet</a>
-            </div>
-            <div class="navbar-collapse collapse">
-              <ul class="nav navbar-nav">
-                <li><a href={% url "show_landing_page" %}>Home</a></li>
-                <li><a href="#">Routes</a></li>
-                <li class="active"><a href={% url "show_landing_page" %}>Map</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-              </ul>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
+    <div id="erulet_map" class="leaflet-container" style="position:absolute"></div>
 
 
-
-<div id="erulet_map" class="leaflet-container-default"></div>
-<script type="text/javascript">
-(function () {
-
-    function loadmap() {
-
-				var centerLat = loadSavedLat();
-				var centerLng = loadSavedLng();
-				var initialZoom = loadSavedZoom();
-
-				if (isNaN(centerLat) || isNaN(centerLng)) {
-					centerLat = 42.7042;
-					centerLng = 0.7961;
-				}
-
-				if (isNaN(initialZoom)) {
-					initialZoom = 11;
-				}
-
-
-        var djoptions = {"layers": [["OSM", "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    "\u00a9 <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"]],
-                    "minimap": false, "scale": "metric", "center": [centerLat, centerLng], "tilesextent": [],
-                    "attributionprefix": null, "zoom": initialZoom, "maxzoom": 18, "minzoom": 0, "extent": [[-90,
-                        -180], [90,
-                        180]], "resetview": true, "srid": null, "fitextent": true},
-            options = {djoptions: djoptions, initfunc: loadmap,
-                       globals: false, callback: window.map_init_basic};
-        L.Map.djangoMap('erulet_map', options);
-    }
-    var loadevents = ["load"];
-    if (loadevents.length === 0) loadmap();
-    else if (window.addEventListener) for (var i=0; i<loadevents.length; i++) window.addEventListener(loadevents[i], loadmap, false);
-    else if (window.jQuery) jQuery(window).on(loadevents.join(' '), loadmap);
-
-})();
-</script>
-
+<a href={% url "show_landing_page" %}><img style="width:5%;position:absolute;bottom:5px;right:20px" src={% static "frontulet/icons/ic_launcher.png" %}></a>
 
 {% endblock %}
 
-{% block logo %}
+{% block body_scripts %}
 
-    <a href={% url "show_landing_page" %}><img style="position:absolute;bottom:5px;right:20px"
-            src={% static "frontulet/icons/ic_launcher.png" %}></a>
+    <script type="text/javascript">
+        (function () {
 
-{% endblock %}
+            function loadmap() {
+
+                var centerLat = loadSavedLat();
+                var centerLng = loadSavedLng();
+                var initialZoom = loadSavedZoom();
+
+                if (isNaN(centerLat) || isNaN(centerLng)) {
+                    centerLat = 42.7042;
+                    centerLng = 0.7961;
+                }
+
+                if (isNaN(initialZoom)) {
+                    initialZoom = 11;
+                }
 
 
-{% block end_body %}
+                var djoptions = {"layers": [
+                            ["OSM", "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+                                "\u00a9 <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"]
+                        ],
+                            "minimap": false, "scale": "metric", "center": [centerLat, centerLng], "tilesextent": [],
+                            "attributionprefix": null, "zoom": initialZoom, "maxzoom": 18, "minzoom": 0, "extent": [
+                                [-90,
+                                    -180],
+                                [90,
+                                    180]
+                            ], "resetview": true, "srid": null, "fitextent": true},
+                        options = {djoptions: djoptions, initfunc: loadmap,
+                            globals: false, callback: window.map_init_basic};
+                L.Map.djangoMap('erulet_map', options);
+            }
 
-    <script src="{% static "frontulet/jquery/1.11.1/jquery.min.js" %}"></script>
+            var loadevents = ["load"];
+            if (loadevents.length === 0) loadmap();
+            else if (window.addEventListener) for (var i = 0; i < loadevents.length; i++) window.addEventListener(loadevents[i], loadmap, false);
+            else if (window.jQuery) jQuery(window).on(loadevents.join(' '), loadmap);
 
-    <script src="{% static "frontulet/bootstrap-3.2.0-dist/js/bootstrap.min.js" %}"></script>
+        })();
+    </script>
+
+
+    {{ block.super }}
 
 {% endblock %}
