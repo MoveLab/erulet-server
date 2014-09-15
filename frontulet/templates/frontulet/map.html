@@ -110,8 +110,12 @@
                 var these_latlngs = [];
 
                 {% for step in route.track.steps.all %}
+                    {% if step.order %}
 
                     these_latlngs[these_latlngs.length] = [{{  step.latitude }}, {{ step.longitude }}];
+
+                    {% endif %}
+
 
                 {% endfor %}
 

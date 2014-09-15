@@ -168,42 +168,33 @@ class CustomBrowsableAPIRenderer(BrowsableAPIRenderer):
         return JSONRenderer()
 
 
-def parse_gpx_track(f, file_instance):
+def parse_gpx_track(this_route, this_track):
 
-    gpx_file = open(settings.MEDIA_ROOT + file_instance.gpx_track.name)
+    gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_track.name)
     gpx = gpxpy.parse(gpx_file)
 
     if gpx.tracks:
         for track in gpx.tracks:
-            new_track = Track()
-            if track.name is not None:
-                new_track.name = track.name
-                new_track.save()
-                new_route = Route()
-                new_route.name = track.name
-                new_route.track = new_track
-                new_route.save()
-                if track.segments:
-                    for segment in track.segments:
-                        if segment.points:
-                            this_order_number = 1
-                            for point in segment.points:
-                                    new_step = Step()
-                                    new_step.track = new_track
-                                    new_step.latitude = point.latitude
-                                    new_step.longitude = point.longitude
-                                    new_step.order = this_order_number
-                                    new_step.save()
-                                    this_order_number += 1
+            if track.segments:
+                for segment in track.segments:
+                    if segment.points:
+                        this_order_number = 1
+                        for point in segment.points:
+                            new_step = Step()
+                            new_step.track = this_track
+                            new_step.latitude = point.latitude
+                            new_step.longitude = point.longitude
+                            new_step.order = this_order_number
+                            new_step.save()
+                            this_order_number += 1
 
 
-def parse_gpx_waypoints(f, file_instance):
+def parse_gpx_waypoints(this_user, this_route, this_track):
 
-    gpx_file = open(settings.MEDIA_ROOT + file_instance.gpx_waypoints.name)
+    gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_waypoints.name)
     gpx = gpxpy.parse(gpx_file)
 
     if gpx.waypoints:
-        this_track = file_instance.track
         for waypoint in gpx.waypoints:
             new_step = Step()
             new_step.latitude = waypoint.latitude
@@ -213,20 +204,19 @@ def parse_gpx_waypoints(f, file_instance):
             new_step.save()
 
             new_highlight = Highlight()
+            new_highlight.user = this_user
             new_highlight.type = 1
             new_highlight.name = waypoint.name
             new_highlight.step = new_step
             new_highlight.save()
 
 
+def parse_gpx_pois(this_user, this_route, this_track):
 
-def parse_gpx_pois(f, file_instance):
-
-    gpx_file = open(settings.MEDIA_ROOT + file_instance.gpx_waypoints.name)
+    gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_waypoints.name)
     gpx = gpxpy.parse(gpx_file)
 
     if gpx.waypoints:
-        this_track = file_instance.track
         for waypoint in gpx.waypoints:
             new_step = Step()
             new_step.latitude = waypoint.latitude
@@ -236,11 +226,11 @@ def parse_gpx_pois(f, file_instance):
             new_step.save()
 
             new_highlight = Highlight()
+            new_highlight.user = this_user
             new_highlight.type = 0
             new_highlight.name = waypoint.name
             new_highlight.step = new_step
             new_highlight.save()
-
 
 
 def make_new_route(request):
@@ -248,14 +238,19 @@ def make_new_route(request):
     args.update(csrf(request))
 
     if request.method == 'POST':
-        file_instance = Route()
-        form = RouteForm(request.POST, request.FILES, instance=file_instance)
+        this_route = Route()
+        this_route.created_by = request.user
+        this_track = Track()
+        this_track.save()
+        this_route.track = this_track
+        this_route.save()
+        form = RouteForm(request.POST, request.FILES, instance=this_route)
         args['form'] = form
         if form.is_valid():
             form.save()
-            parse_gpx_track(request.FILES['gpx_track'], file_instance)
-            parse_gpx_waypoints(request.FILES['gpx_waypoints'], file_instance)
-            parse_gpx_pois(request.FILES['gpx_pois'], file_instance)
+            parse_gpx_track(this_route, this_track)
+            parse_gpx_waypoints(request.user, this_route, this_track)
+            parse_gpx_pois(request.user, this_route, this_track)
 
             return HttpResponseRedirect(reverse('show_upload_success'))
 

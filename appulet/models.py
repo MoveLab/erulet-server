@@ -7,10 +7,13 @@ from django.contrib.auth.models import User
 
 class Track(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
-    name = models.CharField(max_length=200, default='unnamed track')
+    name = models.CharField(max_length=200)
 
     def __unicode__(self):
-        return self.name
+        this_name = 'unnamed track'
+        if self.name is not None and self.name is not '':
+            this_name = self.name
+        return this_name
 
 
 def make_media_uuid(path):
@@ -31,18 +34,30 @@ class Step(models.Model):
     altitude = models.FloatField(blank=True, null=True)
     precision = models.FloatField(blank=True, null=True)
 
+    def __unicode__(self):
+        this_name = 'step ' + str(self.id)
+        if self.track is not None:
+            this_name += ' of route ' + self.track.route.name
+        return this_name
+
 
 class InteractiveImage(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
     image_file = models.ImageField(upload_to=make_media_uuid('erulet/interactive_images'))
     original_height = models.IntegerField()
     original_width = models.IntegerField()
-    step = models.ForeignKey(Step, blank=True, null=True)
+    step = models.ForeignKey(Step, blank=True, null=True, related_name='interactive_images')
+
+    def __unicode__(self):
+        this_name = 'unlinked interactive image'
+        if self.step is not None:
+            this_name = 'interactive image for step ' + str(self.step.id) + ' of route ' + self.step.track.route.name
+        return this_name
 
 
 class Box(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
-    interactive_image = models.ForeignKey(InteractiveImage)
+    interactive_image = models.ForeignKey(InteractiveImage, related_name='boxes')
     message = models.TextField()
     max_y = models.IntegerField()
     max_x = models.IntegerField()
@@ -53,11 +68,20 @@ class Box(models.Model):
         verbose_name = "box"
         verbose_name_plural = "boxes"
 
+    def __unicode__(self):
+        return self.id
+
 
 class Reference(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
     name = models.CharField(max_length=200, default='unnamed reference')
     content = models.FileField(upload_to=make_media_uuid('erulet/references'))
+
+    def __unicode__(self):
+        this_name = 'unnamed reference'
+        if self.name is not None and self.name is not '':
+            this_name = self.name
+        return this_name
 
 
 def gpx_tracks(instance, filename):
@@ -74,12 +98,12 @@ def gpx_pois(instance, filename):
 
 class Route(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
-   # id_route_based_on = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL)
-    created_by = models.ForeignKey(User, blank=True, null=True)
+    id_route_based_on = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL)
+    created_by = models.ForeignKey(User, blank=True, null=True, related_name='routes')
     description = models.TextField(blank=True)
     interactive_image = models.OneToOneField(InteractiveImage, blank=True, null=True)
     local_carto = models.FileField(upload_to=make_media_uuid('erulet/carto'), blank=True, null=True)
-    name = models.CharField(max_length=200, default='unnamed route')
+    name = models.CharField(max_length=200)
     reference = models.OneToOneField(Reference, blank=True, null=True)
     track = models.OneToOneField(Track, blank=True, null=True)
     upload_time = models.DateTimeField(blank=True, null=True)
@@ -88,23 +112,40 @@ class Route(models.Model):
     gpx_pois = models.FileField("GPX Points-of-interest", upload_to=gpx_pois, blank=True)
 
     def __unicode__(self):
-        return self.name
+        this_name = 'unnamed route'
+        if self.name is not None and self.name is not '':
+            this_name = self.name
+        return this_name
 
 
 class Highlight(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
-    created_by = models.ForeignKey(User, blank=True, null=True)
+    created_by = models.ForeignKey(User, blank=True, null=True, related_name='highlights')
     name = models.CharField(max_length=100, blank=True)
     long_text = models.CharField(max_length=2000, blank=True)
     media = models.FileField(upload_to=make_media_uuid('erulet_highlights'), blank=True, null=True)
     radius = models.FloatField(blank=True, null=True)
     type = models.IntegerField()
-    step = models.ForeignKey(Step, blank=True, null=True)
+    step = models.ForeignKey(Step, blank=True, null=True, related_name='highlights')
+
+    def __unicode__(self):
+        this_name = 'unnamed highlight'
+        if self.name is not None and self.name is not '':
+            this_name = self.name
+        return this_name
 
 
 class Rating(models.Model):
     rating = models.IntegerField()
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, related_name='ratings')
     time = models.DateTimeField()
     highlight = models.ForeignKey(Highlight, blank=True, null=True)
-    route = models.ForeignKey(Route, blank=True, null=True)
+    route = models.ForeignKey(Route, blank=True, null=True, related_name='ratings')
+
+    def __unicode__(self):
+        this_name = 'Rating ' + self.id
+        if self.highlight is not None:
+            this_name = 'Rating for highlight: ' + self.highlight.name
+        elif self.route is not None:
+            this_name = 'Rating for route: ' + self.route.name
+        return this_name
