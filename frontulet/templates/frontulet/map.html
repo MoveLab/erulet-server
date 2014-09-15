@@ -4,13 +4,12 @@
 {% load leaflet_tags %}
 
 {% block bootstrap_style %}
-{{ block.super }}
-    <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap.min.css" %}>
+    {{ block.super }}
     <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css" %}>
 {% endblock %}
 {% block head_additions %}
 
-   <link rel="stylesheet" href={% static "frontulet/map_style.css" %}>
+    <link rel="stylesheet" href={% static "frontulet/map_style.css" %}>
 
     <script src="{% static "frontulet/map_scripts.js" %}"></script>
 
@@ -105,6 +104,26 @@
 
             var color_counter = 0;
 
+            var wp_icon_class = L.Icon.Default.extend({
+                options: {
+                    iconUrl: '{% static "frontulet/icons/map_markers/ic_marker_wp.png" %}'
+                }
+            });
+
+            var poi_icon_class = L.Icon.Default.extend({
+                options: {
+                    iconUrl: '{% static "frontulet/icons/map_markers/ic_marker_poi.png" %}'
+                }
+            });
+
+            var wp_icon = new wp_icon_class;
+            var poi_icon = new poi_icon_class;
+
+            var poi_markers = new L.LayerGroup();
+
+            var wp_markers = new L.LayerGroup();
+
+
             {% for route in routes %}
 
                 var these_latlngs = [];
@@ -112,7 +131,24 @@
                 {% for step in route.track.steps.all %}
                     {% if step.order %}
 
-                    these_latlngs[these_latlngs.length] = [{{  step.latitude }}, {{ step.longitude }}];
+                        these_latlngs[these_latlngs.length] = [{{  step.latitude }}, {{ step.longitude }}];
+
+                    {% else %}
+
+                        {% for highlight in step.highlights.all %}
+
+                            {% if highlight.type == 1 %}
+
+                                 wp_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: wp_icon}));
+
+                            {% elif highlight.type == 0 %}
+
+                                 poi_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: poi_icon}));
+
+
+                            {% endif %}
+
+                        {% endfor %}
 
                     {% endif %}
 
@@ -125,6 +161,16 @@
                 color_counter++;
 
             {% endfor %}
+
+
+                var overlays = {
+                "{% trans 'waypoints' %}": wp_markers,
+                "{% trans 'points of interest' %}": poi_markers
+            };
+
+
+            L.control.layers(null, overlays).addTo(map);
+
 
         }
 
@@ -140,7 +186,7 @@
     <div id="erulet_map" class="leaflet-container" style="position:absolute"></div>
 
 
-<a href={% url "show_landing_page" %}><img style="width:5%;position:absolute;bottom:5px;right:20px" src={% static "frontulet/icons/ic_launcher.png" %}></a>
+    <a href={% url "show_landing_page" %}><img style="width:5%;position:absolute;bottom:5px;right:20px" src={% static "frontulet/icons/ic_launcher.png" %}></a>
 
 {% endblock %}
 

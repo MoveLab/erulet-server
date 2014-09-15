@@ -1,10 +1,11 @@
 {% extends "frontulet/base.html" %}
 {% load staticfiles %}
 
-{% block bootstrap_style %}
-{{ block.super }}
+{% block bootstrap_css %}
+    {{ block.super }}
     <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css" %}>
-   {% endblock %}
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+{% endblock %}
 
 {% block head_additions %}
     <link rel="stylesheet" href={% static "frontulet/form_style.css" %}>
@@ -20,16 +21,48 @@
 
         <div class="starter-template" style="position:relative">
 
+        <div class="page-header">
+  <h1>New Route <small>Create a new route using GPX files</small></h1>
+</div>
+        <div id="new_route_form">
+
             {% if form.is_multipart %}
                 <form role="form" enctype="multipart/form-data" method="post" action="#">{% csrf_token %}
             {% else %}
                 <form role="form" method="post" action="#">{% csrf_token %}
             {% endif %}
             {{ form.as_p }}
-            <input type="submit" value="Submit"/>
+            <input id="submit_button" type="submit" value="Submit"/>
             </form>
 
         </div>
+
+        <div id="progress_spinner" class="row text-center">
+                  <i class="fa fa-refresh fa-5x fa-spin"></i>
     </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block body_scripts %}
+{{ block.super }}
+
+        <script>
+
+    $("#progress_spinner").hide();
+    $("#submit_button").click(function() {
+
+//        $("#id_gpx_track, #id_gpx_waypoints, #id_gpx_pois").prop("disabled", true);
+//        $("#id_gpx_track, #id_gpx_waypoints, #id_gpx_pois").hide();
+        $("#new_route_form").hide();
+//        $("#submit_button").hide();
+        $("#progress_spinner").show();
+
+    })
+    </script>
+
 
 {% endblock %}

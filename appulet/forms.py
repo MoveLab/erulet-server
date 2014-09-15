@@ -8,7 +8,7 @@ class RouteForm(forms.ModelForm):
 
     class Meta:
         model = Route
-        fields = ['name', 'description', 'gpx_track', 'gpx_waypoints', 'gpx_pois']
+        fields = ['name', 'short_description', 'description', 'gpx_track', 'gpx_waypoints', 'gpx_pois']
 
     def clean_gpx_file(self):
         uploaded_file = self.cleaned_data['gpx_track']

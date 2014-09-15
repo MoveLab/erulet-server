@@ -2,17 +2,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
-
-{#    <meta name="viewport" content="width=device-width, initial-scale=1">#}
     <meta name="description" content="Erulet">
     <meta name="author" content="Movement Ecology Laboratory">
 
     <title>{% block page_title %}Erulet{% endblock %}</title>
 
-{% block boostrap_css %}
+{% block bootstrap_css %}
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap.min.css" %}>
 {% endblock %}
@@ -58,7 +57,10 @@
           <li class="dropdown">
           <a href="#" class="frontulet_toggle_routes dropdown-toggle" data-toggle="dropdown">Routes <span class="caret"></span></a>
           <ul class="dropdown-menu" role="menu">
-            <li><a href="#">Route 1</a></li>
+            <li><a href="#">All Routes</a></li>
+            <li><a href="#">My Routes</a></li>
+            <li><a href="#">Other Hikers' Routes</a></li>
+            <li><a href="#">Official Routes</a></li>
             <li class="divider"></li>
             <li><a href={% url "make_new_route" %}>Add new route</a></li>
           </ul>

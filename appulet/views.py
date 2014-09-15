@@ -213,7 +213,7 @@ def parse_gpx_waypoints(this_user, this_route, this_track):
 
 def parse_gpx_pois(this_user, this_route, this_track):
 
-    gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_waypoints.name)
+    gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_pois.name)
     gpx = gpxpy.parse(gpx_file)
 
     if gpx.waypoints:
@@ -252,13 +252,9 @@ def make_new_route(request):
             parse_gpx_waypoints(request.user, this_route, this_track)
             parse_gpx_pois(request.user, this_route, this_track)
 
-            return HttpResponseRedirect(reverse('show_upload_success'))
+            return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(this_route.id)}))
 
     else:
         args['form'] = RouteForm()
 
     return render_to_response('appulet/create_route.html', args)
-
-
-def upload_success(request):
-    return render_to_response('appulet/success.html')
