@@ -1,0 +1,54 @@
+{% extends "frontulet/base.html" %}
+{% load staticfiles %}
+
+{% block bootstrap_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css" %}>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+{% endblock %}
+
+{% block head_additions %}
+    <link rel="stylesheet" href={% static "frontulet/form_style.css" %}>
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/base.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/admin/css/login.css"/>
+    <!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+    <script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+    <meta name="robots" content="NONE,NOARCHIVE"/>
+
+{% endblock %}
+
+
+{% block body_property_extras %}class="login" style="background: #ccc;"{% endblock %}
+
+{% block navbar %}
+    <!-- NAVBAR
+================================================== -->
+    <div class="navbar-wrapper">
+        <div class="container">
+
+            <div class="navbar navbar-defaults navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-collapse collapse">
+                        <ul class="nav navbar-nav navbar-right">
+
+                            <li><p class="navbar-text">Don't have an account?
+                                <a href="{% url "auth_register" %}">Register</a></p>
+                            </li>
+
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+{% endblock %}
+
+{% block main_body %}
+
+{% endblock %}

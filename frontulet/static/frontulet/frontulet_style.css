@@ -5,7 +5,8 @@
 #page_home .frontulet_toggle_home,
 #page_routes .frontulet_toggle_routes,
 #page_map .frontulet_toggle_map,
-#page_about .frontulet_toggle_about{
+#page_about .frontulet_toggle_about,
+#page_profile .frontulet_toggle_profile{
     color:#fff;
     background-color: #080808;
 }

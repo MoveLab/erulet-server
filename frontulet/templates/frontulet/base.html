@@ -68,6 +68,27 @@
                 <li><a class="frontulet_toggle_map" href={% url "show_map" %}>Map</a></li>
                 <li><a class="frontulet_toggle_about" href="#">About</a></li>
               </ul>
+                <ul class="nav navbar-nav navbar-right">
+                   {% if request.user.is_authenticated %}
+                        <li><a class="frontulet_toggle_profile" href={% url "show_profile" %}>{{ request.user.username }}</a>
+                    </li>
+                    <li>
+
+                        <a href="{% url "auth_logout" %}">logout</a>
+                    </li>
+                {% else %}
+                    <li>
+
+                        <a href="{% url "auth_login" %}">login</a>
+                    </li>
+                                           <li>
+                        <a href="{% url "auth_register" %}">register</a>
+                    </li>
+
+                {% endif %}
+
+
+                </ul>
             </div>
           </div>
         </div>

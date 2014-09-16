@@ -19,6 +19,8 @@ from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 from appulet.forms import RouteForm
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
 
 
 class ReadOnlyModelViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -233,28 +235,38 @@ def parse_gpx_pois(this_user, this_route, this_track):
             new_highlight.save()
 
 
+@login_required()
 def make_new_route(request):
-    args = {}
-    args.update(csrf(request))
+    if request.user.is_authenticated():
+        args = {}
+        args.update(csrf(request))
 
-    if request.method == 'POST':
-        this_route = Route()
-        this_route.created_by = request.user
-        this_track = Track()
-        this_track.save()
-        this_route.track = this_track
-        this_route.save()
-        form = RouteForm(request.POST, request.FILES, instance=this_route)
-        args['form'] = form
-        if form.is_valid():
-            form.save()
-            parse_gpx_track(this_route, this_track)
-            parse_gpx_waypoints(request.user, this_route, this_track)
-            parse_gpx_pois(request.user, this_route, this_track)
+        if request.method == 'POST':
+            this_route = Route()
+            if request.user:
+                this_route.created_by = request.user
+            else:
+                this_user = User()
 
-            return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(this_route.id)}))
+            this_track = Track()
+            this_track.save()
+            this_route.track = this_track
+            this_route.save()
+            form = RouteForm(request.POST, request.FILES, instance=this_route)
+            args['form'] = form
+            if form.is_valid():
+                form.save()
+                parse_gpx_track(this_route, this_track)
+                parse_gpx_waypoints(request.user, this_route, this_track)
+                parse_gpx_pois(request.user, this_route, this_track)
+
+                return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(this_route.id)}))
+
+        else:
+            args['form'] = RouteForm()
+
+        return render_to_response('appulet/create_route.html', args)
 
     else:
-        args['form'] = RouteForm()
+        return render(request, 'registration/no_permission.html')
 
-    return render_to_response('appulet/create_route.html', args)

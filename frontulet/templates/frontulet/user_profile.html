@@ -1,0 +1,40 @@
+{% extends "frontulet/base.html" %}
+{% load staticfiles %}
+
+
+{% block bootstrap_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css" %}>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+{% endblock %}
+
+
+{% block head_additions %}
+    <link rel="stylesheet" href={% static "frontulet/form_style.css" %}>
+
+    <link rel="stylesheet" href={% static "frontulet/route_detail_style.css" %}>
+{% endblock %}
+
+{% block page_id %}profile{% endblock %}
+
+{% block main_body %}
+
+    <div class="container theme-showcase" role="main">
+
+
+            <div class="page-header">
+                <h1>Erulet Profile <a class="btn btn-default" href="#" role="button"> <span class="glyphicon glyphicon-pencil"></span> </a></h1>
+            </div>
+
+<p><strong>Username:</strong> {{ user_name }}</p>
+<p><strong>First Name:</strong> {{ first_name }}</p>
+<p><strong>Last Name:</strong> {{ last_name }}</p>
+<p><strong>E-Mail:</strong> {{ email }}</p>
+<p><strong>Number of routes created:</strong> {{ n_routes }}</p>
+<p><strong>Number of points of interest created:</strong> {{ n_pois }}</p>
+
+
+    </div>
+
+{% endblock %}
+

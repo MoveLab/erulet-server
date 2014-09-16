@@ -1,5 +1,11 @@
 from django.shortcuts import render
 from appulet.models import *
+from django.contrib.auth.models import User
+from django.views.generic.edit import FormView
+from appulet.forms import RegistrationForm
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth import authenticate, login
 
 
 def show_landing_page(request):
@@ -30,3 +36,24 @@ def show_route_detail(request, id):
         context = {'name': this_route.__unicode__(), 'short_description': this_route.short_description, 'description': this_route.description, 'steps': this_route.track.steps.all()}
     return render(request, 'frontulet/route_detail.html', context)
 
+
+def show_profile(request):
+    this_user = request.user
+    these_routes = Route.objects.filter(created_by=this_user)
+    n_routes = these_routes.count()
+    n_pois = Highlight.objects.filter(created_by=this_user).count()
+    context = {'user_name': this_user.username, 'first_name': this_user.first_name, 'last_name': this_user.last_name, 'email': this_user.email, 'n_routes': n_routes, 'n_pois': n_pois}
+    return render(request, 'frontulet/user_profile.html', context)
+
+
+class RegistrationView(FormView):
+    template_name = 'registration/register.html'
+    form_class = RegistrationForm
+    success_url = reverse_lazy('show_profile')
+
+    def form_valid(self, form):
+        new_user = form.save()
+        request = self.request
+        user = authenticate(username=request.POST['username'], password=request.POST['password1'])
+        login(self.request, user)
+        return HttpResponseRedirect(reverse('show_profile'))
