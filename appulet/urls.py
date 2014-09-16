@@ -18,6 +18,5 @@ router.register(r'highlights', views.HighlightViewSet)
 
 urlpatterns = patterns('appulet.views',
     url(r'^media/$', 'post_media'),
-    url(r'^new_route/$', 'make_new_route'),
     url(r'^', include(router.urls)),
 )

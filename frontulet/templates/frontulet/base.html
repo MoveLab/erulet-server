@@ -66,7 +66,9 @@
                                     {% endif %}
                                     <li><a href={% url 'show_route_list' 'official' %}>Official Routes</a></li>
                                     <li class="divider"></li>
+                                    {% if request.user.is_authenticated %}
                                     <li><a href={% url "make_new_route" %}>Add new route</a></li>
+                                    {% endif %}
                                 </ul>
                             </li>
                             <li><a class="frontulet_toggle_map" href={% url "show_map" %}>Map</a></li>

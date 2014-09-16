@@ -5,10 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.gis import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from frontulet.views import show_landing_page, show_privacy_policy, show_home, show_map, show_route_list, show_route_detail, show_profile, RegistrationView
-from appulet.views import make_new_route
-from django.views.generic.edit import CreateView
-from django.contrib.auth.forms import UserCreationForm
+from frontulet.views import *
 
 admin.autodiscover()
 

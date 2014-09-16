@@ -1,11 +1,16 @@
-from django.shortcuts import render
-from appulet.models import *
-from django.contrib.auth.models import User
+from django.shortcuts import render, render_to_response
 from django.views.generic.edit import FormView
-from appulet.forms import RegistrationForm
-from django.core.urlresolvers import reverse, reverse_lazy
-from django.http import HttpResponseRedirect, HttpResponse
+from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import authenticate, login
+import gpxpy
+import gpxpy.gpx
+from django.conf import settings
+from django.http import HttpResponseRedirect
+from django.core.context_processors import csrf
+from django.core.urlresolvers import reverse
+from appulet.models import *
+from frontulet.forms import RegistrationForm
+from frontulet.forms import RouteForm, OfficialRouteForm
 
 
 def show_landing_page(request):
@@ -82,3 +87,106 @@ class RegistrationView(FormView):
         user = authenticate(username=request.POST['username'], password=request.POST['password1'])
         login(self.request, user)
         return HttpResponseRedirect(reverse('show_profile'))
+
+
+def parse_gpx_track(this_route, this_track):
+
+    gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_track.name)
+    gpx = gpxpy.parse(gpx_file)
+
+    if gpx.tracks:
+        for track in gpx.tracks:
+            if track.segments:
+                for segment in track.segments:
+                    if segment.points:
+                        this_order_number = 1
+                        for point in segment.points:
+                            new_step = Step()
+                            new_step.track = this_track
+                            new_step.latitude = point.latitude
+                            new_step.longitude = point.longitude
+                            new_step.order = this_order_number
+                            new_step.save()
+                            this_order_number += 1
+
+
+def parse_gpx_waypoints(this_user, this_route, this_track):
+
+    gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_waypoints.name)
+    gpx = gpxpy.parse(gpx_file)
+
+    if gpx.waypoints:
+        for waypoint in gpx.waypoints:
+            new_step = Step()
+            new_step.latitude = waypoint.latitude
+            new_step.longitude = waypoint.longitude
+            new_step.altitude = waypoint.elevation
+            new_step.track = this_track
+            new_step.save()
+
+            new_highlight = Highlight()
+            new_highlight.user = this_user
+            new_highlight.type = 1
+            new_highlight.name = waypoint.name
+            new_highlight.step = new_step
+            new_highlight.save()
+
+
+def parse_gpx_pois(this_user, this_route, this_track):
+
+    gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_pois.name)
+    gpx = gpxpy.parse(gpx_file)
+
+    if gpx.waypoints:
+        for waypoint in gpx.waypoints:
+            new_step = Step()
+            new_step.latitude = waypoint.latitude
+            new_step.longitude = waypoint.longitude
+            new_step.altitude = waypoint.elevation
+            new_step.track = this_track
+            new_step.save()
+
+            new_highlight = Highlight()
+            new_highlight.user = this_user
+            new_highlight.type = 0
+            new_highlight.name = waypoint.name
+            new_highlight.step = new_step
+            new_highlight.save()
+
+
+def make_new_route(request):
+    if request.user.is_authenticated():
+        args = {}
+        args.update(csrf(request))
+
+        if request.method == 'POST':
+            this_route = Route()
+            this_route.created_by = request.user
+            this_track = Track()
+            this_track.save()
+            this_route.track = this_track
+            this_route.save()
+            if 'scientists' in [group.name for group in request.user.groups.all()]:
+                form = OfficialRouteForm(request.POST, request.FILES, instance=this_route)
+            else:
+                form = RouteForm(request.POST, request.FILES, instance=this_route)
+            args['form'] = form
+            if form.is_valid():
+                form.save()
+                parse_gpx_track(this_route, this_track)
+                parse_gpx_waypoints(request.user, this_route, this_track)
+                parse_gpx_pois(request.user, this_route, this_track)
+
+                return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(this_route.id)}))
+
+        else:
+            if 'scientists' in [group.name for group in request.user.groups.all()]:
+                args['form'] = OfficialRouteForm()
+            else:
+                args['form'] = RouteForm()
+
+        return render(request, 'frontulet/create_route.html', args)
+
+    else:
+        return render(request, 'registration/no_permission.html')
+
