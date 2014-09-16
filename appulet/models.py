@@ -79,6 +79,7 @@ class Route(models.Model):
     gpx_track = models.FileField("GPX Track", upload_to=gpx_tracks, blank=True)
     gpx_waypoints = models.FileField("GPX Waypoints", upload_to=gpx_waypoints, blank=True)
     gpx_pois = models.FileField("GPX Points-of-interest", upload_to=gpx_pois, blank=True)
+    official = models.BooleanField("Official Route", default=False)
 
     def __unicode__(self):
         this_name = 'unnamed route'

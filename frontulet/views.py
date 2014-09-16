@@ -18,14 +18,39 @@ def show_privacy_policy(request):
     return render(request, 'frontulet/privacy.html', context)
 
 
+def show_home(request):
+    context = {}
+    return render(request, 'frontulet/home.html', context)
+
+
 def show_map(request):
     context = {'routes': Route.objects.all()}
     return render(request, 'frontulet/map.html', context)
 
 
-def show_landing_page(request):
-    context = {}
-    return render(request, 'frontulet/landing_page.html', context)
+def show_route_list(request, whose=''):
+    if request.user.is_authenticated():
+        if whose == 'mine':
+            routes = Route.objects.filter(created_by=request.user)
+            title = 'My Routes'
+        elif whose == 'others':
+            routes = Route.objects.exclude(created_by=request.user)
+            title = "Other Hikers' Routes"
+        elif whose == 'official':
+            routes = Route.objects.filter(official=True)
+            title = "Official Routes"
+        else:
+            routes = Route.objects.all()
+            title = "All Routes"
+    else:
+        if whose == 'official':
+            routes = Route.objects.filter(official=True)
+            title = "Official Routes"
+        else:
+            routes = Route.objects.all()
+            title = "All Routes"
+    context = {'routes': routes, 'title': title}
+    return render(request, 'frontulet/route_list.html', context)
 
 
 def show_route_detail(request, id):

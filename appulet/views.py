@@ -18,7 +18,7 @@ from django.shortcuts import render_to_response
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
-from appulet.forms import RouteForm
+from appulet.forms import RouteForm, OfficialRouteForm
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
@@ -243,16 +243,15 @@ def make_new_route(request):
 
         if request.method == 'POST':
             this_route = Route()
-            if request.user:
-                this_route.created_by = request.user
-            else:
-                this_user = User()
-
+            this_route.created_by = request.user
             this_track = Track()
             this_track.save()
             this_route.track = this_track
             this_route.save()
-            form = RouteForm(request.POST, request.FILES, instance=this_route)
+            if 'scientists' in [group.name for group in request.user.groups.all()]:
+                form = OfficialRouteForm(request.POST, request.FILES, instance=this_route)
+            else:
+                form = RouteForm(request.POST, request.FILES, instance=this_route)
             args['form'] = form
             if form.is_valid():
                 form.save()

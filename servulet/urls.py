@@ -5,7 +5,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.gis import admin
 from django.conf import settings
 from django.conf.urls.static import static
-from frontulet.views import show_landing_page, show_privacy_policy, show_map, show_route_detail, show_profile, RegistrationView
+from frontulet.views import show_landing_page, show_privacy_policy, show_home, show_map, show_route_list, show_route_detail, show_profile, RegistrationView
 from appulet.views import make_new_route
 from django.views.generic.edit import CreateView
 from django.contrib.auth.forms import UserCreationForm
@@ -17,8 +17,11 @@ admin.autodiscover()
 urlpatterns = patterns('', url(r'^admin/', include(admin.site.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include('appulet.urls')),
+    url(r'^home/', show_home, name='show_home'),
     url(r'^map/', show_map, name='show_map'),
     url(r'^new_route/', make_new_route, name='make_new_route'),
+    url(r'^routes/$', show_route_list, name='show_route_list_all'),
+    url(r'^routes/(?P<whose>\w+)/$', show_route_list, name='show_route_list'),
     url(r'^route_detail/(?P<id>[0-9]+)/$', show_route_detail, name='show_route_detail'),
     url(r'^privacy/', show_privacy_policy, name='show_privacy_policy'),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='auth_login'),

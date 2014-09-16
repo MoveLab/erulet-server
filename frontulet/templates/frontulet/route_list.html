@@ -1,7 +1,5 @@
 {% extends "frontulet/base.html" %}
 {% load staticfiles %}
-{% load leaflet_tags %}
-
 
 {% block bootstrap_css %}
     {{ block.super }}
@@ -14,82 +12,8 @@
 
     <link rel="stylesheet" href={% static "frontulet/route_detail_style.css" %}>
 
-    <script src="{% static "frontulet/map_scripts.js" %}"></script>
-
-    {% leaflet_js %}
-    {% leaflet_css %}
-
-
-    <script type="text/javascript">
-
-        function map_init_basic(map, options) {
-
-            var wp_icon_class = L.Icon.Default.extend({
-                options: {
-                    iconUrl: '{% static "frontulet/icons/map_markers/ic_marker_wp.png" %}'
-                }
-            });
-
-            var poi_icon_class = L.Icon.Default.extend({
-                options: {
-                    iconUrl: '{% static "frontulet/icons/map_markers/ic_marker_poi.png" %}'
-                }
-            });
-
-            var wp_icon = new wp_icon_class;
-            var poi_icon = new poi_icon_class;
-
-            var poi_markers = new L.LayerGroup();
-
-            var wp_markers = new L.LayerGroup();
-
-            var these_latlngs = [];
-
-            {% for step in steps %}
-
-                {% if step.order %}
-
-                    these_latlngs[these_latlngs.length] = [{{  step.latitude }}, {{ step.longitude }}];
-
-                {% else %}
-
-                    {% for highlight in step.highlights.all %}
-
-                        {% if highlight.type == 1 %}
-
-                            wp_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: wp_icon}));
-
-                        {% elif highlight.type == 0 %}
-
-                            poi_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: poi_icon}));
-
-
-                        {% endif %}
-
-                    {% endfor %}
-
-                {% endif %}
-
-
-            {% endfor %}
-
-            var polyline = L.polyline(these_latlngs, {weight: 5, opacity: 1, color: 'black'}).addTo(map);
-            var polyline = L.polyline(these_latlngs, {weight: 2, opacity: 1, color: 'red'}).addTo(map);
-
-        var bounds = new L.LatLngBounds(these_latlngs);
-        map.fitBounds(bounds);
-
-            wp_markers.addTo(map);
-            poi_markers.addTo(map);
-
-        }
-
-
-    </script>
-
 
 {% endblock %}
-
 
 {% block body_property_extras %}role="document"{% endblock %}
 
@@ -100,53 +24,20 @@
     <div class="container theme-showcase" role="main">
 
 
-            <div class="page-header">
-                <h1>{{ name }}
-                    <small>{{ short_description }}</small>
-                </h1>
-                <p>{{ description }}</p>
+        <div class="page-header">
+            <h1>{{ title }}
+            </h1>
+        </div>
 
-            </div>
+        {% for route in routes %}
 
-            <div id="erulet_map" class="leaflet-container"></div>
+            <h3>{{ route.name }}</h3>
+            <p>{{ route.short_description }} <a class="btn btn-primary btn-xs" href={% url 'show_route_detail' route.id %}>View Route</a></p>
 
-
+        {% endfor %}
 
 
     </div>
 
-{% endblock %}
 
-{% block body_scripts %}
-
-<script type="text/javascript">
-(function () {
-
-    function loadmap() {
-
-
-					var centerLat = 42.7042;
-					var centerLng = 0.7961;
-					var initialZoom = 6;
-
-
-        var djoptions = {"layers": [["OSM", "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                    "\u00a9 <a href=\"http://www.openstreetmap.org/copyright\">OpenStreetMap</a> contributors"]],
-                    "minimap": false, "scale": "metric", "center": [centerLat, centerLng], "tilesextent": [],
-                    "attributionprefix": null, "zoom": initialZoom, "maxzoom": 18, "minzoom": 0, "extent": [[-90,
-                        -180], [90,
-                        180]], "resetview": true, "srid": null, "fitextent": true},
-            options = {djoptions: djoptions, initfunc: loadmap,
-                       globals: false, callback: window.map_init_basic};
-        L.Map.djangoMap('erulet_map', options);
-    }
-    var loadevents = ["load"];
-    if (loadevents.length === 0) loadmap();
-    else if (window.addEventListener) for (var i=0; i<loadevents.length; i++) window.addEventListener(loadevents[i], loadmap, false);
-    else if (window.jQuery) jQuery(window).on(loadevents.join(' '), loadmap);
-
-})();
-</script>
-
-    {{ block.super }}
 {% endblock %}
