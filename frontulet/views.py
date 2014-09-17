@@ -93,67 +93,74 @@ class RegistrationView(FormView):
 
 def parse_gpx_track(this_route, this_track):
 
-    gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_track.name)
-    gpx = gpxpy.parse(gpx_file)
+    if this_route.gpx_track:
+        gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_track.name)
+        gpx = gpxpy.parse(gpx_file)
 
-    if gpx.tracks:
-        for track in gpx.tracks:
-            if track.segments:
-                for segment in track.segments:
-                    if segment.points:
-                        this_order_number = 1
-                        for point in segment.points:
-                            new_step = Step()
-                            new_step.track = this_track
-                            new_step.latitude = point.latitude
-                            new_step.longitude = point.longitude
-                            new_step.order = this_order_number
-                            new_step.save()
-                            this_order_number += 1
+        for step in Step.objects.filter(track=this_track):
+            step.delete()
+
+        if gpx.tracks:
+            for track in gpx.tracks:
+                if track.segments:
+                    for segment in track.segments:
+                        if segment.points:
+                            this_order_number = 1
+                            for point in segment.points:
+                                new_step = Step()
+                                new_step.track = this_track
+                                new_step.latitude = point.latitude
+                                new_step.longitude = point.longitude
+                                new_step.order = this_order_number
+                                new_step.save()
+                                this_order_number += 1
 
 
 def parse_gpx_waypoints(this_user, this_route, this_track):
 
-    gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_waypoints.name)
-    gpx = gpxpy.parse(gpx_file)
+    if this_route.gpx_waypoints:
 
-    if gpx.waypoints:
-        for waypoint in gpx.waypoints:
-            new_step = Step()
-            new_step.latitude = waypoint.latitude
-            new_step.longitude = waypoint.longitude
-            new_step.altitude = waypoint.elevation
-            new_step.track = this_track
-            new_step.save()
+        gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_waypoints.name)
+        gpx = gpxpy.parse(gpx_file)
 
-            new_highlight = Highlight()
-            new_highlight.created_by = this_user
-            new_highlight.type = 1
-            new_highlight.name = waypoint.name
-            new_highlight.step = new_step
-            new_highlight.save()
+        if gpx.waypoints:
+            for waypoint in gpx.waypoints:
+                new_step = Step()
+                new_step.latitude = waypoint.latitude
+                new_step.longitude = waypoint.longitude
+                new_step.altitude = waypoint.elevation
+                new_step.track = this_track
+                new_step.save()
+
+                new_highlight = Highlight()
+                new_highlight.created_by = this_user
+                new_highlight.type = 1
+                new_highlight.name = waypoint.name
+                new_highlight.step = new_step
+                new_highlight.save()
 
 
 def parse_gpx_pois(this_user, this_route, this_track):
 
-    gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_pois.name)
-    gpx = gpxpy.parse(gpx_file)
+    if this_route.gpx_pois:
+        gpx_file = open(settings.MEDIA_ROOT + this_route.gpx_pois.name)
+        gpx = gpxpy.parse(gpx_file)
 
-    if gpx.waypoints:
-        for waypoint in gpx.waypoints:
-            new_step = Step()
-            new_step.latitude = waypoint.latitude
-            new_step.longitude = waypoint.longitude
-            new_step.altitude = waypoint.elevation
-            new_step.track = this_track
-            new_step.save()
+        if gpx.waypoints:
+            for waypoint in gpx.waypoints:
+                new_step = Step()
+                new_step.latitude = waypoint.latitude
+                new_step.longitude = waypoint.longitude
+                new_step.altitude = waypoint.elevation
+                new_step.track = this_track
+                new_step.save()
 
-            new_highlight = Highlight()
-            new_highlight.created_by = this_user
-            new_highlight.type = 0
-            new_highlight.name = waypoint.name
-            new_highlight.step = new_step
-            new_highlight.save()
+                new_highlight = Highlight()
+                new_highlight.created_by = this_user
+                new_highlight.type = 0
+                new_highlight.name = waypoint.name
+                new_highlight.step = new_step
+                new_highlight.save()
 
 
 def make_new_route(request):
