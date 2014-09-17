@@ -29,7 +29,10 @@ def show_home(request):
 
 
 def show_map(request):
-    context = {'routes': Route.objects.all()}
+    step_list = list()
+    for route in Route.objects.all():
+        step_list.append(route.track.steps.all().order_by('order'))
+    context = {'routes': Route.objects.all(), 'steps': step_list}
     return render(request, 'frontulet/map.html', context)
 
 

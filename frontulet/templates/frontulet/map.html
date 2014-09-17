@@ -124,11 +124,11 @@
             var wp_markers = new L.LayerGroup();
 
 
-            {% for route in routes %}
+            {% for route in steps %}
 
                 var these_latlngs = [];
 
-                {% for step in route.track.steps.all %}
+                {% for step in route.all %}
                     {% if step.order %}
 
                         these_latlngs[these_latlngs.length] = [{{  step.latitude }}, {{ step.longitude }}];
