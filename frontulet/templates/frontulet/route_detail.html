@@ -128,7 +128,7 @@
 
                 <div class="col-md-4">
                     {% if highlight.image %}
-                       <a href={{ highlight.media.url }}><img width=100% src={{ highlight.media.url }}/></a>
+                       <a href={{ highlight.media.url }}><img width=100% src={{ highlight.media.url }}></a>
                     {% elif highlight.media_ext == 'mp4' %}
                         <video width="100%" height="100%" controls>
                             <source type="video/mp4" src={{ highlight.media.url }}>
