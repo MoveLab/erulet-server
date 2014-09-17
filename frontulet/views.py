@@ -28,6 +28,11 @@ def show_home(request):
     return render(request, 'frontulet/home.html', context)
 
 
+def show_about(request):
+    context = {}
+    return render(request, 'frontulet/about.html', context)
+
+
 def show_map(request):
     step_list = list()
     for route in Route.objects.all():

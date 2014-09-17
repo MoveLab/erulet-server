@@ -13,83 +13,111 @@
     <!-- Carousel
     ================================================== -->
     <div id="myCarousel" class="carousel slide" data-ride="carousel">
-      <!-- Indicators -->
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-        <li data-target="#myCarousel" data-slide-to="3"></li>
-        <li data-target="#myCarousel" data-slide-to="4"></li>
-        <li data-target="#myCarousel" data-slide-to="5"></li>
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+            <li data-target="#myCarousel" data-slide-to="1"></li>
+            <li data-target="#myCarousel" data-slide-to="2"></li>
+            <li data-target="#myCarousel" data-slide-to="3"></li>
+            <li data-target="#myCarousel" data-slide-to="4"></li>
+            <li data-target="#myCarousel" data-slide-to="5"></li>
 
-      </ol>
-      <div class="carousel-inner">
-        <div class="item active">
-          <img alt="First slide" src={% static "frontulet/photos/frontpicture1.jpg" %}>
-          <div class="container">
-            <div class="carousel-caption semitransparent-dark">
-              <h1>Troba’t amb Erulet</h1>
-              <p>Erulet és un personatge de la mitologia Aranesa. És un follet que viu amagat als boscos, i representa l’esperit de la Natura. I ara ve a trobar-te . . . en una app!</p>
-              <p><a class="btn btn-lg btn-primary" href={% url "show_home" %} role="button">Saber més</a></p>
+        </ol>
+        <div class="carousel-inner">
+            <div class="item active">
+                <img alt="First slide" src={% static "frontulet/photos/frontpicture1.jpg" %}>
+
+                <div class="container">
+                    <div class="carousel-caption semitransparent-dark">
+                        <h1>Troba’t amb Erulet</h1>
+
+                        <p>Erulet és un personatge de la mitologia Aranesa. És un follet que viu amagat als boscos, i
+                            representa l’esperit de la Natura. I ara ve a trobar-te . . . en una app!</p>
+
+                        <p><a class="btn btn-lg btn-primary" href={% url "show_home" %} role="button">Saber més</a></p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="item">
-          <img alt="Second slide" src={% static "frontulet/photos/frontpicture2.jpg" %}>
-          <div class="container">
-            <div class="carousel-caption semitransparent-dark">
-              <h1>Descobreix les aigües de la Val d'Aran</h1>
-              <p>Erulet et guiarà al llarg dels rius i fins adalt als estanys, i t’ensenyarà els secrets de les aigües del seu amagatall als boscos i muntanyes.</p>
-              <p><a class="btn btn-lg btn-primary" href={% url "show_home" %} role="button">Capbussa’t</a></p>
+            <div class="item">
+                <img alt="Second slide" src={% static "frontulet/photos/frontpicture2.jpg" %}>
+
+                <div class="container">
+                    <div class="carousel-caption semitransparent-dark">
+                        <h1>Descobreix les aigües de la Val d'Aran</h1>
+
+                        <p>Erulet et guiarà al llarg dels rius i fins adalt als estanys, i t’ensenyarà els secrets de
+                            les aigües del seu amagatall als boscos i muntanyes.</p>
+
+                        <p><a class="btn btn-lg btn-primary" href={% url "show_home" %} role="button">Capbussa’t</a></p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="item">
-          <img alt="Third slide" src={% static "frontulet/photos/frontpicture3.jpg" %}>
-          <div class="container">
-            <div class="carousel-caption semitransparent-dark">
-              <h1>Passeja amb un guia diferent</h1>
-              <p>Erulet et seguirà per allà on vagis i t’avisarà de llocs d’interès al llarg del camí. Gaudeix de continguts multimedia interactius - i crea i comparteix els teus propis.</p>
-              <p><a class="btn btn-lg btn-primary" href={% url "show_home" %} role="button">Comença la teva aventura</a></p>
+            <div class="item">
+                <img alt="Third slide" src={% static "frontulet/photos/frontpicture3.jpg" %}>
+
+                <div class="container">
+                    <div class="carousel-caption semitransparent-dark">
+                        <h1>Passeja amb un guia diferent</h1>
+
+                        <p>Erulet et seguirà per allà on vagis i t’avisarà de llocs d’interès al llarg del camí. Gaudeix
+                            de continguts multimedia interactius - i crea i comparteix els teus propis.</p>
+
+                        <p><a class="btn btn-lg btn-primary" href={% url "show_home" %} role="button">Comença la teva
+                            aventura</a></p>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
 
 
-          <div class="item">
-          <img alt="First slide" src={% static "frontulet/photos/frontpicture4.jpg" %}>
-          <div class="container">
-            <div class="carousel-caption semitransparent-dark">
-            <h1>Troba’t amb Erulet</h1>
-              <p>Erulet és un personatge de la mitologia Aranesa. És un follet que viu amagat als boscos, i representa l’esperit de la Natura. I ara ve a trobar-te . . . en una app!</p>
-              <p><a class="btn btn-lg btn-primary" href={% url "show_home" %} role="button">Saber més</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img alt="Second slide" src={% static "frontulet/photos/frontpicture5.jpg" %}>
-          <div class="container">
-            <div class="carousel-caption semitransparent-dark">
-              <h1>Descobreix les aigües de la Val d'Aran</h1>
-              <p>Erulet et guiarà al llarg dels rius i fins adalt als estanys, i t’ensenyarà els secrets de les aigües del seu amagatall als boscos i muntanyes.</p>
-              <p><a class="btn btn-lg btn-primary" href={% url "show_home" %} role="button">Capbussa’t</a></p>
-            </div>
-          </div>
-        </div>
-        <div class="item">
-          <img alt="Third slide" src={% static "frontulet/photos/frontpicture6.jpg" %}>
-          <div class="container">
-            <div class="carousel-caption semitransparent-dark">
-              <h1>Passeja amb un guia diferent</h1>
-              <p>Erulet et seguirà per allà on vagis i t’avisarà de llocs d’interès al llarg del camí. Gaudeix de continguts multimedia interactius - i crea i comparteix els teus propis.</p>
-              <p><a class="btn btn-lg btn-primary" href={% url "show_home" %} role="button">Comença la teva aventura</a></p>
-            </div>
-          </div>
-        </div>
+            <div class="item">
+                <img alt="First slide" src={% static "frontulet/photos/frontpicture4.jpg" %}>
 
-      </div>
-      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a>
-      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+                <div class="container">
+                    <div class="carousel-caption semitransparent-dark">
+                        <h1>Troba’t amb Erulet</h1>
+
+                        <p>Erulet és un personatge de la mitologia Aranesa. És un follet que viu amagat als boscos, i
+                            representa l’esperit de la Natura. I ara ve a trobar-te . . . en una app!</p>
+
+                        <p><a class="btn btn-lg btn-primary" href={% url "show_home" %} role="button">Saber més</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img alt="Second slide" src={% static "frontulet/photos/frontpicture5.jpg" %}>
+
+                <div class="container">
+                    <div class="carousel-caption semitransparent-dark">
+                        <h1>Descobreix les aigües de la Val d'Aran</h1>
+
+                        <p>Erulet et guiarà al llarg dels rius i fins adalt als estanys, i t’ensenyarà els secrets de
+                            les aigües del seu amagatall als boscos i muntanyes.</p>
+
+                        <p><a class="btn btn-lg btn-primary" href={% url "show_home" %} role="button">Capbussa’t</a></p>
+                    </div>
+                </div>
+            </div>
+            <div class="item">
+                <img alt="Third slide" src={% static "frontulet/photos/frontpicture6.jpg" %}>
+
+                <div class="container">
+                    <div class="carousel-caption semitransparent-dark">
+                        <h1>Passeja amb un guia diferent</h1>
+
+                        <p>Erulet et seguirà per allà on vagis i t’avisarà de llocs d’interès al llarg del camí. Gaudeix
+                            de continguts multimedia interactius - i crea i comparteix els teus propis.</p>
+
+                        <p><a class="btn btn-lg btn-primary" href={% url "show_home" %} role="button">Comença la teva
+                            aventura</a></p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev"><span
+                class="glyphicon glyphicon-chevron-left"></span></a>
+        <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next"><span
+                class="glyphicon glyphicon-chevron-right"></span></a>
     </div><!-- /.carousel -->
 
 
@@ -100,118 +128,224 @@
 
     <div class="container marketing">
 
-      <!-- Three columns of text below the carousel -->
-      <div class="row">
-        <div class="col-lg-4">
-          <img alt="Generic placeholder image" style="width: 140px; height: 140px;" class="img-circle" src={% static "frontulet/icons/ic_erulet_marker.png" %}>
-          <h2>Itineraris guiats</h2>
-          <p>Erulet et guiarà a través dels camins de la Val d’Aran. Rebràs avisos i informació suplementaria quan estiguis aprop dels punts d’interès.</p>
-  {#        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-          <img alt="Generic placeholder image" style="width: 140px; height: 140px;" class="img-circle" src={% static "frontulet/icons/ic_launcher.png" %}>
-          <h2>Tot sobre l’aigua</h2>
-          <p>Aprèn sobre els rius i estanys de la Val d’Aran. Erulet està carregat de materials divulgatius fets per científics que han treballat aquí des de fa anys.</p>
-{#           <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
-        </div><!-- /.col-lg-4 -->
-        <div class="col-lg-4">
-          <img class="img-circle" alt="Generic placeholder image" style="width: 140px; height: 140px;" src={% static "frontulet/icons/ic_map_and_marker.png" %}>
-          <h2>Mapes personalitzats</h2>
-          <p>Segueix i enregistra els teus itineraris, i afegeix les teves pròpies fotos, vídeos i notes al mapa. Desa’ls per al teu ús propi o comparteix-los amb altres senderistes.</p>
-{#          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
-        </div><!-- /.col-lg-4 -->
-      </div><!-- /.row -->
+        <!-- Three columns of text below the carousel -->
+        <div class="row">
+            <div class="col-lg-4">
+                <img alt="Generic placeholder image" style="width: 140px; height: 140px;" class="img-circle"
+                     src={% static "frontulet/icons/ic_erulet_marker.png" %}>
 
+                <h2>Itineraris guiats</h2>
 
-      <!-- START THE FEATURETTES -->
+                <p>Erulet et guiarà a través dels camins de la Val d’Aran. Rebràs avisos i informació suplementaria quan
+                    estiguis aprop dels punts d’interès.</p>
+                {#        <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img alt="Generic placeholder image" style="width: 140px; height: 140px;" class="img-circle"
+                     src={% static "frontulet/icons/ic_launcher.png" %}>
 
-      <hr class="featurette-divider">
+                <h2>Tot sobre l’aigua</h2>
 
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h4 class="featurette-heading">El camí de la Garona. <span class="text-muted">Aprèn tot sobre el riu principal de la val d’Aran.</span></h4>
-          <p>La Garona ofereix la possibilitat de conèixer un ecosistema fluvial, els usos i aprofitaments humans que s’han fet des d’antic, i com aquests han modificat i configurat el riu actual. Aquest itinerari entre el Pont d’Arròs i Casarilh té dues variants: en cotxe seguint la N-230 i la C-28 i a peu seguint el Camin Reiau i el GR-211. La distància total és de 11 km, amb un desnivell acumulat de 184 m. El camí no presenta cap dificultat, i és adequat per a qualsevol persona amb una forma física mitja. La variant en cotxe fa l’itinerari accesible a tot tipus de visitants.</p>
+                <p>Aprèn sobre els rius i estanys de la Val d’Aran. Erulet està carregat de materials divulgatius fets
+                    per científics que han treballat aquí des de fa anys.</p>
+                {#           <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
+            </div>
+            <!-- /.col-lg-4 -->
+            <div class="col-lg-4">
+                <img class="img-circle" alt="Generic placeholder image" style="width: 140px; height: 140px;"
+                     src={% static "frontulet/icons/ic_map_and_marker.png" %}>
+
+                <h2>Mapes personalitzats</h2>
+
+                <p>Segueix i enregistra els teus itineraris, i afegeix les teves pròpies fotos, vídeos i notes al mapa.
+                    Desa’ls per al teu ús propi o comparteix-los amb altres senderistes.</p>
+                {#          <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>#}
+            </div>
+            <!-- /.col-lg-4 -->
         </div>
-        <div class="col-md-5">
-          <img class="featurette-image img-responsive" style="border:solid" alt="Generic placeholder image" src={% static "frontulet/photos/1-garona.jpg" %}>
+        <!-- /.row -->
+
+
+        <!-- START THE FEATURETTES -->
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h4 class="featurette-heading">El camí de la Garona. <span class="text-muted">Aprèn tot sobre el riu principal de la val d’Aran.</span>
+                </h4>
+
+                <p>La Garona ofereix la possibilitat de conèixer un ecosistema fluvial, els usos i aprofitaments humans
+                    que s’han fet des d’antic, i com aquests han modificat i configurat el riu actual. Aquest itinerari
+                    entre el Pont d’Arròs i Casarilh té dues variants: en cotxe seguint la N-230 i la C-28 i a peu
+                    seguint el Camin Reiau i el GR-211. La distància total és de 11 km, amb un desnivell acumulat de 184
+                    m. El camí no presenta cap dificultat, i és adequat per a qualsevol persona amb una forma física
+                    mitja. La variant en cotxe fa l’itinerari accesible a tot tipus de visitants.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" style="border:solid" alt="Generic placeholder image"
+                     src={% static "frontulet/photos/1-garona.jpg" %}>
+            </div>
         </div>
-      </div>
 
-      <hr class="featurette-divider">
+        <hr class="featurette-divider">
 
-      <div class="row featurette">
-        <div class="col-md-5">
-          <img class="featurette-image img-responsive" style="border:solid" alt="Generic placeholder image" src={% static "frontulet/photos/2-escunhau.jpg" %}>        </div>
-        <div class="col-md-7">
-          <h2 class="featurette-heading">Estanho d’Escunhau. <span class="text-muted">Explora l’estany que drena cap el subsòl i descobreix el seu jardí submergit.</span></h2>
-          <p>L’Estanho d’Escunhau està situat sota unes escarpades parets de roca calcària amb formes erosives peculiars, com ara l’avenc per on l’estany desaigua cap a la cavitat més profunda de Catalunya. La seva característica principal és l’abundància de diverses plantes aquàtiques, que formen un autèntic jardí submergit i que es poden distingir des de les vores. Itinerari de 10 km i 795 m de desnivell per pista seguit de 1.8 km i 200 m de desnivell a peu, per acabar amb un circuit (1 km) al voltant de l’Estanho d’Escunhau. L’itinerari és adequat per a qualsevol persona amb un mínim de forma física.</p>
+        <div class="row featurette">
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" style="border:solid" alt="Generic placeholder image"
+                     src={% static "frontulet/photos/2-escunhau.jpg" %}></div>
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Estanho d’Escunhau. <span class="text-muted">Explora l’estany que drena cap el subsòl i descobreix el seu jardí submergit.</span>
+                </h2>
+
+                <p>L’Estanho d’Escunhau està situat sota unes escarpades parets de roca calcària amb formes erosives
+                    peculiars, com ara l’avenc per on l’estany desaigua cap a la cavitat més profunda de Catalunya. La
+                    seva característica principal és l’abundància de diverses plantes aquàtiques, que formen un autèntic
+                    jardí submergit i que es poden distingir des de les vores. Itinerari de 10 km i 795 m de desnivell
+                    per pista seguit de 1.8 km i 200 m de desnivell a peu, per acabar amb un circuit (1 km) al voltant
+                    de l’Estanho d’Escunhau. L’itinerari és adequat per a qualsevol persona amb un mínim de forma
+                    física.</p>
+            </div>
         </div>
-      </div>
 
-      <hr class="featurette-divider">
+        <hr class="featurette-divider">
 
-      <div class="row featurette">
-        <div class="col-md-7">
-           <h2 class="featurette-heading">Estanys de Pois i de Còth deth Hòro. <span class="text-muted">Recorre els estanys més elevats en una ruta d’alta muntanya.</span></h2>
-          <p>Aquests estanys són típicament alpins, amb aigües de tipus carbonatat. Es troben en un paisatge de morfologia glaciar de roques calcàries i sorrenques amb formes espectaculars. La ruta té vistes impressionants de l’Aneto i la seva glacera. És una ruta circular d’alta muntanya de 10 km i 1040 m de desnivell, amb sortida des de l’aparcament del Plan dera Artiga de Lin. L’itinerari és adequat per persones amb un bon entrenament i experiència en alta muntanya.</p>
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Estanys de Pois i de Còth deth Hòro. <span class="text-muted">Recorre els estanys més elevats en una ruta d’alta muntanya.</span>
+                </h2>
+
+                <p>Aquests estanys són típicament alpins, amb aigües de tipus carbonatat. Es troben en un paisatge de
+                    morfologia glaciar de roques calcàries i sorrenques amb formes espectaculars. La ruta té vistes
+                    impressionants de l’Aneto i la seva glacera. És una ruta circular d’alta muntanya de 10 km i 1040 m
+                    de desnivell, amb sortida des de l’aparcament del Plan dera Artiga de Lin. L’itinerari és adequat
+                    per persones amb un bon entrenament i experiència en alta muntanya.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" style="border:solid" alt="Generic placeholder image"
+                     src={% static "frontulet/photos/3-pois_horo.jpg" %}></div>
         </div>
-        <div class="col-md-5">
-          <img class="featurette-image img-responsive" style="border:solid" alt="Generic placeholder image" src={% static "frontulet/photos/3-pois_horo.jpg" %}>        </div>
-      </div>
 
-      <hr class="featurette-divider">
+        <hr class="featurette-divider">
 
-              <hr class="featurette-divider">
+        <hr class="featurette-divider">
 
-      <div class="row featurette">
-        <div class="col-md-5">
-          <img class="featurette-image img-responsive" style="border:solid" alt="Generic placeholder image" src={% static "frontulet/photos/4-oles.jpg" %}>
+        <div class="row featurette">
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" style="border:solid" alt="Generic placeholder image"
+                     src={% static "frontulet/photos/4-oles.jpg" %}>
+            </div>
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Bassa d’Oles. <span class="text-muted">Visita en familia un estany domesticat.</span>
+                </h2>
+
+                <p>La Bassa d’Oles és una bassa d’origen natural que posteriorment es va represar. Es practica la pesca
+                    intensiva, i la bassa és repoblada regularment amb truites. És per tant un exemple d’ecosistema
+                    aquàtic fortament humanitzat. Està envoltada d’una pineda de pi roig de gran valor paisatgístic.
+                    L’interés principal rau en l’important entapissat de vegetació aqüàtica submergida i les illes de
+                    joncs que s’hi troben. Itinerari circular de 1.7 km amb 50 m de desnivell a les rodalies de la Bassa
+                    d’Oles, apte per a tots els públics.</p>
+            </div>
         </div>
-        <div class="col-md-7">
-          <h2 class="featurette-heading">Bassa d’Oles. <span class="text-muted">Visita en familia un estany domesticat.</span></h2>
-          <p>La Bassa d’Oles és una bassa d’origen natural que posteriorment es va represar. Es practica la pesca intensiva, i la bassa és repoblada regularment amb truites. És per tant un exemple d’ecosistema aquàtic fortament humanitzat. Està envoltada d’una pineda de pi roig de gran valor paisatgístic. L’interés principal rau en l’important entapissat de vegetació aqüàtica submergida i les illes de joncs que s’hi troben. Itinerari circular de 1.7 km amb 50 m de desnivell a les rodalies de la Bassa d’Oles, apte per a tots els públics.</p>
+
+        <hr class="featurette-divider">
+
+        <div class="row featurette">
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Estanh Redon. <span class="text-muted">Descobreix què ens revela la ciència sobre el canvi ambiental.</span>
+                </h2>
+
+                <p>El Redon és un dels grans estanys dels Pirineus. Té aigües molt transparents i està encaixonat en un
+                    circ de roca granítica i parets escarpades. Ha estat objecte de recerca científica des de fa
+                    dècades, i a la vora hi ha un petit laboratori de camp i una estació meteorològica. Les
+                    investigacions han demostrat que el Redon és un sentinella dels canvis ambientals globals del passat
+                    i el present, com ara la contaminació atmosfèrica o el canvi climàtic. Itinerari de 3.6 km amb 600 m
+                    de desnivell. És adequat per a persones acostumades a caminar per la muntanya i amb una condició
+                    física mitja.</p>
+            </div>
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" style="border:solid" alt="Generic placeholder image"
+                     src={% static "frontulet/photos/5-redon.jpg" %}></div>
         </div>
-      </div>
 
-      <hr class="featurette-divider">
+        <hr class="featurette-divider">
 
-      <div class="row featurette">
-        <div class="col-md-7">
-          <h2 class="featurette-heading">Estanh Redon. <span class="text-muted">Descobreix què ens revela la ciència sobre el canvi ambiental.</span></h2>
-          <p>El Redon és un dels grans estanys dels Pirineus. Té aigües molt transparents i està encaixonat en un circ de roca granítica i parets escarpades. Ha estat objecte de recerca científica des de fa dècades, i a la vora hi ha un petit laboratori de camp i una estació meteorològica. Les investigacions han demostrat que el Redon és un sentinella dels canvis ambientals globals del passat i el present, com ara la contaminació atmosfèrica o el canvi climàtic. Itinerari de 3.6 km amb 600 m de desnivell. És adequat per a persones acostumades a caminar per la muntanya i amb una condició física mitja.</p>
+        <div class="row featurette">
+
+            <div class="col-md-5">
+                <img class="featurette-image img-responsive" style="border:solid" alt="Generic placeholder image"
+                     src={% static "frontulet/photos/6-varrados.jpg" %}></div>
+            <div class="col-md-7">
+                <h2 class="featurette-heading">Val de Varradòs. <span class="text-muted">Experimenta la força de l’aigua i coneix els hàbitats aquàtics més extrems.</span>
+                </h2>
+
+                <p>La vall de Varradòs té un relleu escarpat que dóna lloc a una intensa activitat d’allaus i a cascades
+                    impressionants. A la capçalera de la vall, la zona de la Sèrra de Pica Palomèra és una de les més
+                    recòndites de l’Aran. Els estanys que trobem aquí són hàbitats extrems, degut a l’acidesa de les
+                    seves aigües. L’itinerari té dues parts: primer 10 km de pista asfaltada, per recòrrer el riu de
+                    Varradòs i visitar el Saut deth Pish; després, itinerari circular a peu de 12 km i 980 m de
+                    desnivell, per visitar els estanys Nere de Uèrri i de Pica Palomèra. Per fer l’itinerari a peu és
+                    imprescindible tenir un bon sentit de la orientació, bona forma física i experiència en alta
+                    muntanya.</p>
+            </div>
         </div>
-                  <div class="col-md-5">
-          <img class="featurette-image img-responsive" style="border:solid" alt="Generic placeholder image" src={% static "frontulet/photos/5-redon.jpg" %}>        </div>
-      </div>
 
-      <hr class="featurette-divider">
+        <hr class="featurette-divider">
 
-      <div class="row featurette">
+        <!-- /END THE FEATURETTES -->
 
-        <div class="col-md-5">
-          <img class="featurette-image img-responsive" style="border:solid" alt="Generic placeholder image" src={% static "frontulet/photos/6-varrados.jpg" %}>        </div>
-                <div class="col-md-7">
-          <h2 class="featurette-heading">Val de Varradòs. <span class="text-muted">Experimenta la força de l’aigua i coneix els hàbitats aquàtics més extrems.</span></h2>
-          <p>La vall de Varradòs té un relleu escarpat que dóna lloc a una intensa activitat d’allaus i a cascades impressionants. A la capçalera de la vall, la zona de la Sèrra de Pica Palomèra és una de les més recòndites de l’Aran. Els estanys que trobem aquí són hàbitats extrems, degut a l’acidesa de les seves aigües. L’itinerari té dues parts: primer 10 km de pista asfaltada, per recòrrer el riu de Varradòs i visitar el Saut deth Pish; després, itinerari circular a peu de 12 km i 980 m de desnivell, per visitar els estanys Nere de Uèrri i de Pica Palomèra. Per fer l’itinerari a peu és imprescindible tenir un bon sentit de la orientació, bona forma física i experiència en alta muntanya.</p>
-        </div>
-      </div>
-
-      <hr class="featurette-divider">
-
-      <!-- /END THE FEATURETTES -->
-
-      <!-- FOOTER -->
-      <footer>
-        <p class="pull-right"><a href="#">Back to top</a></p>
-        <p>Content by <a href="http://www.ceab.csic.es/web/?p=1636">Lluís Camarero</a> &middot; Website and server backend by <a href="http://johnrbpalmer.com">John R.B. Palmer</a> &middot; Android app by <a href="http://www.creaf.cat/en/personal/agust%C3%AD-escobar-r%C3%BAbies">Agustí Escobar Rúbies</a> &middot; Mobile HTML5 app by <a href="http://wuyingren.github.io/">Jordi López</a></p>
-
-        <p>&copy; 2014 Erulet Team and Movement Ecology Lab &middot; <a href="{% url "show_privacy_policy" %}">Privacy</a> &middot; <a href="http://github.com/MoveLab/erulet-server/blob/master/LICENSE.md">Terms</a></p><br>
-
-          <p>Erulet is built from free and open source code. Check out our <a href="api">API</a> or fork us on <a href="http://github.com/MoveLab">Github</a>!</p>
-
-
-      </footer>
 
     </div><!-- /.container -->
+
+
+    <!-- FOOTER -->
+    <footer>
+
+
+        <div class="footer-container">
+
+            <p class="pull-right"><a href="#">Back to top</a></p>
+
+            <div class="row border-row">
+
+                <div class="col-md-3">
+                    <a href="{% url "show_privacy_policy" %}">Privacy</a> &middot;
+                    <a href="http://github.com/MoveLab/erulet-server/blob/master/LICENSE.md">Terms</a>
+                </div>
+                <div class="col-md-3">
+                    Organitza:
+                    <img src={% static 'frontulet/logos/footer/ajuntament_small.jpg' %}>
+                </div>
+                <div class="col-md-3">
+                    Finança:
+                    <img src={% static 'frontulet/logos/footer/sudeu_small.jpg' %}>
+
+                </div>
+
+
+                <div class="col-md-3">
+                </div>
+
+            </div>
+            <br>
+
+            <p>Erulet is built from free and open source code. Check out our <a href="api">API</a> or fork us on <a
+                    href="http://github.com/MoveLab">Github</a>!</p>
+
+            <p>Content by <a href="http://www.ceab.csic.es/web/?p=1636">Lluís Camarero</a> &middot; Website and server
+                backend by <a href="http://johnrbpalmer.com">John R.B. Palmer</a> &middot; Android app by <a
+                        href="http://www.creaf.cat/en/personal/agust%C3%AD-escobar-r%C3%BAbies">Agustí Escobar
+                    Rúbies</a> &middot; Mobile HTML5 app by <a href="http://wuyingren.github.io/">Jordi López</a></p>
+
+            <p>&copy; 2014 Erulet Team and Movement Ecology Lab (CEAB-CSIC & CREAF)</p>
+
+                    <img src={% static 'frontulet/logos/footer/movelab_small.jpg' %}>
+                    <img src={% static 'frontulet/logos/footer/ceab-uab-creaf_small.jpg' %}>
+
+            </div>
+    </footer>
+
+
 
 {% endblock %}

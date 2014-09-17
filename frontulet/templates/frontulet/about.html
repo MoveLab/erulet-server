@@ -1,0 +1,100 @@
+{% extends "frontulet/base.html" %}
+{% load staticfiles %}
+
+{% block bootstrap_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css" %}>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block head_additions %}
+    <link rel="stylesheet" href={% static "frontulet/form_style.css" %}>
+
+    <link rel="stylesheet" href={% static "frontulet/route_detail_style.css" %}>
+
+
+{% endblock %}
+
+{% block body_property_extras %}role="document"{% endblock %}
+
+{% block page_id %}about{% endblock %}
+
+{% block main_body %}
+
+    <div class="container theme-showcase" role="main">
+
+
+        <div class="page-header">
+
+        </div>
+
+
+
+            <div class="row featurette">
+
+                <div class="col-md-7">
+
+                    <h2 class="featurette-heading">The Erulet was organized by the Municipality of Vielha.</h2>
+
+                </div>
+                <div class="col-md-5">
+
+                    <img class="featurette-image img-responsive" src={% static 'frontulet/logos/ajuntament.jpg' %}>
+                </div>
+
+                </div>
+
+                <hr class="featurette-divider">
+
+            <div class="row featurette">
+
+                <div class="col-md-7">
+<br><br>
+                    <h2 class="featurette-heading">It was financed by the European Union.</h2>
+
+                </div>
+
+
+                <div class="col-md-5">
+                    <img class="featurette-image img-responsive" src={% static 'frontulet/logos/sudeu.jpg' %}>
+                </div>
+
+
+                </div>
+
+
+                <hr class="featurette-divider">
+            <div class="row featurette">
+
+                <div class="col-md-7">
+
+                    <h2 class="featurette-heading">And implemented by the Movement Ecology Lab (CEAB-CSIC) and CREAF.</h2>
+
+                </div>
+                <div class="col-md-5">
+                    <img class="featurette-image img-responsive" src={% static 'frontulet/logos/movelab.jpg' %}>
+                    <img class="featurette-image img-responsive" src={% static 'frontulet/logos/ceab-uab-creaf.jpg' %}>
+
+                </div>
+
+                </div>
+
+        <br><br>
+
+            <h4>Erulet is built from free and open source code. Check out our <a href="api">API</a> or fork us on <a
+                    href="http://github.com/MoveLab">Github</a>!</h4>
+<br>
+            <h5>Content by <a href="http://www.ceab.csic.es/web/?p=1636">Lluís Camarero</a> &middot; Website and server
+                backend by <a href="http://johnrbpalmer.com">John R.B. Palmer</a> &middot; Android app by <a
+                        href="http://www.creaf.cat/en/personal/agust%C3%AD-escobar-r%C3%BAbies">Agustí Escobar
+                    Rúbies</a> &middot; Mobile HTML5 app by <a href="http://wuyingren.github.io/">Jordi López</a></h5>
+
+            <h5>&copy; 2014 by the Erulet Team at the Movement Ecology Lab (CEAB-CSIC) and CREAF</h5>
+
+
+
+
+    </div>
+
+
+{% endblock %}

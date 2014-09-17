@@ -12,6 +12,17 @@
     float: none;
 }
 
+.border-row {
+    border-top: 1px solid #444;
+}
+
+.footer-container{
+    margin-left:50px;
+    margin-right:50px;
+    margin-bottom:0px;
+
+}
+
 #page_home .frontulet_toggle_home,
 #page_routes .frontulet_toggle_routes,
 #page_map .frontulet_toggle_map,
