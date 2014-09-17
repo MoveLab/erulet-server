@@ -10,7 +10,7 @@ from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 from appulet.models import *
 from frontulet.forms import RegistrationForm
-from frontulet.forms import RouteForm, OfficialRouteForm
+from frontulet.forms import RouteForm, OfficialRouteForm, HighlightForm
 
 
 def show_landing_page(request):
@@ -63,7 +63,9 @@ def show_route_detail(request, id):
     this_id = int(id)
     if Route.objects.filter(pk=this_id):
         this_route = Route.objects.get(pk=this_id)
-        context = {'name': this_route.__unicode__(), 'short_description': this_route.short_description, 'description': this_route.description, 'steps': this_route.track.steps.all()}
+        these_steps = this_route.track.steps.all()
+        these_highlights = [highlight for highlight in Highlight.objects.all() if highlight.step in these_steps]
+        context = {'name': this_route.__unicode__(), 'short_description': this_route.short_description, 'description': this_route.description, 'steps': these_steps, 'these_highlights': these_highlights, 'id': this_id}
     return render(request, 'frontulet/route_detail.html', context)
 
 
@@ -125,7 +127,7 @@ def parse_gpx_waypoints(this_user, this_route, this_track):
             new_step.save()
 
             new_highlight = Highlight()
-            new_highlight.user = this_user
+            new_highlight.created_by = this_user
             new_highlight.type = 1
             new_highlight.name = waypoint.name
             new_highlight.step = new_step
@@ -147,7 +149,7 @@ def parse_gpx_pois(this_user, this_route, this_track):
             new_step.save()
 
             new_highlight = Highlight()
-            new_highlight.user = this_user
+            new_highlight.created_by = this_user
             new_highlight.type = 0
             new_highlight.name = waypoint.name
             new_highlight.step = new_step
@@ -188,5 +190,65 @@ def make_new_route(request):
         return render(request, 'frontulet/create_route.html', args)
 
     else:
-        return render(request, 'registration/no_permission.html')
+        return render(request, 'registration/no_permission_must_login.html')
 
+
+def edit_route(request, id):
+    if request.user.is_authenticated():
+        args = {}
+        args.update(csrf(request))
+        this_route = Route.objects.get(pk=id)
+        this_track = this_route.track
+        if this_route.created_by == request.user:
+            if request.method == 'POST':
+                if 'scientists' in [group.name for group in request.user.groups.all()]:
+                    form = OfficialRouteForm(request.POST, request.FILES, instance=this_route)
+                else:
+                    form = RouteForm(request.POST, request.FILES, instance=this_route)
+                    args['form'] = form
+                if form.is_valid():
+                    form.save()
+                    parse_gpx_track(this_route, this_track)
+                    parse_gpx_waypoints(request.user, this_route, this_track)
+                    parse_gpx_pois(request.user, this_route, this_track)
+
+                    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(this_route.id)}))
+
+            else:
+                if 'scientists' in [group.name for group in request.user.groups.all()]:
+                    args['form'] = OfficialRouteForm(instance=this_route)
+                else:
+                    args['form'] = RouteForm(instance=this_route)
+
+                return render(request, 'frontulet/edit_route.html', args)
+
+        else:
+            return render(request, 'registration/no_permission_not_yours.html')
+
+    else:
+        return render(request, 'registration/no_permission_must_login.html')
+
+
+def edit_highlight(request, route_id, highlight_id):
+    if request.user.is_authenticated():
+        args = {}
+        args.update(csrf(request))
+        this_highlight = Highlight.objects.get(pk=highlight_id)
+        if this_highlight.created_by == request.user:
+            if request.method == 'POST':
+                form = HighlightForm(request.POST, request.FILES, instance=this_highlight)
+                args['form'] = form
+                if form.is_valid():
+                    form.save()
+                    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}))
+
+            else:
+                args['form'] = HighlightForm(instance=this_highlight)
+
+                return render(request, 'frontulet/edit_highlight.html', args)
+
+        else:
+            return render(request, 'registration/no_permission_not_yours.html')
+
+    else:
+        return render(request, 'registration/no_permission_must_login.html')

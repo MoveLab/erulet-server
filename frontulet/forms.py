@@ -1,8 +1,49 @@
 from django import forms
-from appulet.models import Route
+from appulet.models import Route, Highlight, Reference
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+
+
+class HighlightForm(forms.ModelForm):
+
+    class Meta:
+        model = Highlight
+        fields = ['name', 'long_text', 'type', 'media']
+
+    def clean_media_file(self):
+        uploaded_file = self.cleaned_data['media']
+        print uploaded_file.content_type
+
+        content_type = uploaded_file.content_type
+        allowed_content_types = ['image', 'video']
+        if content_type in allowed_content_types:
+            pass
+
+        else:
+            raise forms.ValidationError(_('Filetype not supported.'))
+
+        return uploaded_file
+
+
+class ReferenceForm(forms.ModelForm):
+
+    class Meta:
+        model = Reference
+        fields = ['name', 'html_file']
+
+    def clean_html_file(self):
+        uploaded_file = self.cleaned_data['html_file']
+        print uploaded_file.content_type
+
+        content_type = uploaded_file.content_type
+        allowed_content_types = ['text/html']
+        if content_type in allowed_content_types:
+            pass
+        else:
+            raise forms.ValidationError(_('Filetype not supported.'))
+
+        return uploaded_file
 
 
 class RouteForm(forms.ModelForm):

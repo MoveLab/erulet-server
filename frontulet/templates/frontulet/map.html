@@ -137,13 +137,16 @@
 
                         {% for highlight in step.highlights.all %}
 
+                        var popup_text = '<h4>{{ highlight.name }}<h4><p>{{ highlight.long_text }}';
+
                             {% if highlight.type == 1 %}
 
-                                 wp_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: wp_icon}));
+                                 wp_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: wp_icon}).bindPopup(popup_text));
+
 
                             {% elif highlight.type == 0 %}
 
-                                 poi_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: poi_icon}));
+                                 poi_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: poi_icon}).bindPopup(popup_text));
 
 
                             {% endif %}

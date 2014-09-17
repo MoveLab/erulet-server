@@ -20,7 +20,15 @@ def make_media_uuid(path):
     def wrapper(instance, filename):
         extension = filename.split('.')[-1]
         filename = "%s.%s" % (uuid.uuid4(), extension)
-        return os.path.join(path, filename)
+        return os.path.join(path, instance.id, filename)
+    return wrapper
+
+
+def make_reference_image_uuid(path):
+    def wrapper(instance, filename):
+        extension = filename.split('.')[-1]
+        filename = "%s.%s" % (uuid.uuid4(), extension)
+        return os.path.join(path, instance.highlight.id, filename)
     return wrapper
 
 
@@ -44,13 +52,19 @@ class Step(models.Model):
 class Reference(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
     name = models.CharField(max_length=200, default='unnamed reference')
-    content = models.FileField(upload_to=make_media_uuid('erulet/references'))
+    html_file = models.FileField(upload_to=make_media_uuid('erulet/references'))
+    highlight = models.ForeignKey('Highlight', blank=True, null=True)
 
     def __unicode__(self):
         this_name = 'unnamed reference'
         if self.name is not None and self.name != '':
             this_name = self.name
         return this_name
+
+
+class ReferenceImage(models.Model):
+    reference = models.ForeignKey(Reference)
+    image = models.ImageField(upload_to=make_reference_image_uuid('erulet/references/'))
 
 
 def gpx_tracks(instance, filename):
@@ -95,7 +109,9 @@ class Highlight(models.Model):
     long_text = models.CharField(max_length=2000, blank=True)
     media = models.FileField(upload_to=make_media_uuid('erulet_highlights'), blank=True, null=True)
     radius = models.FloatField(blank=True, null=True)
-    type = models.IntegerField()
+
+    TYPE_CHOICES = ((0, 'point of interest'), (1, 'waypoint'),)
+    type = models.IntegerField(choices=TYPE_CHOICES)
     step = models.ForeignKey(Step, blank=True, null=True, related_name='highlights')
 
     def __unicode__(self):
@@ -103,6 +119,23 @@ class Highlight(models.Model):
         if self.name is not None and self.name != '':
             this_name = self.name
         return this_name
+
+    def test_image(self):
+        if self.media is not None:
+            image_extensions = ['jpg', 'png', 'gif', 'tif']
+            ext = self.media.name.split('.')[-1]
+            return ext in image_extensions
+        else:
+            return False
+
+    def get_media_ext(self):
+        ext = ''
+        if self.media is not None:
+            ext = self.media.name.split('.')[-1]
+        return ext
+
+    image = property(test_image)
+    media_ext = property(get_media_ext)
 
 
 class InteractiveImage(models.Model):
