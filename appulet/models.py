@@ -109,10 +109,10 @@ class Highlight(models.Model):
     long_text = models.CharField(max_length=2000, blank=True)
     media = models.FileField(upload_to=make_media_uuid('erulet_highlights'), blank=True, null=True)
     radius = models.FloatField(blank=True, null=True)
-
     TYPE_CHOICES = ((0, 'point of interest'), (1, 'waypoint'),)
     type = models.IntegerField(choices=TYPE_CHOICES)
     step = models.ForeignKey(Step, blank=True, null=True, related_name='highlights')
+    order = models.IntegerField(blank=True, null=True)
 
     def __unicode__(self):
         this_name = 'unnamed highlight'

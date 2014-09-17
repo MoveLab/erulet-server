@@ -63,8 +63,9 @@ def show_route_detail(request, id):
     this_id = int(id)
     if Route.objects.filter(pk=this_id):
         this_route = Route.objects.get(pk=this_id)
-        these_steps = this_route.track.steps.all()
+        these_steps = this_route.track.steps.all().order_by('order')
         these_highlights = [highlight for highlight in Highlight.objects.all() if highlight.step in these_steps]
+        these_highlights.sort(key=lambda x: x.order)
         context = {'name': this_route.__unicode__(), 'short_description': this_route.short_description, 'description': this_route.description, 'steps': these_steps, 'these_highlights': these_highlights, 'id': this_id}
     return render(request, 'frontulet/route_detail.html', context)
 
@@ -124,6 +125,7 @@ def parse_gpx_waypoints(this_user, this_route, this_track):
         gpx = gpxpy.parse(gpx_file)
 
         if gpx.waypoints:
+            this_order_number = 1
             for waypoint in gpx.waypoints:
                 new_step = Step()
                 new_step.latitude = waypoint.latitude
@@ -137,7 +139,9 @@ def parse_gpx_waypoints(this_user, this_route, this_track):
                 new_highlight.type = 1
                 new_highlight.name = waypoint.name
                 new_highlight.step = new_step
+                new_highlight.order = this_order_number
                 new_highlight.save()
+                this_order_number += 1
 
 
 def parse_gpx_pois(this_user, this_route, this_track):
@@ -147,6 +151,7 @@ def parse_gpx_pois(this_user, this_route, this_track):
         gpx = gpxpy.parse(gpx_file)
 
         if gpx.waypoints:
+            this_order_number = 1
             for waypoint in gpx.waypoints:
                 new_step = Step()
                 new_step.latitude = waypoint.latitude
@@ -160,7 +165,9 @@ def parse_gpx_pois(this_user, this_route, this_track):
                 new_highlight.type = 0
                 new_highlight.name = waypoint.name
                 new_highlight.step = new_step
+                new_highlight.order = this_order_number
                 new_highlight.save()
+                this_order_number += 1
 
 
 def make_new_route(request):
