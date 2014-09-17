@@ -20,7 +20,7 @@ def make_media_uuid(path):
     def wrapper(instance, filename):
         extension = filename.split('.')[-1]
         filename = "%s.%s" % (uuid.uuid4(), extension)
-        return os.path.join(path, instance.id, filename)
+        return os.path.join(path, str(instance.id), filename)
     return wrapper
 
 
@@ -28,7 +28,7 @@ def make_reference_image_uuid(path):
     def wrapper(instance, filename):
         extension = filename.split('.')[-1]
         filename = "%s.%s" % (uuid.uuid4(), extension)
-        return os.path.join(path, instance.highlight.id, filename)
+        return os.path.join(path, str(instance.highlight.id), filename)
     return wrapper
 
 
