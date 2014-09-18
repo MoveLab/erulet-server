@@ -4,6 +4,9 @@ import os
 import os.path
 from django.contrib.auth.models import User
 import string
+from django.conf import settings
+import codecs
+
 
 class Track(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
@@ -52,7 +55,7 @@ class Reference(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
     name = models.CharField(max_length=200, default='unnamed reference')
     html_file = models.FileField(upload_to=make_media_uuid('erulet/references'))
-    highlight = models.ForeignKey('Highlight', blank=True, null=True)
+    highlight = models.ForeignKey('Highlight', blank=True, null=True,related_name='references')
 
     def __unicode__(self):
         this_name = 'unnamed reference'
@@ -65,9 +68,29 @@ class Reference(models.Model):
         if len(temp) > 1:
             temp.pop(-1)
             temp.append('reference.html')
-        return string.join(temp, '/')
+        return settings.CURRENT_DOMAIN + string.join(temp, '/')
+
+    def find_reference_url_base(self):
+        temp = str.split(self.html_file.url, '/')
+        if len(temp) > 1:
+            temp.pop(-1)
+        return settings.CURRENT_DOMAIN + string.join(temp, '/')
+
+    def find_reference_path(self):
+        return os.path.join(os.path.dirname(self.html_file.path), 'reference.html')
+
+    def get_reference_html(self):
+        reference_raw_html = ''
+        if os.path.isfile(self.find_reference_path()):
+            ref_file = codecs.open(self.find_reference_path(), 'r', 'iso-8859-1')
+            reference_html_raw = ref_file.read()
+            ref_file.close()
+        return reference_html_raw
 
     reference_url = property(find_reference_url)
+    reference_url_base = property(find_reference_url_base)
+    reference_path = property(find_reference_path)
+    reference_html = property(get_reference_html)
 
 
 class ReferenceImage(models.Model):

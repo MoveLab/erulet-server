@@ -4,13 +4,14 @@ from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import authenticate, login
 import gpxpy
 import gpxpy.gpx
-from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.core.context_processors import csrf
 from django.core.urlresolvers import reverse
 from appulet.models import *
 from frontulet.forms import *
 import zipfile, shutil
+from django.conf import settings
+
 
 def show_landing_page(request):
     context = {}
@@ -71,14 +72,13 @@ def show_route_detail(request, id):
     if Route.objects.filter(pk=this_id):
         this_route = Route.objects.get(pk=this_id)
         has_reference = this_route.reference is not None
-        reference_url = ''
-        if has_reference:
-            reference_url = this_route.reference.reference_url
+        reference_html_raw = this_route.reference.reference_html
+        reference_html = reference_html_raw.replace('src="', 'src="'+this_route.reference.reference_url_base+'/')
         owner = request.user == this_route.created_by
         these_steps = this_route.track.steps.all().order_by('order')
-        these_highlights = [highlight for highlight in Highlight.objects.all() if highlight.step in these_steps]
-        these_highlights.sort(key=lambda x: x.order)
-        context = {'owner': owner, 'name': this_route.__unicode__(), 'short_description': this_route.short_description, 'description': this_route.description, 'has_reference': has_reference, 'reference_url': reference_url, 'steps': these_steps, 'these_highlights': these_highlights, 'id': this_id}
+        these_highlights = [[highlight, [reference.reference_html for reference in highlight.references.all()]] for highlight in Highlight.objects.all() if highlight.step in these_steps]
+        these_highlights.sort(key=lambda x: x[0].order)
+        context = {'owner': owner, 'name': this_route.__unicode__(), 'short_description': this_route.short_description, 'description': this_route.description, 'has_reference': has_reference, 'reference_html': reference_html, 'steps': these_steps, 'these_highlights': these_highlights, 'id': this_id}
     return render(request, 'frontulet/route_detail.html', context)
 
 
@@ -353,6 +353,58 @@ def edit_route_reference(request, route_id):
         args.update(csrf(request))
         this_route = Route.objects.get(pk=route_id)
         this_reference = Reference.objects.get(pk=this_route.reference.id)
+        if request.method == 'POST':
+            form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
+            args['form'] = form
+            if form.is_valid():
+                form.save()
+                if set_up_reference(this_reference):
+                    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}))
+                else:
+                    args['form'] = ReferenceForm()
+                    return render(request, 'frontulet/wrong_file_type.html', args)
+        else:
+            args['form'] = ReferenceForm(instance=this_reference)
+        return render(request, 'frontulet/edit_reference.html', args)
+    else:
+        return render(request, 'registration/no_permission_must_login.html')
+
+
+def make_new_highlight_reference(request, route_id, highlight_id):
+    if request.user.is_authenticated():
+        args = {}
+        args.update(csrf(request))
+
+        if request.method == 'POST':
+            this_reference = Reference()
+            this_reference.save()
+            this_highlight = Highlight.objects.get(pk=highlight_id)
+            this_highlight.reference = this_reference
+            this_highlight.save()
+            form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
+            args['form'] = form
+            if form.is_valid():
+                form.save()
+                if set_up_reference(this_reference):
+                    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}))
+                else:
+                    args['form'] = ReferenceForm()
+                    return render(request, 'frontulet/wrong_file_type.html', args)
+        else:
+            args['form'] = ReferenceForm()
+
+        return render(request, 'frontulet/create_reference.html', args)
+
+    else:
+        return render(request, 'registration/no_permission_must_login.html')
+
+
+def edit_highlight_reference(request, route_id, highlight_id):
+    if request.user.is_authenticated():
+        args = {}
+        args.update(csrf(request))
+        this_highlight = Highlight.objects.get(pk=highlight_id)
+        this_reference = Reference.objects.get(pk=this_highlight.reference.id)
         if request.method == 'POST':
             form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
             args['form'] = form

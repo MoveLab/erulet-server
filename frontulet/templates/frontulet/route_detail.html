@@ -3,7 +3,7 @@
 {% load leaflet_tags %}
 
 {% block language %}"ca"{% endblock %}
-{% block encoding %}<meta charset="iso-8859-3">{% endblock %}
+{% block encoding %}<meta http-equiv="Content-Type" content="text/html" />{% endblock %}
 
 {% block bootstrap_css %}
     {{ block.super }}
@@ -56,11 +56,11 @@
                 {% for highlight in step.highlights.all %}
 
 
-                    {% if highlight.type == 1 %}
+                    {% if highlight.0.type == 1 %}
 
                         wp_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: wp_icon}));
 
-                    {% elif highlight.type == 0 %}
+                    {% elif highlight.0.type == 0 %}
 
                         poi_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: poi_icon}));
 
@@ -115,7 +115,7 @@
             <p>{{ description }}</p>
 
             {% if has_reference %}
-                <button {# temporarily removing function until I fix encoding issue onclick="toggle_iframe('main_iframe_div');" #}type="button" class="btn btn-primary">View Detailed Reference</button>
+                <button onclick="toggle_iframe('main_ref_div');" type="button" class="btn btn-primary">View Detailed Reference</button>
                 {% if owner %}<a class="btn btn-default" href={% url 'edit_route_reference' id %}> <span
                         class="glyphicon glyphicon-upload"></span> Replace Detailed Reference</a>{% endif %}
             {% elif owner %}
@@ -128,11 +128,10 @@
 
         {% if has_reference %}
 
-            <div class='iframe_div' id='main_iframe_div'>
-                <iframe width=100% frameborder="0" scrolling="no" id="iframe" onload='javascript:resizeIframe(this);'
-                        name='ref_frame' src={{ reference_url }}></iframe>
-
-            </div>
+              <div class='ref_div' id='main_ref_div'>
+              {{ reference_html | safe }}
+              <br>
+              </div>
         {% endif %}
 
 
@@ -142,26 +141,51 @@
         {% for highlight in these_highlights %}
 
             <script>
-                eval("function map_init_highlight{{ highlight.id }}(map, options) {L.polyline(these_latlngs, {weight: 5, opacity: 1, color: 'black'}).addTo(map);L.polyline(these_latlngs, {weight: 2, opacity: 1, color: 'red'}).addTo(map);L.marker([{{ highlight.step.latitude }}, {{ highlight.step.longitude }}],{icon:{% if highlight.type == 0 %}poi_icon{% else %}wp_icon{% endif %}}).addTo(map);map.setView([{{ highlight.step.latitude }}, {{ highlight.step.longitude }}], 18)}");
+                eval("function map_init_highlight{{ highlight.0.id }}(map, options) {L.polyline(these_latlngs, {weight: 5, opacity: 1, color: 'black'}).addTo(map);L.polyline(these_latlngs, {weight: 2, opacity: 1, color: 'red'}).addTo(map);L.marker([{{ highlight.0.step.latitude }}, {{ highlight.0.step.longitude }}],{icon:{% if highlight.0.type == 0 %}poi_icon{% else %}wp_icon{% endif %}}).addTo(map);map.setView([{{ highlight.0.step.latitude }}, {{ highlight.0.step.longitude }}], 18)}");
             </script>
 
             <br>
             <div class="row">
 
                 <div class="col-md-4">
-                    <h3>{{ highlight.name }} {% if owner %}
-                        <a class="btn btn-default" href={% url "edit_highlight" id highlight.id %} role="button">
+                    <h3>{{ highlight.0.name }} {% if owner %}
+                        <a class="btn btn-default" href={% url "edit_highlight" id highlight.0.id %} role="button">
                         <span class="glyphicon glyphicon-pencil"></span> </a>{% endif %}</h3>
 
-                    <p>{{ highlight.long_text }}</p>
+                    <p>{{ highlight.0.long_text }}</p>
+
+
+                {% for ref in highlight.1 %}
+
+                <button onclick="toggle_iframe('ref_div{{ highlight.0.id }}');" type="button" class="btn btn-primary">View Detailed Reference</button>
+                {% if owner %}<a class="btn btn-default" href={% url 'edit_highlight_reference' id highlight.0.id %}> <span
+                        class="glyphicon glyphicon-upload"></span> Replace Detailed Reference</a>{% endif %}
+
+
+            <div class='ref_div' id='ref_div{{ highlight.0.id }}'>
+              {{ ref | safe }}
+              <br>
+              </div>
+
+
+                          {% endfor %}
+
+  <p>testing {{ highlight.1.length }}</p>
+
+                {% if owner %}<a class="btn btn-default" href={% url 'make_new_highlight_reference' id highlight.0.id %}> <span
+                        class="glyphicon glyphicon-upload"></span> Add Detailed Reference</a>{% endif %}
+
+
+
+
                 </div>
 
                 <div class="col-md-4">
-                    {% if highlight.image %}
-                        <a href={{ highlight.media.url }}><img width=100% src={{ highlight.media.url }}></a>
-                    {% elif highlight.media_ext == 'mp4' %}
+                    {% if highlight.0.image %}
+                        <a href={{ highlight.0.media.url }}><img width=100% src={{ highlight.0.media.url }}></a>
+                    {% elif highlight.0.media_ext == 'mp4' %}
                         <video width="100%" height="100%" controls>
-                            <source type="video/mp4" src={{ highlight.media.url }}>
+                            <source type="video/mp4" src={{ highlight.0.media.url }}>
                             Your browser does not support the video tag.
                         </video>
                     {% endif %}
@@ -169,7 +193,7 @@
                 </div>
 
                 <div class="col-md-4">
-                    <div id="highlight{{ highlight.id }}" class="highlight-container"></div>
+                    <div id="highlight{{ highlight.0.id }}" class="highlight-container"></div>
                 </div>
 
             </div>
@@ -204,8 +228,8 @@
                 L.Map.djangoMap('erulet_map', options);
 
                 {% for highlight in these_highlights %}
-                    L.Map.djangoMap('highlight{{ highlight.id }}', {djoptions: djoptions, initfunc: loadmap,
-                        globals: false, callback: eval("window.map_init_highlight{{ highlight.id }}")});
+                    L.Map.djangoMap('highlight{{ highlight.0.id }}', {djoptions: djoptions, initfunc: loadmap,
+                        globals: false, callback: eval("window.map_init_highlight{{ highlight.0.id }}")});
                 {% endfor %}
 
             }
@@ -222,7 +246,7 @@
 
     <script type="text/javascript">
 
-        $(".iframe_div").hide();
+        $(".ref_div").hide();
 
         var show = true;
 
