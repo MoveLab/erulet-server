@@ -3,7 +3,7 @@ import uuid
 import os
 import os.path
 from django.contrib.auth.models import User
-
+import string
 
 class Track(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
@@ -20,14 +20,13 @@ def make_media_uuid(path):
     def wrapper(instance, filename):
         extension = filename.split('.')[-1]
         filename = "%s.%s" % (uuid.uuid4(), extension)
-        return os.path.join(path, str(instance.id), filename)
+        new_path = os.path.join(path, str(instance.id))
+        return os.path.join(new_path, filename)
     return wrapper
 
 
 def make_reference_image_uuid(path):
     def wrapper(instance, filename):
-        extension = filename.split('.')[-1]
-        filename = "%s.%s" % (uuid.uuid4(), extension)
         return os.path.join(path, str(instance.highlight.id), filename)
     return wrapper
 
@@ -60,6 +59,15 @@ class Reference(models.Model):
         if self.name is not None and self.name != '':
             this_name = self.name
         return this_name
+
+    def find_reference_url(self):
+        temp = str.split(self.html_file.url, '/')
+        if len(temp) > 1:
+            temp.pop(-1)
+            temp.append('reference.html')
+        return string.join(temp, '/')
+
+    reference_url = property(find_reference_url)
 
 
 class ReferenceImage(models.Model):
@@ -107,7 +115,7 @@ class Highlight(models.Model):
     created_by = models.ForeignKey(User, blank=True, null=True, related_name='highlights')
     name = models.CharField(max_length=100, blank=True)
     long_text = models.CharField(max_length=2000, blank=True)
-    media = models.FileField(upload_to=make_media_uuid('erulet_highlights'), blank=True, null=True)
+    media = models.FileField(upload_to=make_media_uuid('erulet/highlights'), blank=True, null=True)
     radius = models.FloatField(blank=True, null=True)
     TYPE_CHOICES = ((0, 'point of interest'), (1, 'waypoint'),)
     type = models.IntegerField(choices=TYPE_CHOICES)

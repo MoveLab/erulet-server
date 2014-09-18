@@ -37,7 +37,7 @@ class ReferenceForm(forms.ModelForm):
         print uploaded_file.content_type
 
         content_type = uploaded_file.content_type
-        allowed_content_types = ['text/html']
+        allowed_content_types = ['text/html', 'application/octet-stream', '.zip',   'application/zip']
         if content_type in allowed_content_types:
             pass
         else:
