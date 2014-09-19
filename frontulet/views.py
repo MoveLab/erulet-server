@@ -422,3 +422,22 @@ def edit_highlight_reference(request, route_id, reference_id):
         return render(request, 'frontulet/edit_reference.html', args)
     else:
         return render(request, 'registration/no_permission_must_login.html')
+
+
+def edit_profile(request):
+    if request.user.is_authenticated():
+        args = {}
+        args.update(csrf(request))
+        this_user = request.user
+        if request.method == 'POST':
+            form = ProfileForm(request.POST, instance=this_user)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(reverse('show_profile'))
+
+        else:
+            args['form'] = ProfileForm()
+
+        return render(request, 'frontulet/edit_profile.html', args)
+    else:
+        return render(request, 'registration/no_permission_must_login.html')

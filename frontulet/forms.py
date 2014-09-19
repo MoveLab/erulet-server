@@ -5,6 +5,13 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 
 
+class ProfileForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+
 class HighlightForm(forms.ModelForm):
 
     class Meta:
@@ -38,7 +45,7 @@ class ReferenceForm(forms.ModelForm):
         if hasattr(uploaded_file, 'content_type'):
             print uploaded_file.content_type
             content_type = uploaded_file.content_type
-            allowed_content_types = ['text/html', 'application/octet-stream', '.zip',   'application/zip']
+            allowed_content_types = ['application/octet-stream', '.zip',   'application/zip']
             if content_type in allowed_content_types:
                 pass
             else:
