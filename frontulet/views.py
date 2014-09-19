@@ -72,11 +72,13 @@ def show_route_detail(request, id):
     if Route.objects.filter(pk=this_id):
         this_route = Route.objects.get(pk=this_id)
         has_reference = this_route.reference is not None
-        reference_html_raw = this_route.reference.reference_html
-        reference_html = reference_html_raw.replace('src="', 'src="'+this_route.reference.reference_url_base+'/')
+        reference_html = ''
+        if has_reference:
+            reference_html_raw = this_route.reference.reference_html
+            reference_html = reference_html_raw.replace('src="', 'src="'+this_route.reference.reference_url_base+'/')
         owner = request.user == this_route.created_by
         these_steps = this_route.track.steps.all().order_by('order')
-        these_highlights = [[highlight, [reference.reference_html for reference in highlight.references.all()]] for highlight in Highlight.objects.all() if highlight.step in these_steps]
+        these_highlights = [[highlight, [[reference, reference.reference_html.replace('src="', 'src="'+reference.reference_url_base+'/').split('</head>')[-1].split('</html>')[0]] for reference in highlight.references.all()]] for highlight in Highlight.objects.all() if highlight.step in these_steps]
         these_highlights.sort(key=lambda x: x[0].order)
         context = {'owner': owner, 'name': this_route.__unicode__(), 'short_description': this_route.short_description, 'description': this_route.description, 'has_reference': has_reference, 'reference_html': reference_html, 'steps': these_steps, 'these_highlights': these_highlights, 'id': this_id}
     return render(request, 'frontulet/route_detail.html', context)
@@ -376,11 +378,10 @@ def make_new_highlight_reference(request, route_id, highlight_id):
         args.update(csrf(request))
 
         if request.method == 'POST':
-            this_reference = Reference()
-            this_reference.save()
             this_highlight = Highlight.objects.get(pk=highlight_id)
-            this_highlight.reference = this_reference
-            this_highlight.save()
+            this_reference = Reference()
+            this_reference.highlight = this_highlight
+            this_reference.save()
             form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
             args['form'] = form
             if form.is_valid():
@@ -390,6 +391,8 @@ def make_new_highlight_reference(request, route_id, highlight_id):
                 else:
                     args['form'] = ReferenceForm()
                     return render(request, 'frontulet/wrong_file_type.html', args)
+            else:
+                this_reference.delete()
         else:
             args['form'] = ReferenceForm()
 
@@ -399,12 +402,11 @@ def make_new_highlight_reference(request, route_id, highlight_id):
         return render(request, 'registration/no_permission_must_login.html')
 
 
-def edit_highlight_reference(request, route_id, highlight_id):
+def edit_highlight_reference(request, route_id, reference_id):
     if request.user.is_authenticated():
         args = {}
         args.update(csrf(request))
-        this_highlight = Highlight.objects.get(pk=highlight_id)
-        this_reference = Reference.objects.get(pk=this_highlight.reference.id)
+        this_reference = Reference.objects.get(pk=reference_id)
         if request.method == 'POST':
             form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
             args['form'] = form

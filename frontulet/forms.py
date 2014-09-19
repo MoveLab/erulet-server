@@ -13,17 +13,18 @@ class HighlightForm(forms.ModelForm):
 
     def clean_media_file(self):
         uploaded_file = self.cleaned_data['media']
-        print uploaded_file.content_type
+        if hasattr(uploaded_file, 'content_type'):
+            print uploaded_file.content_type
+            content_type = uploaded_file.content_type
+            allowed_content_types = ['image', 'video']
+            if content_type in allowed_content_types:
+                pass
 
-        content_type = uploaded_file.content_type
-        allowed_content_types = ['image', 'video']
-        if content_type in allowed_content_types:
-            pass
-
+            else:
+                raise forms.ValidationError(_('Filetype not supported.'))
+            return uploaded_file
         else:
-            raise forms.ValidationError(_('Filetype not supported.'))
-
-        return uploaded_file
+            raise forms.ValidationError(_('No file selected.'))
 
 
 class ReferenceForm(forms.ModelForm):
@@ -34,16 +35,17 @@ class ReferenceForm(forms.ModelForm):
 
     def clean_html_file(self):
         uploaded_file = self.cleaned_data['html_file']
-        print uploaded_file.content_type
-
-        content_type = uploaded_file.content_type
-        allowed_content_types = ['text/html', 'application/octet-stream', '.zip',   'application/zip']
-        if content_type in allowed_content_types:
-            pass
+        if hasattr(uploaded_file, 'content_type'):
+            print uploaded_file.content_type
+            content_type = uploaded_file.content_type
+            allowed_content_types = ['text/html', 'application/octet-stream', '.zip',   'application/zip']
+            if content_type in allowed_content_types:
+                pass
+            else:
+                raise forms.ValidationError(_('Filetype not supported.'))
+            return uploaded_file
         else:
-            raise forms.ValidationError(_('Filetype not supported.'))
-
-        return uploaded_file
+            raise forms.ValidationError(_('No file selected.'))
 
 
 class RouteForm(forms.ModelForm):

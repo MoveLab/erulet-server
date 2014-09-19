@@ -110,14 +110,14 @@
         <div class="page-header">
             <h1>{{ name }}
                 <small>{{ short_description }} </small>
-                {% if owner %}<a class="btn btn-default" href={% url "edit_route" id %} role="button">
-                    <span class="glyphicon glyphicon-pencil"></span> </a>{% endif %}</h1>
+                {% if owner %}<a class="btn btn-default btn-sm" href={% url "edit_route" id %} role="button">
+                    <span class="glyphicon glyphicon-edit"></span> </a>{% endif %}</h1>
             <p>{{ description }}</p>
 
             {% if has_reference %}
                 <button onclick="toggle_iframe('main_ref_div');" type="button" class="btn btn-primary">View Detailed Reference</button>
                 {% if owner %}<a class="btn btn-default" href={% url 'edit_route_reference' id %}> <span
-                        class="glyphicon glyphicon-upload"></span> Replace Detailed Reference</a>{% endif %}
+                        class="glyphicon glyphicon-edit"></span> Replace Detailed Reference</a>{% endif %}
             {% elif owner %}
                 {% if owner %}<a class="btn btn-default" href={% url 'make_new_route_reference' id %}> <span
                         class="glyphicon glyphicon-upload"></span> Add Detailed Reference</a>{% endif %}
@@ -149,34 +149,10 @@
 
                 <div class="col-md-4">
                     <h3>{{ highlight.0.name }} {% if owner %}
-                        <a class="btn btn-default" href={% url "edit_highlight" id highlight.0.id %} role="button">
-                        <span class="glyphicon glyphicon-pencil"></span> </a>{% endif %}</h3>
+                        <a class="btn btn-default btn-sm" href={% url "edit_highlight" id highlight.0.id %} role="button">
+                        <span class="glyphicon glyphicon-edit"></span> </a>{% endif %}</h3>
 
                     <p>{{ highlight.0.long_text }}</p>
-
-
-                {% for ref in highlight.1 %}
-
-                <button onclick="toggle_iframe('ref_div{{ highlight.0.id }}');" type="button" class="btn btn-primary">View Detailed Reference</button>
-                {% if owner %}<a class="btn btn-default" href={% url 'edit_highlight_reference' id highlight.0.id %}> <span
-                        class="glyphicon glyphicon-upload"></span> Replace Detailed Reference</a>{% endif %}
-
-
-            <div class='ref_div' id='ref_div{{ highlight.0.id }}'>
-              {{ ref | safe }}
-              <br>
-              </div>
-
-
-                          {% endfor %}
-
-  <p>testing {{ highlight.1.length }}</p>
-
-                {% if owner %}<a class="btn btn-default" href={% url 'make_new_highlight_reference' id highlight.0.id %}> <span
-                        class="glyphicon glyphicon-upload"></span> Add Detailed Reference</a>{% endif %}
-
-
-
 
                 </div>
 
@@ -197,7 +173,30 @@
                 </div>
 
             </div>
-            <br>
+
+
+{% for ref in highlight.1 %}
+<div class="row">
+
+    <button onclick="toggle_iframe('ref_div{{ ref.0.id }}');" type="button" class="btn btn-primary"> <span class="glyphicon glyphicon-chevron-down"></span> View Detailed Reference{% if highlight.1|length > 1 %}: {{ ref.0.name }}{% endif %}
+</button>
+
+{% if owner %}<a class="btn btn-default" href={% url 'edit_highlight_reference' id ref.0.id %}> <span class="glyphicon glyphicon-edit"></span> Replace Detailed Reference</a>{% endif %}
+
+</div>
+
+<div class="row">
+<div class='ref_div' id='ref_div{{ ref.0.id }}'>
+              {{ ref.1 | safe }}
+</div>
+</div>
+<br>
+{% endfor %}
+
+{% if owner %}<a class="btn btn-default" href={% url 'make_new_highlight_reference' id highlight.0.id %}> <span class="glyphicon glyphicon-upload"></span> Add Detailed Reference</a>{% endif %}
+
+            <br><br>
+            <div class="border-row"></div>
         {% endfor %}
 
     </div>

@@ -2,5 +2,6 @@
 {% load staticfiles %}
 
      {% block title %}
-         <h1>New Reference <small>Create a new reference from an HTML file or from a ZIP file that contains an HTML file along with CSS, JPG, PNG, GIF, and/or MP4 files.</small></h1>
+         <h1>New Reference <small>Create a new reference from a ZIP file.</small></h1>
+         <p>To create a new reference, use this form to upload a ZIP file that contains an HTML file along with all linked CSS, JPG, PNG, GIF, and/or MP4 files (no other file types are allowed). Make sure the links in the HTML file use relative paths (e.g. src="poi.png" not src="http://erulet.com/poi.png) unless they are links to resources that are hosted on another server (in which case use the absolute path to that server (e.g. src="http://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Agapanthia_pustulifera_copulation_1.jpg/500px-Agapanthia_pustulifera_copulation_1.jpg"). Note that it is not necessary to include linked CSS. If no CSS file is included, the server will create one, which will be used when the reference is displayed in the Erulet mobile apps. (When the reference is displayed on this website, it will use unique CSS to match the website's formatting, regardless of whether you include your own CSS file with it.)</p>
      {% endblock %}
