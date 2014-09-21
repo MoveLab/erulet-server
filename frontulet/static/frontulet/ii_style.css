@@ -1,0 +1,15 @@
+#canvas{
+    cursor: crosshair;
+}
+
+#id_min_x, #id_min_y, #id_max_x, #id_max_y, label[for=id_min_x], label[for=id_min_y], label[for=id_max_x], label[for=id_max_y]{
+    display: none;
+}
+
+#id_message{
+    width:100%;
+}
+
+
+
+

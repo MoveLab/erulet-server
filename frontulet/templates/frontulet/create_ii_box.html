@@ -1,0 +1,103 @@
+{% extends "frontulet/form_base.html" %}
+{% load staticfiles %}
+
+{% block head_additions %}
+
+{{ block.super }}
+
+    <link rel="stylesheet" href={% static "frontulet/ii_style.css" %}>
+
+{% endblock %}
+
+{% block main_body %}
+
+    <div class="container-fluid">
+
+            <div id="page_title" class="page-header">
+            {% block title %}<h1>Add interaction box <small>Drag mouse over photo to set coordinates, then add a message.</small></h1>{% endblock %}
+</div>
+
+
+    <div class="row">
+          <div class="col-md-8">
+<img id="photo" src={% static "frontulet/photos/1-garona.jpg" %} style="position:absolute;max-width:100%">
+    <canvas id="canvas" style="border:solid; position:absolute"></canvas>
+</div>
+              <div class="col-md-4">
+
+            <form role="form" method="post" action="#">{% csrf_token %}
+            {{ form.as_p }}
+            <input id="submit_button" type="submit" value="Save and add more"/>
+            <input id="cancel_button" type="button" value="Cancel"/>
+
+            </form>
+
+</div>
+    </div>
+</div>
+{% endblock %}
+
+
+{% block body_scripts %}
+
+    {{ block.super }}
+
+<script>
+var canvas = document.getElementById('canvas'),
+    ctx = canvas.getContext('2d'),
+    rect = {},
+    drag = false;
+
+var this_photo = document.getElementById("photo");
+
+ctx.canvas.height = this_photo.clientHeight;
+
+ctx.canvas.width = this_photo.clientWidth;
+
+function init() {
+  canvas.addEventListener('mousedown', mouseDown, false);
+  canvas.addEventListener('mouseup', mouseUp, false);
+  canvas.addEventListener('mousemove', mouseMove, false);
+}
+
+function mouseDown(e) {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  rect.startX = e.pageX - (this.offsetLeft);
+  rect.startY = e.pageY - (this.offsetTop + this.offsetParent.offsetTop);
+  drag = true;
+}
+
+function mouseUp() {
+  drag = false;
+}
+
+function mouseMove(e) {
+  if (drag) {
+    rect.w = (e.pageX - this.offsetLeft) - rect.startX;
+    rect.h = (e.pageY - (this.offsetTop + this.offsetParent.offsetTop)) - rect.startY;
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    draw();
+    var x1 = rect.startX, x2 = rect.startX + rect.w, y1 = rect.startY, y2 = rect.startY + rect.h;
+    $("#id_min_x").val(Math.min(x1, x2).toString());
+    $("#id_max_x").val(Math.max(x1, x2).toString());
+    $("#id_min_y").val(Math.min(y1, y2).toString());
+    $("#id_max_y").val(Math.max(y1, y2).toString());
+
+  }
+}
+
+function draw() {
+  ctx.fillStyle='rgba(255, 0, 0, .5)';
+  ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
+
+}
+
+init();
+
+
+
+
+</script>
+
+{% endblock %}
+

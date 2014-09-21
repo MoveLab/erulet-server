@@ -11,6 +11,7 @@ from appulet.models import *
 from frontulet.forms import *
 import zipfile, shutil
 from django.conf import settings
+from PIL import Image
 
 
 def show_landing_page(request):
@@ -78,7 +79,7 @@ def show_route_detail(request, id):
             reference_html = reference_html_raw.replace('src="', 'src="'+this_route.reference.reference_url_base+'/')
         owner = request.user == this_route.created_by
         these_steps = this_route.track.steps.all().order_by('order')
-        these_highlights = [[highlight, [[reference, reference.reference_html.replace('src="', 'src="'+reference.reference_url_base+'/').split('</head>')[-1].split('</html>')[0]] for reference in highlight.references.all()]] for highlight in Highlight.objects.all() if highlight.step in these_steps]
+        these_highlights = [[highlight, [[reference, reference.reference_html.replace('src="', 'src="'+reference.reference_url_base+'/').split('</head>')[-1].split('</html>')[0]] for reference in highlight.references.all()], [ii for ii in highlight.interactive_images.all()]] for highlight in Highlight.objects.all() if highlight.step in these_steps]
         these_highlights.sort(key=lambda x: x[0].order)
         context = {'owner': owner, 'name': this_route.__unicode__(), 'short_description': this_route.short_description, 'description': this_route.description, 'has_reference': has_reference, 'reference_html': reference_html, 'steps': these_steps, 'these_highlights': these_highlights, 'id': this_id}
     return render(request, 'frontulet/route_detail.html', context)
@@ -436,8 +437,81 @@ def edit_profile(request):
                 return HttpResponseRedirect(reverse('show_profile'))
 
         else:
-            args['form'] = ProfileForm()
+            args['form'] = ProfileForm(instance=this_user)
 
         return render(request, 'frontulet/edit_profile.html', args)
     else:
         return render(request, 'registration/no_permission_must_login.html')
+
+
+def create_ii(request, highlight_id):
+    if request.user.is_authenticated():
+        args = {}
+        args.update(csrf(request))
+        this_ii = InteractiveImage()
+        this_highlight = Highlight.objects.get(id=highlight_id)
+        this_ii.highlight = this_highlight
+        if request.method == 'POST':
+            form = InteractiveImageForm(request.POST, instance=this_ii)
+            if form.is_valid():
+                form.save()
+                im = Image.open(this_ii.image_file.path)
+                this_ii.original_width = im.size[0]
+                this_ii.original_height = im.size[1]
+                this_ii.save()
+                return HttpResponseRedirect(reverse('create_ii_box', kwargs={'ii_id': this_ii.id}))
+
+        else:
+            args['form'] = InteractiveImageForm(instance=this_ii)
+
+        return render(request, 'frontulet/create_ii.html', args)
+    else:
+        return render(request, 'registration/no_permission_must_login.html')
+
+
+def edit_ii(request, ii_id):
+    if request.user.is_authenticated():
+        args = {}
+        args.update(csrf(request))
+        this_ii = InteractiveImage.objects.get(id=ii_id)
+        if request.method == 'POST':
+            form = InteractiveImageForm(request.POST, instance=this_ii)
+            if form.is_valid():
+                form.save()
+                im = Image.open(this_ii.image_file.path)
+                this_ii.original_width = im.size[0]
+                this_ii.original_height = im.size[1]
+                this_ii.save()
+                # clear all boxes from old ii
+                for box in this_ii.boxes:
+                    box.delete()
+                return HttpResponseRedirect(reverse('create_ii_box', kwargs={'ii_id': this_ii.id}))
+
+        else:
+            args['form'] = InteractiveImageForm(instance=this_ii)
+
+        return render(request, 'frontulet/create_ii.html', args)
+    else:
+        return render(request, 'registration/no_permission_must_login.html')
+
+
+def create_ii_box(request, ii_id):
+    if request.user.is_authenticated():
+        args = {}
+        args.update(csrf(request))
+        this_ii = InteractiveImage.objects.get(id=ii_id)
+        this_box = Box()
+        this_box.interactive_image = this_ii
+        if request.method == 'POST':
+            form = BoxForm(request.POST, instance=this_box)
+            if form.is_valid():
+                form.save()
+                return HttpResponseRedirect(reverse('create_ii_box', kwargs={'ii_id': this_ii.id}))
+
+        else:
+            args['form'] = BoxForm(instance=this_box)
+
+        return render(request, 'frontulet/create_ii_box.html', args)
+    else:
+        return render(request, 'registration/no_permission_must_login.html')
+

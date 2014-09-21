@@ -20,3 +20,11 @@ body {
 label{
     vertical-align: top;
 }
+
+#id_email {
+width: 200px;
+}
+
+#id_name, #id_short_description, #id_description, #id_long_text {
+width: 100%;
+}

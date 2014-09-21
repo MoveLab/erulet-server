@@ -1,8 +1,22 @@
 from django import forms
-from appulet.models import Route, Highlight, Reference
+from appulet.models import Route, Highlight, Reference, Box, InteractiveImage
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+
+
+class InteractiveImageForm(forms.ModelForm):
+
+    class Meta:
+        model = InteractiveImage
+        fields = ['image_file']
+
+
+class BoxForm(forms.ModelForm):
+
+    class Meta:
+        model = Box
+        fields = ['max_y', 'max_x', 'min_y', 'min_x', 'message']
 
 
 class ProfileForm(forms.ModelForm):
