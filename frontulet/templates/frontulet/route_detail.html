@@ -195,12 +195,6 @@
 
 {% if owner %}<a class="btn btn-default" href={% url 'make_new_highlight_reference' id highlight.0.id %}> <span class="glyphicon glyphicon-upload"></span> Add Detailed Reference</a>{% endif %}
 
-            <br><br>
-            <div class="border-row"></div>
-        {% endfor %}
-
-    </div>
-
 
     {% for ii in highlight.2 %}
 <div class="row">
@@ -221,6 +215,14 @@
 {% endfor %}
 
 {% if owner %}<a class="btn btn-default" href={% url 'create_ii' highlight.0.id %}> <span class="glyphicon glyphicon-upload"></span> Add Interactive Image</a>{% endif %}
+
+            <br><br>
+            <div class="border-row"></div>
+
+
+        {% endfor %}
+
+    </div>
 
 
 {% endblock %}

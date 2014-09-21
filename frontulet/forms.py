@@ -11,6 +11,22 @@ class InteractiveImageForm(forms.ModelForm):
         model = InteractiveImage
         fields = ['image_file']
 
+    def clean_image_file(self):
+        uploaded_file = self.cleaned_data['image_file']
+        if hasattr(uploaded_file, 'content_type'):
+            print uploaded_file.content_type
+            content_type = uploaded_file.content_type
+            allowed_content_types = ['image']
+            if content_type in allowed_content_types:
+                pass
+
+            else:
+                raise forms.ValidationError(_('Filetype not supported.'))
+            return uploaded_file
+        else:
+            raise forms.ValidationError(_('No file selected.'))
+
+
 
 class BoxForm(forms.ModelForm):
 

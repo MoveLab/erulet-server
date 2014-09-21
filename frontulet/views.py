@@ -452,7 +452,7 @@ def create_ii(request, highlight_id):
         this_highlight = Highlight.objects.get(id=highlight_id)
         this_ii.highlight = this_highlight
         if request.method == 'POST':
-            form = InteractiveImageForm(request.POST, instance=this_ii)
+            form = InteractiveImageForm(request.POST, request.FILES, instance=this_ii)
             if form.is_valid():
                 form.save()
                 im = Image.open(this_ii.image_file.path)
@@ -460,6 +460,9 @@ def create_ii(request, highlight_id):
                 this_ii.original_height = im.size[1]
                 this_ii.save()
                 return HttpResponseRedirect(reverse('create_ii_box', kwargs={'ii_id': this_ii.id}))
+            else:
+                args['form'] = InteractiveImageForm()
+                return render(request, 'frontulet/wrong_file_type_ii.html', args)
 
         else:
             args['form'] = InteractiveImageForm(instance=this_ii)
