@@ -9,14 +9,14 @@ class InteractiveImageForm(forms.ModelForm):
 
     class Meta:
         model = InteractiveImage
-        fields = ['image_file']
+        fields = ['uuid', 'image_file']
 
     def clean_image_file(self):
         uploaded_file = self.cleaned_data['image_file']
         if hasattr(uploaded_file, 'content_type'):
             print uploaded_file.content_type
             content_type = uploaded_file.content_type
-            allowed_content_types = ['image']
+            allowed_content_types = ['image/jpeg', 'image/jpg', 'image/png']
             if content_type in allowed_content_types:
                 pass
 
@@ -27,12 +27,11 @@ class InteractiveImageForm(forms.ModelForm):
             raise forms.ValidationError(_('No file selected.'))
 
 
-
 class BoxForm(forms.ModelForm):
 
     class Meta:
         model = Box
-        fields = ['max_y', 'max_x', 'min_y', 'min_x', 'message']
+        fields = ['max_y', 'max_x', 'min_y', 'min_x', 'message_oc', 'message_es', 'message_ca', 'message_fr', 'message_en']
 
 
 class ProfileForm(forms.ModelForm):
@@ -46,14 +45,14 @@ class HighlightForm(forms.ModelForm):
 
     class Meta:
         model = Highlight
-        fields = ['name', 'long_text', 'type', 'media']
+        fields = ['name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'type', 'media']
 
-    def clean_media_file(self):
+    def clean_media(self):
         uploaded_file = self.cleaned_data['media']
         if hasattr(uploaded_file, 'content_type'):
             print uploaded_file.content_type
             content_type = uploaded_file.content_type
-            allowed_content_types = ['image', 'video']
+            allowed_content_types = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif', 'video/mp4', 'video/mebm', 'video/ogg']
             if content_type in allowed_content_types:
                 pass
 
@@ -68,7 +67,7 @@ class ReferenceForm(forms.ModelForm):
 
     class Meta:
         model = Reference
-        fields = ['name', 'html_file']
+        fields = ['name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'html_file']
 
     def clean_html_file(self):
         uploaded_file = self.cleaned_data['html_file']
@@ -89,7 +88,7 @@ class RouteForm(forms.ModelForm):
 
     class Meta:
         model = Route
-        fields = ['name', 'short_description', 'description', 'gpx_track', 'gpx_waypoints', 'gpx_pois']
+        fields = ['name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'gpx_track', 'gpx_waypoints', 'gpx_pois']
 
     def clean_gpx_file(self):
         uploaded_file = self.cleaned_data['gpx_track']
@@ -111,7 +110,7 @@ class OfficialRouteForm(forms.ModelForm):
 
     class Meta:
         model = Route
-        fields = ['official', 'name', 'short_description', 'description', 'gpx_track', 'gpx_waypoints', 'gpx_pois']
+        fields = ['official', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en',  'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'gpx_track', 'gpx_waypoints', 'gpx_pois']
 
     def clean_gpx_file(self):
         uploaded_file = self.cleaned_data['gpx_track']

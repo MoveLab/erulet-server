@@ -98,8 +98,10 @@ USE_L10N = False
 USE_TZ = True
 
 LANGUAGES = (
+    ('oc', _('Aranese')),
     ('es', _('Spanish')),
     ('ca', _('Catalan')),
+    ('fr', _('Frensh')),
     ('en', _('English')),
 )
 

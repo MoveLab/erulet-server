@@ -90,15 +90,14 @@ with with _media_ used as the form key for the file itself.
 * media: The media file's binary data
 * id: The id of the highlight.
 * created_by: The user id who created this highlight.
-* name: The name of the highlight.
-* long_text: Text that should be displayed with the highlight.
+* name_x: The name of the highlight in language specified by language code x where x = oc, es, ca, fr, or en.
+* long_text_x: Text that should be displayed with the highlight in language specified by language code x where x = oc, es, ca, fr, or en..
 * radius: Radius, in meters on the ground, that the highlight covers.
 * type: Type of highlight.
 
     """
     if request.method == 'POST':
-        instance = Highlight(media=request.FILES['media'], id=request.DATA['id'], created_by=request.DATA['created_by'],
-                             name=request.DATA['name'], long_text=request.DATA['long_text'], radius=request.DATA['radius'], type=request.DATA['type'])
+        instance = Highlight(media=request.FILES['media'], id=request.DATA['id'], created_by=request.DATA['created_by'], name_oc=request.DATA['name_oc'], name_es=request.DATA['name_es'], name_ca=request.DATA['name_ca'], name_fr=request.DATA['name_fr'], name_en=request.DATA['name_en'], long_text_oc=request.DATA['long_text_oc'], long_text_es=request.DATA['long_text_es'], long_text_ca=request.DATA['long_text_ca'], long_text_fr=request.DATA['long_text_fr'], long_text_en=request.DATA['long_text_en'], radius=request.DATA['radius'], type=request.DATA['type'])
         instance.save()
         return Response('uploaded')
 

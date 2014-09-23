@@ -65,8 +65,8 @@
                                         <li><a href={% url 'show_route_list' 'others' %}>Other Hikers' Routes</a></li>
                                     {% endif %}
                                     <li><a href={% url 'show_route_list' 'official' %}>Official Routes</a></li>
-                                    <li class="divider"></li>
                                     {% if request.user.is_authenticated %}
+                                    <li class="divider"></li>
                                     <li><a href={% url "make_new_route" %}>Add new route</a></li>
                                     {% endif %}
                                 </ul>

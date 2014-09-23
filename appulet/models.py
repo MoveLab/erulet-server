@@ -6,17 +6,32 @@ from django.contrib.auth.models import User
 import string
 from django.conf import settings
 import codecs
+from PIL import Image
 
 
 class Track(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
-    name = models.CharField(max_length=200)
+    name_oc = models.CharField(max_length=200, blank=True)
+    name_es = models.CharField(max_length=200, blank=True)
+    name_ca = models.CharField(max_length=200, blank=True)
+    name_fr = models.CharField(max_length=200, blank=True)
+    name_en = models.CharField(max_length=200, blank=True)
 
     def __unicode__(self):
-        this_name = 'unnamed track'
-        if self.name is not None and self.name != '':
-            this_name = self.name
-        return this_name
+        names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
+        for name in names:
+            if name is not None:
+                return name
+        return str(self.id)
+
+    def get_name(self, lang='oc'):
+        lang_names_dict = {'oc': self.name_oc, 'es': self.name_es, 'ca': self.name_ca, 'fr': self.name_fr, 'en': self.name_en}
+        if lang_names_dict[lang] is not None:
+            return lang_names_dict[lang]
+        for name in lang_names_dict.values():
+            if name is not None:
+                return name
+        return str(self.id)
 
 
 def make_media_uuid(path):
@@ -45,23 +60,39 @@ class Step(models.Model):
     precision = models.FloatField(blank=True, null=True)
 
     def __unicode__(self):
-        this_name = 'step ' + str(self.id)
-        if self.track is not None:
-            this_name += ' of route ' + self.track.route.name
-        return this_name
+        return str(uuid)
+
+
+def filenamei18(base, lang='oc'):
+    bs = base.split('.')
+    return bs[0] + '_' + lang + '.' + bs[1]
 
 
 class Reference(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
-    name = models.CharField(max_length=200, default='unnamed reference')
+    name_oc = models.CharField(max_length=200, blank=True)
+    name_es = models.CharField(max_length=200, blank=True)
+    name_ca = models.CharField(max_length=200, blank=True)
+    name_fr = models.CharField(max_length=200, blank=True)
+    name_en = models.CharField(max_length=200, blank=True)
     html_file = models.FileField('ZIP file', upload_to=make_media_uuid('erulet/references'))
-    highlight = models.ForeignKey('Highlight', blank=True, null=True,related_name='references')
+    highlight = models.ForeignKey('Highlight', blank=True, null=True, related_name='references')
 
     def __unicode__(self):
-        this_name = 'unnamed reference'
-        if self.name is not None and self.name != '':
-            this_name = self.name
-        return this_name
+        names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
+        for name in names:
+            if name is not None:
+                return name
+        return str(self.id)
+
+    def get_name(self, lang='oc'):
+        lang_names_dict = {'oc': self.name_oc, 'es': self.name_es, 'ca': self.name_ca, 'fr': self.name_fr, 'en': self.name_en}
+        if lang_names_dict[lang] is not None:
+            return lang_names_dict[lang]
+        for name in lang_names_dict.values():
+            if name is not None:
+                return name
+        return str(self.id)
 
     def find_reference_url(self):
         temp = str.split(self.html_file.url, '/')
@@ -76,15 +107,21 @@ class Reference(models.Model):
             temp.pop(-1)
         return settings.CURRENT_DOMAIN + string.join(temp, '/')
 
-    def find_reference_path(self):
+    def find_reference_path(self, lang='oc'):
         if self.html_file.name:
-            return os.path.join(os.path.dirname(self.html_file.path), 'reference.html')
-        else:
-            return ''
+            this_filename = filenamei18('reference.html', lang)
+            if os.path.isfile(os.path.join(os.path.dirname(self.html_file.path), this_filename)):
+                return os.path.join(os.path.dirname(self.html_file.path), this_filename)
+            else:
+                for l in filter(lambda x: x != lang, settings.LANGUAGES):
+                    this_filename = filenamei18('reference.html', l[0])
+                    if os.path.isfile(os.path.join(os.path.dirname(self.html_file.path), this_filename)):
+                        return os.path.join(os.path.dirname(self.html_file.path), this_filename)
+                return None
 
-    def get_reference_html(self):
+    def get_reference_html(self, lang='oc'):
         reference_html_raw = ''
-        if os.path.isfile(self.find_reference_path()):
+        if os.path.isfile(self.find_reference_path(lang)):
             ref_file = codecs.open(self.find_reference_path(), 'r', 'iso-8859-1')
             reference_html_raw = ref_file.read()
             ref_file.close()
@@ -92,8 +129,6 @@ class Reference(models.Model):
 
     reference_url = property(find_reference_url)
     reference_url_base = property(find_reference_url_base)
-    reference_path = property(find_reference_path)
-    reference_html = property(get_reference_html)
 
 
 class ReferenceImage(models.Model):
@@ -117,10 +152,22 @@ class Route(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
     id_route_based_on = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name='routes')
-    description = models.TextField(blank=True)
-    short_description = models.CharField(max_length=100, blank=True)
+    description_oc = models.TextField(blank=True)
+    description_es = models.TextField(blank=True)
+    description_ca = models.TextField(blank=True)
+    description_fr = models.TextField(blank=True)
+    description_en = models.TextField(blank=True)
+    short_description_oc = models.CharField(max_length=100, blank=True)
+    short_description_es = models.CharField(max_length=100, blank=True)
+    short_description_ca = models.CharField(max_length=100, blank=True)
+    short_description_fr = models.CharField(max_length=100, blank=True)
+    short_description_en = models.CharField(max_length=100, blank=True)
     local_carto = models.FileField(upload_to=make_media_uuid('erulet/carto'), blank=True, null=True)
-    name = models.CharField(max_length=200)
+    name_oc = models.CharField(max_length=200)
+    name_es = models.CharField(max_length=200)
+    name_ca = models.CharField(max_length=200)
+    name_fr = models.CharField(max_length=200)
+    name_en = models.CharField(max_length=200)
     reference = models.OneToOneField(Reference, blank=True, null=True)
     track = models.OneToOneField(Track, blank=True, null=True)
     upload_time = models.DateTimeField(blank=True, null=True)
@@ -130,17 +177,53 @@ class Route(models.Model):
     official = models.BooleanField("Official Route", default=False)
 
     def __unicode__(self):
-        this_name = 'unnamed route'
-        if self.name is not None and self.name != '':
-            this_name = self.name
-        return this_name
+        names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
+        for name in names:
+            if name is not None:
+                return name
+        return str(self.id)
+
+    def get_name(self, lang='oc'):
+        lang_names_dict = {'oc': self.name_oc, 'es': self.name_es, 'ca': self.name_ca, 'fr': self.name_fr, 'en': self.name_en}
+        if lang_names_dict[lang] is not None:
+            return lang_names_dict[lang]
+        for name in lang_names_dict.values():
+            if name is not None:
+                return name
+        return str(self.id)
+
+    def get_description(self, lang='oc'):
+        lang_description_dict = {'oc': self.description_oc, 'es': self.description_es, 'ca': self.description_ca, 'fr': self.description_fr, 'en': self.description_en}
+        if lang_description_dict[lang] is not None:
+            return lang_description_dict[lang]
+        for x in lang_description_dict.values():
+            if x is not None:
+                return x
+        return None
+
+    def get_short_description(self, lang='oc'):
+        lang_short_description_dict = {'oc': self.short_description_oc, 'es': self.short_description_es, 'ca': self.short_description_ca, 'fr': self.short_description_fr, 'en': self.short_description_en}
+        if lang_short_description_dict[lang] is not None:
+            return lang_short_description_dict[lang]
+        for x in lang_short_description_dict.values():
+            if x is not None:
+                return x
+        return None
 
 
 class Highlight(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name='highlights')
-    name = models.CharField(max_length=100, blank=True)
-    long_text = models.CharField(max_length=2000, blank=True)
+    name_oc = models.CharField(max_length=100, blank=True)
+    name_es = models.CharField(max_length=100, blank=True)
+    name_ca = models.CharField(max_length=100, blank=True)
+    name_fr = models.CharField(max_length=100, blank=True)
+    name_en = models.CharField(max_length=100, blank=True)
+    long_text_oc = models.CharField(max_length=2000, blank=True)
+    long_text_es = models.CharField(max_length=2000, blank=True)
+    long_text_ca = models.CharField(max_length=2000, blank=True)
+    long_text_fr = models.CharField(max_length=2000, blank=True)
+    long_text_en = models.CharField(max_length=2000, blank=True)
     media = models.FileField(upload_to=make_media_uuid('erulet/highlights'), blank=True, null=True)
     radius = models.FloatField(blank=True, null=True)
     TYPE_CHOICES = ((0, 'point of interest'), (1, 'waypoint'),)
@@ -149,47 +232,78 @@ class Highlight(models.Model):
     order = models.IntegerField(blank=True, null=True)
 
     def __unicode__(self):
-        this_name = 'unnamed highlight'
-        if self.name is not None and self.name != '':
-            this_name = self.name
-        return this_name
+        names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
+        for name in names:
+            if name is not None:
+                return name
+        return str(self.id)
 
-    def test_image(self):
-        if self.media is not None:
-            image_extensions = ['jpg', 'png', 'gif', 'tif']
-            ext = self.media.name.split('.')[-1]
-            return ext in image_extensions
-        else:
-            return False
+    def get_name(self, lang='oc'):
+        lang_names_dict = {'oc': self.name_oc, 'es': self.name_es, 'ca': self.name_ca, 'fr': self.name_fr, 'en': self.name_en}
+        if lang_names_dict[lang] is not None:
+            return lang_names_dict[lang]
+        for name in lang_names_dict.values():
+            if name is not None:
+                return name
+        return str(self.id)
+
+    def get_long_text(self, lang='oc'):
+        lang_long_text_dict = {'oc': self.long_text_oc, 'es': self.long_text_es, 'ca': self.long_text_ca, 'fr': self.long_text_fr, 'en': self.long_text_en}
+        if lang_long_text_dict[lang] is not None:
+            return lang_long_text_dict[lang]
+        for x in lang_long_text_dict.values():
+            if x is not None:
+                return x
+        return None
 
     def get_media_ext(self):
         ext = ''
-        if self.media is not None:
+        if self.media.name:
             ext = self.media.name.split('.')[-1]
         return ext
 
+    def test_image(self):
+        return self.get_media_ext() in ['jpg', 'png', 'gif', 'tif']
+
+    def test_video(self):
+        return self.get_media_ext() in ['mp4', 'webm', 'ogg']
+
     image = property(test_image)
+    video = property(test_video)
     media_ext = property(get_media_ext)
 
 
 class InteractiveImage(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
     image_file = models.ImageField(upload_to=make_media_uuid('erulet/interactive_images'))
-    original_height = models.IntegerField()
-    original_width = models.IntegerField()
     highlight = models.ForeignKey(Highlight, blank=True, null=True, related_name='interactive_images')
 
     def __unicode__(self):
         this_name = 'unlinked interactive image'
-        if self.step is not None:
-            this_name = 'interactive image for step ' + str(self.step.id) + ' of route ' + self.step.track.route.name
+        if self.highlight is not None:
+            this_name = 'interactive image of ' + self.highlight.__unicode__()
         return this_name
+
+    def get_image_height(self):
+        im = Image.open(self.image_file.path)
+        return im.size[1]
+
+    def get_image_width(self):
+        im = Image.open(self.image_file.path)
+        return im.size[0]
+
+    original_height = property(get_image_height)
+    original_width = property(get_image_width)
 
 
 class Box(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
     interactive_image = models.ForeignKey(InteractiveImage, related_name='boxes')
-    message = models.TextField()
+    message_oc = models.TextField()
+    message_es = models.TextField()
+    message_ca = models.TextField()
+    message_fr = models.TextField()
+    message_en = models.TextField()
     max_y = models.IntegerField()
     max_x = models.IntegerField()
     min_y = models.IntegerField()
@@ -202,6 +316,15 @@ class Box(models.Model):
     def __unicode__(self):
         return self.id
 
+    def get_message(self, lang='oc'):
+        lang_message_dict = {'oc': self.message_oc, 'es': self.message_es, 'ca': self.message_ca, 'fr': self.message_fr, 'en': self.message_en}
+        if lang_message_dict[lang] is not None:
+            return lang_message_dict[lang]
+        for x in lang_message_dict.values():
+            if x is not None:
+                return x
+        return None
+
 
 class Rating(models.Model):
     rating = models.IntegerField()
@@ -211,9 +334,9 @@ class Rating(models.Model):
     route = models.ForeignKey(Route, blank=True, null=True, related_name='ratings')
 
     def __unicode__(self):
-        this_name = 'Rating ' + self.id
+        this_name = 'Rating ' + str(self.id)
         if self.highlight is not None:
-            this_name = 'Rating for highlight: ' + self.highlight.name
+            this_name = 'Rating for highlight: ' + self.highlight__unicode__()
         elif self.route is not None:
-            this_name = 'Rating for route: ' + self.route.name
+            this_name = 'Rating for route: ' + self.route.__unicode__()
         return this_name

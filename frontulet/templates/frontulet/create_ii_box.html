@@ -20,7 +20,8 @@
 
     <div class="row">
           <div class="col-md-8">
-<img id="photo" src={% static "frontulet/photos/1-garona.jpg" %} style="position:absolute;max-width:100%">
+<img id="photo" onload="setupCanvas()" style="position:absolute;max-width:100%" src={{ image_url }}>
+    <canvas id="canvas_background" style="border:solid; position:absolute"></canvas>
     <canvas id="canvas" style="border:solid; position:absolute"></canvas>
 </div>
               <div class="col-md-4">
@@ -45,14 +46,24 @@
 <script>
 var canvas = document.getElementById('canvas'),
     ctx = canvas.getContext('2d'),
+    canvas_background = document.getElementById('canvas_background'),
+    ctxb = canvas_background.getContext('2d'),
     rect = {},
     drag = false;
 
-var this_photo = document.getElementById("photo");
+function setupCanvas(){
 
-ctx.canvas.height = this_photo.clientHeight;
+    var this_photo = document.getElementById("photo");
+    ctx.canvas.height = this_photo.clientHeight;
+    ctx.canvas.width = this_photo.clientWidth;
+    ctxb.canvas.height = this_photo.clientHeight;
+    ctxb.canvas.width = this_photo.clientWidth;
+    ctxb.fillStyle='rgba(0, 0, 255, .5)';
 
-ctx.canvas.width = this_photo.clientWidth;
+    {% for box in boxes %}
+    ctxb.fillRect({{ box.min_x }}, {{ box.min_y }}, {{ box.max_x }}, {{ box.max_y }});
+    {% endfor %}
+}
 
 function init() {
   canvas.addEventListener('mousedown', mouseDown, false);

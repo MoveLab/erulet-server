@@ -19,6 +19,8 @@ class InteractiveImageSerializer(serializers.ModelSerializer):
 
 class InteractiveImageNestedSerializer(serializers.ModelSerializer):
     box = BoxSerializer(many=True)
+    original_height = serializers.Field()
+    original_width = serializers.Field()
 
     class Meta:
         model = InteractiveImage
@@ -30,7 +32,7 @@ class HighlightNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Highlight
-        fields = ('id', 'uuid', 'created_by', 'name', 'long_text', 'radius', 'type', 'interactive_images')
+        fields = ('id', 'uuid', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'interactive_images')
 
 
 class StepSerializer(serializers.ModelSerializer):
@@ -57,7 +59,7 @@ class TrackNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Track
-        fields = ('id', 'uuid', 'name', 'steps')
+        fields = ('id', 'uuid', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'steps')
 
 
 class ReferenceSerializer(serializers.ModelSerializer):
@@ -75,7 +77,7 @@ class RouteNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ('id', 'uuid', 'id_route_based_on', 'created_by', 'description', 'local_carto', 'name', 'reference', 'track')
+        fields = ('id', 'uuid', 'id_route_based_on', 'created_by', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'local_carto', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'track')
 
 
 class RatingSerializer(serializers.ModelSerializer):
