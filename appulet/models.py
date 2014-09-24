@@ -314,7 +314,7 @@ class Box(models.Model):
         verbose_name_plural = "boxes"
 
     def __unicode__(self):
-        return self.id
+        return str(self.id)
 
     def get_message(self, lang='oc'):
         lang_message_dict = {'oc': self.message_oc, 'es': self.message_es, 'ca': self.message_ca, 'fr': self.message_fr, 'en': self.message_en}
@@ -324,6 +324,16 @@ class Box(models.Model):
             if x is not None:
                 return x
         return None
+
+    def get_all_messages_html(self):
+        html = ""
+        lang_message_dict = {'oc': self.message_oc, 'es': self.message_es, 'ca': self.message_ca, 'fr': self.message_fr, 'en': self.message_en}
+        for key in lang_message_dict:
+            if lang_message_dict[key] is not None:
+                html += "<p><strong>" + key + ":</strong> " + lang_message_dict[key] + "</p>"
+            else:
+                html += "<p><strong>" + key + ":</strong> Not yet translated.</p>"
+        return html
 
 
 class Rating(models.Model):

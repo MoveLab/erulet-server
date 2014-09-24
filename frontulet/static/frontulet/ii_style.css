@@ -5,19 +5,35 @@
     border:solid;
 }
 
-#canvas_background{
+#canvas_background, #canvas_highlights{
     position:absolute;
     cursor: crosshair;
-    z-index:19;
     border:solid;
 }
+
+#canvas_background{
+    z-index:18;
+}
+
+#canvas_highlights{
+    z-index:19;
+}
+
 
 #photo{
     z-index:1;
     position:absolute;
 }
 
+#alert_message{
+    position:absolute;
+    z-index:21;
+    width:97%;
+    }
+
+
 #id_min_x, #id_min_y, #id_max_x, #id_max_y, label[for=id_min_x], label[for=id_min_y], label[for=id_max_x], label[for=id_max_y]{
+    display:none;
 }
 
 #id_message_oc, #id_message_es, #id_message_ca, #id_message_fr, #id_message_en {

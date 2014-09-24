@@ -535,11 +535,13 @@ def create_ii_box(request, ii_id):
         args['display_width'] = 600.00
         args['scaling_factor'] = args['display_width'] / this_ii.original_width
         args['display_height'] = this_ii.original_height * args['scaling_factor']
+        args['original_height'] = this_ii.original_height
+        args['original_width'] = this_ii.original_width
         args['route_id'] = this_ii.highlight.step.track.route.id
         this_box = Box()
         this_box.interactive_image = this_ii
         if this_ii.boxes.count() > 0:
-            args['boxes'] = this_ii.boxes.all()
+            args['boxes'] = map(lambda b: {'box': b, 'message':b.get_message(request.LANGUAGE_CODE), 'all_messages': b.get_all_messages_html()}, [box for box in this_ii.boxes.all()])
         if request.method == 'POST':
             form = BoxForm(request.POST, instance=this_box)
             if form.is_valid():
