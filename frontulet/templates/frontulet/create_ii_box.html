@@ -14,28 +14,44 @@
     <div class="container-fluid">
 
             <div id="page_title" class="page-header">
-            {% block title %}<h1>Add interaction box <small>Drag mouse over photo to set coordinates, then add a message.</small></h1>{% endblock %}
-</div>
+            {% block title %}<h1>Add interaction box <small>Drag mouse over photo to set coordinates, then add a message in at least one language.</small></h1>{% endblock %}
+            <button id="lang_button" type="button" class="btn btn-primary"> <span class="glyphicon glyphicon-chevron-down"></span> Show all languages</button>
+
+
+
+            </div>
 
 
     <div class="row">
-          <div class="col-md-8">
-<img id="photo" onload="setupCanvas()" style="position:absolute;max-width:100%" src={{ image_url }}>
-    <canvas id="canvas_background" style="border:solid; position:absolute"></canvas>
-    <canvas id="canvas" style="border:solid; position:absolute"></canvas>
-</div>
-              <div class="col-md-4">
+
+            <div class="col-md-4">
+
+
 
             <form role="form" method="post" action="#">{% csrf_token %}
             {{ form.as_p }}
+
+
+
             <input id="submit_button" type="submit" value="Save and add more"/>
-            <input id="cancel_button" type="button" value="Cancel"/>
+            <input id="cancel_button" type="button" value="Done"/>
 
             </form>
 
-</div>
+                </div>
+
+
+
+    <div class="col-md-8">
+<br><br>
+        <img height={{ display_height }} width={{ display_width }} id="photo" src={{ image_url }}>
+              <canvas height={{ display_height }} width={{ display_width }} id="canvas_background"></canvas>
+              <canvas height={{ display_height }} width={{ display_width }} id="canvas"></canvas>
+         </div>
+
     </div>
-</div>
+
+    </div>
 {% endblock %}
 
 
@@ -51,29 +67,28 @@ var canvas = document.getElementById('canvas'),
     rect = {},
     drag = false;
 
-function setupCanvas(){
-
-    var this_photo = document.getElementById("photo");
-    ctx.canvas.height = this_photo.clientHeight;
-    ctx.canvas.width = this_photo.clientWidth;
-    ctxb.canvas.height = this_photo.clientHeight;
-    ctxb.canvas.width = this_photo.clientWidth;
-    ctxb.fillStyle='rgba(0, 0, 255, .5)';
-
-    {% for box in boxes %}
-    ctxb.fillRect({{ box.min_x }}, {{ box.min_y }}, {{ box.max_x }}, {{ box.max_y }});
-    {% endfor %}
-}
 
 function init() {
+
+   ctxb.fillStyle='rgba(0, 0, 255, .5)';
+    {% for box in boxes %}
+    var min_x_d = ({{ box.min_x }}*{{ scaling_factor }});
+    var min_y_d = ({{ box.min_y }}*{{ scaling_factor }});
+    var max_x_d = ({{ box.max_x }}*{{ scaling_factor }});
+    var max_y_d = ({{ box.max_y }}*{{ scaling_factor }});
+    ctxb.fillRect(min_x_d, min_y_d, max_x_d, max_y_d);
+    {% endfor %}
+
   canvas.addEventListener('mousedown', mouseDown, false);
   canvas.addEventListener('mouseup', mouseUp, false);
   canvas.addEventListener('mousemove', mouseMove, false);
+
+
 }
 
 function mouseDown(e) {
   ctx.clearRect(0,0,canvas.width,canvas.height);
-  rect.startX = e.pageX - (this.offsetLeft);
+  rect.startX = e.pageX - (this.offsetLeft + this.offsetParent.offsetLeft);
   rect.startY = e.pageY - (this.offsetTop + this.offsetParent.offsetTop);
   drag = true;
 }
@@ -84,11 +99,12 @@ function mouseUp() {
 
 function mouseMove(e) {
   if (drag) {
-    rect.w = (e.pageX - this.offsetLeft) - rect.startX;
+    rect.w = (e.pageX - (this.offsetLeft + this.offsetParent.offsetLeft)) - rect.startX;
     rect.h = (e.pageY - (this.offsetTop + this.offsetParent.offsetTop)) - rect.startY;
     ctx.clearRect(0,0,canvas.width,canvas.height);
     draw();
-    var x1 = rect.startX, x2 = rect.startX + rect.w, y1 = rect.startY, y2 = rect.startY + rect.h;
+    var x1 = Math.round(rect.startX/{{ scaling_factor }}), x2 = Math.round((rect.startX + rect.w)/{{ scaling_factor }}), y1 = Math.round(rect.startY/{{ scaling_factor }}), y2 = Math.round((rect.startY + rect.h)/{{ scaling_factor }});
+
     $("#id_min_x").val(Math.min(x1, x2).toString());
     $("#id_max_x").val(Math.max(x1, x2).toString());
     $("#id_min_y").val(Math.min(y1, y2).toString());
@@ -107,6 +123,92 @@ init();
 
 
 
+function isPointInsideRect(pointX,pointY,rectX,rectY,rectWidth,rectHeight){
+    return  (rectX <= pointX) && (rectX + rectWidth >= pointX) &&
+                 (rectY <= pointY) && (rectY + rectHeight >= pointY);
+}
+
+
+var this_lang = "{{ request.LANGUAGE_CODE }}",
+        toggle_lang_display = false,
+        m_oc = $("#id_message_oc"),
+        m_es = $("#id_message_es"),
+        m_ca = $("#id_message_ca"),
+        m_fr = $("#id_message_fr"),
+        m_en = $("#id_message_en"),
+        m_oc_l = $("label[for='"+m_oc.attr('id')+"']"),
+        m_es_l = $("label[for='"+m_es.attr('id')+"']"),
+        m_ca_l = $("label[for='"+m_ca.attr('id')+"']"),
+        m_fr_l = $("label[for='"+m_fr.attr('id')+"']"),
+        m_en_l = $("label[for='"+m_en.attr('id')+"']");
+
+var $lb = $("#lang_button");
+
+function setup_lang_display(){
+if(!toggle_lang_display){
+
+    $lb.html(" <span class='glyphicon glyphicon-chevron-down'></span> Display all languages");
+
+    m_oc.hide();
+    m_es.hide();
+    m_ca.hide();
+    m_fr.hide();
+    m_en.hide();
+    m_oc_l.hide();
+    m_es_l.hide();
+    m_ca_l.hide();
+    m_fr_l.hide();
+    m_en_l.hide();
+
+    if(this_lang=='oc'){
+        m_oc.show();
+        m_oc_l.show();
+    }
+    else if(this_lang=='es'){
+        m_es.show();
+        m_es_l.show();
+    }
+    else if(this_lang=='ca'){
+        m_ca.show();
+        m_ca_l.show();
+    }
+    else if(this_lang=='fr'){
+        m_fr.show();
+        m_fr_l.show();
+    }
+    else if(this_lang=='en'){
+        m_en.show();
+        m_en_l.show();
+    }
+} else{
+        $lb.html(" <span class='glyphicon glyphicon-chevron-down'></span> Display only your language");
+
+    m_oc.show();
+    m_es.show();
+    m_ca.show();
+    m_fr.show();
+    m_en.show();
+    m_oc_l.show();
+    m_es_l.show();
+    m_ca_l.show();
+    m_fr_l.show();
+    m_en_l.show();
+
+}
+
+}
+
+    function toggle_langs(){
+        toggle_lang_display = ! toggle_lang_display;
+        setup_lang_display();
+    }
+
+
+setup_lang_display();
+
+$lb.on("click", toggle_langs);
+
+$("#cancel_button").on("click", function() {window.location.replace("{% url 'show_route_detail' route_id %}")});
 
 </script>
 

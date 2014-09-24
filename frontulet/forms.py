@@ -9,7 +9,7 @@ class InteractiveImageForm(forms.ModelForm):
 
     class Meta:
         model = InteractiveImage
-        fields = ['uuid', 'image_file']
+        fields = ['image_file']
 
     def clean_image_file(self):
         uploaded_file = self.cleaned_data['image_file']

@@ -532,6 +532,10 @@ def create_ii_box(request, ii_id):
         args.update(csrf(request))
         this_ii = InteractiveImage.objects.get(id=ii_id)
         args['image_url'] = this_ii.image_file.url
+        args['display_width'] = 600.00
+        args['scaling_factor'] = args['display_width'] / this_ii.original_width
+        args['display_height'] = this_ii.original_height * args['scaling_factor']
+        args['route_id'] = this_ii.highlight.step.track.route.id
         this_box = Box()
         this_box.interactive_image = this_ii
         if this_ii.boxes.count() > 0:

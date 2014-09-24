@@ -1,22 +1,26 @@
 #canvas{
+    position:absolute;
     cursor: crosshair;
     z-index:20;
+    border:solid;
 }
 
 #canvas_background{
+    position:absolute;
     cursor: crosshair;
     z-index:19;
+    border:solid;
 }
 
 #photo{
     z-index:1;
+    position:absolute;
 }
 
 #id_min_x, #id_min_y, #id_max_x, #id_max_y, label[for=id_min_x], label[for=id_min_y], label[for=id_max_x], label[for=id_max_y]{
-    display: none;
 }
 
-#id_message{
+#id_message_oc, #id_message_es, #id_message_ca, #id_message_fr, #id_message_en {
     width:100%;
 }
 
