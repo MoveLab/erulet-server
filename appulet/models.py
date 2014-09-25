@@ -332,7 +332,7 @@ class Box(models.Model):
             if lang_message_dict[key] is not None:
                 html += "<p><strong>" + key + ":</strong> " + lang_message_dict[key] + "</p>"
             else:
-                html += "<p><strong>" + key + ":</strong> Not yet translated.</p>"
+                html += "<p><strong>" + key + ":</strong></p>"
         return html
 
 
