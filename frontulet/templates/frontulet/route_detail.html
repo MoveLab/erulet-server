@@ -145,7 +145,7 @@
             </script>
 
             <br>
-            <div class="row">
+            <div id="h{{ highlight.id }}" class="row">
 
                 <div class="col-md-4">
                     <h3>{{ highlight.name }} {% if owner %}
@@ -177,44 +177,46 @@
             </div>
 
 
-{% for ref in highlight.references %}
-<div class="row">
-
-    <button onclick="toggle_iframe('ref_div{{ ref.id }}');" type="button" class="btn btn-primary"> <span class="glyphicon glyphicon-chevron-down"></span> View Detailed Reference{% if highlight.references|length > 1 %}: {{ ref.name }}{% endif %}
-</button>
-
-{% if owner %}<a class="btn btn-default" href={% url 'edit_highlight_reference' id ref.id %}> <span class="glyphicon glyphicon-edit"></span> Replace Detailed Reference</a>{% endif %}
-
-</div>
-
-<div class="row">
-<div class='ref_div' id='ref_div{{ ref.id }}'>
-              {{ ref.html | safe }}
-</div>
-</div>
-<br>
-{% endfor %}
-
-{% if owner %}<a class="btn btn-default" href={% url 'make_new_highlight_reference' id highlight.id %}> <span class="glyphicon glyphicon-upload"></span> Add Detailed Reference</a>{% endif %}
-
 
     {% for ii in highlight.interactive_images %}
 <div class="row">
 
-    <button onclick="toggle_iframe('ii_div{{ ii.id }}');" type="button" class="btn btn-primary"> <span class="glyphicon glyphicon-chevron-down"></span> View Interactive Image{% if highlight.interactive_images|length > 1 %} {{ forloop.counter }}{% endif %}
-</button>
+    <a href="{% url 'view_ii' ii.id %}" type="button" class="btn btn-primary"> <span class="glyphicon glyphicon-picture"></span> Interactive Image{% if highlight.interactive_images|length > 1 %} {{ forloop.counter }}{% endif %}
+</a>
 
 {% if owner %}<a class="btn btn-default" href={% url 'edit_ii' ii.id %}> <span class="glyphicon glyphicon-edit"></span> Replace Interactive Image{% if highlight.interactive_images|length > 1 %} {{ forloop.counter }}{% endif %}</a>{% endif %}
 
 </div>
 
+        {% endfor %}
+
+
+            {% for ref in highlight.references %}
 <div class="row">
-<div class='ref_div' id='ii_div{{ ii.id }}'>
-             <img src={{ ii.image_file }}>
+<br>
+
+
+    <button onclick="toggle_iframe('ref_div{{ ref.id }}');" type="button" class="btn btn-primary"> <span class="glyphicon glyphicon-book"></span> Reference{% if highlight.references|length > 1 %}: {{ ref.name }}{% endif %}
+</button>
+
+</div>
+
+<div class="row">
+<div class='ref_div' id='ref_div{{ ref.id }}'>
+<div id='confirm_delete_highlight_reference_alert{{ ref.id }}' class='alert alert-warning' role='alert'><p><strong>Warning!</strong>Are you sure you want to delete this reference?</p><br><button onclick="hide_alert({{ ref.id }})" role="button" class='btn btn-success'>No, go back</button> <a class='btn btn-warning' href={% url 'delete_highlight_reference' id ref.id %}>Yes, delete it</a></div>
+<br>
+    {% if owner %}<a class="btn btn-default" href={% url 'edit_highlight_reference' id ref.id %}> <span class="glyphicon glyphicon-edit"></span> </a> <button class="btn btn-default" onclick="confirm_delete_highlight_reference({{ ref.id }})"> <span class="glyphicon glyphicon-remove-circle"></span> </button>{% endif %}
+
+              {{ ref.html | safe }}
 </div>
 </div>
 <br>
+<br>
 {% endfor %}
+
+            <div class="row">
+            {% if owner %}<a class="btn btn-default" href={% url 'make_new_highlight_reference' id highlight.id %}> <span class="glyphicon glyphicon-upload"></span> Add Detailed Reference</a>{% endif %}
+</div>
 
 {% if owner %}<a class="btn btn-default" href={% url 'create_ii' highlight.id %}> <span class="glyphicon glyphicon-upload"></span> Add Interactive Image</a>{% endif %}
 
@@ -230,6 +232,8 @@
 {% endblock %}
 
 {% block body_scripts %}
+
+        {{ block.super }}
 
     <script type="text/javascript">
         (function () {
@@ -267,7 +271,7 @@
     </script>
 
 
-    {{ block.super }}
+
 
     <script type="text/javascript">
 
@@ -279,6 +283,20 @@
         if(show){$("#" + id).show();}else{$("#" + id).hide();}
             show = !show;
         }
+
+        $("img").addClass("img-responsive center-block")
+
+
+        $(".alert").hide();
+
+    function confirm_delete_highlight_reference(ref_id){
+        $("#confirm_delete_highlight_reference_alert" + ref_id).show();
+    }
+    function hide_alert(ref_id){
+        $("#confirm_delete_highlight_reference_alert" + ref_id).hide();
+    }
+
+
     </script>
 
 

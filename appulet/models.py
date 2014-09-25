@@ -117,7 +117,10 @@ class Reference(models.Model):
                     this_filename = filenamei18('reference.html', l[0])
                     if os.path.isfile(os.path.join(os.path.dirname(self.html_file.path), this_filename)):
                         return os.path.join(os.path.dirname(self.html_file.path), this_filename)
-                return None
+            this_filename = 'reference.html'
+            if os.path.isfile(os.path.join(os.path.dirname(self.html_file.path), this_filename)):
+                return os.path.join(os.path.dirname(self.html_file.path), this_filename)
+        return ''
 
     def get_reference_html(self, lang='oc'):
         reference_html_raw = ''
@@ -152,22 +155,22 @@ class Route(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
     id_route_based_on = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name='routes')
-    description_oc = models.TextField(blank=True)
-    description_es = models.TextField(blank=True)
-    description_ca = models.TextField(blank=True)
-    description_fr = models.TextField(blank=True)
-    description_en = models.TextField(blank=True)
-    short_description_oc = models.CharField(max_length=100, blank=True)
-    short_description_es = models.CharField(max_length=100, blank=True)
-    short_description_ca = models.CharField(max_length=100, blank=True)
-    short_description_fr = models.CharField(max_length=100, blank=True)
-    short_description_en = models.CharField(max_length=100, blank=True)
+    description_oc = models.TextField("Description - Aranese", blank=True)
+    description_es = models.TextField("Description - Spanish", blank=True)
+    description_ca = models.TextField("Description - Catalan", blank=True)
+    description_fr = models.TextField("Description - French", blank=True)
+    description_en = models.TextField("Description - English", blank=True)
+    short_description_oc = models.CharField("Short Description - Aranese", max_length=100, blank=True)
+    short_description_es = models.CharField("Short Description - Spanish", max_length=100, blank=True)
+    short_description_ca = models.CharField("Short Description - Catalan", max_length=100, blank=True)
+    short_description_fr = models.CharField("Short Description - Frensh", max_length=100, blank=True)
+    short_description_en = models.CharField("Short Description - English", max_length=100, blank=True)
     local_carto = models.FileField(upload_to=make_media_uuid('erulet/carto'), blank=True, null=True)
-    name_oc = models.CharField(max_length=200)
-    name_es = models.CharField(max_length=200)
-    name_ca = models.CharField(max_length=200)
-    name_fr = models.CharField(max_length=200)
-    name_en = models.CharField(max_length=200)
+    name_oc = models.CharField("Name - Aranese", max_length=200, blank=True)
+    name_es = models.CharField("Name - Spanish", max_length=200, blank=True)
+    name_ca = models.CharField("Name - Catalan", max_length=200, blank=True)
+    name_fr = models.CharField("Name - Frensh", max_length=200, blank=True)
+    name_en = models.CharField("Name - English", max_length=200, blank=True)
     reference = models.OneToOneField(Reference, blank=True, null=True)
     track = models.OneToOneField(Track, blank=True, null=True)
     upload_time = models.DateTimeField(blank=True, null=True)

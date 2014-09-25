@@ -5,6 +5,20 @@
     border:solid;
 }
 
+#view_canvas{
+    position:absolute;
+    cursor: default;
+    z-index:20;
+}
+
+
+#view_canvas_background{
+    position:absolute;
+    cursor: default;
+    z-index:19;
+}
+
+
 #canvas_background, #canvas_highlights{
     position:absolute;
     cursor: crosshair;
@@ -25,6 +39,7 @@
     position:absolute;
 }
 
+
 #alert_message{
     position:absolute;
     z-index:21;
@@ -40,6 +55,22 @@
     width:100%;
 }
 
+#outer_container{
+        margin-right: auto;
+        margin-left: auto;
+}
 
 
-
+#back-button{
+    z-index: 30;
+    position:fixed;
+    float:left;
+    bottom: 15px;
+    margin-left: 15px;
+     background-color: rgba(0, 0, 0, .5);
+    color: #ddd;
+}
+#back-button:hover{
+    background-color: rgba(0, 0, 0, 1);
+    color: #fff;
+}

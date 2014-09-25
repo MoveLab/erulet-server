@@ -320,16 +320,20 @@ def set_up_reference(reference):
             name_split = name.split('.')
             this_extension = name_split[-1]
             if this_extension == 'html':
-                lang_code = name_split[0].split('_')[-1]
-                if lang_code not in [lang[0] for lang in settings.LANGUAGES]:
-                    return 'At least one HTML file in your ZIP archive was missing a supported language code. Please make sure each HTML has a file name that ends in either _oc.html, _es,html, _ca.html, _fr.html, or _en.html.'
+                lang_code = name_split[0].split('-')[-1][:2]
+                if lang_code not in map(lambda x: x[0].upper(), settings.LANGUAGES) + map(lambda x: x[0].upper(), settings.LANGUAGES):
+                    reference.delete()
+                    return 'At least one HTML file in your ZIP archive was missing a supported language code. Please make sure each HTML has a file name that ends in either -oc.html, -es,html, -ca.html, -fr.html, or -en.html.'
                 else:
-                    html_file_paths.append((lang_code, os.path.join(this_dir, name)))
+                    html_file_paths.append((lang_code.lower(), os.path.join(this_dir, name)))
             elif this_extension not in allowed_extensions:
-                return False
+                reference.delete()
+                return 'You tried to upload a zip file containing a file or files that are not HTML, CSS, JPG, PNG, GIF, or MP4. Please make sure the ZIP archive contains only those file type.'
         if len(html_file_paths) > 5:
+            reference.delete()
             return 'There are more than five HTML files in this ZIP archive. Please include no more than one HTML file for each of the five supported languages (Aranese, Spanish, Catalan, French, and English).'
         elif len(html_file_paths) == 0:
+            reference.delete()
             return 'There is no HTML file in this ZIP archive. Please include at least one HTML file.'
         else:
             this_file.extractall(path=this_dir)
@@ -345,6 +349,7 @@ def set_up_reference(reference):
         shutil.copyfile(reference.html_file.path, os.path.join(this_dir, 'reference_' + lang_code + '.html'))
         return 'OK'
     else:
+        reference.delete()
         return 'You tried to upload something other than a ZIP or HTML file. Please check the file and try again.'
 
 
@@ -438,8 +443,12 @@ def make_new_highlight_reference(request, route_id, highlight_id):
 
 def edit_highlight_reference(request, route_id, reference_id):
     if request.user.is_authenticated():
+        this_reference = Reference.objects.get(pk=reference_id)
+        this_highlight = this_reference.highlight
         args = {}
         args.update(csrf(request))
+        args['route_id'] = route_id
+        args['highlight_id'] = this_highlight.id
         this_reference = Reference.objects.get(pk=reference_id)
         if request.method == 'POST':
             form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
@@ -448,7 +457,7 @@ def edit_highlight_reference(request, route_id, reference_id):
                 form.save()
                 setup_response = set_up_reference(this_reference)
                 if setup_response == 'OK':
-                    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}))
+                    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + "#h" + this_highlight.id)
                 else:
                     args['form'] = ReferenceForm()
                     args['error_message'] = setup_response
@@ -458,6 +467,15 @@ def edit_highlight_reference(request, route_id, reference_id):
         return render(request, 'frontulet/edit_reference.html', args)
     else:
         return render(request, 'registration/no_permission_must_login.html')
+
+
+def delete_highlight_reference(request, route_id, reference_id):
+    this_reference = Reference.objects.get(pk=reference_id)
+    this_highlight = this_reference.highlight
+    if request.user.is_authenticated():
+        if this_reference.highlight.created_by == request.user:
+            this_reference.delete()
+    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + '#h' + str(this_highlight.id))
 
 
 def edit_profile(request):
@@ -494,6 +512,7 @@ def create_ii(request, highlight_id):
                 return HttpResponseRedirect(reverse('create_ii_box', kwargs={'ii_id': this_ii.id}))
             else:
                 args['form'] = InteractiveImageForm()
+                this_ii.delete()
                 return render(request, 'frontulet/wrong_file_type_ii.html', args)
 
         else:
@@ -555,3 +574,19 @@ def create_ii_box(request, ii_id):
     else:
         return render(request, 'registration/no_permission_must_login.html')
 
+
+def view_ii(request, ii_id):
+    args = {}
+    args.update(csrf(request))
+    this_ii = InteractiveImage.objects.get(id=ii_id)
+    args['image_url'] = this_ii.image_file.url
+    args['display_width'] = 600.00
+    args['scaling_factor'] = args['display_width'] / this_ii.original_width
+    args['display_height'] = this_ii.original_height * args['scaling_factor']
+    args['original_height'] = this_ii.original_height
+    args['original_width'] = this_ii.original_width
+    args['route_id'] = this_ii.highlight.step.track.route.id
+    args['highlight_id'] = this_ii.highlight.id
+    if this_ii.boxes.count() > 0:
+        args['boxes'] = map(lambda b: {'box': b, 'message': b.get_message(request.LANGUAGE_CODE)}, [box for box in this_ii.boxes.all()])
+    return render(request, 'frontulet/view_ii.html', args)

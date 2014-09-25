@@ -2,110 +2,74 @@
 {% load staticfiles %}
 
 {% block head_additions %}
-
     {{ block.super }}
-
     <link rel="stylesheet" href={% static "frontulet/ii_style.css" %}>
 
 {% endblock %}
 
-{% block main_body %}
-
-    <div class="container-fluid">
-
-        <div id="page_title" class="page-header">
-            {% block title %}
-                <h1>Add interaction box
-            <small>Drag mouse over photo to set coordinates, then add a message in at least one language.</small>
-                </h1>{% endblock %}
-            <button id="lang_button" type="button" class="btn btn-primary"><span
-                    class="glyphicon glyphicon-chevron-down"></span> Show all languages
-            </button>
-
-
-        </div>
-
-
-        <div class="row">
-
-            <div class="col-md-4">
-
-
-                <form role="form" method="post" action="#">{% csrf_token %}
-                    {{ form.as_p }}
-
-
-                    <input id="submit_button" type="submit" value="Save and add more"/>
-                    <input id="cancel_button" type="button" value="Done"/>
-
-                </form>
-
-                <div id="alert_message" class="alert alert-info alert-dismissible" role="alert"></div>
-
-
-            </div>
-
-
-            <div class="col-md-8">
-                <br>
-
-                <div id="click_reminder"><br></div>
-                <img height={{ display_height }} width={{ display_width }} id="photo" src={{ image_url }}>
-                <canvas height={{ original_height }} width={{ original_width }}
-                        style="height:{{ display_height }}px; width:{{ display_width }}px"
-                        id="canvas_highlights"></canvas>
-                <canvas height={{ original_height }} width={{ original_width }}
-                        style="height:{{ display_height }}px; width:{{ display_width }}px"
-                        id="canvas_background"></canvas>
-                <canvas height={{ display_height }} width={{ display_width }} id="canvas"></canvas>
-
-            </div>
-
-        </div>
-    </div>
+{% block navbar %}
 {% endblock %}
 
+{% block main_body %}
+    <div class="container-fluid">
+        <div id="page_title" class="page-header">
+            {% block title %}
+                                <h1>Interactive Image
+            <small>Drag mouse over photo and click on the colored areas that appear.</small>
+                </h1>{% endblock %}
+       </div>
+
+
+
+    <div id="outer_container">
+
+                <div id="view_alert_message" class="alert alert-info alert-dismissible" role="alert"></div>
+                <img id="photo" src={{ image_url }}>
+                <canvas height={{ original_height }} width={{ original_width }} id="view_canvas_background"></canvas>
+                <canvas height={{ original_height }} width={{ original_width }} id="view_canvas"></canvas>
+
+    </div>
+
+                      <a href="#" id="back-button" class="btn"> <span class="glyphicon glyphicon-hand-left"></span> Back to route</a>
+
+
+    </div>
+
+
+{% endblock %}
 
 {% block body_scripts %}
-
     {{ block.super }}
-
     <script>
-    var canvas = document.getElementById('canvas'),
+    var canvas = document.getElementById('view_canvas'),
             ctx = canvas.getContext('2d'),
-            canvas_background = document.getElementById('canvas_background'),
+            canvas_background = document.getElementById('view_canvas_background'),
             ctxb = canvas_background.getContext('2d'),
-            canvas_highlights = document.getElementById('canvas_highlights'),
-            ctxc = canvas_highlights.getContext('2d'),
-            rect = {},
-            drag = false,
-            sf = {{ scaling_factor }};
+            anybox = false,
+            alertup = false;
 
-    var current_message_loc = "";
-    var current_message_all = "";
-
-    var this_lang = "{{ request.LANGUAGE_CODE }}",
-            toggle_lang_display = false,
-            m_oc = $("#id_message_oc"),
-            m_es = $("#id_message_es"),
-            m_ca = $("#id_message_ca"),
-            m_fr = $("#id_message_fr"),
-            m_en = $("#id_message_en"),
-            m_oc_l = $("label[for='" + m_oc.attr('id') + "']"),
-            m_es_l = $("label[for='" + m_es.attr('id') + "']"),
-            m_ca_l = $("label[for='" + m_ca.attr('id') + "']"),
-            m_fr_l = $("label[for='" + m_fr.attr('id') + "']"),
-            m_en_l = $("label[for='" + m_en.attr('id') + "']");
-
-    var $lb = $("#lang_button");
-
-    var anybox = false;
-    var alertup = false;
-    var $alert = $("#alert_message");
-    var $form = $("form");
-    var $click_reminder = $("#click_reminder");
+    $alert = $("#view_alert_message");
     $alert.hide();
-    $form.show();
+
+var window_width=window.innerWidth
+|| document.documentElement.clientWidth
+|| document.body.clientWidth;
+
+var window_height=window.innerHeight
+|| document.documentElement.clientHeight
+|| document.body.clientHeight;
+
+var display_width = Math.min(.97* window_width, {{ original_width }});
+var sf = display_width/{{ original_width }};
+var display_height = sf*{{ original_height }};
+
+$("#outer_container").width(display_width).height(display_height);
+$("#photo").width(display_width).height(display_height);
+$alert.width(display_width);
+canvas.style.width = display_width + "px";
+canvas.style.height = display_height + "px";
+canvas_background.style.width = display_width + "px";
+canvas_background.style.height = display_height + "px";
 
 
     function isPointInsideRect(pointX, pointY, rectX, rectY, rectWidth, rectHeight) {
@@ -113,259 +77,93 @@
                 (rectY <= pointY) && (rectY + rectHeight >= pointY);
     }
 
-    function drawborder(rectX, rectY, rectWidth, rectHeight){
+
+    function drawAreas(){
+        ctxb.fillStyle = 'rgba(0, 0, 255, .3)';
+        {% for box in boxes %}
+            ctxb.fillRect({{ box.box.min_x }}, {{ box.box.min_y }}, {{ box.box.max_x }}-{{ box.box.min_x }}, {{ box.box.max_y }}-{{ box.box.min_y }});
+        {% endfor %}
+    }
+
+    drawAreas();
+
+    function draw(rectX, rectY, rectWidth, rectHeight){
                 if(!alertup){
-        ctxc.clearRect(0, 0, canvas_highlights.width, canvas_highlights.height);
-        ctxc.beginPath();
-        ctxc.strokeStyle = "#00FFFF";
-        ctxc.lineWidth = 10;
-        ctxc.rect(rectX, rectY, rectWidth, rectHeight);
-        ctxc.stroke();
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'rgba(0, 0, 255,.3)';
+        ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
+        ctx.beginPath();
+        ctx.strokeStyle = "#00FFFF";
+        ctx.lineWidth = 2;
+        ctx.rect(rectX, rectY, rectWidth, rectHeight);
+        ctx.stroke();
+        canvas.style.cursor = "context-menu";
     }
     }
 
-    function eraseborder(){
+    function erase(){
         if(!alertup){
-        ctxc.clearRect(0, 0, canvas_highlights.width, canvas_highlights.height);
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.style.cursor = "default";
     }
-    }
-
-
-    function toggle_existing_message(display, message) {
-        if(alertup){
-            canvas.style.cursor = "context-menu";
-            $click_reminder.html("<strong>Click anywhere on the image to dismiss dialog on left.</strong>")
-        }else{
-        if (display) {
-            canvas.style.cursor = "context-menu";
-            $click_reminder.html("<strong>Click for more information</strong>")
-
-        } else {
-            canvas.style.cursor = "crosshair";
-            $click_reminder.html("<br>");
-        }
-        }
     }
 
     function dismiss_alert(){
             $alert.hide();
-            $form.show();
             alertup = false;
-            $click_reminder.html("<br>");
     }
 
     function display_alert(e) {
-        var this_message = "";
 
         if (alertup) {
             $alert.hide();
-            $form.show();
-            $click_reminder.html("<br>");
-
             alertup = false;
         } else {
         var this_x, this_y, this_width, this_height;
             {% for box in boxes %}
-                this_x = sf * {{ box.box.min_x }};
-                this_y = sf * {{ box.box.min_y }};
-                this_width = sf * ({{ box.box.max_x }}-{{ box.box.min_x }});
-                this_height = sf * ({{ box.box.max_y }}-{{ box.box.min_y }});
+                this_x = {{ box.box.min_x }};
+                this_y = {{ box.box.min_y }};
+                this_width = ({{ box.box.max_x }}-{{ box.box.min_x }});
+                this_height = ({{ box.box.max_y }}-{{ box.box.min_y }});
 
                 if (isPointInsideRect((e.pageX - (this.offsetLeft + this.offsetParent.offsetLeft)), (e.pageY - (this.offsetTop + this.offsetParent.offsetTop)), this_x, this_y, this_width, this_height)){
 
-                $form.hide();
-
-                current_message_all = "{{ box.all_messages | safe }}";
-                current_message_loc = "{{ box.message | safe }}";
-
-                if(toggle_lang_display){
-                    this_message = current_message_all;
-                } else{
-                    this_message = current_message_loc;
-                }
-
-                $alert.show().html(" <button type='button' class='close' onclick='dismiss_alert();'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>" + this_message + "<p><a href='#' class='alert-link'>click to edit</a></p>");
+                $alert.show().html(" <button type='button' class='close' onclick='dismiss_alert();'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>{{ box.message | safe }}");
             canvas.style.cursor = "context-menu";
-            $click_reminder.html("<strong>Click anywhere on the image to dismiss dialog on left.</strong>");
-
             }
-
             {% endfor %}
+        canvas.style.cursor = "context-menu";
             alertup = true;
-
         }
     }
-
-
-
 
     function init() {
-
-        ctxb.fillStyle = 'rgba(0, 0, 255, .3)';
-
-        {% for box in boxes %}
-            ctxb.fillRect({{ box.box.min_x }}, {{ box.box.min_y }}, {{ box.box.max_x }}-{{ box.box.min_x }}, {{ box.box.max_y }}-{{ box.box.min_y }});
-        {% endfor %}
-
-
-        canvas.addEventListener('mousedown', mouseDown, false);
-        canvas.addEventListener('mouseup', mouseUp, false);
         canvas.addEventListener('mousemove', mouseMove, false);
         canvas.addEventListener('click', display_alert, false);
-
-    }
-
-    function mouseDown(e) {
-        anybox = false;
-        {% for box in boxes %}
-                this_x = sf * {{ box.box.min_x }};
-                this_y = sf * {{ box.box.min_y }};
-                this_width = sf * ({{ box.box.max_x }}-{{ box.box.min_x }});
-                this_height = sf * ({{ box.box.max_y }}-{{ box.box.min_y }});
-
-                if (isPointInsideRect((e.pageX - (this.offsetLeft + this.offsetParent.offsetLeft)), (e.pageY - (this.offsetTop + this.offsetParent.offsetTop)), this_x, this_y, this_width, this_height)){
-
-            toggle_existing_message(true, "{{ box.message }}");
-
-            anybox = true;
-        }
-        {% endfor %}
-        if (!anybox) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            rect.startX = e.pageX - (this.offsetLeft + this.offsetParent.offsetLeft);
-            rect.startY = e.pageY - (this.offsetTop + this.offsetParent.offsetTop);
-            drag = true;
-        }
-    }
-
-    function mouseUp() {
-        drag = false;
     }
 
     function mouseMove(e) {
-
         anybox = false;
         {% for box in boxes %}
-                this_x = sf * {{ box.box.min_x }};
-                this_y = sf * {{ box.box.min_y }};
-                this_width = sf * ({{ box.box.max_x }}-{{ box.box.min_x }});
-                this_height = sf * ({{ box.box.max_y }}-{{ box.box.min_y }});
-
+                this_x = {{ box.box.min_x }};
+                this_y = {{ box.box.min_y }};
+                this_width = ({{ box.box.max_x }}-{{ box.box.min_x }});
+                this_height = ({{ box.box.max_y }}-{{ box.box.min_y }});
                 if (isPointInsideRect((e.pageX - (this.offsetLeft + this.offsetParent.offsetLeft)), (e.pageY - (this.offsetTop + this.offsetParent.offsetTop)), this_x, this_y, this_width, this_height)){
-
-            toggle_existing_message(true, "{{ box.message }}");
-            drawborder({{ box.box.min_x }},{{ box.box.min_y }}, {{ box.box.max_x }}-{{ box.box.min_x }}, {{ box.box.max_y }}-{{ box.box.min_y }});
-            anybox = true;
-        }
+                    draw({{ box.box.min_x }},{{ box.box.min_y }}, {{ box.box.max_x }}-{{ box.box.min_x }}, {{ box.box.max_y }}-{{ box.box.min_y }});
+                    anybox = true;
+                 }
         {% endfor %}
 
-
         if (!anybox) {
-            toggle_existing_message(false, '');
-            eraseborder();
-
-            if (drag) {
-                rect.w = (e.pageX - (this.offsetLeft + this.offsetParent.offsetLeft)) - rect.startX;
-                rect.h = (e.pageY - (this.offsetTop + this.offsetParent.offsetTop)) - rect.startY;
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                draw();
-                var x1 = Math.floor(rect.startX /{{ scaling_factor }}), x2 = Math.floor((rect.startX + rect.w) /{{ scaling_factor }}), y1 = Math.floor(rect.startY /{{ scaling_factor }}), y2 = Math.floor((rect.startY + rect.h) /{{ scaling_factor }});
-
-                $("#id_min_x").val(Math.min(x1, x2).toString());
-                $("#id_max_x").val(Math.max(x1, x2).toString());
-                $("#id_min_y").val(Math.min(y1, y2).toString());
-                $("#id_max_y").val(Math.max(y1, y2).toString());
-
-            }
+            erase();
         }
-    }
-
-    function draw() {
-        ctx.fillStyle = 'rgba(255, 0, 0, .5)';
-        ctx.fillRect(rect.startX, rect.startY, rect.w, rect.h);
 
     }
 
     init();
 
 
-    function setup_lang_display() {
-        if (!toggle_lang_display) {
-
-            $lb.html(" <span class='glyphicon glyphicon-chevron-down'></span> Display all languages");
-
-            m_oc.hide();
-            m_es.hide();
-            m_ca.hide();
-            m_fr.hide();
-            m_en.hide();
-            m_oc_l.hide();
-            m_es_l.hide();
-            m_ca_l.hide();
-            m_fr_l.hide();
-            m_en_l.hide();
-
-            if (this_lang == 'oc') {
-                m_oc.show();
-                m_oc_l.show();
-            }
-            else if (this_lang == 'es') {
-                m_es.show();
-                m_es_l.show();
-            }
-            else if (this_lang == 'ca') {
-                m_ca.show();
-                m_ca_l.show();
-            }
-            else if (this_lang == 'fr') {
-                m_fr.show();
-                m_fr_l.show();
-            }
-            else if (this_lang == 'en') {
-                m_en.show();
-                m_en_l.show();
-            }
-
-            if(alertup){
-            $alert.html(" <button type='button' class='close' onclick='dismiss_alert();'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>" + current_message_loc + "<p><a href='#' class='alert-link'>click to edit</a></p>");
-            }
-
-        } else {
-            $lb.html(" <span class='glyphicon glyphicon-chevron-down'></span> Display only your language");
-
-            m_oc.show();
-            m_es.show();
-            m_ca.show();
-            m_fr.show();
-            m_en.show();
-            m_oc_l.show();
-            m_es_l.show();
-            m_ca_l.show();
-            m_fr_l.show();
-            m_en_l.show();
-
-                        if(alertup){
-            $alert.html(" <button type='button' class='close' onclick='dismiss_alert();'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>" + current_message_all + "<p><a href='#' class='alert-link'>click to edit</a></p>");
-            }
-
-
-        }
-
-    }
-
-    function toggle_langs() {
-        toggle_lang_display = !toggle_lang_display;
-        setup_lang_display();
-    }
-
-
-    setup_lang_display();
-
-    $lb.on("click", toggle_langs);
-
-    $("#cancel_button").on("click", function () {
-        window.location.replace("{% url 'show_route_detail' route_id %}")
-    });
 
     </script>
 

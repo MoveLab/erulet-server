@@ -3,4 +3,75 @@
 
      {% block title %}
          <h1>New Route <small>Create a new route using GPX files</small></h1>
+                     <button id="lang_button" type="button" class="btn btn-primary"><span
+                    class="glyphicon glyphicon-chevron-down"></span> Show all languages
+            </button>
      {% endblock %}
+
+{% block body_scripts %}
+{{ block.super }}
+
+    <script>
+
+
+    var this_lang = "{{ request.LANGUAGE_CODE }}";
+
+$("#id_name_oc, #id_short_description_oc, #id_description_oc, label[for='id_name_oc'], label[for='id_short_description_oc'], label[for='id_description_oc']").addClass("oc lang");
+$("#id_name_es, #id_short_description_es, #id_description_es, label[for='id_name_es'], label[for='id_short_description_es'], label[for='id_description_es']").addClass("es lang");
+$("#id_name_ca, #id_short_description_ca, #id_description_ca, label[for='id_name_ca'], label[for='id_short_description_ca'], label[for='id_description_ca']").addClass("ca lang");
+$("#id_name_fr, #id_short_description_fr, #id_description_fr, label[for='id_name_fr'], label[for='id_short_description_fr'], label[for='id_description_fr']").addClass("fr lang");
+$("#id_name_en, #id_short_description_en, #id_description_en, label[for='id_name_en'], label[for='id_short_description_en'], label[for='id_description_en']").addClass("en lang");
+
+    var $lb = $("#lang_button");
+
+
+    var showing_all_languages = false;
+
+
+
+    function setup_lang_display() {
+        if (!showing_all_languages) {
+
+            $lb.html(" <span class='glyphicon glyphicon-chevron-down'></span> Display all languages");
+            $(".lang").hide();
+
+            if (this_lang == 'oc') {
+            $(".oc").show();
+            }
+            else if (this_lang == 'es') {
+            $(".es").show();
+            }
+            else if (this_lang == 'ca') {
+            $(".ca").show();
+            }
+            else if (this_lang == 'fr') {
+            $(".fr").show();
+            }
+            else if (this_lang == 'en') {
+            $(".en").show();
+            }
+
+
+        } else {
+            $lb.html(" <span class='glyphicon glyphicon-chevron-down'></span> Display only your language");
+
+            $(".lang").show();
+
+
+        }
+
+    }
+
+    function toggle_langs() {
+        showing_all_languages = !showing_all_languages;
+        setup_lang_display();
+    }
+
+
+    setup_lang_display();
+
+    $lb.on("click", toggle_langs);
+
+    </script>
+
+{% endblock %}

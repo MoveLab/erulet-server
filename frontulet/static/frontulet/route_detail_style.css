@@ -28,3 +28,8 @@ td {
 .spacer {
     margin-top: 40px;
 }
+
+.ref_div{
+    border:dotted;
+    padding: 10px;
+}
