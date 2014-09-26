@@ -1,4 +1,6 @@
 {% load staticfiles %}
+{% load i18n %}
+
 <!DOCTYPE html>
 <html lang={% block language %}"en"{% endblock %}>
 <head>
@@ -102,6 +104,23 @@
 
 
                         </ul>
+
+                                <form class="navbar-form navbar-right" action="{% url 'set_language' %}" method="post">
+                <div class="form-group">
+                    {% csrf_token %}
+                    <input name="next" type="hidden" value="{{ redirect_to }}"/>
+                    <select class="form-control" name="language" onchange="this.form.submit()">
+                        {% get_language_info_list for LANGUAGES as languages %}
+                        {% for language in languages %}
+                            <option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %}
+                                    selected="selected"{% endif %}>
+                                {{ language.name_local|title }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </form>
+
                     </div>
                 </div>
             </div>

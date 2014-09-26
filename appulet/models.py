@@ -26,7 +26,7 @@ class Track(models.Model):
 
     def get_name(self, lang='oc'):
         lang_names_dict = {'oc': self.name_oc, 'es': self.name_es, 'ca': self.name_ca, 'fr': self.name_fr, 'en': self.name_en}
-        if lang_names_dict[lang] is not None:
+        if lang_names_dict[lang] is not None and lang_names_dict[lang] != '':
             return lang_names_dict[lang]
         for name in lang_names_dict.values():
             if name is not None:
@@ -87,10 +87,10 @@ class Reference(models.Model):
 
     def get_name(self, lang='oc'):
         lang_names_dict = {'oc': self.name_oc, 'es': self.name_es, 'ca': self.name_ca, 'fr': self.name_fr, 'en': self.name_en}
-        if lang_names_dict[lang] is not None:
+        if lang_names_dict[lang] is not None and lang_names_dict[lang] != '':
             return lang_names_dict[lang]
         for name in lang_names_dict.values():
-            if name is not None:
+            if name is not None and name != '':
                 return name
         return str(self.id)
 
@@ -187,29 +187,31 @@ class Route(models.Model):
         return str(self.id)
 
     def get_name(self, lang='oc'):
+        result = str(self.id)
         lang_names_dict = {'oc': self.name_oc, 'es': self.name_es, 'ca': self.name_ca, 'fr': self.name_fr, 'en': self.name_en}
-        if lang_names_dict[lang] is not None:
-            return lang_names_dict[lang]
-        for name in lang_names_dict.values():
-            if name is not None:
-                return name
-        return str(self.id)
+        if lang_names_dict[lang] is not None and lang_names_dict[lang] != '':
+            result = lang_names_dict[lang]
+        else:
+                for name in lang_names_dict.values():
+                    if name is not None and name != '':
+                        result = name
+        return result
 
     def get_description(self, lang='oc'):
         lang_description_dict = {'oc': self.description_oc, 'es': self.description_es, 'ca': self.description_ca, 'fr': self.description_fr, 'en': self.description_en}
-        if lang_description_dict[lang] is not None:
+        if lang_description_dict[lang] is not None and lang_description_dict[lang] != '':
             return lang_description_dict[lang]
         for x in lang_description_dict.values():
-            if x is not None:
+            if x is not None and x != '':
                 return x
         return None
 
     def get_short_description(self, lang='oc'):
         lang_short_description_dict = {'oc': self.short_description_oc, 'es': self.short_description_es, 'ca': self.short_description_ca, 'fr': self.short_description_fr, 'en': self.short_description_en}
-        if lang_short_description_dict[lang] is not None:
+        if lang_short_description_dict[lang] is not None and lang_short_description_dict[lang] != '':
             return lang_short_description_dict[lang]
         for x in lang_short_description_dict.values():
-            if x is not None:
+            if x is not None and x != '':
                 return x
         return None
 
@@ -243,19 +245,19 @@ class Highlight(models.Model):
 
     def get_name(self, lang='oc'):
         lang_names_dict = {'oc': self.name_oc, 'es': self.name_es, 'ca': self.name_ca, 'fr': self.name_fr, 'en': self.name_en}
-        if lang_names_dict[lang] is not None:
+        if lang_names_dict[lang] is not None and lang_names_dict[lang] != '':
             return lang_names_dict[lang]
         for name in lang_names_dict.values():
-            if name is not None:
+            if name is not None and name != '':
                 return name
         return str(self.id)
 
     def get_long_text(self, lang='oc'):
         lang_long_text_dict = {'oc': self.long_text_oc, 'es': self.long_text_es, 'ca': self.long_text_ca, 'fr': self.long_text_fr, 'en': self.long_text_en}
-        if lang_long_text_dict[lang] is not None:
+        if lang_long_text_dict[lang] is not None and lang_long_text_dict[lang] != '':
             return lang_long_text_dict[lang]
         for x in lang_long_text_dict.values():
-            if x is not None:
+            if x is not None and x != '':
                 return x
         return None
 
@@ -321,10 +323,10 @@ class Box(models.Model):
 
     def get_message(self, lang='oc'):
         lang_message_dict = {'oc': self.message_oc, 'es': self.message_es, 'ca': self.message_ca, 'fr': self.message_fr, 'en': self.message_en}
-        if lang_message_dict[lang] is not None:
+        if lang_message_dict[lang] is not None and lang_message_dict[lang] != '':
             return lang_message_dict[lang]
         for x in lang_message_dict.values():
-            if x is not None:
+            if x is not None and x != '':
                 return x
         return None
 

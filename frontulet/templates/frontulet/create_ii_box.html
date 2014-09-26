@@ -15,9 +15,14 @@
 
         <div id="page_title" class="page-header">
             {% block title %}
+                {% if editing %}
+                <h1>Edit interaction box
+            <small>Edit message or drag mouse to change box dimensions and location on the image.</small>
+                </h1>
+                {% else %}
                 <h1>Add interaction box
             <small>Drag mouse over photo to set coordinates, then add a message in at least one language.</small>
-                </h1>{% endblock %}
+                </h1>{% endif %}{% endblock %}
             <button id="lang_button" type="button" class="btn btn-primary"><span
                     class="glyphicon glyphicon-chevron-down"></span> Show all languages
             </button>
@@ -57,7 +62,7 @@
                 <canvas height={{ original_height }} width={{ original_width }}
                         style="height:{{ display_height }}px; width:{{ display_width }}px"
                         id="canvas_background"></canvas>
-                <canvas height={{ display_height }} width={{ display_width }} id="canvas"></canvas>
+                <canvas height={{ display_height }} width={{ display_width }} style="height:{{ display_height }}px; width:{{ display_width }}px" id="canvas"></canvas>
 
             </div>
 
@@ -118,7 +123,7 @@
         ctxc.clearRect(0, 0, canvas_highlights.width, canvas_highlights.height);
         ctxc.beginPath();
         ctxc.strokeStyle = "#00FFFF";
-        ctxc.lineWidth = 10;
+        ctxc.lineWidth = 5;
         ctxc.rect(rectX, rectY, rectWidth, rectHeight);
         ctxc.stroke();
     }
@@ -184,7 +189,7 @@
                     this_message = current_message_loc;
                 }
 
-                $alert.show().html(" <button type='button' class='close' onclick='dismiss_alert();'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>" + this_message + "<p><a href='#' class='alert-link'>click to edit</a></p>");
+                $alert.show().html(" <button type='button' class='close' onclick='dismiss_alert();'><span aria-hidden='true'>&times;</span><span class='sr-only'>Close</span></button>" + this_message + "<p><a href={% url 'edit_ii_box' ii_id box.box.id %} class='alert-link'>click to edit</a></p>");
             canvas.style.cursor = "context-menu";
             $click_reminder.html("<strong>Click anywhere on the image to dismiss dialog on left.</strong>");
 
@@ -286,6 +291,16 @@
 
     }
 
+        {% if editing %}
+        this_x = sf * {{ this_box.min_x }};
+        this_y = sf * {{ this_box.min_y }};
+        this_width = sf * ({{ this_box.max_x }}-{{ this_box.min_x }});
+        this_height = sf * ({{ this_box.max_y }}-{{ this_box.min_y }});
+
+        ctx.fillStyle = 'rgba(255, 0, 0, .5)';
+        ctx.fillRect(this_x, this_y, this_width, this_height);
+        {% endif %}
+
     init();
 
 
@@ -364,7 +379,7 @@
     $lb.on("click", toggle_langs);
 
     $("#cancel_button").on("click", function () {
-        window.location.replace("{% url 'show_route_detail' route_id %}")
+        window.location.replace("{% url 'show_route_detail' route_id %}#h{{ highlight_id }}")
     });
 
     </script>

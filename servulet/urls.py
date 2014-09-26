@@ -12,6 +12,7 @@ admin.autodiscover()
 # Wire up our API using automatic URL routing.
 # Additionally, we include login URLs for the browseable API.
 urlpatterns = patterns('', url(r'^admin/', include(admin.site.urls)),
+    (r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include('appulet.urls')),
     url(r'^home/', show_home, name='show_home'),
@@ -19,6 +20,8 @@ urlpatterns = patterns('', url(r'^admin/', include(admin.site.urls)),
     url(r'^edit_ii/(?P<ii_id>[0-9]+)/$', edit_ii, name='edit_ii'),
     url(r'^create_ii_box/(?P<ii_id>[0-9]+)/$', create_ii_box, name='create_ii_box'),
     url(r'^view_ii/(?P<ii_id>[0-9]+)/$', view_ii, name='view_ii'),
+    url(r'^delete_ii/(?P<ii_id>[0-9]+)/$', delete_ii, name='delete_ii'),
+    url(r'^edit_ii_box/(?P<ii_id>[0-9]+)/(?P<box_id>[0-9]+)/$', edit_ii_box, name='edit_ii_box'),
     url(r'^about/', show_about, name='show_about'),
     url(r'^map/', show_map, name='show_map'),
     url(r'^edit_profile/', edit_profile, name='edit_profile'),

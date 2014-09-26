@@ -145,12 +145,14 @@
             </script>
 
             <br>
+
             <div id="h{{ highlight.id }}" class="row">
 
                 <div class="col-md-4">
-                    <h3>{{ highlight.name }} {% if owner %}
-                        <a class="btn btn-default btn-sm" href={% url "edit_highlight" id highlight.id %} role="button">
-                        <span class="glyphicon glyphicon-edit"></span> </a>{% endif %}</h3>
+                    <h3>{{ highlight.name }}</h3>
+                    {% if owner %}
+                        <a class="btn btn-default" href={% url "edit_highlight" id highlight.id %} role="button"> <span class="glyphicon glyphicon-edit"></span> </a> <a class="btn btn-default" href={% url 'make_new_highlight_reference' id highlight.id %}> <span class="glyphicon glyphicon-upload"></span>  <span class="glyphicon glyphicon-book"></span> </a> <a class="btn btn-default" href={% url 'create_ii' highlight.id %}> <span class="glyphicon glyphicon-upload"></span>  <span class="glyphicon glyphicon-picture"></span> </a>{% endif %}
+
 
                     <p>{{ highlight.long_text }}</p>
 
@@ -184,19 +186,18 @@
     <a href="{% url 'view_ii' ii.id %}" type="button" class="btn btn-primary"> <span class="glyphicon glyphicon-picture"></span> Interactive Image{% if highlight.interactive_images|length > 1 %} {{ forloop.counter }}{% endif %}
 </a>
 
-{% if owner %}<a class="btn btn-default" href={% url 'edit_ii' ii.id %}> <span class="glyphicon glyphicon-edit"></span> Replace Interactive Image{% if highlight.interactive_images|length > 1 %} {{ forloop.counter }}{% endif %}</a>{% endif %}
 
 </div>
+<br>
 
         {% endfor %}
 
 
             {% for ref in highlight.references %}
 <div class="row">
-<br>
 
 
-    <button onclick="toggle_iframe('ref_div{{ ref.id }}');" type="button" class="btn btn-primary"> <span class="glyphicon glyphicon-book"></span> Reference{% if highlight.references|length > 1 %}: {{ ref.name }}{% endif %}
+    <button onclick="toggle_iframe('ref_div{{ ref.id }}');" type="button" class="btn btn-primary"> <span class="glyphicon glyphicon-chevron-down"></span>  <span class="glyphicon glyphicon-book"></span> Reference{% if highlight.references|length > 1 %}: {{ ref.name }}{% endif %}
 </button>
 
 </div>
@@ -211,16 +212,7 @@
 </div>
 </div>
 <br>
-<br>
 {% endfor %}
-
-            <div class="row">
-            {% if owner %}<a class="btn btn-default" href={% url 'make_new_highlight_reference' id highlight.id %}> <span class="glyphicon glyphicon-upload"></span> Add Detailed Reference</a>{% endif %}
-</div>
-
-{% if owner %}<a class="btn btn-default" href={% url 'create_ii' highlight.id %}> <span class="glyphicon glyphicon-upload"></span> Add Interactive Image</a>{% endif %}
-
-            <br><br>
             <div class="border-row"></div>
 
 

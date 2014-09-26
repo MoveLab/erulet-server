@@ -1,6 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 import servulet as project_module
 import django.conf.global_settings as DEFAULT_SETTINGS
+import django.conf.locale
 
 
 """
@@ -96,6 +97,22 @@ USE_I18N = True
 USE_L10N = False
 
 USE_TZ = True
+
+EXTRA_LANG_INFO = {
+    'oc': {
+        'bidi': False, # right-to-left
+        'code': 'oc',
+        'name': 'Aranese',
+        'name_local': u'Aran' + unichr(233) + 's', #unicode codepoints here
+    },
+}
+
+# Add custom languages not provided by Django
+LANG_INFO = dict(django.conf.locale.LANG_INFO.items() + EXTRA_LANG_INFO.items())
+django.conf.locale.LANG_INFO = LANG_INFO
+
+# Languages using BiDi (right-to-left) layout
+DEFAULT_SETTINGS.LANGUAGES = DEFAULT_SETTINGS.LANGUAGES + (("oc",'Aranese'),)
 
 LANGUAGES = (
     ('oc', _('Aranese')),
