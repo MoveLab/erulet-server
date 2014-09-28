@@ -3,7 +3,6 @@ import servulet as project_module
 import django.conf.global_settings as DEFAULT_SETTINGS
 import django.conf.locale
 
-
 """
 Django settings for servulet project.
 
@@ -99,11 +98,11 @@ USE_L10N = False
 USE_TZ = True
 
 EXTRA_LANG_INFO = {
-    'oc': {
-        'bidi': False, # right-to-left
-        'code': 'oc',
-        'name': 'Aranese',
-        'name_local': u'Aran' + unichr(233) + 's', #unicode codepoints here
+    u'oc': {
+        u'bidi': False,  # right-to-left
+        u'code': 'oc',
+        u'name': 'Aranese',
+        u'name_local': u'Aran' + unichr(233) + 's',  #unicode codepoints here
     },
 }
 
@@ -112,7 +111,7 @@ LANG_INFO = dict(django.conf.locale.LANG_INFO.items() + EXTRA_LANG_INFO.items())
 django.conf.locale.LANG_INFO = LANG_INFO
 
 # Languages using BiDi (right-to-left) layout
-DEFAULT_SETTINGS.LANGUAGES = DEFAULT_SETTINGS.LANGUAGES + (("oc",'Aranese'),)
+# DEFAULT_SETTINGS.LANGUAGES = DEFAULT_SETTINGS.LANGUAGES + (("oc", 'Aranese'),)
 
 LANGUAGES = (
     ('oc', _('Aranese')),

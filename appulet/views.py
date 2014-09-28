@@ -41,41 +41,51 @@ class ReadWriteOnlyModelViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet
     pass
 
 
-def get_route_files(request, route_id):
-
-
-    # Files (local path) to put in the .zip
-    # FIXME: Change this (get paths from DB etc)
-    filenames = ["/tmp/file1.txt", "/tmp/file2.txt"]
-
+def get_route_content_files(request, route_id):
+    zip_dic = {}
+    this_route = Route.objects.get(id=route_id)
+    these_steps = this_route.track.steps.all()
+    # all route reference files
+    if this_route.reference.html_file is not None:
+        this_dir = os.path.dirname(this_route.reference.html_file.path)
+        these_file_names = os.listdir(this_dir)
+        for this_file_name in these_file_names:
+            if this_file_name.split('.')[-1] != 'zip':
+                zip_dic['route_reference/' + this_file_name] = os.path.join(this_dir, this_file_name)
+    # highlight content
+    for h in Highlight.objects.filter(step__in=these_steps):
+        # highlight media
+        if h.media:
+            zip_dic['highlight_' + str(h.id) + '/media/' + os.path.split(h.media.path)[-1]] = h.media.path
+        # references
+        for r in h.references.all():
+            # all reference files
+            this_dir = os.path.dirname(r.html_file.path)
+            these_file_names = os.listdir(this_dir)
+            for this_file_name in these_file_names:
+                if this_file_name.split('.')[-1] != 'zip':
+                    zip_dic['highlight_' + str(h.id) + '/reference_' + str(r.id) + '/' + this_file_name] = os.path.join(this_dir, this_file_name)
+        # interactive images
+        for i in h.interactive_images.all():
+            if i.image_file:
+                zip_dic['highlight_' + str(h.id) + '/interactive_image_' + str(i.id) + '/' + os.path.split(i.image_file.path)[-1]] = i.image_file.path
     # Folder name in ZIP archive which contains the above files
     # E.g [thearchive.zip]/somefiles/file2.txt
-    # FIXME: Set this to something better
-    zip_subdir = "somefiles"
+    zip_subdir = "content_route" + str(route_id)
     zip_filename = "%s.zip" % zip_subdir
-
     # Open StringIO to grab in-memory ZIP contents
     s = StringIO.StringIO()
-
     # The zip compressor
     zf = zipfile.ZipFile(s, "w")
-
-    for fpath in filenames:
-        # Calculate path for file in zip
-        fdir, fname = os.path.split(fpath)
-        zip_path = os.path.join(zip_subdir, fname)
-
+    for zpath in zip_dic:
         # Add file, at correct path
-        zf.write(fpath, zip_path)
-
+        zf.write(zip_dic[zpath], zpath)
     # Must close zip for all contents to be written
     zf.close()
-
     # Grab ZIP file from in-memory, make response with correct MIME-type
-    resp = HttpResponse(s.getvalue(), mimetype = "application/x-zip-compressed")
+    resp = HttpResponse(s.getvalue(), mimetype="application/x-zip-compressed")
     # ..and correct content-disposition
     resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-
     return resp
 
 
