@@ -12,6 +12,7 @@ from frontulet.forms import *
 import zipfile, shutil
 from django.conf import settings
 from PIL import Image
+import shutil
 
 
 def show_landing_page(request):
@@ -35,10 +36,13 @@ def show_about(request):
 
 
 def show_map(request):
-    step_list = list()
+    route_list = list()
     for route in Route.objects.all():
-        step_list.append(route.track.steps.all().order_by('order'))
-    context = {'routes': Route.objects.all(), 'steps': step_list}
+        these_track_steps = filter(lambda step: step.order is not None, route.track.steps.all().order_by('order'))
+        these_highlight_steps = filter(lambda step: step.order is None, route.track.steps.all())
+        these_highlights = map(lambda highlight: {'route_name': highlight.step.track.route.get_name(request.LANGUAGE_CODE), 'route_id': highlight.step.track.route.id, 'highlight_id': highlight.id, 'latitude': highlight.step.latitude, 'longitude': highlight.step.longitude, 'name': highlight.get_name(request.LANGUAGE_CODE), 'long_text': highlight.get_long_text(request.LANGUAGE_CODE), 'type': highlight.type}, [hl for hl in Highlight.objects.filter(step__in=these_highlight_steps).order_by('order')])
+        route_list.append({'track_steps': these_track_steps, 'highlights': these_highlights})
+    context = {'routes': Route.objects.all(), 'route_list': route_list}
     return render(request, 'frontulet/map.html', context)
 
 
@@ -52,14 +56,14 @@ def show_route_list(request, whose=''):
             title = "Other Hikers' Routes"
         elif whose == 'official':
             routes = Route.objects.filter(official=True)
-            title = "Official Routes"
+            title = "Holet's Routes"
         else:
             routes = Route.objects.all()
             title = "All Routes"
     else:
         if whose == 'official':
             routes = Route.objects.filter(official=True)
-            title = "Official Routes"
+            title = "Holet's Routes"
         else:
             routes = Route.objects.all()
             title = "All Routes"
@@ -241,27 +245,23 @@ def edit_route(request, id):
         args = {}
         args.update(csrf(request))
         this_route = Route.objects.get(pk=id)
-        this_track = this_route.track
         if this_route.created_by == request.user:
             if request.method == 'POST':
                 if 'scientists' in [group.name for group in request.user.groups.all()]:
-                    form = OfficialRouteForm(request.POST, request.FILES, instance=this_route)
+                    form = EditOfficialRouteForm(request.POST, instance=this_route)
                 else:
-                    form = RouteForm(request.POST, request.FILES, instance=this_route)
+                    form = EditRouteForm(request.POST, instance=this_route)
                     args['form'] = form
                 if form.is_valid():
                     form.save()
-                    parse_gpx_track(this_route, this_track)
-                    parse_gpx_waypoints(request.user, this_route, this_track)
-                    parse_gpx_pois(request.user, this_route, this_track)
 
                     return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(this_route.id)}))
 
             else:
                 if 'scientists' in [group.name for group in request.user.groups.all()]:
-                    args['form'] = OfficialRouteForm(instance=this_route)
+                    args['form'] = EditOfficialRouteForm(instance=this_route)
                 else:
-                    args['form'] = RouteForm(instance=this_route)
+                    args['form'] = EditRouteForm(instance=this_route)
 
                 return render(request, 'frontulet/edit_route.html', args)
 
@@ -476,6 +476,54 @@ def delete_highlight_reference(request, route_id, reference_id):
         if this_reference.highlight.created_by == request.user:
             this_reference.delete()
     return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + '#h' + str(this_highlight.id))
+
+
+def delete_route_reference(request, route_id):
+    this_route = Route.objects.get(id=route_id)
+    this_reference = this_route.reference
+    if request.user.is_authenticated():
+        if this_reference.route.created_by == request.user:
+            this_reference.delete()
+    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}))
+
+
+def delete_route(request, route_id):
+    this_route = Route.objects.get(id=route_id)
+    this_track = this_route.track
+    trees_to_delete = []
+    files_to_delete = []
+    if request.user.is_authenticated():
+        if this_route.created_by == request.user:
+            # remove all route reference files
+            if this_route.reference.html_file:
+                trees_to_delete.append(os.path.dirname(this_route.reference.html_file.path))
+            # remove all gpx files
+            if this_route.gpx_track:
+                files_to_delete.append(this_route.gpx_track.path)
+            if this_route.gpx_waypoints:
+                files_to_delete.append(this_route.gpx_waypoints.path)
+            if this_route.gpx_pois:
+                files_to_delete.append(this_route.gpx_pois.path)
+            for step in Step.objects.filter(track=this_track):
+                for highlight in step.highlights.all():
+                    if highlight.media:
+                        files_to_delete.append(highlight.media.path)
+                    for reference in highlight.references.all():
+                        # remove all highlight reference files
+                        if reference.html_file:
+                            trees_to_delete.append(os.path.dirname(reference.html_file.path))
+                    for interactive_image in highlight.interactive_images.all():
+                        # remove interactive image files
+                        if interactive_image.image_file:
+                            files_to_delete.append(interactive_image.image_file.path)
+            # first delete the route from the database
+            this_route.delete()
+            # now delete all associated files
+            for this_file in files_to_delete:
+                os.remove(this_file)
+            for this_tree in trees_to_delete:
+                shutil.rmtree(this_tree)
+    return HttpResponseRedirect(reverse('show_home'))
 
 
 def edit_profile(request):

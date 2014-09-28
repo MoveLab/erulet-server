@@ -27,16 +27,16 @@
         <div class="page-header">
             {% if request.user.is_authenticated %}
                 {% if request.user.first_name %}
-                    <h1>Welcome to Erulet, {{ request.user.first_name }}!
+                    <h1>Welcome to Holet, {{ request.user.first_name }}!
                         <small>What would you like to do today?</small>
                     </h1>
                 {% else %}
-                    <h1>Welcome to Erulet!
+                    <h1>Welcome to Holet!
                         <small>What would you like to do today?</small>
                     </h1>
                 {% endif %}
             {% else %}
-                <h1>Welcome to Erulet!
+                <h1>Welcome to Holet!
                     <small>What would you like to do today?</small>
                 </h1>
             {% endif %}
@@ -83,9 +83,9 @@
 
         <div class="row">
             <div class="col-md-4">
-                <a class="btn btn-primary btn-block" href={% url 'show_route_list' 'official' %}>List Official Routes</a>
+                <a class="btn btn-primary btn-block" href={% url 'show_route_list' 'official' %}>List Holet's Routes</a>
             </div>
-            <div class="col-md-8">View the routes created by the scientists behind Erulet.</div>
+            <div class="col-md-8">View the routes created by the scientists behind Holet.</div>
         </div>
     <br>
         <div class="row">

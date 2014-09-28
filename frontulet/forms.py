@@ -59,8 +59,6 @@ class HighlightForm(forms.ModelForm):
             else:
                 raise forms.ValidationError(_('Filetype not supported.'))
             return uploaded_file
-        else:
-            raise forms.ValidationError(_('No file selected.'))
 
 
 class ReferenceForm(forms.ModelForm):
@@ -106,6 +104,13 @@ class RouteForm(forms.ModelForm):
         return uploaded_file
 
 
+class EditRouteForm(forms.ModelForm):
+
+    class Meta:
+        model = Route
+        fields = ['name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en']
+
+
 class OfficialRouteForm(forms.ModelForm):
 
     class Meta:
@@ -126,6 +131,13 @@ class OfficialRouteForm(forms.ModelForm):
             raise forms.ValidationError(_('Filetype not supported.'))
 
         return uploaded_file
+
+
+class EditOfficialRouteForm(forms.ModelForm):
+
+    class Meta:
+        model = Route
+        fields = ['official', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en']
 
 
 class RegistrationForm(forms.ModelForm):

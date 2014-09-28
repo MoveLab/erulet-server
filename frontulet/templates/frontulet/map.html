@@ -124,51 +124,46 @@
             var wp_markers = new L.LayerGroup();
 
 
-            {% for route in steps %}
+            {% for route in route_list %}
 
                 var these_latlngs = [];
 
-                {% for step in route.all %}
-                    {% if step.order %}
+                {% for step in route.track_steps %}
 
                         these_latlngs[these_latlngs.length] = [{{  step.latitude }}, {{ step.longitude }}];
 
-                    {% else %}
+                {% endfor %}
+                {% for highlight in route.highlights %}
 
-                        {% for highlight in step.highlights.all %}
-
-                        var popup_text = '<h4>{{ highlight.name }}<h4><p>{{ highlight.long_text }}';
+                        var popup_text = '<p><strong>{{ highlight.route_name }}: {{ highlight.name }}</strong></p><p>{{ highlight.long_text }}</p><a href="{% url "show_route_detail" highlight.route_id %}#h{{ highlight.highlight_id }}">View Details</a>';
 
                             {% if highlight.type == 1 %}
 
-                                 wp_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: wp_icon}).bindPopup(popup_text));
+                                 wp_markers.addLayer(L.marker([{{ highlight.latitude }}, {{ highlight.longitude }}], {icon: wp_icon}).bindPopup(popup_text));
 
 
                             {% elif highlight.type == 0 %}
 
-                                 poi_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: poi_icon}).bindPopup(popup_text));
+                                 poi_markers.addLayer(L.marker([{{ highlight.latitude }}, {{ highlight.longitude }}], {icon: poi_icon}).bindPopup(popup_text));
 
 
                             {% endif %}
 
                         {% endfor %}
 
-                    {% endif %}
 
 
-                {% endfor %}
-
-                var polyline = L.polyline(these_latlngs, {weight: 5, opacity: 1, color: 'black'}).addTo(map);
-                var polyline = L.polyline(these_latlngs, {weight: 2, opacity: 1, color: colors[color_counter % colors.length]}).addTo(map);
+                L.polyline(these_latlngs, {weight: 5, opacity: 1, color: 'black'}).addTo(map);
+                L.polyline(these_latlngs, {weight: 2, opacity: 1, color: colors[color_counter % colors.length]}).addTo(map);
 
                 color_counter++;
 
-            {% endfor %}
+                {% endfor %}
 
 
                 var overlays = {
-                "{% trans 'waypoints' %}": wp_markers,
-                "{% trans 'points of interest' %}": poi_markers
+                'points of interest': poi_markers,
+                'waypoints': wp_markers
             };
 
 

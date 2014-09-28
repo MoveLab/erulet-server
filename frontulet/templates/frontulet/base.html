@@ -8,10 +8,10 @@
     {% block encoding %}<meta charset="utf-8">{% endblock  %}
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
-    <meta name="description" content="Erulet">
+    <meta name="description" content="Holet">
     <meta name="author" content="Movement Ecology Laboratory">
 
-    <title>{% block page_title %}Erulet{% endblock %}</title>
+    <title>{% block page_title %}Holet{% endblock %}</title>
 
     {% block bootstrap_css %}
         <!-- Bootstrap core CSS -->
@@ -58,7 +58,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href={% url "show_landing_page" %}><span style="color:#428bca">Erulet</span></a>
+                        <a class="navbar-brand" href={% url "show_landing_page" %}><span style="color:#428bca">Holet</span></a>
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
@@ -72,7 +72,7 @@
                                         <li><a href={% url 'show_route_list' 'mine' %}>My Routes</a></li>
                                         <li><a href={% url 'show_route_list' 'others' %}>Other Hikers' Routes</a></li>
                                     {% endif %}
-                                    <li><a href={% url 'show_route_list' 'official' %}>Official Routes</a></li>
+                                    <li><a href={% url 'show_route_list' 'official' %}>Holet's Routes</a></li>
                                     {% if request.user.is_authenticated %}
                                     <li class="divider"></li>
                                     <li><a href={% url "make_new_route" %}>Add new route</a></li>

@@ -3,10 +3,81 @@
 
      {% block title %}
          <h1>Edit Reference <small>Change reference name or replace HTML by uploading a ZIP file.</small></h1>
-   <p>To replace the reference HTML, use this form to upload a ZIP file that contains a replacement HTML file along with all linked CSS, JPG, PNG, GIF, and/or MP4 files (no other file types are allowed). Make sure the links in the HTML file use relative paths (e.g. src="poi.png" not src="http://erulet.com/poi.png) unless they are links to resources that are hosted on another server (in which case use the absolute path to that server (e.g. src="http://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Agapanthia_pustulifera_copulation_1.jpg/500px-Agapanthia_pustulifera_copulation_1.jpg"). Note that it is not necessary to include linked CSS. If no CSS file is included, the server will create one, which will be used when the reference is displayed in the Erulet mobile apps. (When the reference is displayed on this website, it will use unique CSS to match the website's formatting, regardless of whether you include your own CSS file with it.)</p>
+   <p>To replace the reference HTML, use this form to upload a ZIP file that contains a replacement HTML file along with all linked CSS, JPG, PNG, GIF, and/or MP4 files (no other file types are allowed). Make sure the links in the HTML file use relative paths (e.g. src="poi.png" not src="http://erulet.com/poi.png) unless they are links to resources that are hosted on another server (in which case use the absolute path to that server (e.g. src="http://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Agapanthia_pustulifera_copulation_1.jpg/500px-Agapanthia_pustulifera_copulation_1.jpg"). Note that it is not necessary to include linked CSS. If no CSS file is included, the server will create one, which will be used when the reference is displayed in the Holet mobile apps. (When the reference is displayed on this website, it will use unique CSS to match the website's formatting, regardless of whether you include your own CSS file with it.)</p>
+
+                 <button id="lang_button" type="button" class="btn btn-primary"><span
+                    class="glyphicon glyphicon-chevron-down"></span> Show all languages
+            </button>
 
      {% endblock %}
 
 
     {% block cancel_button %}<a href="{% url 'show_route_detail' route_id %}#h{{ highlight_id}}">Cancel</a>{% endblock %}
 
+{% block body_scripts %}
+{{ block.super }}
+
+    <script>
+
+
+    var this_lang = "{{ request.LANGUAGE_CODE }}";
+
+$("#id_name_oc, label[for='id_name_oc']").addClass("oc lang");
+$("#id_name_es, label[for='id_name_es']").addClass("es lang");
+$("#id_name_ca, label[for='id_name_ca']").addClass("ca lang");
+$("#id_name_fr, label[for='id_name_fr']").addClass("fr lang");
+$("#id_name_en, label[for='id_name_en']").addClass("en lang");
+
+    var $lb = $("#lang_button");
+
+
+    var showing_all_languages = false;
+
+
+
+    function setup_lang_display() {
+        if (!showing_all_languages) {
+
+            $lb.html(" <span class='glyphicon glyphicon-chevron-down'></span> Display all languages");
+            $(".lang").hide();
+
+            if (this_lang == 'oc') {
+            $(".oc").show();
+            }
+            else if (this_lang == 'es') {
+            $(".es").show();
+            }
+            else if (this_lang == 'ca') {
+            $(".ca").show();
+            }
+            else if (this_lang == 'fr') {
+            $(".fr").show();
+            }
+            else if (this_lang == 'en') {
+            $(".en").show();
+            }
+
+
+        } else {
+            $lb.html(" <span class='glyphicon glyphicon-chevron-down'></span> Display only your language");
+
+            $(".lang").show();
+
+
+        }
+
+    }
+
+    function toggle_langs() {
+        showing_all_languages = !showing_all_languages;
+        setup_lang_display();
+    }
+
+
+    setup_lang_display();
+
+    $lb.on("click", toggle_langs);
+
+    </script>
+
+{% endblock %}

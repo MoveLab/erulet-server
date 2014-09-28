@@ -1,4 +1,4 @@
-<p>Servulet is a server for the Erulet project, which aims to disseminate information, facilitate visits, and engage the public to participate in studying and protecting natural areas of the Val d'Aran.
+<p>Servulet is a server for the Holet project, which aims to disseminate information, facilitate visits, and engage the public to participate in studying and protecting natural areas of the Val d'Aran.
 
 <p>Copyright &#169; 2014 John R.B. Palmer, Agustí Escobar, Frederic Bartumeus, Lluís Camarero, Jordi Catalan</p>
 

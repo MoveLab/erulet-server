@@ -171,7 +171,7 @@ class Route(models.Model):
     name_ca = models.CharField("Name - Catalan", max_length=200, blank=True)
     name_fr = models.CharField("Name - Frensh", max_length=200, blank=True)
     name_en = models.CharField("Name - English", max_length=200, blank=True)
-    reference = models.OneToOneField(Reference, blank=True, null=True)
+    reference = models.OneToOneField(Reference, blank=True, null=True, on_delete=models.SET_NULL)
     track = models.OneToOneField(Track, blank=True, null=True)
     upload_time = models.DateTimeField(blank=True, null=True)
     gpx_track = models.FileField("GPX Track", upload_to=gpx_tracks, blank=True)
@@ -187,7 +187,7 @@ class Route(models.Model):
         return str(self.id)
 
     def get_name(self, lang='oc'):
-        result = str(self.id)
+        result = 'Unnamed Route - ID: ' + str(self.id)
         lang_names_dict = {'oc': self.name_oc, 'es': self.name_es, 'ca': self.name_ca, 'fr': self.name_fr, 'en': self.name_en}
         if lang_names_dict[lang] is not None and lang_names_dict[lang] != '':
             result = lang_names_dict[lang]
@@ -204,7 +204,7 @@ class Route(models.Model):
         for x in lang_description_dict.values():
             if x is not None and x != '':
                 return x
-        return None
+        return ''
 
     def get_short_description(self, lang='oc'):
         lang_short_description_dict = {'oc': self.short_description_oc, 'es': self.short_description_es, 'ca': self.short_description_ca, 'fr': self.short_description_fr, 'en': self.short_description_en}
@@ -213,12 +213,12 @@ class Route(models.Model):
         for x in lang_short_description_dict.values():
             if x is not None and x != '':
                 return x
-        return None
+        return ''
 
 
 class Highlight(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
-    created_by = models.ForeignKey(User, blank=True, null=True, related_name='highlights')
+    created_by = models.ForeignKey(User, blank=True, null=True, related_name='highlights', on_delete=models.SET_NULL)
     name_oc = models.CharField(max_length=100, blank=True)
     name_es = models.CharField(max_length=100, blank=True)
     name_ca = models.CharField(max_length=100, blank=True)
@@ -250,7 +250,7 @@ class Highlight(models.Model):
         for name in lang_names_dict.values():
             if name is not None and name != '':
                 return name
-        return str(self.id)
+        return 'Unnamed Highlight - ID: ' + str(self.id)
 
     def get_long_text(self, lang='oc'):
         lang_long_text_dict = {'oc': self.long_text_oc, 'es': self.long_text_es, 'ca': self.long_text_ca, 'fr': self.long_text_fr, 'en': self.long_text_en}
@@ -259,7 +259,7 @@ class Highlight(models.Model):
         for x in lang_long_text_dict.values():
             if x is not None and x != '':
                 return x
-        return None
+        return ''
 
     def get_media_ext(self):
         ext = ''
