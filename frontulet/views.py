@@ -337,8 +337,20 @@ def set_up_reference(reference):
             return 'There is no HTML file in this ZIP archive. Please include at least one HTML file.'
         else:
             this_file.extractall(path=this_dir)
+            # if it is a general reference, then extract also to general references folder
+            if reference.highlight is None and reference.route is None:
+                general_reference_path = os.path.join(os.path.dirname(this_dir), 'general_references')
+                this_file.extractall(path=general_reference_path)
             for html_path in html_file_paths:
-                os.rename(html_path[1], os.path.join(this_dir, 'reference_' + html_path[0] + '.html'))
+                with codecs.open(html_path[1], 'r', 'iso-8859-1') as f:
+                    this_html_original = f.read()
+                    f.close()
+                    this_html_final = this_html_original.replace('href="IT', 'href="../general_references/IT')
+                    new_file = codecs.open(os.path.join(this_dir, 'reference_' + html_path[0] + '.html'), 'w', 'iso-8859-1')
+                    new_file.write(this_html_final)
+                    new_file.close()
+                    # delete original file
+                    os.remove(html_path[1])
             these_extensions = [name.split('.')[-1] for name in file_names]
             if 'css' not in these_extensions:
                 add_css(reference)
@@ -472,18 +484,28 @@ def edit_highlight_reference(request, route_id, reference_id):
 def delete_highlight_reference(request, route_id, reference_id):
     this_reference = Reference.objects.get(pk=reference_id)
     this_highlight = this_reference.highlight
+    trees_to_delete = []
     if request.user.is_authenticated():
         if this_reference.highlight.created_by == request.user:
+            if this_reference.html_file:
+                trees_to_delete.append(os.path.dirname(this_reference.html_file.path))
             this_reference.delete()
+            for this_tree in trees_to_delete:
+                shutil.rmtree(this_tree)
     return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + '#h' + str(this_highlight.id))
 
 
 def delete_route_reference(request, route_id):
     this_route = Route.objects.get(id=route_id)
     this_reference = this_route.reference
+    trees_to_delete = []
     if request.user.is_authenticated():
         if this_reference.route.created_by == request.user:
+            if this_reference.html_file:
+                trees_to_delete.append(os.path.dirname(this_reference.html_file.path))
             this_reference.delete()
+            for this_tree in trees_to_delete:
+                shutil.rmtree(this_tree)
     return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}))
 
 
@@ -690,3 +712,75 @@ def delete_ii(request, ii_id):
     this_route_id = this_ii.highlight.step.track.route.id
     this_ii.delete()
     return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': this_route_id}) +"#h" + str(this_highlight_id) )
+
+
+def show_general_references(request):
+    scientist = 'scientists' in [group.name for group in request.user.groups.all()]
+    these_references = map(lambda r: {'id': r.id, 'name': r.get_name(request.LANGUAGE_CODE), 'html': r.get_reference_html(request.LANGUAGE_CODE).replace('src="', 'src="'+r.reference_url_base+'/').split('</head>')[-1].split('</html>')[0], 'uuid': r.uuid}, [ref for ref in Reference.objects.filter(highlight__isnull=True).filter(route__isnull=True)])
+    context = {'references': these_references, 'scientist': scientist}
+    return render(request, 'frontulet/general_references.html', context)
+
+
+def make_new_general_reference(request):
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
+        args = {}
+        args.update(csrf(request))
+        if request.method == 'POST':
+            this_reference = Reference()
+            this_reference.save()
+            form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
+            args['form'] = form
+            if form.is_valid():
+                form.save()
+                setup_response = set_up_reference(this_reference)
+                if setup_response == 'OK':
+                    return HttpResponseRedirect(reverse('show_general_references'))
+                else:
+                    args['form'] = ReferenceForm()
+                    args['error_message'] = setup_response
+                    return render(request, 'frontulet/upload_error.html', args)
+        else:
+            args['form'] = ReferenceForm()
+
+        return render(request, 'frontulet/create_reference.html', args)
+
+    else:
+        return render(request, 'registration/no_permission_must_login.html')
+
+
+def edit_general_reference(request, reference_id):
+    if request.user.is_authenticated() and'scientists' in [group.name for group in request.user.groups.all()]:
+        args = {}
+        args.update(csrf(request))
+        this_reference = Reference.objects.get(id=reference_id)
+        if request.method == 'POST':
+            form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
+            args['form'] = form
+            if form.is_valid():
+                form.save()
+                setup_response = set_up_reference(this_reference)
+                if setup_response == 'OK':
+                    return HttpResponseRedirect(reverse('show_general_references'))
+                else:
+                    args['form'] = ReferenceForm()
+                    args['error_message'] = setup_response
+                    return render(request, 'frontulet/upload_error.html', args)
+        else:
+            args['form'] = ReferenceForm(instance=this_reference)
+        return render(request, 'frontulet/edit_reference.html', args)
+    else:
+        return render(request, 'registration/no_permission_must_login.html')
+
+
+def delete_general_reference(request, reference_id):
+    this_reference = Reference.objects.get(id=reference_id)
+    trees_to_delete = []
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
+        if this_reference.html_file:
+            trees_to_delete.append(os.path.dirname(this_reference.html_file.path))
+        this_reference.delete()
+        for this_tree in trees_to_delete:
+            shutil.rmtree(this_tree, True)
+        return HttpResponseRedirect(reverse('show_general_references'))
+    else:
+        return render(request, 'registration/no_permission_must_login.html')

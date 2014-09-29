@@ -75,7 +75,7 @@ class Reference(models.Model):
     name_ca = models.CharField(max_length=200, blank=True)
     name_fr = models.CharField(max_length=200, blank=True)
     name_en = models.CharField(max_length=200, blank=True)
-    html_file = models.FileField('ZIP file', upload_to=make_media_uuid('erulet/references'))
+    html_file = models.FileField('ZIP file', upload_to=make_media_uuid('holet/references'))
     highlight = models.ForeignKey('Highlight', blank=True, null=True, related_name='references')
 
     def __unicode__(self):
@@ -136,19 +136,19 @@ class Reference(models.Model):
 
 class ReferenceImage(models.Model):
     reference = models.ForeignKey(Reference)
-    image = models.ImageField(upload_to=make_reference_image_uuid('erulet/references/'))
+    image = models.ImageField(upload_to=make_reference_image_uuid('holet/references/'))
 
 
 def gpx_tracks(instance, filename):
-    return "erulet/gpx_tracks/%s.gpx" % uuid.uuid4()
+    return "holet/gpx_tracks/%s.gpx" % uuid.uuid4()
 
 
 def gpx_waypoints(instance, filename):
-    return "erulet/gpx_waypoints/%s.gpx" % uuid.uuid4()
+    return "holet/gpx_waypoints/%s.gpx" % uuid.uuid4()
 
 
 def gpx_pois(instance, filename):
-    return "erulet/gpx_pois/%s.gpx" % uuid.uuid4()
+    return "holet/gpx_pois/%s.gpx" % uuid.uuid4()
 
 
 class Route(models.Model):
@@ -165,7 +165,7 @@ class Route(models.Model):
     short_description_ca = models.CharField("Short Description - Catalan", max_length=100, blank=True)
     short_description_fr = models.CharField("Short Description - Frensh", max_length=100, blank=True)
     short_description_en = models.CharField("Short Description - English", max_length=100, blank=True)
-    local_carto = models.FileField(upload_to=make_media_uuid('erulet/carto'), blank=True, null=True)
+    local_carto = models.FileField(upload_to=make_media_uuid('holet/carto'), blank=True, null=True)
     name_oc = models.CharField("Name - Aranese", max_length=200, blank=True)
     name_es = models.CharField("Name - Spanish", max_length=200, blank=True)
     name_ca = models.CharField("Name - Catalan", max_length=200, blank=True)
@@ -229,7 +229,7 @@ class Highlight(models.Model):
     long_text_ca = models.CharField(max_length=2000, blank=True)
     long_text_fr = models.CharField(max_length=2000, blank=True)
     long_text_en = models.CharField(max_length=2000, blank=True)
-    media = models.FileField(upload_to=make_media_uuid('erulet/highlights'), blank=True, null=True)
+    media = models.FileField(upload_to=make_media_uuid('holet/highlights'), blank=True, null=True)
     radius = models.FloatField(blank=True, null=True)
     TYPE_CHOICES = ((0, 'point of interest'), (1, 'waypoint'),)
     type = models.IntegerField(choices=TYPE_CHOICES)
@@ -280,7 +280,7 @@ class Highlight(models.Model):
 
 class InteractiveImage(models.Model):
     uuid = models.CharField(max_length=40, blank=True)
-    image_file = models.ImageField(upload_to=make_media_uuid('erulet/interactive_images'))
+    image_file = models.ImageField(upload_to=make_media_uuid('holet/interactive_images'))
     highlight = models.ForeignKey(Highlight, blank=True, null=True, related_name='interactive_images')
 
     def __unicode__(self):
