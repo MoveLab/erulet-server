@@ -325,9 +325,9 @@ def set_up_reference(reference):
             this_extension = name_split[-1]
             if this_extension == 'html':
                 lang_code = name_split[0].split('-')[-1][:2]
-                if lang_code not in map(lambda x: x[0].upper(), settings.LANGUAGES) + map(lambda x: x[0].upper(), settings.LANGUAGES):
+                if lang_code not in ['to'] + map(lambda x: x[0].upper(), settings.LANGUAGES) + map(lambda x: x[0].lower(), settings.LANGUAGES):
                     reference.delete()
-                    return 'At least one HTML file in your ZIP archive was missing a supported language code. Please make sure each HTML has a file name that ends in either -oc.html, -es,html, -ca.html, -fr.html, or -en.html.'
+                    return 'At least one HTML file in your ZIP archive was missing a supported language code. Please make sure each HTML has a file name that ends in either -oc.html, -es,html, -ca.html, -fr.html, -en.html, or -to.html.'
                 else:
                     html_file_paths.append((lang_code.lower(), os.path.join(this_dir, name)))
             elif this_extension.lower() not in allowed_extensions:
@@ -349,9 +349,15 @@ def set_up_reference(reference):
                 with codecs.open(html_path[1], 'r', 'iso-8859-1') as f:
                     this_html_original = f.read()
                     this_html_final = this_html_original.replace('href="IT', 'href="../general_references/IT')
-                    new_file = codecs.open(os.path.join(this_dir, 'reference_' + html_path[0] + '.html'), 'w+', 'iso-8859-1')
-                    new_file.write(this_html_final)
-                    new_file.close()
+                    if html_path[0] == 'to':
+                        for lc in map(lambda x: x[0].lower(), settings.LANGUAGES):
+                            new_file = codecs.open(os.path.join(this_dir, 'reference_' + lc + '.html'), 'w+', 'iso-8859-1')
+                            new_file.write(this_html_final)
+                            new_file.close()
+                    else:
+                        new_file = codecs.open(os.path.join(this_dir, 'reference_' + html_path[0] + '.html'), 'w+', 'iso-8859-1')
+                        new_file.write(this_html_final)
+                        new_file.close()
                     f.close()
                     # delete original file
                     os.remove(html_path[1])
