@@ -81,10 +81,10 @@ def show_route_detail(request, id):
         reference_html = ''
         if has_reference:
             reference_html_raw = this_route.reference.get_reference_html(request.LANGUAGE_CODE)
-            reference_html = reference_html_raw.replace('src="', 'src="'+this_route.reference.reference_url_base+'/')
+            reference_html = reference_html_raw.replace('src="', 'src="'+this_route.reference.reference_url_base+'/').replace('../general_references', '/media/holet/references/general_references')
         owner = request.user == this_route.created_by
         these_steps = this_route.track.steps.all().order_by('order')
-        these_highlights_localized = map(lambda h: {'id': h.id, 'uuid': h.uuid, 'name': h.get_name(request.LANGUAGE_CODE), 'long_text': h.get_long_text(request.LANGUAGE_CODE), 'media': h.media, 'image': h.image, 'video': h.video, 'media_ext': h.media_ext, 'radius': h.radius, 'type': h.type, 'step': h.step, 'order': h.order, 'references': map(lambda r: {'id': r.id, 'name': r.get_name(request.LANGUAGE_CODE), 'html': r.get_reference_html(request.LANGUAGE_CODE).replace('src="', 'src="'+r.reference_url_base+'/').split('</head>')[-1].split('</html>')[0], 'uuid': r.uuid}, [ref for ref in h.references.all()]), 'interactive_images': [ii for ii in h.interactive_images.all()]}, [hl for hl in Highlight.objects.filter(step__in=these_steps).order_by('order')])
+        these_highlights_localized = map(lambda h: {'id': h.id, 'uuid': h.uuid, 'name': h.get_name(request.LANGUAGE_CODE), 'long_text': h.get_long_text(request.LANGUAGE_CODE), 'media': h.media, 'image': h.image, 'video': h.video, 'media_ext': h.media_ext, 'radius': h.radius, 'type': h.type, 'step': h.step, 'order': h.order, 'references': map(lambda r: {'id': r.id, 'name': r.get_name(request.LANGUAGE_CODE), 'html': r.get_reference_html(request.LANGUAGE_CODE).replace('src="', 'src="'+r.reference_url_base+'/').replace('../general_references', '/media/holet/references/general_references').split('</head>')[-1].split('</html>')[0], 'uuid': r.uuid}, [ref for ref in h.references.all()]), 'interactive_images': [ii for ii in h.interactive_images.all()]}, [hl for hl in Highlight.objects.filter(step__in=these_steps).order_by('order')])
         context = {'owner': owner, 'name': this_route.get_name(request.LANGUAGE_CODE), 'short_description': this_route.get_short_description(request.LANGUAGE_CODE), 'description': this_route.get_description(request.LANGUAGE_CODE), 'has_reference': has_reference, 'reference_html': reference_html, 'steps': these_steps, 'these_highlights': these_highlights_localized, 'id': this_id}
     return render(request, 'frontulet/route_detail.html', context)
 
@@ -317,6 +317,10 @@ def set_up_reference(reference):
         allowed_extensions = ['jpg', 'png', 'gif', 'mp4', 'css', 'html']
         html_file_paths = []
         for name in file_names:
+            if name[:3] == '../':
+                return 'At least one of the files in your ZIP archive has a path starting with "../". Please do not try to give files in the archives paths that point outside of the archived folder.'
+            elif os.path.isabs(name):
+                return 'At least one of the files in your ZIP archive has an absolute path. Please do not try to give files in the archives paths that point outside of the archived folder.'
             name_split = name.split('.')
             this_extension = name_split[-1]
             if this_extension == 'html':
@@ -326,7 +330,7 @@ def set_up_reference(reference):
                     return 'At least one HTML file in your ZIP archive was missing a supported language code. Please make sure each HTML has a file name that ends in either -oc.html, -es,html, -ca.html, -fr.html, or -en.html.'
                 else:
                     html_file_paths.append((lang_code.lower(), os.path.join(this_dir, name)))
-            elif this_extension not in allowed_extensions:
+            elif this_extension.lower() not in allowed_extensions:
                 reference.delete()
                 return 'You tried to upload a zip file containing a file or files that are not HTML, CSS, JPG, PNG, GIF, or MP4. Please make sure the ZIP archive contains only those file type.'
         if len(html_file_paths) > 5:
@@ -338,17 +342,17 @@ def set_up_reference(reference):
         else:
             this_file.extractall(path=this_dir)
             # if it is a general reference, then extract also to general references folder
-            if reference.highlight is None and reference.route is None:
+            if reference.general:
                 general_reference_path = os.path.join(os.path.dirname(this_dir), 'general_references')
                 this_file.extractall(path=general_reference_path)
             for html_path in html_file_paths:
                 with codecs.open(html_path[1], 'r', 'iso-8859-1') as f:
                     this_html_original = f.read()
-                    f.close()
                     this_html_final = this_html_original.replace('href="IT', 'href="../general_references/IT')
-                    new_file = codecs.open(os.path.join(this_dir, 'reference_' + html_path[0] + '.html'), 'w', 'iso-8859-1')
+                    new_file = codecs.open(os.path.join(this_dir, 'reference_' + html_path[0] + '.html'), 'w+', 'iso-8859-1')
                     new_file.write(this_html_final)
                     new_file.close()
+                    f.close()
                     # delete original file
                     os.remove(html_path[1])
             these_extensions = [name.split('.')[-1] for name in file_names]
@@ -716,7 +720,7 @@ def delete_ii(request, ii_id):
 
 def show_general_references(request):
     scientist = 'scientists' in [group.name for group in request.user.groups.all()]
-    these_references = map(lambda r: {'id': r.id, 'name': r.get_name(request.LANGUAGE_CODE), 'html': r.get_reference_html(request.LANGUAGE_CODE).replace('src="', 'src="'+r.reference_url_base+'/').split('</head>')[-1].split('</html>')[0], 'uuid': r.uuid}, [ref for ref in Reference.objects.filter(highlight__isnull=True).filter(route__isnull=True)])
+    these_references = map(lambda r: {'id': r.id, 'name': r.get_name(request.LANGUAGE_CODE), 'html': r.get_reference_html(request.LANGUAGE_CODE).replace('src="', 'src="'+r.reference_url_base+'/').split('</head>')[-1].split('</html>')[0], 'uuid': r.uuid}, [ref for ref in Reference.objects.filter(general=True)])
     context = {'references': these_references, 'scientist': scientist}
     return render(request, 'frontulet/general_references.html', context)
 
@@ -727,6 +731,7 @@ def make_new_general_reference(request):
         args.update(csrf(request))
         if request.method == 'POST':
             this_reference = Reference()
+            this_reference.general = True
             this_reference.save()
             form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
             args['form'] = form

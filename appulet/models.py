@@ -77,12 +77,12 @@ class Reference(models.Model):
     name_en = models.CharField(max_length=200, blank=True)
     html_file = models.FileField('ZIP file', upload_to=make_media_uuid('holet/references'))
     highlight = models.ForeignKey('Highlight', blank=True, null=True, related_name='references')
-    general = models.BooleanField(default='False')
+    general = models.BooleanField(default=False)
 
     def __unicode__(self):
         names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
         for name in names:
-            if name is not None:
+            if name is not None and name is not '':
                 return name
         return str(self.id)
 
@@ -103,10 +103,12 @@ class Reference(models.Model):
         return settings.CURRENT_DOMAIN + string.join(temp, '/')
 
     def find_reference_url_base(self):
-        temp = str.split(self.html_file.url, '/')
-        if len(temp) > 1:
-            temp.pop(-1)
-        return settings.CURRENT_DOMAIN + string.join(temp, '/')
+        result = ''
+        if self.html_file:
+            result = str.split(self.html_file.url, '/')
+            if len(result) > 1:
+                result.pop(-1)
+        return settings.CURRENT_DOMAIN + string.join(result, '/')
 
     def find_reference_path(self, lang='oc'):
         if self.html_file.name:
@@ -133,11 +135,6 @@ class Reference(models.Model):
 
     reference_url = property(find_reference_url)
     reference_url_base = property(find_reference_url_base)
-
-
-class ReferenceImage(models.Model):
-    reference = models.ForeignKey(Reference)
-    image = models.ImageField(upload_to=make_reference_image_uuid('holet/references/'))
 
 
 def gpx_tracks(instance, filename):
