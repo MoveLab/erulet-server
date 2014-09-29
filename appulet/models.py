@@ -77,6 +77,7 @@ class Reference(models.Model):
     name_en = models.CharField(max_length=200, blank=True)
     html_file = models.FileField('ZIP file', upload_to=make_media_uuid('holet/references'))
     highlight = models.ForeignKey('Highlight', blank=True, null=True, related_name='references')
+    general = models.BooleanField(default='False')
 
     def __unicode__(self):
         names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
