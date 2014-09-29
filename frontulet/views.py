@@ -521,8 +521,9 @@ def delete_route(request, route_id):
     if request.user.is_authenticated():
         if this_route.created_by == request.user:
             # remove all route reference files
-            if this_route.reference.html_file:
-                trees_to_delete.append(os.path.dirname(this_route.reference.html_file.path))
+            if this_route.reference:
+                if this_route.reference.html_file:
+                    trees_to_delete.append(os.path.dirname(this_route.reference.html_file.path))
             # remove all gpx files
             if this_route.gpx_track:
                 files_to_delete.append(this_route.gpx_track.path)
