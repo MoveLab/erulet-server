@@ -644,7 +644,7 @@ def create_ii_box(request, ii_id):
         this_box = Box()
         this_box.interactive_image = this_ii
         if this_ii.boxes.count() > 0:
-            args['boxes'] = map(lambda b: {'box': b, 'message':b.get_message(request.LANGUAGE_CODE), 'all_messages': b.get_all_messages_html()}, [box for box in this_ii.boxes.all()])
+            args['boxes'] = map(lambda b: {'box': b, 'message': b.get_message(request.LANGUAGE_CODE).replace('"', "'"), 'all_messages': b.get_all_messages_html().replace('"', "'")}, [box for box in this_ii.boxes.all()])
         if request.method == 'POST':
             form = BoxForm(request.POST, instance=this_box)
             if form.is_valid():
@@ -678,7 +678,7 @@ def edit_ii_box(request, ii_id, box_id):
         args['ii_id'] = ii_id
         other_boxes = filter(lambda b: b != this_box, [box for box in this_ii.boxes.all()])
         if len(other_boxes) > 0:
-            args['boxes'] = map(lambda b: {'box': b, 'message': b.get_message(request.LANGUAGE_CODE), 'all_messages': b.get_all_messages_html()}, other_boxes)
+            args['boxes'] = map(lambda b: {'box': b, 'message': b.get_message(request.LANGUAGE_CODE).replace('"', "'"), 'all_messages': b.get_all_messages_html().replace('"', "'")}, other_boxes)
         if request.method == 'POST':
             form = BoxForm(request.POST, instance=this_box)
             if form.is_valid():
@@ -711,7 +711,7 @@ def view_ii(request, ii_id):
     args['route_id'] = this_ii.highlight.step.track.route.id
     args['highlight_id'] = this_ii.highlight.id
     if this_ii.boxes.count() > 0:
-        args['boxes'] = map(lambda b: {'box': b, 'message': b.get_message(request.LANGUAGE_CODE)}, [box for box in this_ii.boxes.all()])
+        args['boxes'] = map(lambda b: {'box': b, 'message': b.get_message(request.LANGUAGE_CODE).replace('"', "'")}, [box for box in this_ii.boxes.all()])
     return render(request, 'frontulet/view_ii.html', args)
 
 

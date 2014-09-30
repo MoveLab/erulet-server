@@ -349,3 +349,14 @@
 
 
 {% endblock %}
+
+{% block body_scripts %}
+{{ block.super }}
+
+ <script>
+  $('.carousel').carousel({
+   interval: 8000
+  });
+ </script>
+
+{% endblock %}

@@ -128,7 +128,7 @@ class Reference(models.Model):
     def get_reference_html(self, lang='oc'):
         reference_html_raw = ''
         if os.path.isfile(self.find_reference_path(lang)):
-            ref_file = codecs.open(self.find_reference_path(), 'r', 'iso-8859-1')
+            ref_file = codecs.open(self.find_reference_path(), 'r', 'cp1252')
             reference_html_raw = ref_file.read()
             ref_file.close()
         return reference_html_raw
