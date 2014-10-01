@@ -115,6 +115,7 @@ with with _media_ used as the form key for the file itself.
 class HighlightViewSet(ReadWriteOnlyModelViewSet):
     queryset = Highlight.objects.all()
     serializer_class = HighlightSerializer
+    filter_fields = ('id', 'uuid', 'created_by')
 
 
 class InteractiveImageViewSet(ReadOnlyModelViewSet):
@@ -145,11 +146,13 @@ class ReferenceViewSet(ReadOnlyModelViewSet):
 class RouteViewSet(ReadWriteOnlyModelViewSet):
     queryset = Route.objects.all()
     serializer_class = RouteSerializer
+    filter_fields = ('id', 'uuid', 'created_by')
 
 
 class RouteNestedViewSet(ReadOnlyModelViewSet):
     queryset = Route.objects.all()
     serializer_class = RouteNestedSerializer
+    filter_fields = ('id', 'uuid', 'created_by')
 
 
 class StepViewSet(ReadWriteOnlyModelViewSet):

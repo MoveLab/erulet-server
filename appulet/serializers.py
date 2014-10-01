@@ -18,13 +18,13 @@ class InteractiveImageSerializer(serializers.ModelSerializer):
 
 
 class InteractiveImageNestedSerializer(serializers.ModelSerializer):
-    box = BoxSerializer(many=True)
+    boxes = BoxSerializer(many=True)
     original_height = serializers.Field()
     original_width = serializers.Field()
 
     class Meta:
         model = InteractiveImage
-        fields = ('id', 'uuid', 'image_file', 'original_height', 'original_width', 'box')
+        fields = ('id', 'uuid', 'image_file', 'original_height', 'original_width', 'boxes')
 
 
 class HighlightNestedSerializer(serializers.ModelSerializer):
