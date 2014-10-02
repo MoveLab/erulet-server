@@ -209,6 +209,14 @@ class Route(models.Model):
                 return x
         return ''
 
+    def get_local_carto_file_name(self):
+        if self.local_carto:
+            return self.local_carto.name()
+        else:
+            return ''
+
+    local_carto_name = property(get_local_carto_file_name)
+
 
 class Highlight(models.Model):
     created_by = models.ForeignKey(User, blank=True, null=True, related_name='highlights', on_delete=models.SET_NULL)
