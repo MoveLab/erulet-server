@@ -29,7 +29,7 @@ class InteractiveImageNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InteractiveImage
-        fields = ('id', 'uuid', 'image_file', 'original_height', 'original_width', 'boxes')
+        fields = ('id', 'image_file', 'original_height', 'original_width', 'boxes')
 
 
 class HighlightNestedSerializer(serializers.ModelSerializer):
@@ -38,7 +38,7 @@ class HighlightNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Highlight
-        fields = ('id', 'uuid', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'interactive_images', 'references')
+        fields = ('id', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'interactive_images', 'references')
 
 
 class StepSerializer(serializers.ModelSerializer):
@@ -52,7 +52,7 @@ class StepNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Step
-        fields = ('id', 'uuid', 'absolute_time', 'order', 'latitude', 'longitude', 'altitude', 'precision', 'highlights')
+        fields = ('id', 'absolute_time', 'order', 'latitude', 'longitude', 'altitude', 'precision', 'highlights')
 
 
 class TrackSerializer(serializers.ModelSerializer):
@@ -65,7 +65,7 @@ class TrackNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Track
-        fields = ('id', 'uuid', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'steps')
+        fields = ('id', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'steps')
 
 
 class RouteSerializer(serializers.ModelSerializer):
@@ -79,7 +79,7 @@ class RouteNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ('id', 'uuid', 'id_route_based_on', 'created_by', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'local_carto', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'track')
+        fields = ('id', 'id_route_based_on', 'created_by', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'local_carto', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'track')
 
 
 class RatingSerializer(serializers.ModelSerializer):
