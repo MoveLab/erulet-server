@@ -211,7 +211,7 @@ class Route(models.Model):
 
     def get_local_carto_file_name(self):
         if self.local_carto:
-            return self.local_carto.name()
+            return os.path.basename(self.local_carto.name)
         else:
             return ''
 
