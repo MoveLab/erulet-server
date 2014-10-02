@@ -79,7 +79,7 @@ class Reference(models.Model):
     def __unicode__(self):
         names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
         for name in names:
-            if name is not None and name is not '':
+            if name is not None and name != '':
                 return name
         return str(self.id)
 
@@ -176,7 +176,7 @@ class Route(models.Model):
     def __unicode__(self):
         names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
         for name in names:
-            if name is not None and name is not '':
+            if name is not None and name != '':
                 return name
         return str(self.id)
 
@@ -232,7 +232,7 @@ class Highlight(models.Model):
     def __unicode__(self):
         names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
         for name in names:
-            if name is not None and name is not '':
+            if name is not None and name != '':
                 return name
         return str(self.id)
 
