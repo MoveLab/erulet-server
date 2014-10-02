@@ -10,7 +10,6 @@ from PIL import Image
 
 
 class Track(models.Model):
-    uuid = models.CharField(max_length=40, blank=True)
     name_oc = models.CharField(max_length=200, blank=True)
     name_es = models.CharField(max_length=200, blank=True)
     name_ca = models.CharField(max_length=200, blank=True)
@@ -20,7 +19,7 @@ class Track(models.Model):
     def __unicode__(self):
         names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
         for name in names:
-            if name is not None:
+            if name is not None and name is not '':
                 return name
         return str(self.id)
 
@@ -50,7 +49,6 @@ def make_reference_image_uuid(path):
 
 
 class Step(models.Model):
-    uuid = models.CharField(max_length=40, blank=True)
     absolute_time = models.DateTimeField(blank=True, null=True)
     track = models.ForeignKey(Track, blank=True, null=True, related_name='steps')
     order = models.IntegerField(blank=True, null=True)
@@ -60,7 +58,7 @@ class Step(models.Model):
     precision = models.FloatField(blank=True, null=True)
 
     def __unicode__(self):
-        return str(uuid)
+        return str(self.id)
 
 
 def filenamei18(base, lang='oc'):
@@ -69,7 +67,6 @@ def filenamei18(base, lang='oc'):
 
 
 class Reference(models.Model):
-    uuid = models.CharField(max_length=40, blank=True)
     name_oc = models.CharField(max_length=200, blank=True)
     name_es = models.CharField(max_length=200, blank=True)
     name_ca = models.CharField(max_length=200, blank=True)
@@ -150,7 +147,6 @@ def gpx_pois(instance, filename):
 
 
 class Route(models.Model):
-    uuid = models.CharField(max_length=40, blank=True)
     id_route_based_on = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name='routes')
     description_oc = models.TextField("Description - Aranese", blank=True)
@@ -180,7 +176,7 @@ class Route(models.Model):
     def __unicode__(self):
         names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
         for name in names:
-            if name is not None:
+            if name is not None and name is not '':
                 return name
         return str(self.id)
 
@@ -215,7 +211,6 @@ class Route(models.Model):
 
 
 class Highlight(models.Model):
-    uuid = models.CharField(max_length=40, blank=True)
     created_by = models.ForeignKey(User, blank=True, null=True, related_name='highlights', on_delete=models.SET_NULL)
     name_oc = models.CharField(max_length=100, blank=True)
     name_es = models.CharField(max_length=100, blank=True)
@@ -237,7 +232,7 @@ class Highlight(models.Model):
     def __unicode__(self):
         names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
         for name in names:
-            if name is not None:
+            if name is not None and name is not '':
                 return name
         return str(self.id)
 
@@ -277,7 +272,6 @@ class Highlight(models.Model):
 
 
 class InteractiveImage(models.Model):
-    uuid = models.CharField(max_length=40, blank=True)
     image_file = models.ImageField(upload_to=make_media_uuid('holet/interactive_images'))
     highlight = models.ForeignKey(Highlight, blank=True, null=True, related_name='interactive_images')
 
@@ -300,7 +294,6 @@ class InteractiveImage(models.Model):
 
 
 class Box(models.Model):
-    uuid = models.CharField(max_length=40, blank=True)
     interactive_image = models.ForeignKey(InteractiveImage, related_name='boxes')
     message_oc = models.TextField("Message - Aranese", blank=True)
     message_es = models.TextField("Message - Spanish", blank=True)
