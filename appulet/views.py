@@ -150,7 +150,7 @@ class RouteViewSet(ReadWriteOnlyModelViewSet):
 
 
 class RouteNestedViewSet(ReadOnlyModelViewSet):
-    queryset = Route.objects.all()
+    queryset = Route.objects.filter(official=True)
     serializer_class = RouteNestedSerializer
     filter_fields = ('id', 'created_by')
 
