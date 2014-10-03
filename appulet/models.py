@@ -276,7 +276,7 @@ class Highlight(models.Model):
 
     def get_media_file_name(self):
         if self.media:
-            return self.media.name
+            return os.path.basename(self.media.name)
         else:
             return ''
 
@@ -306,7 +306,7 @@ class InteractiveImage(models.Model):
 
     def get_image_file_name(self):
         if self.image_file:
-            return self.image_file.name
+            return os.path.basename(self.image_file.name)
         else:
             return ''
 
