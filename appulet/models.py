@@ -305,8 +305,8 @@ class InteractiveImage(models.Model):
         return im.size[0]
 
     def get_image_file_name(self):
-        if self.image:
-            return self.image.name
+        if self.image_file:
+            return self.image_file.name
         else:
             return ''
 
