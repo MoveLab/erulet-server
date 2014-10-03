@@ -113,6 +113,7 @@ def get_route_content_files(request, route_id):
     resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
     # ..and correct content-disposition
     resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+    resp['Content-Length'] = os.path.getsize(zip_filename)
     return resp
 
 
