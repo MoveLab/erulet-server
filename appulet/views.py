@@ -42,6 +42,30 @@ class ReadWriteOnlyModelViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet
     pass
 
 
+def get_carto(request, route_id):
+    zip_dic = {}
+    if Route.objects.filter(id=route_id).count() >0:
+        this_route = Route.objects.get(id=route_id)
+        base_dir = 'route' + str(route_id) + '/'
+        this_dir = os.path.dirname(this_route.local_carto.path)
+        zip_dic[base_dir + this_route.local_carto_name] = this_route.local_carto.path
+        zip_subdir = "map_route" + str(route_id)
+        zip_filename = "%s.zip" % zip_subdir
+        # Open StringIO to grab in-memory ZIP contents
+        dest_ending = 'holet/route_maps/' + zip_filename
+        zip_destination = os.path.join(settings.MEDIA_ROOT, dest_ending)
+        # The zip compressor
+        zf = zipfile.ZipFile(zip_destination, "w")
+        for zpath in zip_dic:
+            # Add file, at correct path
+            zf.write(zip_dic[zpath], zpath)
+        # Must close zip for all contents to be written
+        zf.close()
+        return HttpResponse(os.path.join(settings.MEDIA_URL, dest_ending))
+    else:
+        return HttpResponse('')
+
+
 def get_general_reference_files(request):
     zip_dic = {}
     these_references = Reference.objects.filter(general=True)
@@ -54,37 +78,35 @@ def get_general_reference_files(request):
     zip_subdir = "general_references"
     zip_filename = "%s.zip" % zip_subdir
     # Open StringIO to grab in-memory ZIP contents
-    s = StringIO.StringIO()
+    dest_ending = 'holet/zipped_general_references/' + zip_filename
+    zip_destination = os.path.join(settings.MEDIA_ROOT, dest_ending)
     # The zip compressor
-    zf = zipfile.ZipFile(s, "w")
+    zf = zipfile.ZipFile(zip_destination, "w")
     for zpath in zip_dic:
         # Add file, at correct path
         zf.write(zip_dic[zpath], zpath)
     # Must close zip for all contents to be written
     zf.close()
-    # Grab ZIP file from in-memory, make response with correct MIME-type
-    resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
-    # ..and correct content-disposition
-    resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-    return resp
+    return HttpResponse(os.path.join(settings.MEDIA_URL, dest_ending))
 
 
 def get_route_content_files(request, route_id):
     zip_dic = {}
     this_route = Route.objects.get(id=route_id)
     these_steps = this_route.track.steps.all()
+    base_dir = 'route' + str(route_id) + '/'
     # all route reference files
     if this_route.reference.html_file is not None:
         this_dir = os.path.dirname(this_route.reference.html_file.path)
         these_file_names = os.listdir(this_dir)
         for this_file_name in these_file_names:
             if this_file_name.split('.')[-1] != 'zip':
-                zip_dic['route_reference/' + this_file_name] = os.path.join(this_dir, this_file_name)
+                zip_dic[base_dir + 'route_reference/' + this_file_name] = os.path.join(this_dir, this_file_name)
     # highlight content
     for h in Highlight.objects.filter(step__in=these_steps):
         # highlight media
         if h.media:
-            zip_dic['highlight_' + str(h.id) + '/media/' + os.path.split(h.media.path)[-1]] = h.media.path
+            zip_dic[base_dir + 'highlight_' + str(h.id) + '/media/' + os.path.split(h.media.path)[-1]] = h.media.path
         # references
         for r in h.references.all():
             # all reference files
@@ -92,11 +114,11 @@ def get_route_content_files(request, route_id):
             these_file_names = os.listdir(this_dir)
             for this_file_name in these_file_names:
                 if this_file_name.split('.')[-1] != 'zip':
-                    zip_dic['highlight_' + str(h.id) + '/reference_' + str(r.id) + '/' + this_file_name] = os.path.join(this_dir, this_file_name)
+                    zip_dic[base_dir + 'highlight_' + str(h.id) + '/reference_' + str(r.id) + '/' + this_file_name] = os.path.join(this_dir, this_file_name)
         # interactive images
         for i in h.interactive_images.all():
             if i.image_file:
-                zip_dic['highlight_' + str(h.id) + '/interactive_image_' + str(i.id) + '/' + os.path.split(i.image_file.path)[-1]] = i.image_file.path
+                zip_dic[base_dir + 'highlight_' + str(h.id) + '/interactive_image_' + str(i.id) + '/' + os.path.split(i.image_file.path)[-1]] = i.image_file.path
     # Folder name in ZIP archive which contains the above files
     # E.g [thearchive.zip]/somefiles/file2.txt
     zip_subdir = "content_route" + str(route_id)
