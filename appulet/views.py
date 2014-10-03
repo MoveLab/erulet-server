@@ -101,23 +101,22 @@ def get_route_content_files(request, route_id):
     zip_subdir = "content_route" + str(route_id)
     zip_filename = "%s.zip" % zip_subdir
     # Open StringIO to grab in-memory ZIP contents
-    s = StringIO.StringIO()
+    # s = StringIO.StringIO()
+    zip_destination = os.path.join(os.path.dirname(this_route.reference.html_file.path), zip_filename)
     # The zip compressor
-    zf = zipfile.ZipFile(s, "w")
+    zf = zipfile.ZipFile(zip_destination, "w")
     for zpath in zip_dic:
         # Add file, at correct path
         zf.write(zip_dic[zpath], zpath)
     # Must close zip for all contents to be written
     zf.close()
-    size = 0
-    for info in zf.infolist():
-        size += info.compress_size
     # Grab ZIP file from in-memory, make response with correct MIME-type
-    resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+    # resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
     # ..and correct content-disposition
-    resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-    resp['Content-Length'] = str(size)
-    return resp
+    # resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+    #resp['Content-Length'] = str(size)
+#    return resp
+    return HttpResponse(str(zip_destination))
 
 
 @api_view(['POST'])
