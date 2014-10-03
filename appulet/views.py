@@ -108,11 +108,15 @@ def get_route_content_files(request, route_id):
         # Add file, at correct path
         zf.write(zip_dic[zpath], zpath)
     # Must close zip for all contents to be written
+    size = 0
+    for info in zf.infolist():
+        size += info.compress_size
     zf.close()
     # Grab ZIP file from in-memory, make response with correct MIME-type
     resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
     # ..and correct content-disposition
     resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+    resp['Content-Size'] = str(size)
     return resp
 
 
