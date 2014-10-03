@@ -118,7 +118,7 @@ def get_route_content_files(request, route_id):
     # resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
     #resp['Content-Length'] = str(size)
 #    return resp
-    return HttpResponse(os.path.join(settings.settings.MEDIA_URL, dest_ending))
+    return HttpResponse(os.path.join(settings.MEDIA_URL, dest_ending))
 
 
 @api_view(['POST'])
