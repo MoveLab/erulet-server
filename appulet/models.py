@@ -274,9 +274,16 @@ class Highlight(models.Model):
     def test_video(self):
         return self.get_media_ext() in ['mp4', 'webm', 'ogg']
 
+    def get_media_file_name(self):
+        if self.media:
+            return self.media.name
+        else:
+            return ''
+
     image = property(test_image)
     video = property(test_video)
     media_ext = property(get_media_ext)
+    media_name = property(get_media_file_name)
 
 
 class InteractiveImage(models.Model):
@@ -296,6 +303,14 @@ class InteractiveImage(models.Model):
     def get_image_width(self):
         im = Image.open(self.image_file.path)
         return im.size[0]
+
+    def get_image_file_name(self):
+        if self.image:
+            return self.image.name
+        else:
+            return ''
+
+    image_file_name = property(get_image_file_name)
 
     original_height = property(get_image_height)
     original_width = property(get_image_width)

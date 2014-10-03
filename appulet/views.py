@@ -46,9 +46,8 @@ def get_carto(request, route_id):
     zip_dic = {}
     if Route.objects.filter(id=route_id).count() >0:
         this_route = Route.objects.get(id=route_id)
-        base_dir = 'route' + str(route_id) + '/'
         this_dir = os.path.dirname(this_route.local_carto.path)
-        zip_dic[base_dir + this_route.local_carto_name] = this_route.local_carto.path
+        zip_dic[this_route.local_carto_name] = this_route.local_carto.path
         zip_subdir = "map_route" + str(route_id)
         zip_filename = "%s.zip" % zip_subdir
         # Open StringIO to grab in-memory ZIP contents

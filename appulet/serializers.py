@@ -26,19 +26,21 @@ class InteractiveImageNestedSerializer(serializers.ModelSerializer):
     boxes = BoxSerializer(many=True)
     original_height = serializers.Field()
     original_width = serializers.Field()
+    image_name = serializers.Field()
 
     class Meta:
         model = InteractiveImage
-        fields = ('id', 'image_file', 'original_height', 'original_width', 'boxes')
+        fields = ('id', 'image_file', 'image_name', 'original_height', 'original_width', 'boxes')
 
 
 class HighlightNestedSerializer(serializers.ModelSerializer):
     interactive_images = InteractiveImageNestedSerializer(many=True)
     references = ReferenceSerializer(many=True)
+    media_name = serializers.Field()
 
     class Meta:
         model = Highlight
-        fields = ('id', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'interactive_images', 'references')
+        fields = ('id', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'interactive_images', 'references', 'media_name')
 
 
 class StepSerializer(serializers.ModelSerializer):
