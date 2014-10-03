@@ -310,7 +310,7 @@ class InteractiveImage(models.Model):
         else:
             return ''
 
-    image_file_name = property(get_image_file_name)
+    image_name = property(get_image_file_name)
 
     original_height = property(get_image_height)
     original_width = property(get_image_width)
