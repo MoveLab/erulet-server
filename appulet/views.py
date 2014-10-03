@@ -9,6 +9,7 @@ from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from django.http import HttpResponse
 from appulet.serializers import *
 from appulet.models import *
+from django.conf import settings
 
 
 class ReadOnlyModelViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
@@ -102,7 +103,8 @@ def get_route_content_files(request, route_id):
     zip_filename = "%s.zip" % zip_subdir
     # Open StringIO to grab in-memory ZIP contents
     # s = StringIO.StringIO()
-    zip_destination = os.path.join(os.path.dirname(this_route.reference.html_file.path), zip_filename)
+    dest_ending = 'holet/zipped_routes/' + zip_filename
+    zip_destination = os.path.join(settings.MEDIA_ROOT, dest_ending)
     # The zip compressor
     zf = zipfile.ZipFile(zip_destination, "w")
     for zpath in zip_dic:
@@ -116,7 +118,7 @@ def get_route_content_files(request, route_id):
     # resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
     #resp['Content-Length'] = str(size)
 #    return resp
-    return HttpResponse(str(zip_destination))
+    return HttpResponse(os.path.join(settings.settings.MEDIA_URL, dest_ending))
 
 
 @api_view(['POST'])
