@@ -41,6 +41,33 @@ class ReadWriteOnlyModelViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet
     pass
 
 
+def get_general_reference_files(request):
+    zip_dic = {}
+    these_references = Reference.objects.filter(general=True)
+    for r in these_references:
+        this_dir = os.path.dirname(r.html_file.path)
+        these_file_names = os.listdir(this_dir)
+        for this_file_name in these_file_names:
+            if this_file_name.split('.')[-1] != 'zip':
+                zip_dic[this_file_name] = os.path.join(this_dir, this_file_name)
+    zip_subdir = "general_references"
+    zip_filename = "%s.zip" % zip_subdir
+    # Open StringIO to grab in-memory ZIP contents
+    s = StringIO.StringIO()
+    # The zip compressor
+    zf = zipfile.ZipFile(s, "w")
+    for zpath in zip_dic:
+        # Add file, at correct path
+        zf.write(zip_dic[zpath], zpath)
+    # Must close zip for all contents to be written
+    zf.close()
+    # Grab ZIP file from in-memory, make response with correct MIME-type
+    resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+    # ..and correct content-disposition
+    resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+    return resp
+
+
 def get_route_content_files(request, route_id):
     zip_dic = {}
     this_route = Route.objects.get(id=route_id)
@@ -83,7 +110,7 @@ def get_route_content_files(request, route_id):
     # Must close zip for all contents to be written
     zf.close()
     # Grab ZIP file from in-memory, make response with correct MIME-type
-    resp = HttpResponse(s.getvalue(), mimetype="application/x-zip-compressed")
+    resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
     # ..and correct content-disposition
     resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
     return resp

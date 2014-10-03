@@ -18,6 +18,7 @@ router.register(r'nested_routes', RouteNestedViewSet)
 
 urlpatterns = patterns('appulet.views',
     url(r'^media/$', 'post_media'),
+    url(r'^general_references/$', get_general_reference_files, name='get_general_reference_files'),
     url(r'^route_content/(?P<route_id>[0-9]+)/$', get_route_content_files, name='get_route_content_files'),
     url(r'^', include(router.urls)),
 )
