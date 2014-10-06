@@ -1,42 +1,38 @@
-{% extends "frontulet/base.html" %}
+{% extends "frontulet/before_leaving_ca.html" %}
 {% load staticfiles %}
 
 {% block bootstrap_css %}
-    {{ block.super }}
-    <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css" %}>
+{% endblock %}
+{% block fa_css %}
+{% endblock %}
+{% block frontulet_css %}
+{% endblock %}
+{% block fallback_bs_js %}
 {% endblock %}
 
 
 {% block head_additions %}
-    <link rel="stylesheet" href={% static "frontulet/form_style.css" %}>
 
 {% endblock %}
 
 
-{% block body_property_extras %}role="document"{% endblock %}
+{% block body_property_extras %}{% endblock %}
 
+{% block navbar %}
+{% endblock %}
 
 {% block main_body %}
+    <div style="width:90%; margin: 0 auto;">
+        <h1>Abans de sortir</h1>
 
-
-    <div class="starter-template" style="position:relative">
-
-        <div class="container theme-showcase" role="main">
-
-            <div id="page_title" class="page-header">
-                <h1>Abans de sortir</h1>
-            </div>
-
-            <div class="row">
-
-                <div class="col-md-2">
-
+        <table>
+            <col width="20%">
+            <col width="80%">
+            <tr>
+                <td>
                     <img width="80%" src="{% static 'frontulet/icons/before_leaving/sat.png' %}">
-
-                </div>
-                <div class="col-md-10">
-
-                    <h3>NAVEGACIÓ AMB GPS</h3>
+                </td>
+                <td><h3>NAVEGACIÓ AMB GPS</h3>
 
                     <p>Els sistema de guia per GPS és una ajuda a la navegació. En condicions òptimes, ens pot conduir
                         pels itineraris amb molta precisió. Però hi ha molts factors (com ara el relleu del terreny,
@@ -54,23 +50,12 @@
                         comencem l’itinerari. Per estalviar al màxim la bateria és recomanable portar el dispositiu en
                         modus d’espera durant l’itinerari, però en un lloc on poguem sentir el senyal acústic i la
                         vibració d’avís quan arribem a algun punt d’interés.</p>
+                </td>
 
-                </div>
-
-                <br>
-                                <br>
-            </div>
-
-
-            <div class="row">
-
-            <div class="col-md-2">
-
-                <img width="80%" src="{% static 'frontulet/icons/before_leaving/safety.png' %}">
-
-            </div>
-            <div class="col-md-10">
-
+            </tr>
+            <td><img width="80%" src="{% static 'frontulet/icons/before_leaving/safety.png' %}">
+            </td>
+            <td>
                 <h3>SEGURETAT</h3>
 
                 <p>En els itineraris a peu, especialment aquells en zona d’alta muntanya:</p>
@@ -100,49 +85,58 @@
                         tenim la seguretat de no agravar la situació.
                     </li>
                 </ul>
-            </div>
-                                <br>
-                                <br>
-        </div>
-                        <div class="row">
+            </td>
+            <tr>
+                <td>
+                    <img width="80%" src="{% static 'frontulet/icons/before_leaving/environment.png' %}">
+                </td>
+                <td>
 
-        <div class="col-md-2">
+                    <h3>RESPECTE PEL MEDI</h3>
 
-            <img width="80%" src="{% static 'frontulet/icons/before_leaving/environment.png' %}">
+                    <p>L’augment de la freqüentació del medi natural ha fet que fins i tot activitats aparentment
+                        inocues
+                        tinguin efectes negatius. Per això és molt important tenir un comportament respectuós amb el
+                        medi i
+                        extremar les precaucions per no alterar-ho. La regla general és que no deixem cap rastre del
+                        nostre pas.
+                        Els principals impactes que s’han detectat i algunes maneres d’evitar-los són:</p>
 
-        </div>
-        <div class="col-md-10">
+                    <p>Erosió i compactació del terreny pel trepig - Evitem caminar per fora dels senders marcats i
+                        agafar
+                        dreceres. En els corriols estrets i en pendent, com a norma de cortesia, qui baixa cedeix el pas
+                        a qui
+                        puja.</p>
 
-            <h3>RESPECTE PEL MEDI</h3>
+                    <p>Molèsties a la fauna, en especial a les espècies protegides, tant als individus com al seu
+                        hàbitat -
+                        Evitem cridar i fer sorolls excessius. Vigilem que el nostre gos no persegueixi ni ataqui la
+                        fauna
+                        salvatge. Respectem els seus hàbitats: per exemple, no movem rocs o troncs que els hi puguin
+                        servir de
+                        refugi, no tirem pedres als rius i estanys, ni posem obstacles al flux d’aigua als rius.
+                        Recordeu que el
+                        bany i els esports aqüàtics no són permesos als estanys.</p>
 
-            <p>L’augment de la freqüentació del medi natural ha fet que fins i tot activitats aparentment inocues
-                tinguin efectes negatius. Per això és molt important tenir un comportament respectuós amb el medi i
-                extremar les precaucions per no alterar-ho. La regla general és que no deixem cap rastre del nostre pas.
-                Els principals impactes que s’han detectat i algunes maneres d’evitar-los són:</p>
+                    <p>Recol·lecció d’espècies botàniques, en especial les protegides - Evitem arrencar flors i plantes.
+                        Respectem les regulacions en la recollida d’espècies comestibles, com bolets i altres. No
+                        recol·lectem
+                        fruits i baies amb mètodes agressius per les plantes.</p>
 
-            <p>Erosió i compactació del terreny pel trepig - Evitem caminar per fora dels senders marcats i agafar
-                dreceres. En els corriols estrets i en pendent, com a norma de cortesia, qui baixa cedeix el pas a qui
-                puja.</p>
+                    <p>Generació de residus - No deixem cap tipus de deixalles al medi, fins i tot les que poden servir
+                        d’aliment per a la fauna salvatge: no formen part de la seva dieta natural i els fan canviar els
+                        seus
+                        hàbits alimenticis i de comportament.</p>
 
-            <p>Molèsties a la fauna, en especial a les espècies protegides, tant als individus com al seu hàbitat -
-                Evitem cridar i fer sorolls excessius. Vigilem que el nostre gos no persegueixi ni ataqui la fauna
-                salvatge. Respectem els seus hàbitats: per exemple, no movem rocs o troncs que els hi puguin servir de
-                refugi, no tirem pedres als rius i estanys, ni posem obstacles al flux d’aigua als rius. Recordeu que el
-                bany i els esports aqüàtics no són permesos als estanys.</p>
-
-            <p>Recol·lecció d’espècies botàniques, en especial les protegides - Evitem arrencar flors i plantes.
-                Respectem les regulacions en la recollida d’espècies comestibles, com bolets i altres. No recol·lectem
-                fruits i baies amb mètodes agressius per les plantes.</p>
-
-            <p>Generació de residus - No deixem cap tipus de deixalles al medi, fins i tot les que poden servir
-                d’aliment per a la fauna salvatge: no formen part de la seva dieta natural i els fan canviar els seus
-                hàbits alimenticis i de comportament.</p>
-
-            <p>Incendis forestals - Si hem de fer foc, fem-ho només als llocs expressament acondicionats, i vigilem-lo.
-                No llencem puntes de cigarreta, ni enceses ni apagades.</p>
-        </div>
+                    <p>Incendis forestals - Si hem de fer foc, fem-ho només als llocs expressament acondicionats, i
+                        vigilem-lo.
+                        No llencem puntes de cigarreta, ni enceses ni apagades.</p>
+                </td>
+            </tr>
+        </table>
     </div>
-    </div>
-    </div>
+{% endblock %}
+
+{% block body_scripts %}
 
 {% endblock %}

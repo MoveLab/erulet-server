@@ -15,9 +15,14 @@ urlpatterns = patterns('', url(r'^admin/', include(admin.site.urls)),
     (r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^api/', include('appulet.urls')),
+) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += i18n_patterns('',
     url(r'^home/', show_home, name='show_home'),
-    url(r'^before_leaving/', show_before_leaving, name='show_before_leaving'),
-    url(r'^manual/', show_manual, name='show_manual'),
+    url(r'^before_leaving/$', show_before_leaving, name='show_before_leaving'),
+    url(r'^before_leaving/(?P<mob>\w+)/$', show_before_leaving),
+    url(r'^manual/$', show_manual, name='show_manual'),
+    url(r'^manual/(?P<mob>\w+)/$', show_manual),
     url(r'^show_general_references/$', show_general_references, name='show_general_references'),
     url(r'^new_general_reference/$', make_new_general_reference, name='new_general_reference'),
     url(r'^edit_general_reference/(?P<reference_id>[0-9]+)/$', edit_general_reference, name='edit_general_reference'),
@@ -49,4 +54,4 @@ urlpatterns = patterns('', url(r'^admin/', include(admin.site.urls)),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='auth_logout'),
     url(r'^$', show_landing_page, name='show_landing_page'),
     url(r'^register/$', RegistrationView.as_view(), name='auth_register'),
-    url('^accounts/profile/$', show_profile, name='show_profile'),) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    url('^accounts/profile/$', show_profile, name='show_profile'),)
