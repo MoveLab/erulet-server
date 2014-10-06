@@ -35,6 +35,25 @@ def show_about(request):
     return render(request, 'frontulet/about.html', context)
 
 
+def show_before_leaving(request):
+    context = {}
+    if request.LANGUAGE_CODE == 'ca':
+        return render(request, 'frontulet/before_leaving_ca.html', context)
+    # TODO add other languages
+    else:
+        return render(request, 'frontulet/before_leaving_ca.html', context)
+
+
+def show_manual(request):
+    context = {}
+    if request.LANGUAGE_CODE == 'ca':
+        return render(request, 'frontulet/manual_ca.html', context)
+    # TODO add other languages
+    else:
+        return render(request, 'frontulet/manual_ca.html', context)
+
+
+
 def show_map(request):
     route_list = list()
     for route in Route.objects.all():

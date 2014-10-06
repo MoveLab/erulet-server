@@ -80,7 +80,18 @@
                                 </ul>
                             </li>
                             <li><a class="frontulet_toggle_map" href={% url "show_map" %}>Map</a></li>
-                            <li><a class="frontulet_toggle_references" href={% url "show_general_references" %}>Reference</a></li>                                   <li><a class="frontulet_toggle_about" href={% url "show_about" %}>About</a></li>
+                            <li class="dropdown">
+                                <a href="#" class="frontulet_toggle_reference dropdown-toggle" data-toggle="dropdown">Reference
+                                    <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li><a href={% url 'show_before_leaving' %}>Before Leaving</a></li>
+                                    <li><a href={% url "show_general_references" %}>General Reference</a></li>
+                                    <li><a href={% url "show_manual" %}>App Manual</a></li>
+                                </ul>
+                            </li>
+
+
+<li><a class="frontulet_toggle_about" href={% url "show_about" %}>About</a></li>
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             {% if request.user.is_authenticated %}
