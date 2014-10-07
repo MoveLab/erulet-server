@@ -68,8 +68,9 @@ def get_carto(request, route_id):
 def get_general_reference_files(request):
     zip_dic = {}
     these_references = Reference.objects.filter(general=True)
-    for r in these_references:
-        this_dir = os.path.dirname(r.html_file.path)
+    if these_references:
+        this_dir_base = os.path.dirname(these_references[0].html_file.path)
+        this_dir = os.path.join(os.path.dirname(this_dir_base), 'general_references')
         these_file_names = os.listdir(this_dir)
         for this_file_name in these_file_names:
             if this_file_name.split('.')[-1] != 'zip':
