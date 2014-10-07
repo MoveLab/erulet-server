@@ -119,6 +119,15 @@ def show_profile(request):
     return render(request, 'frontulet/user_profile.html', context)
 
 
+def show_profile_mob(request, json_data):
+    this_user = request.user
+    these_routes = Route.objects.filter(created_by=this_user)
+    n_routes = these_routes.count()
+    n_pois = Highlight.objects.filter(created_by=this_user).count()
+    context = {'user_name': this_user.username, 'first_name': this_user.first_name, 'last_name': this_user.last_name, 'email': this_user.email, 'n_routes': n_routes, 'n_pois': n_pois}
+    return render(request, 'frontulet/user_profile.html', context)
+
+
 class RegistrationView(FormView):
     template_name = 'registration/register.html'
     form_class = RegistrationForm
@@ -140,7 +149,11 @@ class RegisterFromApp(FormView):
     def form_valid(self, form):
         new_user = form.save()
         token = Token.objects.create(user=new_user)
-        response_data = {'token': token.key}
+        return HttpResponseRedirect(reverse('show_profile_mob', kwargs={'json_data': token.key}))
+
+
+def json_response(request, json_data):
+        response_data = {'token': json_data}
         return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
