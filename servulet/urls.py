@@ -55,5 +55,5 @@ urlpatterns += i18n_patterns('',
     url(r'^$', show_landing_page, name='show_landing_page'),
     url(r'^register/$', RegistrationView.as_view(), name='auth_register'),
     url(r'^register/mob/$', RegisterFromApp.as_view(), name='auth_register_mob'),
-    url(r'^accounts/profile/(?P<json_data>\w+)/$', show_profile_mob, name='show_profile_mob'),
+    url(r'^accounts/profile/token=(?P<token>\w+)/$', show_profile_mob, name='show_profile_mob'),
     url('^accounts/profile/$', show_profile, name='show_profile'),)
