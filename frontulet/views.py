@@ -13,6 +13,9 @@ import zipfile, shutil
 from django.conf import settings
 from PIL import Image
 import shutil
+from rest_framework.authtoken.models import Token
+import json
+from django.http import HttpResponse
 
 
 def show_landing_page(request):
@@ -127,6 +130,18 @@ class RegistrationView(FormView):
         user = authenticate(username=request.POST['username'], password=request.POST['password1'])
         login(self.request, user)
         return HttpResponseRedirect(reverse('show_profile'))
+
+
+class RegisterFromApp(FormView):
+    template_name = 'registration/register_mob.html'
+    form_class = RegistrationForm
+    success_url = reverse_lazy('show_profile')
+
+    def form_valid(self, form):
+        new_user = form.save()
+        token = Token.objects.create(user=new_user)
+        response_data = {'token': token.key}
+        return HttpResponse(json.dumps(response_data), content_type="application/json")
 
 
 def parse_gpx_track(this_route, this_track):

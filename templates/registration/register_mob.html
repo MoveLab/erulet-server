@@ -1,0 +1,48 @@
+{% extends "registration/registration_base.html" %}
+{% load staticfiles %}
+
+
+{% block navbar %}
+
+{% endblock %}
+
+{% block main_body %}
+    <!-- Container -->
+    <div id="container">
+        <!-- Header -->
+        <div id="header">
+            <div id="branding">
+                <h1 id="site-name">Holet Registration</h1>
+            </div>
+        </div>
+        <!-- END Header -->
+        <!-- Content -->
+        <div id="content" class="colM">
+            <div id="content-main">
+                {% if form.errors %}
+                    <p>{{ form.errors }}</p>
+                {% endif %}
+                <h1>Registration:</h1>
+                <form method="post" action=".">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Register"/>
+                </form>
+                <script type="text/javascript">
+                    document.getElementById('id_username').focus()
+                </script>
+            </div>
+            <br class="clear"/>
+        </div>
+        <!-- END Content -->
+
+        <div id="footer"></div>
+ <div id="content" class="colM">
+    <p>Important: This site is under construction and is not yet operating with a secure connection. Please DO NOT register with a password that you use for any other site because data potentially could be stolen on transmission. (We will have the secure version up and running very soon.)</p>
+</div>
+    </div>
+    <!-- END Container -->
+{% endblock %}
+
+
+

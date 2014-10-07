@@ -54,4 +54,5 @@ urlpatterns += i18n_patterns('',
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='auth_logout'),
     url(r'^$', show_landing_page, name='show_landing_page'),
     url(r'^register/$', RegistrationView.as_view(), name='auth_register'),
+    url(r'^register/mob/$', RegisterFromApp.as_view(), name='auth_register_mob'),
     url('^accounts/profile/$', show_profile, name='show_profile'),)
