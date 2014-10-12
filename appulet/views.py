@@ -46,27 +46,57 @@ class ReadWriteOnlyModelViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet
     pass
 
 
-def get_carto(request, route_id):
-    zip_dic = {}
-    if Route.objects.filter(id=route_id).count() >0:
-        this_route = Route.objects.get(id=route_id)
-        this_dir = os.path.dirname(this_route.local_carto.path)
-        zip_dic[this_route.local_carto_name] = this_route.local_carto.path
-        zip_subdir = "map_route" + str(route_id)
-        zip_filename = "%s.zip" % zip_subdir
-        # Open StringIO to grab in-memory ZIP contents
-        dest_ending = 'holet/route_maps/' + zip_filename
-        zip_destination = os.path.join(settings.MEDIA_ROOT, dest_ending)
-        # The zip compressor
-        zf = zipfile.ZipFile(zip_destination, "w")
-        for zpath in zip_dic:
-            # Add file, at correct path
-            zf.write(zip_dic[zpath], zpath)
-        # Must close zip for all contents to be written
-        zf.close()
-        return HttpResponse(os.path.join(settings.MEDIA_URL, dest_ending))
-    else:
-        return HttpResponse('')
+def get_route_map(request, route_id, last_updated_unix_time_utc=0):
+    last_updated = pytz.utc.localize(datetime.fromtimestamp(int(last_updated_unix_time_utc)))
+    # CASE 0: No route
+    if Route.objects.filter(id=route_id).count() == 0:
+        return HttpResponse("Route does not exist")
+    # CASE 1: Route has no map
+    this_route = Route.objects.get(id=route_id)
+    if Map.objects.filter(route=this_route).count() == 0:
+        return HttpResponse('This route has no map')
+    # CASE 2: No changes since last update
+    if this_route.map.last_modified < last_updated:
+        return HttpResponse('There have been no changes since your last update')
+    # CASE 3: there have been modifications, but there is already a zip file made after the most recent modification
+    zpath = this_route.map.map_file_name
+    zsource = this_route.map.map_file.path
+    zip_subdir = "map_route_" + str(route_id)
+    zip_filename = "%s.zip" % zip_subdir
+    dest_ending = 'holet/route_maps/' + zip_filename
+    zip_destination = os.path.join(settings.MEDIA_ROOT, dest_ending)
+    if os.path.isfile(zip_destination) and pytz.utc.localize(datetime.utcfromtimestamp(os.path.getmtime(zip_destination))) > this_route.map.last_modified:
+        return HttpResponseRedirect(os.path.join(settings.CURRENT_DOMAIN, settings.MEDIA_URL, dest_ending))
+    # CASE 3: We actually need to make and serve a new zip file...
+    zf = zipfile.ZipFile(zip_destination, "w")
+    zf.write(zsource, zpath)
+    zf.close()
+    return HttpResponseRedirect(os.path.join(settings.CURRENT_DOMAIN, settings.MEDIA_URL, dest_ending))
+
+
+def get_general_map(request, last_updated_unix_time_utc=0):
+    last_updated = pytz.utc.localize(datetime.fromtimestamp(int(last_updated_unix_time_utc)))
+    # CASE 0: No general maps on server
+    if Map.objects.filter(type=1).count() == 0:
+        return HttpResponse("No general maps on server")
+    # CASE 1: General map has not been modified since last update
+    this_map = Map.objects.filter(type=1).latest('last_modified')
+    if this_map.last_modified < last_updated:
+        return HttpResponse('There have been no changes since your last update')
+    # CASE 2: there have been modifications, but there is already a zip file made after the most recent modification
+    zpath = this_map.map_file_name
+    zsource = this_map.map_file.path
+    zip_subdir = "general_map"
+    zip_filename = "%s.zip" % zip_subdir
+    dest_ending = 'holet/route_maps/' + zip_filename
+    zip_destination = os.path.join(settings.MEDIA_ROOT, dest_ending)
+    if os.path.isfile(zip_destination) and pytz.utc.localize(datetime.utcfromtimestamp(os.path.getmtime(zip_destination))) > this_map.last_modified:
+        return HttpResponseRedirect(os.path.join(settings.CURRENT_DOMAIN, settings.MEDIA_URL, dest_ending))
+    # CASE 3: We actually need to make and serve a new zip file...
+    zf = zipfile.ZipFile(zip_destination, "w")
+    zf.write(zsource, zpath)
+    zf.close()
+    return HttpResponseRedirect(os.path.join(settings.CURRENT_DOMAIN, settings.MEDIA_URL, dest_ending))
 
 
 def get_general_reference_files(request, max_width=None, last_updated_unix_time_utc=0):

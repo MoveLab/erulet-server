@@ -45,6 +45,15 @@ def make_media_uuid(path):
     return wrapper
 
 
+def make_map_uuid(path):
+    def wrapper(instance, filename):
+        extension = filename.split('.')[-1]
+        filename = "%s.%s" % (uuid.uuid4(), extension)
+        new_path = os.path.join(path)
+        return os.path.join(new_path, filename)
+    return wrapper
+
+
 def make_reference_image_uuid(path):
     def wrapper(instance, filename):
         return os.path.join(path, str(instance.highlight.id), filename)
@@ -166,7 +175,6 @@ class Route(models.Model):
     short_description_ca = models.CharField("Short Description - Catalan", max_length=100, blank=True)
     short_description_fr = models.CharField("Short Description - Frensh", max_length=100, blank=True)
     short_description_en = models.CharField("Short Description - English", max_length=100, blank=True)
-    local_carto = models.FileField(upload_to=make_media_uuid('holet/carto'), blank=True, null=True)
     name_oc = models.CharField("Name - Aranese", max_length=200, blank=True)
     name_es = models.CharField("Name - Spanish", max_length=200, blank=True)
     name_ca = models.CharField("Name - Catalan", max_length=200, blank=True)
@@ -218,13 +226,29 @@ class Route(models.Model):
                 return x
         return ''
 
-    def get_local_carto_file_name(self):
-        if self.local_carto:
-            return os.path.basename(self.local_carto.name)
+
+class Map(models.Model):
+    created_by = models.ForeignKey(User, blank=True, null=True, related_name='map', on_delete=models.SET_NULL)
+    route = models.OneToOneField(Route, blank=True, null=True)
+    TYPE_CHOICES = ((0, 'route'), (1, 'general'),)
+    type = models.IntegerField(choices=TYPE_CHOICES)
+    map_file = models.FileField(upload_to=make_map_uuid('holet/maps'))
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
+
+    def __unicode__(self):
+        if self.route:
+            return 'Map for route: ' + self.route.get_name()
+        else:
+            return 'General Map'
+
+    def get_map_file_name(self):
+        if self.map_file:
+            return os.path.basename(self.map_file.name)
         else:
             return ''
 
-    local_carto_name = property(get_local_carto_file_name)
+    map_file_name = property(get_map_file_name)
 
 
 class Highlight(models.Model):
