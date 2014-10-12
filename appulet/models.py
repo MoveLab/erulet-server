@@ -7,6 +7,7 @@ import string
 from django.conf import settings
 import codecs
 from PIL import Image
+from datetime import datetime
 
 
 class Track(models.Model):
@@ -15,6 +16,8 @@ class Track(models.Model):
     name_ca = models.CharField(max_length=200, blank=True)
     name_fr = models.CharField(max_length=200, blank=True)
     name_en = models.CharField(max_length=200, blank=True)
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
 
     def __unicode__(self):
         names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
@@ -56,6 +59,8 @@ class Step(models.Model):
     longitude = models.FloatField()
     altitude = models.FloatField(blank=True, null=True)
     precision = models.FloatField(blank=True, null=True)
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
 
     def __unicode__(self):
         return str(self.id)
@@ -75,6 +80,8 @@ class Reference(models.Model):
     html_file = models.FileField('ZIP file', upload_to=make_media_uuid('holet/references'))
     highlight = models.ForeignKey('Highlight', blank=True, null=True, related_name='references')
     general = models.BooleanField(default=False)
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
 
     def __unicode__(self):
         names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
@@ -172,6 +179,8 @@ class Route(models.Model):
     gpx_waypoints = models.FileField("GPX Waypoints", upload_to=gpx_waypoints, blank=True)
     gpx_pois = models.FileField("GPX Points-of-interest", upload_to=gpx_pois, blank=True)
     official = models.BooleanField("Official Route", default=False)
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
 
     def __unicode__(self):
         names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
@@ -236,6 +245,8 @@ class Highlight(models.Model):
     type = models.IntegerField(choices=TYPE_CHOICES)
     step = models.ForeignKey(Step, blank=True, null=True, related_name='highlights')
     order = models.IntegerField(blank=True, null=True)
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
 
     def __unicode__(self):
         names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
@@ -289,6 +300,8 @@ class Highlight(models.Model):
 class InteractiveImage(models.Model):
     image_file = models.ImageField(upload_to=make_media_uuid('holet/interactive_images'))
     highlight = models.ForeignKey(Highlight, blank=True, null=True, related_name='interactive_images')
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
 
     def __unicode__(self):
         this_name = 'unlinked interactive image'
@@ -327,6 +340,8 @@ class Box(models.Model):
     max_x = models.IntegerField()
     min_y = models.IntegerField()
     min_x = models.IntegerField()
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
 
     class Meta:
         verbose_name = "box"
@@ -361,6 +376,8 @@ class Rating(models.Model):
     time = models.DateTimeField()
     highlight = models.ForeignKey(Highlight, blank=True, null=True)
     route = models.ForeignKey(Route, blank=True, null=True, related_name='ratings')
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
 
     def __unicode__(self):
         this_name = 'Rating ' + str(self.id)

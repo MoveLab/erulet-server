@@ -6,11 +6,15 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.generics import mixins
 from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from appulet.serializers import *
 from appulet.models import *
 from django.conf import settings
-
+from PIL import Image
+from django.conf import settings
+from datetime import datetime
+import pytz
+from django.db.models import Max
 
 class ReadOnlyModelViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
@@ -65,82 +69,158 @@ def get_carto(request, route_id):
         return HttpResponse('')
 
 
-def get_general_reference_files(request):
-    zip_dic = {}
+def get_general_reference_files(request, max_width=None, last_updated_unix_time_utc=0):
+    last_updated = pytz.utc.localize(datetime.fromtimestamp(int(last_updated_unix_time_utc)))
     these_references = Reference.objects.filter(general=True)
-    if these_references:
-        this_dir_base = os.path.dirname(these_references[0].html_file.path)
-        this_dir = os.path.join(os.path.dirname(this_dir_base), 'general_references')
-        these_file_names = os.listdir(this_dir)
-        for this_file_name in these_file_names:
-            if this_file_name.split('.')[-1] != 'zip':
-                zip_dic[this_file_name] = os.path.join(this_dir, this_file_name)
-    zip_subdir = "general_references"
+    # CASE 0: no references in database
+    if these_references.count() == 0:
+        return HttpResponse('There are no general references in the database')
+    most_recent_modification_time = these_references.aggregate(Max('last_modified'))['last_modified__max']
+    # CASE 1: no modifications since last update
+    if most_recent_modification_time and last_updated >= most_recent_modification_time:
+        return HttpResponse('There have been no changes since your last update')
+    zip_subdir = "general_references" + "_max_width_" + str(max_width)
     zip_filename = "%s.zip" % zip_subdir
-    # Open StringIO to grab in-memory ZIP contents
     dest_ending = 'holet/zipped_general_references/' + zip_filename
     zip_destination = os.path.join(settings.MEDIA_ROOT, dest_ending)
-    # The zip compressor
-    zf = zipfile.ZipFile(zip_destination, "w")
-    for zpath in zip_dic:
-        # Add file, at correct path
-        zf.write(zip_dic[zpath], zpath)
-    # Must close zip for all contents to be written
-    zf.close()
-    return HttpResponse(os.path.join(settings.MEDIA_URL, dest_ending))
-
-
-def get_route_content_files(request, route_id):
-    zip_dic = {}
-    this_route = Route.objects.get(id=route_id)
-    these_steps = this_route.track.steps.all()
-    base_dir = 'route' + str(route_id) + '/'
-    # all route reference files
-    if this_route.reference.html_file is not None:
-        this_dir = os.path.dirname(this_route.reference.html_file.path)
-        these_file_names = os.listdir(this_dir)
-        for this_file_name in these_file_names:
-            if this_file_name.split('.')[-1] != 'zip':
-                zip_dic[base_dir + 'route_reference/' + this_file_name] = os.path.join(this_dir, this_file_name)
-    # highlight content
-    for h in Highlight.objects.filter(step__in=these_steps):
-        # highlight media
-        if h.media:
-            zip_dic[base_dir + 'highlight_' + str(h.id) + '/media/' + os.path.split(h.media.path)[-1]] = h.media.path
-        # references
-        for r in h.references.all():
-            # all reference files
-            this_dir = os.path.dirname(r.html_file.path)
+    # CASE 2: there have been modifications, but there is already a zip file for the requested size and it was made after the most recent modification
+    if os.path.isfile(zip_destination) and pytz.utc.localize(datetime.utcfromtimestamp(os.path.getmtime(zip_destination))) > most_recent_modification_time:
+        return HttpResponseRedirect(os.path.join(settings.CURRENT_DOMAIN, settings.MEDIA_URL, dest_ending))
+    # CASE 3: A new zip file is needed
+    else:
+        zip_dic = {}
+        for reference in these_references:
+            this_dir_base = os.path.dirname(reference.html_file.path)
+            this_dir = os.path.join(os.path.dirname(this_dir_base), 'general_references')
             these_file_names = os.listdir(this_dir)
             for this_file_name in these_file_names:
                 if this_file_name.split('.')[-1] != 'zip':
-                    zip_dic[base_dir + 'highlight_' + str(h.id) + '/reference_' + str(r.id) + '/' + this_file_name] = os.path.join(this_dir, this_file_name)
-        # interactive images
-        for i in h.interactive_images.all():
-            if i.image_file:
-                zip_dic[base_dir + 'highlight_' + str(h.id) + '/interactive_image_' + str(i.id) + '/' + os.path.split(i.image_file.path)[-1]] = i.image_file.path
-    # Folder name in ZIP archive which contains the above files
-    # E.g [thearchive.zip]/somefiles/file2.txt
-    zip_subdir = "content_route" + str(route_id)
+                    zip_dic[this_file_name] = os.path.join(this_dir, this_file_name)
+        # CASE: No content
+        if len(zip_dic) == 0:
+            return HttpResponse('There is no content in this route')
+        # The zip compressor
+        zf = zipfile.ZipFile(zip_destination, "w")
+        for zpath in zip_dic:
+            if max_width:
+                if zip_dic[zpath].split('.')[-1].lower() in ['jpg', 'png', 'gif']:
+                    im = Image.open(zip_dic[zpath])
+                    try:
+                        im.thumbnail((int(max_width), int(max_width)), Image.ANTIALIAS)
+                    except IOError:
+                        im.thumbnail((int(max_width), int(max_width)), Image.NEAREST)
+                    new_path = os.path.join(os.path.dirname(os.path.dirname(zip_dic[zpath])), 'general_references_max_width_' + str(max_width), zip_dic[zpath].split('/')[-1])
+                    if not os.path.exists(os.path.dirname(new_path)):
+                        os.makedirs(os.path.dirname(new_path))
+                    im.save(new_path)
+                    zip_dic[zpath] = new_path
+            # Add file, at correct path
+            zf.write(zip_dic[zpath], zpath)
+        # Must close zip for all contents to be written
+        zf.close()
+        return HttpResponseRedirect(os.path.join(settings.CURRENT_DOMAIN, settings.MEDIA_URL, dest_ending))
+
+
+def get_route_content_files(request, route_id, max_width=None, last_updated_unix_time_utc=0):
+    last_updated = pytz.utc.localize(datetime.fromtimestamp(int(last_updated_unix_time_utc)))
+    # CASE 0: Route does not exists: return message saying this
+    if Route.objects.filter(id=route_id).count() == 0:
+        return HttpResponse("Route does not exist")
+    this_route = Route.objects.get(id=route_id)
+    this_route_ref = None
+    these_highlights = None
+    these_references = None
+    these_iis = None
+    route_ref_lm = pytz.utc.localize(datetime.fromtimestamp(0))
+    highlights_lm = pytz.utc.localize(datetime.fromtimestamp(0))
+    references_lm = pytz.utc.localize(datetime.fromtimestamp(0))
+    iis_lm = pytz.utc.localize(datetime.fromtimestamp(0))
+    if this_route.reference:
+        this_route_ref = this_route.reference
+        route_ref_lm = this_route.reference.last_modified
+    if this_route.track:
+        these_steps = this_route.track.steps.all()
+        if these_steps:
+            these_highlights = Highlight.objects.filter(step__in=these_steps)
+            if these_highlights:
+                highlights_lm = these_highlights.aggregate(Max('last_modified'))['last_modified__max']
+                these_references = Reference.objects.filter(highlight__in=these_highlights)
+                if these_references:
+                    references_lm = these_references.aggregate(Max('last_modified'))['last_modified__max']
+                these_iis = InteractiveImage.objects.filter(highlight__in=these_highlights)
+                if these_iis:
+                    iis_lm = these_iis.aggregate(Max('last_modified'))['last_modified__max']
+    # CASE 0.5: No objects other than route (therefore no content)
+    if not this_route_ref and not these_highlights and not these_references and not these_iis:
+        return HttpResponse('There is no content in this route')
+    # CASE 1: no modifications since last update: return message saying this
+    most_recent_modification_time = max(route_ref_lm, highlights_lm, references_lm, iis_lm)
+    if most_recent_modification_time and last_updated >= most_recent_modification_time:
+        return HttpResponse('There have been no changes since your last update')
+    zip_subdir = "content_route_" + str(route_id) + "_max_width_" + str(max_width)
     zip_filename = "%s.zip" % zip_subdir
-    # Open StringIO to grab in-memory ZIP contents
-    # s = StringIO.StringIO()
     dest_ending = 'holet/zipped_routes/' + zip_filename
     zip_destination = os.path.join(settings.MEDIA_ROOT, dest_ending)
-    # The zip compressor
-    zf = zipfile.ZipFile(zip_destination, "w")
-    for zpath in zip_dic:
-        # Add file, at correct path
-        zf.write(zip_dic[zpath], zpath)
-    # Must close zip for all contents to be written
-    zf.close()
-    # Grab ZIP file from in-memory, make response with correct MIME-type
-    # resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
-    # ..and correct content-disposition
-    # resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-    #resp['Content-Length'] = str(size)
-#    return resp
-    return HttpResponse(os.path.join(settings.MEDIA_URL, dest_ending))
+    # CASE 2: there have been modifications, but there is already a zip file for the requested size and it was made after the most recent modification: return the existing zip file
+    if os.path.isfile(zip_destination) and pytz.utc.localize(datetime.utcfromtimestamp(os.path.getmtime(zip_destination))) > most_recent_modification_time:
+        return HttpResponseRedirect(os.path.join(settings.CURRENT_DOMAIN, settings.MEDIA_URL, dest_ending))
+    # CASE 3: A new zip file is needed
+    else:
+        # dictionary in which keys are file names to be used in zip archive and values are file names on the server.
+        zip_dic = {}
+        base_dir = 'route' + str(route_id) + '/'
+        # all route reference files
+        if this_route_ref and this_route_ref.html_file is not None:
+            this_dir = os.path.dirname(this_route.reference.html_file.path)
+            these_file_names = os.listdir(this_dir)
+            for this_file_name in these_file_names:
+                if this_file_name.split('.')[-1] != 'zip':
+                    zip_dic[base_dir + 'route_reference/' + this_file_name] = os.path.join(this_dir, this_file_name)
+        # highlight content
+        for h in Highlight.objects.filter(step__in=these_steps):
+            # highlight media
+            if h.media:
+                zip_dic[base_dir + 'highlight_' + str(h.id) + '/media/' + os.path.split(h.media.path)[-1]] = h.media.path
+            # references
+            for r in h.references.all():
+                # all reference files
+                this_dir = os.path.dirname(r.html_file.path)
+                these_file_names = os.listdir(this_dir)
+                for this_file_name in these_file_names:
+                    if this_file_name.split('.')[-1] != 'zip':
+                        zip_dic[base_dir + 'highlight_' + str(h.id) + '/reference_' + str(r.id) + '/' + this_file_name] = os.path.join(this_dir, this_file_name)
+            # interactive images
+            for i in h.interactive_images.all():
+                if i.image_file:
+                    zip_dic[base_dir + 'highlight_' + str(h.id) + '/interactive_image_' + str(i.id) + '/' + os.path.split(i.image_file.path)[-1]] = i.image_file.path
+        # CASE: No content
+        if len(zip_dic) == 0:
+            return HttpResponse('There is no content in this route')
+        zf = zipfile.ZipFile(zip_destination, "w")
+        for zpath in zip_dic:
+            if max_width:
+                if zip_dic[zpath].split('.')[-1].lower() in ['jpg', 'png', 'gif']:
+                    im = Image.open(zip_dic[zpath])
+                    try:
+                        im.thumbnail((int(max_width), int(max_width)), Image.ANTIALIAS)
+                    except IOError:
+                        im.thumbnail((int(max_width), int(max_width)), Image.NEAREST)
+                    new_path = os.path.join(os.path.dirname(os.path.dirname(zip_dic[zpath])), '_max_width_' + str(max_width), zip_dic[zpath].split('/')[-1])
+                    if not os.path.exists(os.path.dirname(new_path)):
+                        os.makedirs(os.path.dirname(new_path))
+                    im.save(new_path)
+                    zip_dic[zpath] = new_path
+            # Add file, at correct path
+            zf.write(zip_dic[zpath], zpath)
+        # Must close zip for all contents to be written
+        zf.close()
+        # Grab ZIP file from in-memory, make response with correct MIME-type
+        # resp = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+        # ..and correct content-disposition
+        # resp['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+        #resp['Content-Length'] = str(size)
+        # return resp
+        return HttpResponseRedirect(os.path.join(settings.CURRENT_DOMAIN, settings.MEDIA_URL, dest_ending))
 
 
 @api_view(['POST'])

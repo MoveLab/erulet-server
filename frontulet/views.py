@@ -119,7 +119,7 @@ def show_profile(request):
     return render(request, 'frontulet/user_profile.html', context)
 
 
-def show_profile_mob(request, token):
+def show_profile_mob(request, token, username):
     this_user = request.user
     these_routes = Route.objects.filter(created_by=this_user)
     n_routes = these_routes.count()
@@ -152,7 +152,7 @@ class RegisterFromApp(FormView):
         request = self.request
         user = authenticate(username=request.POST['username'], password=request.POST['password1'])
         login(self.request, user)
-        return HttpResponseRedirect(reverse('show_profile_mob', kwargs={'token': token.key}))
+        return HttpResponseRedirect(reverse('show_profile_mob', kwargs={'token': token.key, 'username': new_user.username}))
 
 
 def parse_gpx_track(this_route, this_track):
