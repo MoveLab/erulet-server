@@ -93,6 +93,8 @@ def get_general_map(request, last_updated_unix_time_utc=0):
     if os.path.isfile(zip_destination) and pytz.utc.localize(datetime.utcfromtimestamp(os.path.getmtime(zip_destination))) > this_map.last_modified:
         return HttpResponseRedirect(os.path.join(settings.CURRENT_DOMAIN, settings.MEDIA_URL, dest_ending))
     # CASE 3: We actually need to make and serve a new zip file...
+    if not os.path.exists(os.path.dirname(zip_destination)):
+        os.makedirs(os.path.dirname(zip_destination))
     zf = zipfile.ZipFile(zip_destination, "w")
     zf.write(zsource, zpath)
     zf.close()
@@ -129,7 +131,8 @@ def get_general_reference_files(request, max_width=None, last_updated_unix_time_
         # CASE: No content
         if len(zip_dic) == 0:
             return HttpResponse('There is no content in this route')
-        # The zip compressor
+        if not os.path.exists(os.path.dirname(zip_destination)):
+            os.makedirs(os.path.dirname(zip_destination))
         zf = zipfile.ZipFile(zip_destination, "w")
         for zpath in zip_dic:
             if max_width:
@@ -226,6 +229,8 @@ def get_route_content_files(request, route_id, max_width=None, last_updated_unix
         # CASE: No content
         if len(zip_dic) == 0:
             return HttpResponse('There is no content in this route')
+        if not os.path.exists(os.path.dirname(zip_destination)):
+            os.makedirs(os.path.dirname(zip_destination))
         zf = zipfile.ZipFile(zip_destination, "w")
         for zpath in zip_dic:
             if max_width:
