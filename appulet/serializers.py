@@ -78,6 +78,7 @@ class TrackNestedSerializer(serializers.ModelSerializer):
 class RouteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Route
+        fields = ('id', 'official', 'last_modified')
 
 
 class RouteNestedSerializer(serializers.ModelSerializer):
@@ -87,7 +88,7 @@ class RouteNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ('id', 'id_route_based_on', 'created_by', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'track')
+        fields = ('id', 'id_route_based_on', 'created_by', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'track', 'created', 'last_modified')
 
 
 class RatingSerializer(serializers.ModelSerializer):

@@ -276,6 +276,12 @@ with with _media_ used as the form key for the file itself.
         return Response('uploaded')
 
 
+class MapViewSet(ReadOnlyModelViewSet):
+    queryset = Map.objects.all()
+    serializer_class = MapSerializer
+    filter_fields = 'id'
+
+
 class HighlightViewSet(ReadWriteOnlyModelViewSet):
     queryset = Highlight.objects.all()
     serializer_class = HighlightSerializer
@@ -307,8 +313,8 @@ class ReferenceViewSet(ReadOnlyModelViewSet):
     serializer_class = ReferenceSerializer
 
 
-class RouteViewSet(ReadWriteOnlyModelViewSet):
-    queryset = Route.objects.all()
+class RouteViewSet(ReadOnlyModelViewSet):
+    queryset = Route.objects.filter(official=True)
     serializer_class = RouteSerializer
     filter_fields = ('id', 'created_by')
 
