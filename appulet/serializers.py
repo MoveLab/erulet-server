@@ -3,8 +3,11 @@ from appulet.models import *
 
 
 class MapSerializer(serializers.ModelSerializer):
+    map_file_name = serializers.Field()
+
     class Meta:
         model = Map
+        fields = ('route', 'type', 'last_modified', 'created', 'map_file_name')
 
 
 class HighlightSerializer(serializers.ModelSerializer):
@@ -84,7 +87,7 @@ class RouteSerializer(serializers.ModelSerializer):
 class RouteNestedSerializer(serializers.ModelSerializer):
     track = TrackNestedSerializer(many=False)
     reference = ReferenceSerializer(many=False)
-    map = MapSerializer
+    map = MapSerializer(many=False)
 
     class Meta:
         model = Route
