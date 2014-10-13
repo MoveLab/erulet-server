@@ -198,7 +198,7 @@ def get_route_content_files(request, route_id, max_width=None, last_updated_unix
     else:
         # dictionary in which keys are file names to be used in zip archive and values are file names on the server.
         zip_dic = {}
-        base_dir = 'route' + str(route_id) + '/'
+        base_dir = 'route_' + str(route_id) + '/'
         # all route reference files
         if this_route_ref and this_route_ref.html_file is not None:
             this_dir = os.path.dirname(this_route.reference.html_file.path)
