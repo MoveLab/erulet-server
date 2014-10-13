@@ -236,10 +236,15 @@ def get_route_content_files(request, route_id, max_width=None, last_updated_unix
             if max_width:
                 if zip_dic[zpath].split('.')[-1].lower() in ['jpg', 'png', 'gif']:
                     im = Image.open(zip_dic[zpath])
+                    # letting interactive images be up to twice the phone max dimension so they can pan.
+                    if zpath.contains('interactive_image'):
+                        max_dim = 2*max_width
+                    else:
+                        max_dim = max_width
                     try:
-                        im.thumbnail((int(max_width), int(max_width)), Image.ANTIALIAS)
+                        im.thumbnail((int(max_dim), int(max_dim)), Image.ANTIALIAS)
                     except IOError:
-                        im.thumbnail((int(max_width), int(max_width)), Image.NEAREST)
+                        im.thumbnail((int(max_dim), int(max_dim)), Image.NEAREST)
                     new_path = os.path.join(os.path.dirname(os.path.dirname(zip_dic[zpath])), '_max_width_' + str(max_width), zip_dic[zpath].split('/')[-1])
                     if not os.path.exists(os.path.dirname(new_path)):
                         os.makedirs(os.path.dirname(new_path))
