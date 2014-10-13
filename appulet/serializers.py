@@ -2,6 +2,11 @@ from rest_framework import serializers
 from appulet.models import *
 
 
+class MapSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Map
+
+
 class HighlightSerializer(serializers.ModelSerializer):
     class Meta:
         model = Highlight
@@ -78,11 +83,11 @@ class RouteSerializer(serializers.ModelSerializer):
 class RouteNestedSerializer(serializers.ModelSerializer):
     track = TrackNestedSerializer(many=False)
     reference = ReferenceSerializer(many=False)
-    local_carto_name = serializers.Field()
+    map = MapSerializer
 
     class Meta:
         model = Route
-        fields = ('id', 'id_route_based_on', 'created_by', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'local_carto', 'local_carto_name', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'track')
+        fields = ('id', 'id_route_based_on', 'created_by', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'track')
 
 
 class RatingSerializer(serializers.ModelSerializer):
