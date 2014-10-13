@@ -237,7 +237,7 @@ def get_route_content_files(request, route_id, max_width=None, last_updated_unix
                 if zip_dic[zpath].split('.')[-1].lower() in ['jpg', 'png', 'gif']:
                     im = Image.open(zip_dic[zpath])
                     # letting interactive images be up to twice the phone max dimension so they can pan.
-                    if zpath.contains('interactive_image'):
+                    if 'interactive_image' in zpath:
                         max_dim = 2*max_width
                     else:
                         max_dim = max_width
