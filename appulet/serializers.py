@@ -88,6 +88,7 @@ class RouteNestedSerializer(serializers.ModelSerializer):
     track = TrackNestedSerializer(many=False)
     reference = ReferenceSerializer(many=False)
     map = MapSerializer(many=False)
+    created_by = serializers.RelatedField(many=False)
 
     class Meta:
         model = Route
