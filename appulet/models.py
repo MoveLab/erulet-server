@@ -226,6 +226,19 @@ class Route(models.Model):
                 return x
         return ''
 
+    def get_average_rating(self):
+        these_ratings = self.ratings.all()
+        if these_ratings.count() == 0:
+            return -1
+        else:
+            return sum([r.rating for r in these_ratings])/these_ratings.count()
+
+    def get_total_ratings(self):
+        return self.ratings.all().count()
+
+    average_rating = property(get_average_rating)
+    total_ratings = property(get_total_ratings)
+
 
 class Map(models.Model):
     created_by = models.ForeignKey(User, blank=True, null=True, related_name='map', on_delete=models.SET_NULL)
@@ -315,10 +328,22 @@ class Highlight(models.Model):
         else:
             return ''
 
+    def get_average_rating(self):
+        these_ratings = self.ratings.all()
+        if these_ratings.count() == 0:
+            return -1
+        else:
+            return sum([r.rating for r in these_ratings])/these_ratings.count()
+
+    def get_total_ratings(self):
+        return self.ratings.all().count()
+
     image = property(test_image)
     video = property(test_video)
     media_ext = property(get_media_ext)
     media_name = property(get_media_file_name)
+    average_rating = property(get_average_rating)
+    total_ratings = property(get_total_ratings)
 
 
 class InteractiveImage(models.Model):
@@ -398,7 +423,7 @@ class Rating(models.Model):
     rating = models.IntegerField()
     user = models.ForeignKey(User, related_name='ratings')
     time = models.DateTimeField()
-    highlight = models.ForeignKey(Highlight, blank=True, null=True)
+    highlight = models.ForeignKey(Highlight, blank=True, null=True, related_name='ratings')
     route = models.ForeignKey(Route, blank=True, null=True, related_name='ratings')
     last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
     created = models.DateTimeField(auto_now_add=True, default=datetime.now())

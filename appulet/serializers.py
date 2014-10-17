@@ -55,10 +55,12 @@ class HighlightNestedSerializer(serializers.ModelSerializer):
     interactive_images = InteractiveImageNestedSerializer(many=True)
     references = ReferenceSerializer(many=True)
     media_name = serializers.Field()
+    average_rating = serializers.Field()
+    total_ratings = serializers.Field()
 
     class Meta:
         model = Highlight
-        fields = ('server_id', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'interactive_images', 'references', 'media_name')
+        fields = ('server_id', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'interactive_images', 'references', 'media_name')
 
 
 class StepSerializer(serializers.ModelSerializer):
@@ -107,10 +109,12 @@ class RouteNestedSerializer(serializers.ModelSerializer):
     map = MapSerializer(many=False)
     created_by = serializers.RelatedField(many=False)
     server_id = serializers.IntegerField(source='id')
+    average_rating = serializers.Field()
+    total_ratings = serializers.Field()
 
     class Meta:
         model = Route
-        fields = ('server_id', 'official', 'id_route_based_on', 'created_by', 'map', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'track', 'created', 'last_modified')
+        fields = ('server_id', 'official', 'average_rating', 'total_ratings', 'id_route_based_on', 'created_by', 'map', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'track', 'created', 'last_modified')
 
 
 class RatingSerializer(serializers.ModelSerializer):
