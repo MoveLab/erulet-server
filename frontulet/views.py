@@ -16,6 +16,9 @@ import shutil
 from rest_framework.authtoken.models import Token
 import json
 from django.http import HttpResponse
+from django.forms.models import modelformset_factory
+from django.db.models import Count
+from django import forms
 
 
 def show_landing_page(request):
@@ -340,6 +343,164 @@ def edit_highlight(request, route_id, highlight_id):
         else:
             return render(request, 'registration/no_permission_not_yours.html')
 
+    else:
+        return render(request, 'registration/no_permission_must_login.html')
+
+
+def translate_highlights(request, lang='all'):
+    if request.user.is_authenticated():
+        args = {}
+        args.update(csrf(request))
+        if 'translators' in [group.name for group in request.user.groups.all()]:
+
+            # first check highlights to see if already in HighlightTranslationVCS. If not, put current values there as baseline
+            new_highlights = Highlight.objects.annotate(highlight_translation_vcs_entry_count=Count('highlight_translation_vcs_entries')).filter(highlight_translation_vcs_entry_count=0)
+            for highlight in new_highlights:
+                vcs_entry = HighlightTranslationVCS()
+                vcs_entry.highlight = highlight
+                vcs_entry.user = highlight.created_by
+                vcs_entry.name_ca = highlight.name_ca
+                vcs_entry.name_oc = highlight.name_oc
+                vcs_entry.name_es = highlight.name_es
+                vcs_entry.name_fr = highlight.name_fr
+                vcs_entry.name_en = highlight.name_en
+                vcs_entry.long_text_ca = highlight.long_text_ca
+                vcs_entry.long_text_oc = highlight.long_text_oc
+                vcs_entry.long_text_es = highlight.long_text_es
+                vcs_entry.long_text_fr = highlight.long_text_fr
+                vcs_entry.long_text_en = highlight.long_text_en
+                vcs_entry.save()
+            # now set up formset
+            if lang == 'spain':
+                fields = ('name_ca', 'name_oc', 'name_es', 'long_text_ca', 'long_text_oc', 'long_text_es')
+            elif lang == 'all':
+                fields = ('name_ca', 'name_oc', 'name_es', 'name_fr', 'name_en', 'long_text_ca', 'long_text_oc', 'long_text_es', 'long_text_fr', 'long_text_en')
+            elif lang == 'oc':
+                fields = ('name_ca', 'name_oc', 'long_text_ca', 'long_text_oc')
+            elif lang == 'es':
+                fields = ('name_ca', 'name_es', 'long_text_ca', 'long_text_es')
+            elif lang == 'fr':
+                fields = ('name_ca', 'name_fr', 'long_text_ca', 'long_text_fr')
+            elif lang == 'en':
+                fields = ('name_ca', 'name_en', 'long_text_ca', 'long_text_en')
+            else:
+                fields = ('name_ca', 'name_oc', 'name_es', 'name_fr', 'name_en', 'long_text_ca', 'long_text_oc', 'long_text_es', 'long_text_fr', 'long_text_en')
+
+            widgets = {'name_ca': forms.TextInput(attrs={'class': 'form-control blue-back'}), 'name_oc': forms.TextInput(attrs={'class': 'form-control'}), 'name_es': forms.TextInput(attrs={'class': 'form-control'}), 'name_fr': forms.TextInput(attrs={'class': 'form-control'}), 'name_en': forms.TextInput(attrs={'class': 'form-control'}), 'long_text_ca': forms.Textarea(attrs={'rows': 3, 'class': 'form-control blue-back'}), 'long_text_oc': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}), 'long_text_es': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}), 'long_text_fr': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}), 'long_text_en': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'})}
+
+            TranslateHighlightFormSet = modelformset_factory(Highlight, extra=0, fields=fields, widgets=widgets)
+            if request.method == 'POST':
+                formset = TranslateHighlightFormSet(request.POST)
+                if formset.is_valid():
+                    translated_highlights = formset.save()
+                    # now put everything that changed into the vcs
+                    for th in translated_highlights:
+                        new_vcs_entry = HighlightTranslationVCS()
+                        new_vcs_entry.highlight = th
+                        new_vcs_entry.user = request.user
+                        new_vcs_entry.name_ca = th.name_ca
+                        new_vcs_entry.name_oc = th.name_oc
+                        new_vcs_entry.name_es = th.name_es
+                        new_vcs_entry.name_fr = th.name_fr
+                        new_vcs_entry.name_en = th.name_en
+                        new_vcs_entry.long_text_ca = th.long_text_ca
+                        new_vcs_entry.long_text_oc = th.long_text_oc
+                        new_vcs_entry.long_text_es = th.long_text_es
+                        new_vcs_entry.long_text_fr = th.long_text_fr
+                        new_vcs_entry.long_text_en = th.long_text_en
+                        new_vcs_entry.save()
+
+                    return HttpResponseRedirect(reverse('translate_highlights', kwargs={'lang': lang}))
+            else:
+                args['formset'] = TranslateHighlightFormSet()
+                args['title'] = 'Holet Highlight Translation'
+            return render(request, 'frontulet/formset_base.html', args)
+        else:
+            return render(request, 'registration/no_permission_must_be _translator.html')
+    else:
+        return render(request, 'registration/no_permission_must_login.html')
+
+
+def translate_routes(request, lang='all'):
+    if request.user.is_authenticated():
+        args = {}
+        args.update(csrf(request))
+        if 'translators' in [group.name for group in request.user.groups.all()]:
+
+            # first check highlights to see if already in HighlightTranslationVCS. If not, put current values there as baseline
+            new_routes = Route.objects.annotate(route_translation_vcs_entry_count=Count('route_translation_vcs_entries')).filter(route_translation_vcs_entry_count=0)
+            for route in new_routes:
+                vcs_entry = RouteTranslationVCS()
+                vcs_entry.route = route
+                vcs_entry.user = route.created_by
+                vcs_entry.name_ca = route.name_ca
+                vcs_entry.name_oc = route.name_oc
+                vcs_entry.name_es = route.name_es
+                vcs_entry.name_fr = route.name_fr
+                vcs_entry.name_en = route.name_en
+                vcs_entry.description_ca = route.description_ca
+                vcs_entry.description_oc = route.description_oc
+                vcs_entry.description_es = route.description_es
+                vcs_entry.description_fr = route.description_fr
+                vcs_entry.description_en = route.description_en
+                vcs_entry.short_description_ca = route.short_description_ca
+                vcs_entry.short_description_oc = route.short_description_oc
+                vcs_entry.short_description_es = route.short_description_es
+                vcs_entry.short_description_fr = route.short_description_fr
+                vcs_entry.short_description_en = route.short_description_en
+                vcs_entry.save()
+            # now set up formset
+            if lang == 'spain':
+                fields = ('name_ca', 'name_oc', 'name_es', 'short_description_ca', 'short_description_oc', 'short_description_es', 'description_ca', 'description_oc', 'description_es')
+            elif lang == 'all':
+                fields = ('name_ca', 'name_oc', 'name_es', 'name_fr', 'name_en', 'short_description_ca', 'short_description_oc', 'short_description_es', 'short_description_fr', 'short_description_en', 'description_ca', 'description_oc', 'description_es', 'description_fr', 'description_en')
+            elif lang == 'oc':
+                fields = ('name_ca', 'name_oc', 'short_description_ca', 'short_description_oc', 'description_ca', 'description_oc')
+            elif lang == 'es':
+                fields = ('name_ca', 'name_es', 'short_description_ca', 'short_description_es', 'description_ca', 'description_es')
+            elif lang == 'fr':
+                fields = ('name_ca', 'name_fr', 'short_description_ca', 'short_description_fr', 'description_ca', 'description_fr')
+            elif lang == 'en':
+                fields = ('name_ca', 'name_en', 'short_description_ca', 'short_description_en', 'description_ca', 'description_en')
+            else:
+                fields = ('name_ca', 'name_oc', 'name_es', 'name_fr', 'name_en', 'short_description_ca', 'short_description_oc', 'short_description_es', 'short_description_fr', 'short_description_en', 'description_ca', 'description_oc', 'description_es', 'description_fr', 'description_en')
+
+            widgets = {'name_ca': forms.TextInput(attrs={'class': 'form-control blue-back'}), 'name_oc': forms.TextInput(attrs={'class': 'form-control'}), 'name_es': forms.TextInput(attrs={'class': 'form-control'}), 'name_fr': forms.TextInput(attrs={'class': 'form-control'}), 'name_en': forms.TextInput(attrs={'class': 'form-control'}), 'short_description_ca': forms.Textarea(attrs={'rows': 3, 'class': 'form-control blue-back'}), 'short_description_oc': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}), 'short_description_es': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}), 'short_description_fr': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}), 'short_description_en': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'}), 'description_ca': forms.Textarea(attrs={'rows': 5, 'class': 'form-control blue-back'}), 'description_oc': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}), 'description_es': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}), 'description_fr': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'}), 'description_en': forms.Textarea(attrs={'rows': 5, 'class': 'form-control'})}
+
+            TranslateRouteFormSet = modelformset_factory(Route, extra=0, fields=fields, widgets=widgets)
+            if request.method == 'POST':
+                formset = TranslateRouteFormSet(request.POST)
+                if formset.is_valid():
+                    translated_routes = formset.save()
+                    # now put everything that changed into the vcs
+                    for tr in translated_routes:
+                        new_vcs_entry = RouteTranslationVCS()
+                        new_vcs_entry.route = tr
+                        new_vcs_entry.user = request.user
+                        new_vcs_entry.name_ca = tr.name_ca
+                        new_vcs_entry.name_oc = tr.name_oc
+                        new_vcs_entry.name_es = tr.name_es
+                        new_vcs_entry.name_fr = tr.name_fr
+                        new_vcs_entry.name_en = tr.name_en
+                        new_vcs_entry.description_ca = tr.description_ca
+                        new_vcs_entry.description_oc = tr.description_oc
+                        new_vcs_entry.description_es = tr.description_es
+                        new_vcs_entry.description_fr = tr.description_fr
+                        new_vcs_entry.description_en = tr.description_en
+                        new_vcs_entry.short_description_ca = tr.short_description_ca
+                        new_vcs_entry.short_description_oc = tr.short_description_oc
+                        new_vcs_entry.short_description_es = tr.short_description_es
+                        new_vcs_entry.short_description_fr = tr.short_description_fr
+                        new_vcs_entry.short_description_en = tr.short_description_en
+                        new_vcs_entry.save()
+
+                    return HttpResponseRedirect(reverse('translate_routes', kwargs={'lang': lang}))
+            else:
+                args['formset'] = TranslateRouteFormSet()
+                args['title'] = 'Holet Route Translation'
+            return render(request, 'frontulet/formset_base.html', args)
+        else:
+            return render(request, 'registration/no_permission_must_be _translator.html')
     else:
         return render(request, 'registration/no_permission_must_login.html')
 

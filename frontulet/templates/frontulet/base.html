@@ -96,7 +96,36 @@
                             </li>
 
 
-<li><a class="frontulet_toggle_about" href={% url "show_about" %}>About</a></li>
+                            <li><a class="frontulet_toggle_about" href={% url "show_about" %}>About</a></li>
+
+                        {% if request.user.is_authenticated %}
+                        {% for group in request.user.groups.all %}
+                        {% if group.name == 'translators' %}
+                        <li class="dropdown">
+                                <a href="#" class="frontulet_toggle_translation dropdown-toggle" data-toggle="dropdown">Translation
+                                    <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
+
+                                    <li><a href={% url 'translate_highlights' 'oc' %}>Translate Routes to: Aranese</a></li>
+                                    <li><a href={% url 'translate_highlights' 'es' %}>Translate Routes to: Spanish</a></li>
+                                    <li><a href={% url 'translate_highlights' 'fr' %}>Translate Routes to: French</a></li>
+                                    <li><a href={% url 'translate_highlights' 'en' %}>Translate Routes to: English</a></li>
+                                    <li><a href={% url 'translate_highlights' 'spain' %}>Translate Routes to: Aranese and Spanish</a></li>
+                                    <li><a href={% url 'translate_highlights' 'all' %}>Translate Routes to: All</a></li>
+   <li class="divider"></li>
+                                    <li><a href={% url 'translate_highlights' 'oc' %}>Translate Highlights to: Aranese</a></li>
+                                    <li><a href={% url 'translate_highlights' 'es' %}>Translate Highlights to: Spanish</a></li>
+                                    <li><a href={% url 'translate_highlights' 'fr' %}>Translate Highlights to: French</a></li>
+                                    <li><a href={% url 'translate_highlights' 'en' %}>Translate Highlights to: English</a></li>
+                                    <li><a href={% url 'translate_highlights' 'spain' %}>Translate Highlights to: Aranese and Spanish</a></li>
+                                    <li><a href={% url 'translate_highlights' 'all' %}>Translate Highlights to: All</a></li>
+
+                                </ul>
+                            </li>
+                        {% endif %}
+                        {% endfor %}
+                        {% endif %}
+
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
                             {% if request.user.is_authenticated %}

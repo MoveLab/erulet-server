@@ -41,6 +41,18 @@ class ProfileForm(forms.ModelForm):
         fields = ['first_name', 'last_name', 'email']
 
 
+class TranslateHighlightForm(forms.ModelForm):
+    long_text_oc = forms.CharField(widget=forms.Textarea)
+    long_text_es = forms.CharField(widget=forms.Textarea)
+    long_text_ca = forms.CharField(widget=forms.Textarea)
+    long_text_fr = forms.CharField(widget=forms.Textarea)
+    long_text_en = forms.CharField(widget=forms.Textarea)
+
+    class Meta:
+        model = Highlight
+        fields = ['name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en']
+
+
 class HighlightForm(forms.ModelForm):
 
     class Meta:

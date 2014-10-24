@@ -1,0 +1,62 @@
+{% extends "frontulet/base.html" %}
+{% load staticfiles %}
+
+{% block bootstrap_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css" %}>
+{% endblock %}
+
+{% block head_additions %}
+    <link rel="stylesheet" href={% static "frontulet/form_style.css" %}>
+{% endblock %}
+
+{% block body_property_extras %}role="document"{% endblock %}
+
+{% block page_id %}Translations{% endblock %}
+
+{% block main_body %}
+
+    <div class="container theme-showcase" role="main">
+
+
+
+        <div id="page_title" class="page-header">
+            {% block title %}<h1>{{ title }}</h1> {% endblock %}
+</div>
+        <div id="translation_formset">
+
+        <br><div class="border-row"></div><div class="border-row"></div><div class="border-row"></div><br>
+
+<form method="post" action="#">{% csrf_token %}
+    {{ formset.management_form }}
+    {% for form in formset %}
+        {{ form.as_p }}
+          <br><div class="border-row"></div><div class="border-row"></div><div class="border-row"></div><br>
+    {% endfor %}
+          <input id="submit_button" type="submit" class="btn btn-success btn-lg" value="Save All" style="position:fixed;top:50px; margin: 0 auto"/>
+</form>
+
+        </div>
+
+
+        </div>
+
+
+
+{% endblock %}
+
+{% block body_scripts %}
+{{ block.super }}
+
+        <script>
+
+    $("form").addClass("form-horizontal").attr("role", "form");
+
+    $("#submit_button").click(function() {
+    $("#page_title").html('<h1>Saving, please wait. <i class="fa fa-refresh fa-spin"></i></h1>');
+
+    })
+    </script>
+
+
+{% endblock %}

@@ -1,0 +1,118 @@
+{% extends "registration/registration_base.html" %}
+{% load staticfiles %}
+
+
+{% block navbar %}
+    <!-- NAVBAR
+================================================== -->
+    <div class="navbar-wrapper">
+        <div class="container">
+            <div class="navbar navbar-defaults navbar-fixed-top" role="navigation">
+                <div class="container">
+                    <div class="navbar-collapse collapse">
+
+                        <ul class="nav navbar-nav navbar-right">
+   <li><p class="navbar-text"><a href="{% url "show_home" %}">Return to home page</a></p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block main_body %}
+    <!-- Container -->
+    <div id="container">
+        <!-- Header -->
+        <div id="header">
+            <div id="branding">
+                <h1 id="site-name">Holet Permission Denied</h1>
+            </div>
+        </div>
+        <!-- END Header -->
+        <!-- Content -->
+        <div id="content" class="colM">
+            <div id="content-main">
+             You need to be a logged in as a registered translator in order to access translation pages. If you are a translator and need to register your account, please contact the project managers.
+            </div>
+            <br class="clear"/>
+   <a class="btn btn-default btn-sm" href={% url 'auth_login' %}>Log In</a> <a class="btn btn-default btn-sm" href={% url 'auth_register' %}>Register</a>
+
+        </div>
+        <!-- END Content -->
+
+        <div id="footer"></div>
+     </div>
+    <!-- END Container -->
+{% endblock %}
+
+
+
+
+<!DOCTYPE html>
+<head>
+<title>Movelab Login</title>
+<link rel="stylesheet" type="text/css" href="/static/admin/css/base.css" />
+<link rel="stylesheet" type="text/css" href="/static/admin/css/login.css" />
+<!--[if lte IE 7]><link rel="stylesheet" type="text/css" href="/static/admin/css/ie.css" /><![endif]-->
+
+<script type="text/javascript">window.__admin_media_prefix__ = "/static/admin/";</script>
+
+<meta name="robots" content="NONE,NOARCHIVE" />
+</head>
+
+
+<body class="login">
+
+<!-- Container -->
+<div id="container">
+
+
+    <!-- Header -->
+    <div id="header">
+        <div id="branding">
+
+<h1 id="site-name">Holet Authentication</h1>
+
+        </div>
+
+
+    </div>
+    <!-- END Header -->
+
+
+
+
+
+
+
+    <!-- Content -->
+    <div id="content" class="colM">
+
+
+
+
+
+
+
+<div id="content-main">
+
+    You need to create an account in order to make a new route.
+
+</div>
+
+
+        <br class="clear" />
+    </div>
+    <!-- END Content -->
+
+    <div id="footer"></div>
+</div>
+<!-- END Container -->
+
+</body>
+</html>

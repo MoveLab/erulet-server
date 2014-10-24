@@ -240,6 +240,31 @@ class Route(models.Model):
     total_ratings = property(get_total_ratings)
 
 
+class RouteTranslationVCS(models.Model):
+    route = models.ForeignKey(Route, related_name='route_translation_vcs_entries')
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    user = models.ForeignKey(User)
+    description_oc = models.TextField("Description - Aranese", blank=True)
+    description_es = models.TextField("Description - Spanish", blank=True)
+    description_ca = models.TextField("Description - Catalan", blank=True)
+    description_fr = models.TextField("Description - French", blank=True)
+    description_en = models.TextField("Description - English", blank=True)
+    short_description_oc = models.CharField("Short Description - Aranese", max_length=100, blank=True)
+    short_description_es = models.CharField("Short Description - Spanish", max_length=100, blank=True)
+    short_description_ca = models.CharField("Short Description - Catalan", max_length=100, blank=True)
+    short_description_fr = models.CharField("Short Description - Frensh", max_length=100, blank=True)
+    short_description_en = models.CharField("Short Description - English", max_length=100, blank=True)
+    name_oc = models.CharField("Name - Aranese", max_length=200, blank=True)
+    name_es = models.CharField("Name - Spanish", max_length=200, blank=True)
+    name_ca = models.CharField("Name - Catalan", max_length=200, blank=True)
+    name_fr = models.CharField("Name - Frensh", max_length=200, blank=True)
+    name_en = models.CharField("Name - English", max_length=200, blank=True)
+
+    def __unicode__(self):
+        return self.highlight.__unicode__()
+
+
 class Map(models.Model):
     created_by = models.ForeignKey(User, blank=True, null=True, related_name='map', on_delete=models.SET_NULL)
     route = models.OneToOneField(Route, blank=True, null=True)
@@ -266,16 +291,16 @@ class Map(models.Model):
 
 class Highlight(models.Model):
     created_by = models.ForeignKey(User, blank=True, null=True, related_name='highlights', on_delete=models.SET_NULL)
-    name_oc = models.CharField(max_length=100, blank=True)
-    name_es = models.CharField(max_length=100, blank=True)
-    name_ca = models.CharField(max_length=100, blank=True)
-    name_fr = models.CharField(max_length=100, blank=True)
-    name_en = models.CharField(max_length=100, blank=True)
-    long_text_oc = models.CharField(max_length=2000, blank=True)
-    long_text_es = models.CharField(max_length=2000, blank=True)
-    long_text_ca = models.CharField(max_length=2000, blank=True)
-    long_text_fr = models.CharField(max_length=2000, blank=True)
-    long_text_en = models.CharField(max_length=2000, blank=True)
+    name_oc = models.CharField("Name - Aranese", max_length=100, blank=True)
+    name_es = models.CharField("Name - Spanish", max_length=100, blank=True)
+    name_ca = models.CharField("Name - Catalan", max_length=100, blank=True)
+    name_fr = models.CharField("Name - Frensh", max_length=100, blank=True)
+    name_en = models.CharField("Name - English", max_length=100, blank=True)
+    long_text_oc = models.CharField("Description - Aranese", max_length=2000, blank=True)
+    long_text_es = models.CharField("Description - Spanish", max_length=2000, blank=True)
+    long_text_ca = models.CharField("Description - Catalan", max_length=2000, blank=True)
+    long_text_fr = models.CharField("Description - Frensh", max_length=2000, blank=True)
+    long_text_en = models.CharField("Description - English", max_length=2000, blank=True)
     media = models.FileField(upload_to=make_media_uuid('holet/highlights'), blank=True, null=True)
     radius = models.FloatField(blank=True, null=True)
     TYPE_CHOICES = ((0, 'point of interest'), (1, 'waypoint'),)
@@ -344,6 +369,26 @@ class Highlight(models.Model):
     media_name = property(get_media_file_name)
     average_rating = property(get_average_rating)
     total_ratings = property(get_total_ratings)
+
+
+class HighlightTranslationVCS(models.Model):
+    highlight = models.ForeignKey(Highlight, related_name='highlight_translation_vcs_entries')
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    user = models.ForeignKey(User)
+    name_oc = models.CharField(max_length=100, blank=True)
+    name_es = models.CharField(max_length=100, blank=True)
+    name_ca = models.CharField(max_length=100, blank=True)
+    name_fr = models.CharField(max_length=100, blank=True)
+    name_en = models.CharField(max_length=100, blank=True)
+    long_text_oc = models.CharField(max_length=2000, blank=True)
+    long_text_es = models.CharField(max_length=2000, blank=True)
+    long_text_ca = models.CharField(max_length=2000, blank=True)
+    long_text_fr = models.CharField(max_length=2000, blank=True)
+    long_text_en = models.CharField(max_length=2000, blank=True)
+
+    def __unicode__(self):
+        return self.highlight.__unicode__()
 
 
 class InteractiveImage(models.Model):

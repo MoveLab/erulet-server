@@ -25,6 +25,16 @@ label{
 width: 200px;
 }
 
-#id_name, #id_short_description, #id_description, #id_long_text {
+#id_name, #id_name_oc, #id_name_es, #id_name_ca, #id_name_fr, #id_name_en, #id_short_description, #id_description, #id_long_text, #id_long_text_oc, #id_long_text_es, #id_long_text_ca, #id_long_text_fr, #id_long_text_en {
 width: 100%;
+}
+
+
+input[type=text].translation_form {
+    width: 50%;
+    padding: 10px;
+}
+
+.blue-back {
+    background-color: #9ACFEA;
 }
