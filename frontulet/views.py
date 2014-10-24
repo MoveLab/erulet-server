@@ -412,7 +412,7 @@ def translate_highlights(request, lang='all'):
 
                     return HttpResponseRedirect(reverse('translate_highlights', kwargs={'lang': lang}))
             else:
-                args['formset'] = TranslateHighlightFormSet()
+                args['formset'] = TranslateHighlightFormSet(queryset=Highlight.objects.filter(step__track__route__official=True))
                 args['title'] = 'Holet Highlight Translation'
             return render(request, 'frontulet/formset_base.html', args)
         else:
@@ -496,7 +496,7 @@ def translate_routes(request, lang='all'):
 
                     return HttpResponseRedirect(reverse('translate_routes', kwargs={'lang': lang}))
             else:
-                args['formset'] = TranslateRouteFormSet()
+                args['formset'] = TranslateRouteFormSet(queryset=Route.objects.filter(official=True))
                 args['title'] = 'Holet Route Translation'
             return render(request, 'frontulet/formset_base.html', args)
         else:
