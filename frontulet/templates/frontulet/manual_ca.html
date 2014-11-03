@@ -18,8 +18,18 @@ padding: 0;
 margin: 0;
 }
 li.image_bullet {
-min-height: 70px;
+min-height: 100px;
 padding-left: 55px;
+}
+
+.edit {
+background: url({% static 'frontulet/icons/manual/edit.png' %}) no-repeat left top;
+}
+.upload {
+background: url({% static 'frontulet/icons/manual/upload.png' %}) no-repeat left top;
+}
+.delete {
+background: url({% static 'frontulet/icons/manual/delete.png' %}) no-repeat left top;
 }
 
 .poi {
@@ -71,6 +81,11 @@ background: url({% static 'frontulet/icons/manual/where.png' %}) no-repeat left 
     <h3>{{ select_itineraries_title }}</h3>
 
 {{ select_itineraries_text | safe}}
+
+<h3>{{ my_itineraries_title }}</h3>
+
+{{ my_itineraries_text | safe }}
+
 
 <h3>{{ itineraries_title }}</h3>
 

@@ -28,6 +28,17 @@
             padding-top: 15px;
         }
 
+        .edit {
+background: url({% static 'frontulet/icons/manual/edit.png' %}) no-repeat left top;
+}
+.upload {
+background: url({% static 'frontulet/icons/manual/upload.png' %}) no-repeat left top;
+}
+.delete {
+background: url({% static 'frontulet/icons/manual/delete.png' %}) no-repeat left top;
+}
+
+
         .poi {
             background: url({% static 'frontulet/icons/manual/point_of_interest.png' %}) no-repeat left top;
         }
@@ -81,7 +92,13 @@
 
 {{ select_itineraries_text | safe}}
 
+        <h3>{{ my_itineraries_title }}</h3>
+
+{{ my_itineraries_text | safe }}
+
+
         <h3>{{ itineraries_title }}</h3>
+
 
 {{ itineraries_text | safe }}
 
