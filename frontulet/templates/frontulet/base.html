@@ -153,7 +153,7 @@
                                 <form class="navbar-form navbar-right" action="{% url 'set_language' %}" method="post">
                 <div class="form-group">
                     {% csrf_token %}
-                    <input name="next" type="hidden" value="{{ redirect_to }}"/>
+                    <input name="next" type="hidden" value="{{ request.get_full_path|slice:'3:' }}"/>
                     <select class="form-control" name="language" onchange="this.form.submit()">
                         {% get_language_info_list for LANGUAGES as languages %}
                         {% for language in languages %}
