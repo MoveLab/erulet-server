@@ -135,7 +135,7 @@
                 {% endfor %}
                 {% for highlight in route.highlights %}
 
-                        var popup_text = '<p><strong>{{ highlight.route_name }}: {{ highlight.name }}</strong></p><p>{{ highlight.long_text }}</p><a href="{% url "show_route_detail" highlight.route_id %}#h{{ highlight.highlight_id }}">View Details</a>';
+                        var popup_text = '<p><strong>{{ highlight.route_name }}: {{ highlight.name }}</strong></p><p>{{ highlight.long_text }}</p><a href="{% url "show_route_detail" highlight.route_id %}#h{{ highlight.highlight_id }}">{% trans "View Details" %}</a>';
 
                             {% if highlight.type == 1 %}
 

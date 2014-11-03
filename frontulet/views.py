@@ -1,3 +1,4 @@
+# -*- coding: iso-8859-1 -*-
 from django.shortcuts import render, render_to_response
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse_lazy
@@ -19,6 +20,7 @@ from django.http import HttpResponse
 from django.forms.models import modelformset_factory
 from django.db.models import Count
 from django import forms
+from django.utils.translation import ugettext as _
 
 
 def show_landing_page(request):
@@ -43,6 +45,13 @@ def show_about(request):
 
 def show_before_leaving(request, mob=''):
     context = {}
+    context['gps_title'] = _(u"NAVEGACIÓ AMB GPS")
+    context['gps_text'] = _(u"<p>Els sistema de guia per GPS és una ajuda a la navegació. En condicions òptimes, ens pot conduir pels itineraris amb molta precisió. Però hi ha molts factors (com ara el relleu del terreny, obstacles o núvols que distorsionin la senyal del satèl·lit, o la sensibilitat del nostre propi dispositiu) que poden afectar la precisió. Per això és important prestar també atenció a les indicacions escrites en els punts de ruta i procurar estimar en tot moment la nostra posició a partir de la interpretació del mapa, com a maneres de confirmar el posicionament GPS. L’aplicació ens mostra la nostra posició envoltada per un cercle blau que representa la precisió de la localització, que pot ser variable. Cal que tinguem en compte que la nostra posició real pot estar en qualsevol punt dintre d’aquest cercle.</p><p>Cal que tingueu activada en el vostre dispositiu l’opció de localització per GPS.</p><p>El consum de bateria pel sistema GPS és alt, cal portar la bateria carregada al 100% quan comencem l’itinerari. Per estalviar al màxim la bateria és recomanable portar el dispositiu en modus d’espera durant l’itinerari, però en un lloc on poguem sentir el senyal acústic i la vibració d’avís quan arribem a algun punt d’interés.</p>")
+    context['safety_title'] = _(u"SEGURETAT")
+    context['safety_text'] = _(u"<p>En els itineraris a peu, especialment aquells en zona d’alta muntanya:</p><ul><li>Abans de triar un itinerari, valorem la dificultat i les nostres capacitats i experiència.</li><li>Cal portar calçat adequat.</li><li>Encara que al sortir el temps sigui bò, és recomanable portar a la motxilla alguna peça d’abric i un impermeable en previsió d’un canvi de temps sobtat o haver d’abrigar a algú que hagi sofert un accident.</li><li>Cal beure suficient durant la caminada per mantenir una bona hidratació, i protegir-se del sòl amb barret, ulleres i crema protectora.</li><li>En els itineraris en cotxe: Alguna de les persones que no condueixen és qui ha de manipular i mirar el dispositiu mòbil, per evitar distraccions de qui condueix.</li></ul><p>En cas d’accident, cal seguir el protocol PAS - Protegir, Avisar, Socórrer</p><ul><li>PROTEGIR a qui ha patit l’accident i a nosaltres, per evitar empitjorar les consequències</li><li>AVISAR als serveis de socors: trucar al 112 (general) o al 973 640 080 (Pompièrs Val d’Aran). Tingueu en compte que en moltes zones d’alta muntanya no hi ha cobertura. Per això és convenient recordar quin és l’ultim lloc on n’hem trobat.</li><li>SOCÓRRER a les persones ferides, en la mesura dels nostres coneixements de primers auxilis i si tenim la seguretat de no agravar la situació.</li></ul>")
+    context['environment_title'] = _(u"RESPECTE PEL MEDI")
+    context['environment_text'] = _(u"<p>L’augment de la freqüentació del medi natural ha fet que fins i tot activitats aparentment inocues tinguin efectes negatius. Per això és molt important tenir un comportament respectuós amb el medi i extremar les precaucions per no alterar-ho. La regla general és que no deixem cap rastre del nostre pas. Els principals impactes que s’han detectat i algunes maneres d’evitar-los són:</p><p>Erosió i compactació del terreny pel trepig - Evitem caminar per fora dels senders marcats i agafar dreceres. En els corriols estrets i en pendent, com a norma de cortesia, qui baixa cedeix el pas a qui puja.</p><p>Molèsties a la fauna, en especial a les espècies protegides, tant als individus com al seu hàbitat - Evitem cridar i fer sorolls excessius. Vigilem que el nostre gos no persegueixi ni ataqui la fauna salvatge. Respectem els seus hàbitats: per exemple, no movem rocs o troncs que els hi puguin servir de refugi, no tirem pedres als rius i estanys, ni posem obstacles al flux d’aigua als rius. Recordeu que el bany i els esports aqüàtics no són permesos als estanys.</p><p>Recol·lecció d’espècies botàniques, en especial les protegides - Evitem arrencar flors i plantes. Respectem les regulacions en la recollida d’espècies comestibles, com bolets i altres. No recol·lectem fruits i baies amb mètodes agressius per les plantes.</p><p>Generació de residus - No deixem cap tipus de deixalles al medi, fins i tot les que poden servir d’aliment per a la fauna salvatge: no formen part de la seva dieta natural i els fan canviar els seus hàbits alimenticis i de comportament.</p><p>Incendis forestals - Si hem de fer foc, fem-ho només als llocs expressament acondicionats, i vigilem-lo. No llencem puntes de cigarreta, ni enceses ni apagades.</p>")
+
     if request.LANGUAGE_CODE == 'ca':
         return render(request, 'frontulet/before_leaving' + mob + '_ca.html', context)
     # TODO add other languages
@@ -52,6 +61,14 @@ def show_before_leaving(request, mob=''):
 
 def show_manual(request, mob=''):
     context = {}
+    context['main_page_title'] = _(u"PANTALLA PRINCIPAL:")
+    context['main_page_text'] = _(u"<p>Permet accedir a informació general de l’app i a la pantalla de selecció d’itineraris.</p><p>El botó de menú secundari permet fixar les preferències (l’idioma i l’interval de temps entre posicionaments GPS consecutius) i registrar-se com a usuari (opcional).</p>")
+    context['select_itineraries_title'] = _(u"SELECCIÓ D’ITINERARIS:")
+    context['select_itineraries_text'] = _(u"<p>Desplega el mapa general amb tots els itineraris disponibles.</p><p>Clicant sobre cadascun dels itineraris es desplega una descripció general de l’itinerari.</p><p>Fent clic a sobre de la descripció entrem dintre de l’itinerari, amb dues opcions:</p><ul><li>VISUALITZAR la ruta (ens permet fer un recorregut virtual de la ruta)</li><li>RECÓRRER la ruta (activa el sistema de guia de la ruta, enregistra el recorregut i ens permet afegir informació pròpia a l’itinerari).</li></ul><p>El botó de menú secundari permet editar els nostres itineraris i fer la valoració dels itineraris compartits.</p>")
+    context['itineraries_title'] = _(u"ITINERARIS:")
+    context['itineraries_text'] = _(u"<p>Sobre els mapes dels itineraris poden aparèixer tres tipus d’icones:</p><ul class='no_bullet'><li class='image_bullet waypoint'>Punt de ruta. Clicant a sobre obtenim informació de com arribar des d’aquí al següent punt de ruta.</li><li class='image_bullet poi'>Punt d’interés. Clicant a sobre es desplega informació sobre algun tema d’interés relacionat amb el lloc on ens trobem.</li><li class='image_bullet holet_alert'>Avís. Clicant a sobre obtenim avisos sobre temes de seguretat o afectacions al medi ambient en el lloc on ens trobem.</li></ul><p>Durant el recorregut el vibrador i un senyal acústic del dispositiu ens avisaran que estem arribant a algun d’aquests punts.</p>")
+    context['buttons_title'] = _(u"BOTONS DE CONTROL:")
+    context['buttons_text'] = _(u"<p>Dintre dels itineraris (virtuals o reals) tenim botons que ens permeten fer accions.</p><ul class='no_bullet'><li class='image_bullet stop'>Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit.Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit. Final del recorregut. Surt de l’itinerari i ens dóna l’opció de desar el recorregut i la informació que hem introduit.  </li><li class='image_bullet add_info'>Afegir informació. Permet a l’usuari afegir informació (comentaris, fotos i vídeos) amb la seva localització geogràfica.</li><li class='image_bullet compass'>Brúixola. Obre la utilitat de brúixola, amb una fletxa que indica la direcció on es troba el següent waypoint.</li><li class='image_bullet where'>Posició actual. Mostra al mapa la nostra posició.</li></ul>")
     if request.LANGUAGE_CODE == 'ca':
         return render(request, 'frontulet/manual' + mob + '_ca.html', context)
     # TODO add other languages
@@ -74,30 +91,30 @@ def show_route_list(request, whose=''):
     if request.user.is_authenticated():
         if whose == 'mine':
             routes = Route.objects.filter(created_by=request.user)
-            title = 'My Routes'
+            title = _('My Routes')
         elif whose == 'others':
             routes = Route.objects.exclude(created_by=request.user)
-            title = "Other Hikers' Routes"
+            title = _("Other Hikers' Routes")
         elif whose == 'official':
             routes = Route.objects.filter(official=True)
-            title = "Holet's Routes"
+            title = _("Holet's Routes")
         else:
             routes = Route.objects.all()
-            title = "All Routes"
+            title = _("All Routes")
     else:
         if whose == 'official':
             routes = Route.objects.filter(official=True)
-            title = "Holet's Routes"
+            title = _("Holet's Routes")
         else:
             routes = Route.objects.all()
-            title = "All Routes"
+            title = _("All Routes")
     routes_localized = map(lambda route: {'name': route.get_name(request.LANGUAGE_CODE), 'short_description': route.get_short_description(request.LANGUAGE_CODE), 'id': route.id}, [r for r in routes])
     context = {'routes': routes_localized, 'title': title}
     return render(request, 'frontulet/route_list.html', context)
 
 
 def show_route_detail(request, id):
-    context = {'name': 'No Route', 'short_description': '', 'description': 'There is no route with the id number you requested. Try requesting a different id.'}
+    context = {'name': _('No Route'), 'short_description': '', 'description': _('There is no route with the id number you requested. Try requesting a different id.')}
     this_id = int(id)
     if Route.objects.filter(pk=this_id):
         this_route = Route.objects.get(pk=this_id)
@@ -332,7 +349,7 @@ def edit_highlight(request, route_id, highlight_id):
                     form.save()
                     return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + "#h" + str(highlight_id))
                 else:
-                    args['error_message'] = 'Wrong file type: Make sure the file you have selected is either a JPG, PNG, GIF, MP4, WEBM, or OGG.'
+                    args['error_message'] = _('Wrong file type: Make sure the file you have selected is either a JPG, PNG, GIF, MP4, WEBM, or OGG.')
                     return render(request, 'frontulet/upload_error.html', args)
 
             else:
@@ -413,7 +430,7 @@ def translate_highlights(request, lang='all'):
                     return HttpResponseRedirect(reverse('translate_highlights', kwargs={'lang': lang}))
             else:
                 args['formset'] = TranslateHighlightFormSet(queryset=Highlight.objects.filter(step__track__route__official=True))
-                args['title'] = 'Holet Highlight Translation'
+                args['title'] = _('Holet Highlight Translation')
             return render(request, 'frontulet/formset_base.html', args)
         else:
             return render(request, 'registration/no_permission_must_be _translator.html')
@@ -497,7 +514,7 @@ def translate_routes(request, lang='all'):
                     return HttpResponseRedirect(reverse('translate_routes', kwargs={'lang': lang}))
             else:
                 args['formset'] = TranslateRouteFormSet(queryset=Route.objects.filter(official=True))
-                args['title'] = 'Holet Route Translation'
+                args['title'] = _('Holet Route Translation')
             return render(request, 'frontulet/formset_base.html', args)
         else:
             return render(request, 'registration/no_permission_must_be _translator.html')
@@ -523,27 +540,27 @@ def set_up_reference(reference):
         html_file_paths = []
         for name in file_names:
             if name[:3] == '../':
-                return 'At least one of the files in your ZIP archive has a path starting with "../". Please do not try to give files in the archives paths that point outside of the archived folder.'
+                return _('At least one of the files in your ZIP archive has a path starting with "../". Please do not try to give files in the archives paths that point outside of the archived folder.')
             elif os.path.isabs(name):
-                return 'At least one of the files in your ZIP archive has an absolute path. Please do not try to give files in the archives paths that point outside of the archived folder.'
+                return _('At least one of the files in your ZIP archive has an absolute path. Please do not try to give files in the archives paths that point outside of the archived folder.')
             name_split = name.split('.')
             this_extension = name_split[-1]
             if this_extension == 'html':
                 lang_code = name_split[0].split('-')[-1][:2]
                 if lang_code not in ['to'] + map(lambda x: x[0].upper(), settings.LANGUAGES) + map(lambda x: x[0].lower(), settings.LANGUAGES):
                     reference.delete()
-                    return 'At least one HTML file in your ZIP archive was missing a supported language code. Please make sure each HTML has a file name that ends in either -oc.html, -es,html, -ca.html, -fr.html, -en.html, or -to.html.'
+                    return _('At least one HTML file in your ZIP archive was missing a supported language code. Please make sure each HTML has a file name that ends in either -oc.html, -es,html, -ca.html, -fr.html, -en.html, or -to.html.')
                 else:
                     html_file_paths.append((lang_code.lower(), os.path.join(this_dir, name)))
             elif this_extension.lower() not in allowed_extensions:
                 reference.delete()
-                return 'You tried to upload a zip file containing a file or files that are not HTML, CSS, JPG, PNG, GIF, or MP4. Please make sure the ZIP archive contains only those file type.'
+                return _('You tried to upload a zip file containing a file or files that are not HTML, CSS, JPG, PNG, GIF, or MP4. Please make sure the ZIP archive contains only those file type.')
         if len(html_file_paths) > 5:
             reference.delete()
-            return 'There are more than five HTML files in this ZIP archive. Please include no more than one HTML file for each of the five supported languages (Aranese, Spanish, Catalan, French, and English).'
+            return _('There are more than five HTML files in this ZIP archive. Please include no more than one HTML file for each of the five supported languages (Aranese, Spanish, Catalan, French, and English).')
         elif len(html_file_paths) == 0:
             reference.delete()
-            return 'There is no HTML file in this ZIP archive. Please include at least one HTML file.'
+            return _('There is no HTML file in this ZIP archive. Please include at least one HTML file.')
         else:
             this_file.extractall(path=this_dir)
             # if it is a general reference, then extract also to general references folder
@@ -577,7 +594,7 @@ def set_up_reference(reference):
         return 'OK'
     else:
         reference.delete()
-        return 'You tried to upload something other than a ZIP or HTML file. Please check the file and try again.'
+        return _('You tried to upload something other than a ZIP or HTML file. Please check the file and try again.')
 
 
 def make_new_route_reference(request, route_id):

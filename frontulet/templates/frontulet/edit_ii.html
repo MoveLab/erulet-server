@@ -1,8 +1,9 @@
 {% extends "frontulet/form_base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
      {% block title %}
-         <h1>Replace Interactive Image <small>Upload a new image that will have clickable areas.</small></h1>
-   <p>To replace the current interactive image, first upload a new image file on this page. In the next page, you will be able to create clickable areas on the image and set the text to be displayed when each area is clicked.</p>
+         <h1>{% trans "Replace Interactive Image" %} <small>{% trans "Upload a new image that will have clickable areas." %}</small></h1>
+   <p>{% trans "To replace the current interactive image, first upload a new image file on this page. In the next page, you will be able to create clickable areas on the image and set the text to be displayed when each area is clicked." %}</p>
 
      {% endblock %}

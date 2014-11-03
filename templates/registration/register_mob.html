@@ -1,6 +1,6 @@
 {% extends "registration/registration_base.html" %}
 {% load staticfiles %}
-
+{% load i18n %}
 
 {% block navbar %}
 
@@ -12,7 +12,7 @@
         <!-- Header -->
         <div id="header">
             <div id="branding">
-                <h1 id="site-name">Holet Registration</h1>
+                <h1 id="site-name">{% trans "Holet Registration" %}</h1>
             </div>
         </div>
         <!-- END Header -->
@@ -26,7 +26,7 @@
                 <form method="post" action=".">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <input type="submit" value="Register"/>
+                    <input type="submit" value="{% trans "Register" %}"/>
                 </form>
                 <script type="text/javascript">
                     document.getElementById('id_username').focus()

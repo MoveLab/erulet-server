@@ -1,5 +1,6 @@
 {% extends "frontulet/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block bootstrap_css %}
     {{ block.super }}
@@ -31,7 +32,7 @@
                 <form role="form" method="post" action="#">{% csrf_token %}
             {% endif %}
             {{ form.as_p }}
-            <input id="submit_button" type="submit" value="Submit"/> {% block cancel_button %}{% endblock %}
+            <input id="submit_button" type="submit" value="{% trans "Submit" %}"/> {% block cancel_button %}{% endblock %}
 
             </form>
 
@@ -59,7 +60,7 @@
 
 
         $("#new_route_form").hide();
-        $("#page_title").html('<h1>Processing, please wait. (This may take a few minutes.)');
+        $("#page_title").html('<h1>{% trans "Processing, please wait. (This may take a few minutes.)" %}</h1>');
         $("#progress_spinner").show();
 
     })

@@ -1,5 +1,6 @@
 {% extends "frontulet/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block main_body %}
 
@@ -7,7 +8,7 @@
 
      <!-- Main component for a primary marketing message or call to action -->
       <div class="jumbotron">
-        <h1>Holet Privacy Policy</h1>
+        <h1>{% trans "Holet Privacy Policy" %}</h1>
         <p>Coming soon... You are currently visiting a website that is under construction and intended only for testing. We will add a privacy policy before making this site public.</p>
       </div>
 

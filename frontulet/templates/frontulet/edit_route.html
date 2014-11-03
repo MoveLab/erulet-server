@@ -1,9 +1,10 @@
 {% extends "frontulet/form_base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
-            {% block title %} <h1>Edit Route</h1>
+            {% block title %} <h1>{% trans "Edit Route" %}</h1>
                                  <button id="lang_button" type="button" class="btn btn-primary"><span
-                    class="glyphicon glyphicon-chevron-down"></span> Show all languages
+                    class="glyphicon glyphicon-chevron-down"></span> {% trans "Show all languages" %}
             </button>
             {% endblock %}
 

@@ -1,8 +1,9 @@
 {% extends "frontulet/form_base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
      {% block title %}
-         <h1>Error <small>{{ error_message }}</small></h1>
+         <h1>{% trans "Error" %} <small>{{ error_message }}</small></h1>
      {% endblock %}
 
 

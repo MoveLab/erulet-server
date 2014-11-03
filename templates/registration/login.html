@@ -1,4 +1,5 @@
 {% extends "registration/registration_base.html" %}
+{%  load i18n %}
 
 {% block navbar %}
     <!-- NAVBAR
@@ -10,11 +11,10 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
 
-                            <li><p class="navbar-text">Don't have an account?
-                                <a href="{% url "auth_register" %}">Register</a></p>
+                            <li><p class="navbar-text">{% trans "Don't have an account?" %}
+                                <a href="{% url "auth_register" %}">{% trans "Register" %}</a></p>
                             </li>
-                               <li><p class="navbar-text">Want to continue using without registering?
-                                <a href="{% url "show_home" %}">Return to home page</a></p>
+                               <li><p class="navbar-text">{% trans "Want to continue using without registering?" %} <a href="{% url "show_home" %}">{% trans "Return to home page" %}</a></p>
                             </li>
                         </ul>
                     </div>
@@ -33,7 +33,7 @@
         <div id="header">
             <div id="branding">
 
-                <h1 id="site-name">Holet Login</h1>
+                <h1 id="site-name">{% trans "Holet Login" %}</h1>
 
             </div>
 
@@ -48,7 +48,7 @@
 
 
                 {% if form.errors %}
-                    <p>Your username and password didn't match. Please try again.</p>
+                    <p>{% trans "Your username and password didn't match. Please try again." %}</p>
                 {% endif %}
 
                 <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
@@ -64,7 +64,7 @@
                         </tr>
                     </table>
 
-                    <input type="submit" value="login"/>
+                    <input type="submit" value="{% trans "login" %}"/>
                     <input type="hidden" name="next" value="{{ next }}"/>
                 </form>
 

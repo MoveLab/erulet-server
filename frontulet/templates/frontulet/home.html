@@ -1,5 +1,6 @@
 {% extends "frontulet/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block bootstrap_css %}
     {{ block.super }}
@@ -27,17 +28,17 @@
         <div class="page-header">
             {% if request.user.is_authenticated %}
                 {% if request.user.first_name %}
-                    <h1>Welcome to Holet, {{ request.user.first_name }}!
-                        <small>What would you like to do today?</small>
+                    <h1>{% trans "Welcome to Holet" %}, {{ request.user.first_name }}!
+                        <small>{% trans "What would you like to do today?" %}</small>
                     </h1>
                 {% else %}
-                    <h1>Welcome to Holet!
-                        <small>What would you like to do today?</small>
+                    <h1>{% trans "Welcome to Holet!" %}
+                        <small>{% trans "What would you like to do today?" %}</small>
                     </h1>
                 {% endif %}
             {% else %}
-                <h1>Welcome to Holet!
-                    <small>What would you like to do today?</small>
+                <h1>{% trans "Welcome to Holet!" %}
+                    <small>{% trans "What would you like to do today?" %}</small>
                 </h1>
             {% endif %}
         </div>
@@ -46,17 +47,17 @@
 
             <div class="row">
             <div class="col-md-4">
-                <a class="btn btn-primary btn-block" href={% url 'make_new_route' %}>Add Route</a>
+                <a class="btn btn-primary btn-block" href={% url 'make_new_route' %}>{% trans "Add Route" %}</a>
             </div>
-            <div class="col-md-8">Add a new route using GPX files.</div>
+            <div class="col-md-8">{% trans "Add a new route using GPX files." %}</div>
         </div>
         <br>
 
         <div class="row">
             <div class="col-md-4">
-                <a class="btn btn-primary btn-block" href={% url 'show_route_list_all' %}>List All Routes</a>
+                <a class="btn btn-primary btn-block" href={% url 'show_route_list_all' %}>{% trans "List All Routes" %}</a>
             </div>
-            <div class="col-md-8">View a list of all routes.</div>
+            <div class="col-md-8">{% trans "View a list of all routes." %}</div>
         </div>
         <br>
 
@@ -65,16 +66,16 @@
                 <div class="col-md-4">
                     <a class="btn btn-primary btn-block" href={% url 'show_route_list' 'mine' %}>List My Routes</a>
                 </div>
-                <div class="col-md-8">View a list of the routes you have created on your own hikes.</div>
+                <div class="col-md-8">{% trans "View a list of the routes you have created on your own hikes." %}</div>
             </div>
 
     <br>
 
             <div class="row">
                 <div class="col-md-4">
-                    <a class="btn btn-primary btn-block" href={% url 'show_route_list' 'others' %}>List Other Hikers' Routes</a>
+                    <a class="btn btn-primary btn-block" href={% url 'show_route_list' 'others' %}>{% trans "List Other Hikers' Routes" %}</a>
                 </div>
-                <div class="col-md-8">View a list of the routes others have created on their hikes.</div>
+                <div class="col-md-8">{% trans "View a list of the routes others have created on their hikes." %}</div>
             </div>
     <br>
 
@@ -83,16 +84,16 @@
 
         <div class="row">
             <div class="col-md-4">
-                <a class="btn btn-primary btn-block" href={% url 'show_route_list' 'official' %}>List Holet's Routes</a>
+                <a class="btn btn-primary btn-block" href={% url 'show_route_list' 'official' %}>{% trans "List Holet's Routes" %}</a>
             </div>
-            <div class="col-md-8">View the routes created by the scientists behind Holet.</div>
+            <div class="col-md-8">{% trans "View the routes created by the scientists behind Holet." %}</div>
         </div>
     <br>
         <div class="row">
             <div class="col-md-4">
-                <a class="btn btn-primary btn-block" href={% url 'show_map' %}>Consult Map</a>
+                <a class="btn btn-primary btn-block" href={% url 'show_map' %}>{% trans "Consult Map" %}</a>
             </div>
-            <div class="col-md-8">View an interactive map of all routes.</div>
+            <div class="col-md-8">{% trans "View an interactive map of all routes." %}</div>
         </div>
         <br>
 
@@ -100,9 +101,9 @@
             <div class="row">
                 <div class="col-md-4">
 
-                    <a class="btn btn-primary btn-block" href={% url 'show_profile' %}>View My Profile</a>
+                    <a class="btn btn-primary btn-block" href={% url 'show_profile' %}>{% trans "View My Profile" %}</a>
                 </div>
-                <div class="col-md-8">View and edit your profile.</div>
+                <div class="col-md-8">{% trans "View and edit your profile." %}</div>
             </div>
 
 
@@ -110,9 +111,9 @@
             <div class="row">
                 <div class="col-md-4">
 
-                    <a class="btn btn-primary btn-block" href={% url 'auth_register' %}>Register</a>
+                    <a class="btn btn-primary btn-block" href={% url 'auth_register' %}>{% trans "Register" %}</a>
                 </div>
-                <div class="col-md-8">Register your account. This will let you track your hikes and create your own routes.</div>
+                <div class="col-md-8">{% trans "Register your account. This will let you track your hikes and create your own routes." %}</div>
             </div>
 
             <br>
@@ -120,9 +121,9 @@
             <div class="row">
                 <div class="col-md-4">
 
-                    <a class="btn btn-primary btn-block" href={% url 'auth_login' %}>Log In</a>
+                    <a class="btn btn-primary btn-block" href={% url 'auth_login' %}>{% trans "Log In" %}</a>
                 </div>
-                <div class="col-md-8">Log in to view your data, is you already have an account.</div>
+                <div class="col-md-8">{% trans "Log in to view your data, is you already have an account." %}</div>
             </div>
 
         {% endif %}

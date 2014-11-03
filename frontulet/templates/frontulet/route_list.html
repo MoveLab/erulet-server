@@ -1,5 +1,6 @@
 {% extends "frontulet/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block bootstrap_css %}
     {{ block.super }}
@@ -32,7 +33,7 @@
         {% for route in routes %}
 
             <h3>{{ route.name }}</h3>
-            <p>{{ route.short_description }} <a class="btn btn-primary btn-xs" href={% url 'show_route_detail' route.id %}>View Route</a></p>
+            <p>{{ route.short_description }} <a class="btn btn-primary btn-xs" href={% url 'show_route_detail' route.id %}>{% trans "View Route" %}</a></p>
 
         {% endfor %}
 

@@ -1,5 +1,6 @@
 {% extends "frontulet/create_route.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block main_body %}
 
@@ -8,8 +9,8 @@
         <div class="starter-template" style="position:relative">
 
         <div class="page-header">
-            {% block title %} <h1>Edit Highlight</h1><button id="lang_button" type="button" class="btn btn-primary"><span
-                    class="glyphicon glyphicon-chevron-down"></span> Show all languages
+            {% block title %} <h1>{% trans "Edit Highlight" %}</h1><button id="lang_button" type="button" class="btn btn-primary"><span
+                    class="glyphicon glyphicon-chevron-down"></span> {% trans "Show all languages" %}
             </button>{% endblock %}
 </div>
         <div id="edit_highlight_form">
@@ -20,7 +21,7 @@
                 <form role="form" method="post" action="#">{% csrf_token %}
             {% endif %}
             {{ form.as_p }}
-            <input id="submit_button" type="submit" value="Submit"/>
+            <input id="submit_button" type="submit" value="{% trans "Submit" %}"/>
             </form>
 
 

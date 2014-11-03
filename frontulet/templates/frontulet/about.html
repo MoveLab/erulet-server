@@ -1,5 +1,6 @@
 {% extends "frontulet/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block bootstrap_css %}
     {{ block.super }}
@@ -35,7 +36,7 @@
 
                 <div class="col-md-7">
 
-                    <h2 class="featurette-heading">The Holet was organized by the Municipality of Vielha.</h2>
+                    <h2 class="featurette-heading">{% trans "The Holet was organized by the Municipality of Vielha." %}</h2>
 
                 </div>
                 <div class="col-md-5">
@@ -51,7 +52,7 @@
 
                 <div class="col-md-7">
 <br><br>
-                    <h2 class="featurette-heading">It was financed by the European Union through the Sud'Eau 2 project.</h2>
+                    <h2 class="featurette-heading">{% trans "It was financed by the European Union through the Sud'Eau 2 project." %}</h2>
 
                 </div>
 
@@ -69,7 +70,7 @@
 
                 <div class="col-md-7">
 
-                    <h2 class="featurette-heading">And implemented by the Movement Ecology Lab (CEAB-CSIC) and CREAF.</h2>
+                    <h2 class="featurette-heading">{% trans "And implemented by the Movement Ecology Lab (CEAB-CSIC) and CREAF." %}</h2>
 
                 </div>
                 <div class="col-md-5">
@@ -82,15 +83,11 @@
 
         <br><br>
 
-            <h4>Holet is built from free and open source code. Check out our <a href='../api/'>API</a> or fork us on <a
-                    href="http://github.com/MoveLab">Github</a>!</h4>
+            <h4>{% trans "Holet is built from free and open source code. Check out our <a href='../api/'>API</a> or fork us on <a href='http://github.com/MoveLab'>Github</a>!" %}</h4>
 <br>
-            <h5>Content by <a href="http://www.ceab.csic.es/web/?p=1636">Lluís Camarero</a> &middot; Website and server
-                backend by <a href="http://johnrbpalmer.com">John R.B. Palmer</a> &middot; Android app by <a
-                        href="http://www.creaf.cat/en/personal/agust%C3%AD-escobar-r%C3%BAbies">Agustí Escobar
-                    Rúbies</a> &middot; Mobile HTML5 app by <a href="http://wuyingren.github.io/">Jordi López</a></h5>
+            <h5>{% trans "Content by" %} <a href="http://www.ceab.csic.es/web/?p=1636">Lluís Camarero</a> &middot; {% trans "Website and server backend by" %} <a href="http://johnrbpalmer.com">John R.B. Palmer</a> &middot; {% trans "Android app by" %} <a href="http://www.creaf.cat/en/personal/agust%C3%AD-escobar-r%C3%BAbies">Agustí Escobar Rúbies</a> &middot; {% trans "Mobile HTML5 app by" %} <a href="http://wuyingren.github.io/">Jordi López</a></h5>
 
-            <h5>&copy; 2014 by the Holet Team at the Movement Ecology Lab (CEAB-CSIC) and CREAF</h5>
+            <h5>&copy; 2014 {% trans "by the Holet Team at the Movement Ecology Lab (CEAB-CSIC) and CREAF" %}</h5>
 
 
 

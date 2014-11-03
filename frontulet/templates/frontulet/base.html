@@ -58,7 +58,7 @@
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
                                 data-target=".navbar-collapse">
-                            <span class="sr-only">Toggle navigation</span>
+                            <span class="sr-only">{% trans "Toggle navigation" %}</span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
@@ -67,58 +67,58 @@
                     </div>
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav">
-                            <li><a class="frontulet_toggle_home" href={% url "show_home" %}>Home</a></li>
+                            <li><a class="frontulet_toggle_home" href={% url "show_home" %}>{% trans "Home" %}</a></li>
                             <li class="dropdown">
-                                <a href="#" class="frontulet_toggle_routes dropdown-toggle" data-toggle="dropdown">Routes
+                                <a href="#" class="frontulet_toggle_routes dropdown-toggle" data-toggle="dropdown">{% trans "Routes" %}
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href={% url 'show_route_list_all' %}>All Routes</a></li>
+                                    <li><a href={% url 'show_route_list_all' %}>{% trans "All Routes" %}</a></li>
                                     {% if request.user.is_authenticated %}
-                                        <li><a href={% url 'show_route_list' 'mine' %}>My Routes</a></li>
-                                        <li><a href={% url 'show_route_list' 'others' %}>Other Hikers' Routes</a></li>
+                                        <li><a href={% url 'show_route_list' 'mine' %}>{% trans "My Routes" %}</a></li>
+                                        <li><a href={% url 'show_route_list' 'others' %}>{% trans "Other Hikers' Routes" %}</a></li>
                                     {% endif %}
-                                    <li><a href={% url 'show_route_list' 'official' %}>Holet's Routes</a></li>
+                                    <li><a href={% url 'show_route_list' 'official' %}>{% trans "Holet's Routes" %}</a></li>
                                     {% if request.user.is_authenticated %}
                                     <li class="divider"></li>
-                                    <li><a href={% url "make_new_route" %}>Add new route</a></li>
+                                    <li><a href={% url "make_new_route" %}>{% trans "Add new route" %}</a></li>
                                     {% endif %}
                                 </ul>
                             </li>
-                            <li><a class="frontulet_toggle_map" href={% url "show_map" %}>Map</a></li>
+                            <li><a class="frontulet_toggle_map" href={% url "show_map" %}>{% trans "Map" %}</a></li>
                             <li class="dropdown">
-                                <a href="#" class="frontulet_toggle_reference dropdown-toggle" data-toggle="dropdown">Reference
+                                <a href="#" class="frontulet_toggle_reference dropdown-toggle" data-toggle="dropdown">{% trans "Reference" %}
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href={% url 'show_before_leaving' %}>Before Leaving</a></li>
-                                    <li><a href={% url "show_general_references" %}>General Reference</a></li>
-                                    <li><a href={% url "show_manual" %}>App Manual</a></li>
+                                    <li><a href={% url 'show_before_leaving' %}>{% trans "Before Leaving" %}</a></li>
+                                    <li><a href={% url "show_general_references" %}>{% trans "General Reference" %}</a></li>
+                                    <li><a href={% url "show_manual" %}>{% trans "App Manual" %}</a></li>
                                 </ul>
                             </li>
 
 
-                            <li><a class="frontulet_toggle_about" href={% url "show_about" %}>About</a></li>
+                            <li><a class="frontulet_toggle_about" href={% url "show_about" %}>{% trans "About" %}</a></li>
 
                         {% if request.user.is_authenticated %}
                         {% for group in request.user.groups.all %}
                         {% if group.name == 'translators' %}
                         <li class="dropdown">
-                                <a href="#" class="frontulet_toggle_translation dropdown-toggle" data-toggle="dropdown">Translation
+                                <a href="#" class="frontulet_toggle_translation dropdown-toggle" data-toggle="dropdown">{% trans "Translation" %}
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
 
-                                    <li><a href={% url 'translate_routes' 'oc' %}>Translate Routes to: Aranese</a></li>
-                                    <li><a href={% url 'translate_routes' 'es' %}>Translate Routes to: Spanish</a></li>
-                                    <li><a href={% url 'translate_routes' 'fr' %}>Translate Routes to: French</a></li>
-                                    <li><a href={% url 'translate_routes' 'en' %}>Translate Routes to: English</a></li>
-                                    <li><a href={% url 'translate_routes' 'spain' %}>Translate Routes to: Aranese and Spanish</a></li>
-                                    <li><a href={% url 'translate_routes' 'all' %}>Translate Routes to: All</a></li>
+                                    <li><a href={% url 'translate_routes' 'oc' %}>{% trans "Translate Routes to: Aranese" %}</a></li>
+                                    <li><a href={% url 'translate_routes' 'es' %}>{% trans "Translate Routes to: Spanish" %}</a></li>
+                                    <li><a href={% url 'translate_routes' 'fr' %}>{% trans "Translate Routes to: French" %}</a></li>
+                                    <li><a href={% url 'translate_routes' 'en' %}>{% trans "Translate Routes to: English" %}</a></li>
+                                    <li><a href={% url 'translate_routes' 'spain' %}>{% trans "Translate Routes to: Aranese and Spanish" %}</a></li>
+                                    <li><a href={% url 'translate_routes' 'all' %}>{% trans "Translate Routes to: All" %}</a></li>
    <li class="divider"></li>
-                                    <li><a href={% url 'translate_highlights' 'oc' %}>Translate Highlights to: Aranese</a></li>
-                                    <li><a href={% url 'translate_highlights' 'es' %}>Translate Highlights to: Spanish</a></li>
-                                    <li><a href={% url 'translate_highlights' 'fr' %}>Translate Highlights to: French</a></li>
-                                    <li><a href={% url 'translate_highlights' 'en' %}>Translate Highlights to: English</a></li>
-                                    <li><a href={% url 'translate_highlights' 'spain' %}>Translate Highlights to: Aranese and Spanish</a></li>
-                                    <li><a href={% url 'translate_highlights' 'all' %}>Translate Highlights to: All</a></li>
+                                    <li><a href={% url 'translate_highlights' 'oc' %}>{% trans "Translate Highlights to: Aranese" %}</a></li>
+                                    <li><a href={% url 'translate_highlights' 'es' %}>{% trans "Translate Highlights to: Spanish" %}</a></li>
+                                    <li><a href={% url 'translate_highlights' 'fr' %}>{% trans "Translate Highlights to: French" %}</a></li>
+                                    <li><a href={% url 'translate_highlights' 'en' %}>{% trans "Translate Highlights to: English" %}</a></li>
+                                    <li><a href={% url 'translate_highlights' 'spain' %}>{% trans "Translate Highlights to: Aranese and Spanish" %}</a></li>
+                                    <li><a href={% url 'translate_highlights' 'all' %}>{% trans "Translate Highlights to: All" %}</a></li>
 
                                 </ul>
                             </li>
@@ -134,15 +134,15 @@
                                 </li>
                                 <li>
 
-                                    <a href="{% url "auth_logout" %}">logout</a>
+                                    <a href="{% url "auth_logout" %}">{% trans "logout" %}</a>
                                 </li>
                             {% else %}
                                 <li>
 
-                                    <a href="{% url "auth_login" %}">login</a>
+                                    <a href="{% url "auth_login" %}">{% trans "login" %}</a>
                                 </li>
                                 <li>
-                                    <a href="{% url "auth_register" %}">register</a>
+                                    <a href="{% url "auth_register" %}">{% trans "register" %}</a>
                                 </li>
 
                             {% endif %}

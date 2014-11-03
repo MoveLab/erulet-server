@@ -1,5 +1,6 @@
 {% extends "frontulet/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block bootstrap_css %}
     {{ block.super }}
@@ -33,8 +34,8 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
 
-                            <li><p class="navbar-text">Don't have an account?
-                                <a href="{% url "auth_register" %}">Register</a></p>
+                            <li><p class="navbar-text">{% trans "Don't have an account?" %}
+                                <a href="{% url "auth_register" %}">{% trans "Register" %}</a></p>
                             </li>
 
 

@@ -1,8 +1,9 @@
 {% extends "frontulet/create_ii.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
      {% block title %}
-         <h1>Wrong file type <small>You can upload only a JPG, PNG, or GIF as an interactive image. Would you like to try again?</small></h1>
+         <h1>{% trans "Wrong file type"%} <small>{% trans "You can upload only a JPG, PNG, or GIF as an interactive image. Would you like to try again?" %}</small></h1>
      {% endblock %}
 
 
