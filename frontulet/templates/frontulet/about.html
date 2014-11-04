@@ -13,6 +13,16 @@
 
     <link rel="stylesheet" href={% static "frontulet/route_detail_style.css" %}>
 
+    <style>
+
+    .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    }
+</style>
+
 
 {% endblock %}
 
@@ -27,57 +37,45 @@
 
         <div class="page-header">
 
-
-                    <img width="30%" class="featurette-image img-responsive" src={% static 'frontulet/logos/SUDEAU2.jpg' %}>
+    <h1 class="center">{{ title }}</h1>
+    <img height="100px" class="center" src={% static "frontulet/icons/ic_erulet_new.png" %}>
 
 </div>
 
             <div class="row featurette">
 
-                <div class="col-md-7">
+    <div class="center">
+    <img height="100px" src={% static "frontulet/icons/launcher200.png" %}>
+    <img height="100px" src={% static "frontulet/icons/erulet_stone.png" %}>
+    </div>
 
-                    <h2 class="featurette-heading">{% trans "The Holet was organized by the Municipality of Vielha." %}</h2>
+    <h2 class="center">{{ line1|safe }}</h2>
 
-                </div>
-                <div class="col-md-5">
+    <img height="70px" class="center" src={% static "frontulet/logos/SUDEAU2blue.jpg" %}>
 
-                    <img class="featurette-image img-responsive" src={% static 'frontulet/logos/ajuntament.jpg' %}>
-                </div>
+    <h3 class="center">{{ line2|safe }}</h3>
 
-                </div>
+    <img height="70px" class="center" src={% static "frontulet/logos/logoLOOP.png" %}>
 
-                <hr class="featurette-divider">
+    <h3 class="center" style="color:grey;">{{ line3|safe }}</h3>
 
-            <div class="row featurette">
+    <img height="70px" class="center" src={% static "frontulet/logos/ceab-uab-creaf.jpg" %}>
 
-                <div class="col-md-7">
-<br><br>
-                    <h2 class="featurette-heading">{% trans "It was financed by the European Union through the Sud'Eau 2 project." %}</h2>
+    <h3 class="center">{{ line4|safe }}</h3>
 
-                </div>
+    <img height="70px" class="center" src={% static "frontulet/logos/movelab.jpg" %}>
 
+    <h3 class="center">{{ line5|safe }}</h3>
 
-                <div class="col-md-5">
-                    <img class="featurette-image img-responsive" src={% static 'frontulet/logos/sudeu.jpg' %}>
-                </div>
+    <img height="70px" class="center" src={% static "frontulet/logos/ajuntament.jpg" %}>
 
+    <h3 class="center">{{ line6|safe }}</h3>
 
-                </div>
+    <img height="70px" class="center" src={% static "frontulet/logos/sudeu.jpg" %}>
 
+    <h3 class="center">{{ line7|safe }}</h3>
 
-                <hr class="featurette-divider">
-            <div class="row featurette">
-
-                <div class="col-md-7">
-
-                    <h2 class="featurette-heading">{% trans "And implemented by the Movement Ecology Lab (CEAB-CSIC) and CREAF." %}</h2>
-
-                </div>
-                <div class="col-md-5">
-                    <img class="featurette-image img-responsive" src={% static 'frontulet/logos/movelab.jpg' %}>
-                    <img class="featurette-image img-responsive" src={% static 'frontulet/logos/ceab-uab-creaf.jpg' %}>
-
-                </div>
+    <p class="center">{{ line8|safe }}<p>
 
                 </div>
 

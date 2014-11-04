@@ -38,9 +38,18 @@ def show_home(request):
     return render(request, 'frontulet/home.html', context)
 
 
-def show_about(request):
+def show_about(request, mob=''):
     context = {}
-    return render(request, 'frontulet/about.html', context)
+    context['title'] = "Eth Holet"
+    context['line1'] = _(u"Aquesta aplicació per dispositius mòbils ha estat desenvolupada en el marc del projecte")
+    context['line2'] = _(u"Coordinació i disseny de continguts:")
+    context['line3'] = _(u"LOOP<br>una unitat mixta")
+    context['line4'] = _(u"Disseny tècnic:")
+    context['line5'] = _(u"Organitza:")
+    context['line6'] = _(u"Financia:")
+    context['line7'] = _(u"Han col·laborat:")
+    context['line8'] = _(u"Lluís Camarero, Agustí Escobar, John Palmer, Jordi Catalan, Frederic Bartumeus, Roser Faure, Enric Ballesteros, Guillermo de Mendoza, Claudio Aventin - Aran Culturau, Ferran Cardeñes")
+    return render(request, 'frontulet/about' + mob + '.html', context)
 
 
 def show_before_leaving(request, mob=''):

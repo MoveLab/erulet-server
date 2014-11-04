@@ -34,10 +34,10 @@
                     <img width="80%" style="max-width:60px;"
                          src="{% static 'frontulet/icons/before_leaving/sat.png' %}">
                 </td>
-                <td><h3>{{ gps_title }}</h3></td>
+                <td><h3>{{ gps_title|safe }}</h3></td>
             </tr>
         </table>
-        {{ gps_text }}
+        {{ gps_text|safe }}
         <table>
             <col width="20%">
             <col width="80%">
@@ -46,10 +46,10 @@
                          src="{% static 'frontulet/icons/before_leaving/safety.png' %}">
                 </td>
                 <td>
-                    <h3>{{ safety_title }}</h3></td>
+                    <h3>{{ safety_title|safe }}</h3></td>
             </tr>
         </table>
-        {{ safety_text }}
+        {{ safety_text|safe }}
         <table>
             <col width="20%">
             <col width="80%">
@@ -59,10 +59,10 @@
                          src="{% static 'frontulet/icons/before_leaving/environment.png' %}">
                 </td>
                 <td>
-                    <h3>{{ environment_title }}</h3></td>
+                    <h3>{{ environment_title|safe }}</h3></td>
             </tr>
         </table>
-        {{ environment_text }}
+        {{ environment_text|safe }}
     </div>
 {% endblock %}
 

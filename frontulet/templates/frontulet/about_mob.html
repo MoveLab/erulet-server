@@ -1,0 +1,64 @@
+{% extends "frontulet/mobile_base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block head_content %}
+
+<style>
+
+    body{
+       font-family: Arial, Helvetica, sans-serif;
+       color: darkslategrey;
+    }
+    .center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    }
+</style>
+
+{% endblock %}
+
+
+
+{% block body_content %}
+
+    <h1 class="center">{{ title }}</h1>
+    <img height="100px" class="center" src={% static "frontulet/icons/ic_erulet_new.png" %}>
+    <br>
+
+    <div class="center">
+    <img height="100px" src={% static "frontulet/icons/launcher200.png" %}>
+    <img height="100px" src={% static "frontulet/icons/erulet_stone.png" %}>
+    </div>
+
+    <h2 class="center">{{ line1|safe }}</h2>
+
+    <img height="70px" class="center" src={% static "frontulet/logos/SUDEAU2blue.jpg" %}>
+
+    <h3 class="center">{{ line2|safe }}</h3>
+
+    <img height="70px" class="center" src={% static "frontulet/logos/logoLOOP.png" %}>
+
+    <h3 class="center" style="color:grey;">{{ line3|safe }}</h3>
+
+    <img height="70px" class="center" src={% static "frontulet/logos/ceab-uab-creaf.jpg" %}>
+
+    <h3 class="center">{{ line4|safe }}</h3>
+
+    <img height="70px" class="center" src={% static "frontulet/logos/movelab.jpg" %}>
+
+    <h3 class="center">{{ line5|safe }}</h3>
+
+    <img height="70px" class="center" src={% static "frontulet/logos/ajuntament.jpg" %}>
+
+    <h3 class="center">{{ line6|safe }}</h3>
+
+    <img height="70px" class="center" src={% static "frontulet/logos/sudeu.jpg" %}>
+
+    <h3 class="center">{{ line7|safe }}</h3>
+
+    <p class="center">{{ line8|safe }}<p>
+
+{% endblock %}

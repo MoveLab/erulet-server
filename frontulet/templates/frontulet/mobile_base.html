@@ -1,0 +1,28 @@
+{% load staticfiles %}
+{% load i18n %}
+
+<!DOCTYPE html>
+<html>
+<head>
+
+    {% block encoding %}<meta charset="utf-8">{% endblock  %}
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no"/>
+    <meta name="description" content="Holet">
+    <meta name="author" content="Movement Ecology Laboratory">
+
+    <title>{% block page_title %}Holet{% endblock %}</title>
+
+{% block head_content %}
+{% endblock %}
+
+</head>
+
+<body>
+{% block body_content %}
+
+
+{% endblock %}
+
+</body>
+</html>
