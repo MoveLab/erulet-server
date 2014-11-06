@@ -1052,15 +1052,9 @@ def show_survey(request, survey_name, route_id=None, mob=''):
                 form.instance.survey_instance = this_instance
                 form.instance.question = this_scheme.questions.all()[i]
             formset.save()
-            if mob == 'web':
-                return render(request, 'frontulet/simple_message.html', {'message': _('Thank you!')})
-            else:
-                return HttpResponse(_("Thank you"))
+            return HttpResponseRedirect(reverse('show_survey_submitted', kwargs={'response_code': "ok"}))
         else:
-            if mob == 'web':
-                return render(request, 'frontulet/simple_message.html', {'message': _('Error')})
-            else:
-                return HttpResponse(_("Error"))
+            return HttpResponseRedirect(reverse('show_survey_submitted', kwargs={'response_code': "error"}))
 
     else:
         initial = []
@@ -1070,3 +1064,11 @@ def show_survey(request, survey_name, route_id=None, mob=''):
         args['formset'] = formset
         args['lang'] = lang
     return render_to_response('frontulet/survey' + mob + '.html', args)
+
+
+def show_survey_submitted(request, response_code):
+    if response_code == 'ok':
+        message = _('Thank you!')
+    else:
+        message = _('Error')
+    return render(request, 'frontulet/simple_message.html', {'message': message})
