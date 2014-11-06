@@ -1031,7 +1031,7 @@ def delete_general_reference(request, reference_id):
         return render(request, 'registration/no_permission_must_login.html')
 
 
-def show_survey(request, survey_name, route_id=None, mob=''):
+def show_survey(request, mob, survey_name, route_id=None):
     args = {}
     args.update(csrf(request))
     lang = request.LANGUAGE_CODE
@@ -1052,9 +1052,9 @@ def show_survey(request, survey_name, route_id=None, mob=''):
                 form.instance.survey_instance = this_instance
                 form.instance.question = this_scheme.questions.all()[i]
             formset.save()
-            return HttpResponseRedirect(reverse('show_survey_submitted', kwargs={'response_code': "ok"}))
+            return HttpResponseRedirect(reverse('show_survey_submitted', kwargs={'response_code': "ok", 'mob': mob}))
         else:
-            return HttpResponseRedirect(reverse('show_survey_submitted', kwargs={'response_code': "error"}))
+            return HttpResponseRedirect(reverse('show_survey_submitted', kwargs={'response_code': "error", 'mob': mob}))
 
     else:
         initial = []
@@ -1066,9 +1066,9 @@ def show_survey(request, survey_name, route_id=None, mob=''):
     return render_to_response('frontulet/survey' + mob + '.html', args)
 
 
-def show_survey_submitted(request, response_code):
+def show_survey_submitted(request, response_code, mob):
     if response_code == 'ok':
         message = _('Thank you!')
     else:
         message = _('Error')
-    return render(request, 'frontulet/simple_message.html', {'message': message})
+    return render(request, 'frontulet/simple_message' + mob + '.html', {'message': message})
