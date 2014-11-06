@@ -1052,9 +1052,16 @@ def show_survey(request, survey_name, route_id=None, mob=''):
                 form.instance.survey_instance = this_instance
                 form.instance.question = this_scheme.questions.all()[i]
             formset.save()
-            return render(request, 'frontulet/simple_message.html', {'message': _('Thank you!')})
+            if mob == 'web':
+                return render(request, 'frontulet/simple_message.html', {'message': _('Thank you!')})
+            else:
+                return HttpResponse(_("Thank you"))
         else:
-            return render(request, 'frontulet/simple_message.html', {'message': _('Error')})
+            if mob == 'web':
+                return render(request, 'frontulet/simple_message.html', {'message': _('Error')})
+            else:
+                return HttpResponse(_("Error"))
+
     else:
         initial = []
         for question in this_scheme.questions.all():
