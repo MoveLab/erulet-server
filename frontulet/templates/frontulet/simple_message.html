@@ -1,0 +1,32 @@
+{% extends "frontulet/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block bootstrap_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css" %}>
+{% endblock %}
+
+{% block head_additions %}
+    <link rel="stylesheet" href={% static "frontulet/form_style.css" %}>
+{% endblock %}
+
+{% block body_property_extras %}role="document"{% endblock %}
+
+{% block page_id %}survey{% endblock %}
+
+{% block main_body %}
+
+    <div class="container theme-showcase" role="main">
+
+        <div class="starter-template" style="position:relative">
+
+                <div id="page_title" class="page-header"><h1>{{ message }}</h1></div>
+
+
+</div>
+
+
+</div>
+
+{% endblock %}

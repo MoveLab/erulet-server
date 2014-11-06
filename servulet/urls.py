@@ -19,6 +19,8 @@ urlpatterns = patterns('', url(r'^admin/', include(admin.site.urls)),
 
 urlpatterns += i18n_patterns('',
     url(r'^home/', show_home, name='show_home'),
+    url(r'^survey/(?P<mob>\w+)/(?P<survey_name>\w+)/$', show_survey),
+    url(r'^survey/(?P<mob>\w+)/(?P<survey_name>\w+)/(?P<route_id>[0-9]+)/$', show_survey),
     url(r'^about/$', show_about, name='show_about'),
     url(r'^about/(?P<mob>\w+)/$', show_about),
     url(r'^before_leaving/$', show_before_leaving, name='show_before_leaving'),

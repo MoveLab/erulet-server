@@ -1,0 +1,67 @@
+{% extends "frontulet/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block bootstrap_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css" %}>
+{% endblock %}
+
+{% block head_additions %}
+    <link rel="stylesheet" href={% static "frontulet/form_style.css" %}>
+{% endblock %}
+
+{% block body_property_extras %}role="document"{% endblock %}
+
+{% block page_id %}survey{% endblock %}
+
+{% block main_body %}
+
+    <div class="container theme-showcase" role="main">
+
+        <div class="starter-template" style="position:relative">
+
+        <div id="page_title" class="page-header"><h1>{% trans 'Eth Holet Survey' %}</h1></div>
+
+
+
+<br><div class="border-row"></div><div class="border-row"></div><div class="border-row"></div><br>
+
+<form method="post" action="#">{% csrf_token %}
+    {{ formset.management_form }}
+    {% for form in formset %}
+        <h3>{% if lang == 'es' %}{{ form.initial.question.question_es }}{% elif lang == 'ca' %}{{ form.initial.question.question_ca }}{% elif lang == 'fr' %}{{ form.initial.question.question_fr }}{% elif lang == 'en' %}{{ form.initial.question.question_en }}{% else %}{{ form.initial.question.question_oc }}{% endif %}</h3>
+        {{ form.as_p }}
+          <br><div class="border-row"></div><div class="border-row"></div><div class="border-row"></div><br>
+    {% endfor %}
+          <input type="submit" value="{% trans "Submit" %}"/>
+</form>
+
+</div>
+
+
+</div>
+
+{% endblock %}
+
+{% block body_scripts %}
+{{ block.super }}
+
+        <script>
+
+            $("form").addClass("form-horizontal").attr("role", "form");
+
+
+    $("#progress_spinner").hide();
+    $("#submit_button").click(function() {
+
+
+        $("#new_route_form").hide();
+        $("#page_title").html('<h1>{% trans "Processing" %}</h1>');
+        $("#progress_spinner").show();
+
+    })
+    </script>
+
+
+{% endblock %}

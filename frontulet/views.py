@@ -1,5 +1,5 @@
 # -*- coding: iso-8859-1 -*-
-from django.shortcuts import render, render_to_response
+from django.shortcuts import render, render_to_response, get_object_or_404
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse_lazy
 from django.contrib.auth import authenticate, login
@@ -1029,3 +1029,37 @@ def delete_general_reference(request, reference_id):
         return HttpResponseRedirect(reverse('show_general_references'))
     else:
         return render(request, 'registration/no_permission_must_login.html')
+
+
+def show_survey(request, survey_name, route_id=None, mob=''):
+    args = {}
+    args.update(csrf(request))
+    lang = request.LANGUAGE_CODE
+    this_scheme = get_object_or_404(SurveyScheme, unique_name=survey_name)
+    this_route = None
+    if route_id and Route.objects.filter(id=route_id).count() == 1:
+        this_route = Route.objects.get(id=route_id)
+    widgets = {'response': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'})}
+    extra = this_scheme.questions.all().count()
+    survey_formset = modelformset_factory(SurveyResponse, fields=('response',), extra=extra, labels={'response': ''}, widgets=widgets)
+    if request.method == 'POST':
+        formset = survey_formset(request.POST)
+        if formset.is_valid():
+            this_instance = SurveyInstance(survey_scheme=this_scheme, route=this_route, language=lang)
+            this_instance.save()
+            for i in range(len(formset)):
+                form = formset[i]
+                form.instance.survey_instance = this_instance
+                form.instance.question = this_scheme.questions.all()[i]
+            formset.save()
+            return render(request, 'frontulet/simple_message.html', {'message': _('Thank you!')})
+        else:
+            return render(request, 'frontulet/simple_message.html', {'message': _('Error')})
+    else:
+        initial = []
+        for question in this_scheme.questions.all():
+            initial.append({'question': question})
+        formset = survey_formset(queryset=SurveyResponse.objects.none(), initial=initial)
+        args['formset'] = formset
+        args['lang'] = lang
+    return render_to_response('frontulet/survey' + mob + '.html', args)

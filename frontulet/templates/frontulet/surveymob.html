@@ -1,0 +1,44 @@
+{% extends "frontulet/mobile_base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+
+{% block head_content %}
+
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+{% endblock %}
+
+
+{% block body_content %}
+
+<div data-role="page">
+
+	<div data-role="header"><h1>{% trans 'Eth Holet Survey' %}</h1>
+</div>
+
+
+<div role="main" class="ui-content">
+
+
+<br><div class="border-row"></div><div class="border-row"></div><div class="border-row"></div><br>
+
+<form method="post" action="#">{% csrf_token %}
+    {{ formset.management_form }}
+    {% for form in formset %}
+        <h3>{% if lang == 'es' %}{{ form.initial.question.question_es }}{% elif lang == 'ca' %}{{ form.initial.question.question_ca }}{% elif lang == 'fr' %}{{ form.initial.question.question_fr }}{% elif lang == 'en' %}{{ form.initial.question.question_en }}{% else %}{{ form.initial.question.question_oc }}{% endif %}</h3>
+        {{ form.as_p }}
+          <br><div class="border-row"></div><div class="border-row"></div><div class="border-row"></div><br>
+    {% endfor %}
+          <input type="submit" value="{% trans "Submit" %}"/>
+</form>
+
+</div>
+
+
+</div>
+
+{% endblock %}
+

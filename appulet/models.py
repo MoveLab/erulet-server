@@ -480,3 +480,50 @@ class Rating(models.Model):
         elif self.route is not None:
             this_name = 'Rating for route: ' + self.route.__unicode__()
         return this_name
+
+
+class SurveyScheme(models.Model):
+    unique_name = models.CharField(max_length=100, unique=True)
+    created_by = models.ForeignKey(User, related_name='survey_schemes')
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
+
+    def __unicode__(self):
+        return self.unique_name
+
+
+class SurveyQuestion(models.Model):
+    survey_scheme = models.ForeignKey(SurveyScheme, related_name='questions')
+    question_oc = models.CharField(max_length=1000)
+    question_es = models.CharField(max_length=1000)
+    question_ca = models.CharField(max_length=1000)
+    question_fr = models.CharField(max_length=1000)
+    question_en = models.CharField(max_length=1000)
+    created_by = models.ForeignKey(User, related_name='survey_questions')
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
+
+    def __unicode__(self):
+        return self.survey_scheme.unique_name + ' question ' + str(self.id)
+
+
+class SurveyInstance(models.Model):
+    survey_scheme = models.ForeignKey(SurveyScheme, related_name='survey_instances')
+    language = models.CharField(max_length=2, default='oc')
+    route = models.ForeignKey(Route, blank=True, null=True, related_name='survey_instances')
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
+
+    def __unicode__(self):
+        return self.survey_scheme.unique_name + ' instance ' + str(self.id)
+
+
+class SurveyResponse(models.Model):
+    survey_instance = models.ForeignKey(SurveyInstance, related_name='responses')
+    question = models.ForeignKey(SurveyQuestion, related_name='responses')
+    response = models.TextField(blank=True)
+    last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
+    created = models.DateTimeField(auto_now_add=True, default=datetime.now())
+
+    def __unicode__(self):
+        return self.survey_instance.survey_scheme.unique_name + ' response ' + str(self.id)

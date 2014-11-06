@@ -3,6 +3,7 @@ from appulet.models import Route, Highlight, Reference, Box, InteractiveImage
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from django.forms.models import inlineformset_factory
 
 
 class InteractiveImageForm(forms.ModelForm):
