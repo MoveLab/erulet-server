@@ -28,12 +28,15 @@
 
         <br><div class="border-row"></div><div class="border-row"></div><div class="border-row"></div><br>
 
-<form method="post" action="#">{% csrf_token %}
+<form method="post">{% csrf_token %}
     {{ formset.management_form }}
     {% for form in formset %}
         {{ form.as_p }}
           <br><div class="border-row"></div><div class="border-row"></div><div class="border-row"></div><br>
     {% endfor %}
+
+    <input id="scroll_position" type="text" name="scroll_position" style="display: none;" value="0">
+
           <input id="submit_button" type="submit" class="btn btn-success btn-lg" value="{% trans "Save All" %}" style="position:fixed;top:50px; margin: 0 auto"/>
 </form>
 
@@ -57,6 +60,21 @@
     $("#page_title").html('<h1>{% trans "Saving, please wait." %} <i class="fa fa-refresh fa-spin"></i></h1>');
 
     })
+
+
+var scroll_position = parseInt({{ scroll_position }});
+if(scroll_position != null && !isNaN(scroll_position) && isFinite(scroll_position)){
+    $(window).scrollTop(scroll_position);
+}
+
+
+var scroll_position_input = $("#scroll_position");
+
+$(window).scroll(function (event) {
+    var scroll = $(window).scrollTop();
+    scroll_position_input.val(scroll);
+});
+
     </script>
 
 

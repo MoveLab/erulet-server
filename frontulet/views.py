@@ -375,10 +375,11 @@ def edit_highlight(request, route_id, highlight_id):
         return render(request, 'registration/no_permission_must_login.html')
 
 
-def translate_highlights(request, lang='all'):
+def translate_highlights(request, lang='all', scroll_position=''):
     if request.user.is_authenticated():
         args = {}
         args.update(csrf(request))
+        args['scroll_position'] = scroll_position
         if 'translators' in [group.name for group in request.user.groups.all()]:
 
             # first check highlights to see if already in HighlightTranslationVCS. If not, put current values there as baseline
@@ -418,6 +419,7 @@ def translate_highlights(request, lang='all'):
 
             TranslateHighlightFormSet = modelformset_factory(Highlight, extra=0, fields=fields, widgets=widgets)
             if request.method == 'POST':
+                scroll_position = request.POST.get("scroll_position", '0')
                 formset = TranslateHighlightFormSet(request.POST)
                 if formset.is_valid():
                     translated_highlights = formset.save()
@@ -438,7 +440,7 @@ def translate_highlights(request, lang='all'):
                         new_vcs_entry.long_text_en = th.long_text_en
                         new_vcs_entry.save()
 
-                    return HttpResponseRedirect(reverse('translate_highlights', kwargs={'lang': lang}))
+                    return HttpResponseRedirect(reverse('translate_highlights_scroll_position', kwargs={'lang': lang, 'scroll_position': scroll_position}))
             else:
                 args['formset'] = TranslateHighlightFormSet(queryset=Highlight.objects.filter(step__track__route__official=True))
                 args['title'] = _('Holet Highlight Translation')
@@ -449,10 +451,11 @@ def translate_highlights(request, lang='all'):
         return render(request, 'registration/no_permission_must_login.html')
 
 
-def translate_routes(request, lang='all'):
+def translate_routes(request, lang='all', scroll_position=''):
     if request.user.is_authenticated():
         args = {}
         args.update(csrf(request))
+        args['scroll_position'] = scroll_position
         if 'translators' in [group.name for group in request.user.groups.all()]:
 
             # first check highlights to see if already in HighlightTranslationVCS. If not, put current values there as baseline
@@ -497,6 +500,7 @@ def translate_routes(request, lang='all'):
 
             TranslateRouteFormSet = modelformset_factory(Route, extra=0, fields=fields, widgets=widgets)
             if request.method == 'POST':
+                scroll_position = request.POST.get("scroll_position", '0')
                 formset = TranslateRouteFormSet(request.POST)
                 if formset.is_valid():
                     translated_routes = formset.save()
@@ -522,7 +526,7 @@ def translate_routes(request, lang='all'):
                         new_vcs_entry.short_description_en = tr.short_description_en
                         new_vcs_entry.save()
 
-                    return HttpResponseRedirect(reverse('translate_routes', kwargs={'lang': lang}))
+                    return HttpResponseRedirect(reverse('translate_routes_scroll_position', kwargs={'lang': lang, 'scroll_position': scroll_position}))
             else:
                 args['formset'] = TranslateRouteFormSet(queryset=Route.objects.filter(official=True))
                 args['title'] = _('Holet Route Translation')
