@@ -21,7 +21,7 @@ td {
 
 .highlight-map-container {
     width: 100%;
-    height: 500px;
+    height: 600px;
     border: solid;
 }
 
@@ -33,7 +33,7 @@ td {
 
 .highlight-info-container {
     width: 100%;
-    height: 500px;
+    height: 600px;
     border: solid;
     overflow-y: auto;
     padding: 5px;

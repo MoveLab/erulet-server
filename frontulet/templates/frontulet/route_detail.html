@@ -46,34 +46,53 @@
 
         var these_latlngs = [];
 
+        var popup_text;
+
+        var popup_options ={
+        'maxWidth': '450',
+        'minWidth': '450',
+        'maxHeight': '600',
+        'minHeight': '600',
+        'closeButton': false
+        };
+
+        var small_popup_options ={
+        'maxWidth': '200',
+        'minWidth': '200',
+        'maxHeight': '300',
+        'minHeight': '300',
+        'closeButton': false,
+         'autoPan': true,
+        };
+
         {% for step in steps %}
 
             {% if step.order %}
 
                 these_latlngs[these_latlngs.length] = [{{  step.latitude }}, {{ step.longitude }}];
 
-            {% else %}
+            {% endif %}
 
-                {% for highlight in step.highlights.all %}
 
+        {% endfor %}
+
+                        {% for highlight in these_highlights %}
+
+                popup_text = '{% if highlight.media %}{% if highlight.image %}<a href={{ highlight.media.url }}><img style="max-width:100% !important; max-height:100%;" src={{ highlight.media.url }}></a>{% elif highlight.video %}<video height="100%" width="100%" controls><source type="video/{{ highlight.media_ext }}" src={{ highlight.media.url }}>Your browser does not support the video tag.</video>{% endif %}{% endif %}<p>{{ highlight.long_text }}</p>';
 
                     {% if highlight.type == 1 %}
 
-                        wp_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: wp_icon}));
+                        wp_markers.addLayer(L.marker([{{ highlight.step.latitude }}, {{ highlight.step.longitude }}], {icon: wp_icon}).bindPopup(popup_text, popup_options));
 
                     {% elif highlight.type == 0 %}
 
-                        poi_markers.addLayer(L.marker([{{ step.latitude }}, {{ step.longitude }}], {icon: poi_icon}));
+                        poi_markers.addLayer(L.marker([{{ highlight.step.latitude }}, {{ highlight.step.longitude }}], {icon: poi_icon}).bindPopup(popup_text, popup_options));
 
 
                     {% endif %}
 
                 {% endfor %}
 
-            {% endif %}
-
-
-        {% endfor %}
 
         function map_init_basic(map, options) {
 
@@ -146,7 +165,9 @@
         {% for highlight in these_highlights %}
 
             <script>
-                eval("function map_init_highlight{{ highlight.id }}(map, options) {L.polyline(these_latlngs, {weight: 5, opacity: 1, color: 'black'}).addTo(map);L.polyline(these_latlngs, {weight: 2, opacity: 1, color: 'red'}).addTo(map);L.marker([{{ highlight.step.latitude }}, {{ highlight.step.longitude }}],{icon:{% if highlight.type == 0 %}poi_icon{% else %}wp_icon{% endif %}}).addTo(map);map.setView([{{ highlight.step.latitude }}, {{ highlight.step.longitude }}], 18)}");
+
+
+                eval("function map_init_highlight{{ highlight.id }}(map, options) {L.polyline(these_latlngs, {weight: 5, opacity: 1, color: 'black'}).addTo(map);L.polyline(these_latlngs, {weight: 2, opacity: 1, color: 'red'}).addTo(map);L.marker([{{ highlight.step.latitude }}, {{ highlight.step.longitude }}],{icon:{% if highlight.type == 0 %}poi_icon{% else %}wp_icon{% endif %}}).bindPopup('{% if highlight.media %}{% if highlight.image %}<a href={{ highlight.media.url }}><img style=\"max-width:100% !important; max-height:100%;\" src={{ highlight.media.url }}></a>{% elif highlight.video %}<video height=\"100%\" width=\"100%\" controls><source type=\"video/{{ highlight.media_ext }}\" src={{ highlight.media.url }}>Your browser does not support the video tag.</video>{% endif %}{% endif %}<p>{{ highlight.long_text }}</p>', small_popup_options).addTo(map);map.setView([{{ highlight.step.latitude }}, {{ highlight.step.longitude }}], 18)}");
             </script>
 
             <br>
@@ -174,9 +195,33 @@
 
             <div id="h{{ highlight.id }}" class="row">
 
-                <div class="col-md-4">
+                <div class="col-md-6">
 
 <div class='highlight-info-container' id='ref_div{{ ref.id }}'>
+
+{% if highlight.references|length_is:"0" %}
+
+
+
+                {% if highlight.media %}
+                                        <div class="highlight-media-container">
+
+                    {% if highlight.image %}
+                      <a href={{ highlight.media.url }}><img style="max-width:100%; max-height:100%;" src={{ highlight.media.url }}></a>
+                    {% elif highlight.video %}
+                        <video height="100%" width="100%" controls>
+                            <source type="video/{{ highlight.media_ext }}" src={{ highlight.media.url }}>
+                            Your browser does not support the video tag.
+                        </video>
+                    {% endif %}
+                    </div>
+                {% endif %}
+                                    <p>{{ highlight.long_text }}</p>
+
+
+
+    {% else %}
+
 
                             {% for ref in highlight.references %}
 
@@ -188,33 +233,16 @@
 <br>
 {% endfor %}
 
+
+{% endif %}
+
 </div>
 
 
                 </div>
 
-                <div class="col-md-4">
-                    <div class="highlight-info-container">
 
-                {% if highlight.media %}
-                                        <div class="highlight-media-container">
-
-                    {% if highlight.image %}
-                      <a href={{ highlight.media.url }}><img style="max-width:100%; max-height:100%;" src={{ highlight.media.url }}></a>
-                    {% elif highlight.video %}
-                        <video style="max-width:100%; max-height:100%;" controls>
-                            <source type="video/{{ highlight.media_ext }}" src={{ highlight.media.url }}>
-                            Your browser does not support the video tag.
-                        </video>
-                    {% endif %}
-                    </div>
-                {% endif %}
-                                    <p>{{ highlight.long_text }}</p>
-
-                    </div>
-                </div>
-
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div id="highlight{{ highlight.id }}" class="highlight-map-container"></div>
                 </div>
 
