@@ -123,6 +123,7 @@
 
             var wp_markers = new L.LayerGroup();
 
+            var route_popup_text;
 
             {% for route in route_list %}
 
@@ -152,9 +153,10 @@
                         {% endfor %}
 
 
+                route_popup_text = "<p><strong>{{ route.name}}</strong></p><p>{{ route.description }}</p><a href='{% url 'show_route_detail' route.route_id %}'>{% trans 'View Details' %}</a>"
 
                 L.polyline(these_latlngs, {weight: 5, opacity: 1, color: 'black'}).addTo(map);
-                L.polyline(these_latlngs, {weight: 2, opacity: 1, color: colors[color_counter % colors.length]}).addTo(map);
+                L.polyline(these_latlngs, {weight: 2, opacity: 1, color: colors[color_counter % colors.length]}).bindPopup(route_popup_text).addTo(map);
 
                 color_counter++;
 

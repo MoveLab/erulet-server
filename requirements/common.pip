@@ -13,3 +13,4 @@ markdown
 django-leaflet
 tzlocal
 gpxpy
+django-cors-headers

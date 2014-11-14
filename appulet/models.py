@@ -8,6 +8,7 @@ from django.conf import settings
 import codecs
 from PIL import Image
 from datetime import datetime
+from django.db.models import Avg
 
 
 class Track(models.Model):
@@ -163,7 +164,7 @@ def gpx_pois(instance, filename):
 
 
 class Route(models.Model):
-    id_route_based_on = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL)
+    id_route_based_on = models.ForeignKey('self', blank=True, null=True, on_delete=models.SET_NULL, related_name='related_routes')
     created_by = models.ForeignKey(User, blank=True, null=True, related_name='routes')
     description_oc = models.TextField("Description - Aranese", blank=True)
     description_es = models.TextField("Description - Spanish", blank=True)
@@ -235,6 +236,10 @@ class Route(models.Model):
 
     def get_total_ratings(self):
         return self.ratings.all().count()
+
+    def get_top_five_user_highlights(self):
+        top_five = Highlight.objects.filter(step__track__route__official=False, step__track__route__id_route_based_on=self).annotate(mean_rating=Avg('ratings__rating')).order_by('-mean_rating')[:5]
+        return top_five
 
     average_rating = property(get_average_rating)
     total_ratings = property(get_total_ratings)
@@ -467,7 +472,7 @@ class Box(models.Model):
 class Rating(models.Model):
     rating = models.IntegerField()
     user = models.ForeignKey(User, related_name='ratings')
-    time = models.DateTimeField()
+    time = models.DateTimeField(default=datetime.now(), blank=True)
     highlight = models.ForeignKey(Highlight, blank=True, null=True, related_name='ratings')
     route = models.ForeignKey(Route, blank=True, null=True, related_name='ratings')
     last_modified = models.DateTimeField(auto_now=True, default=datetime.now())

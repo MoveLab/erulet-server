@@ -5,7 +5,6 @@ from rest_framework import viewsets
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.generics import mixins
-from rest_framework.renderers import JSONRenderer, BrowsableAPIRenderer
 from django.http import HttpResponse, HttpResponseRedirect
 from appulet.serializers import *
 from appulet.models import *
@@ -15,6 +14,8 @@ from django.conf import settings
 from datetime import datetime
 import pytz
 from django.db.models import Max
+from appulet.permissions import IsOwnerOrNothing, IsUserOwnerOrNothing
+
 
 class ReadOnlyModelViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
     """
@@ -292,10 +293,23 @@ class MapViewSet(ReadOnlyModelViewSet):
     filter_fields = 'id'
 
 
-class HighlightViewSet(ReadWriteOnlyModelViewSet):
-    queryset = Highlight.objects.all()
+class HighlightViewSet(ReadOnlyModelViewSet):
+    queryset = Highlight.objects.filter(step__track__route__official=True)
     serializer_class = HighlightSerializer
     filter_fields = ('id', 'created_by')
+
+
+class UserHighlightViewSet(viewsets.ModelViewSet):
+    queryset = Highlight.objects.all()
+    serializer_class = UserHighlightSerializer
+    filter_fields = ('id', 'created_by')
+    permission_classes = (IsOwnerOrNothing,)
+
+    def pre_save(self, obj):
+        obj.created_by = self.request.user
+
+    def get_queryset(self):
+        return self.request.user.highlights.all()
 
 
 class InteractiveImageViewSet(ReadOnlyModelViewSet):
@@ -329,10 +343,30 @@ class RouteViewSet(ReadOnlyModelViewSet):
     filter_fields = ('id', 'created_by')
 
 
+class UserRouteViewSet(viewsets.ModelViewSet):
+    queryset = Route.objects.filter(official=False)
+    serializer_class = RouteSerializer
+    filter_fields = ('id', 'created_by')
+    permission_classes = (IsOwnerOrNothing,)
+
+    def get_queryset(self):
+        return self.request.user.routes.all()
+
+
 class RouteNestedViewSet(ReadOnlyModelViewSet):
     queryset = Route.objects.filter(official=True)
     serializer_class = RouteNestedSerializer
     filter_fields = ('id', 'created_by')
+
+
+class UserRouteNestedViewSet(viewsets.ModelViewSet):
+    queryset = Route.objects.filter(official=False)
+    serializer_class = RouteNestedSerializer
+    filter_fields = ('id', 'created_by')
+    permission_classes = (IsOwnerOrNothing,)
+
+    def get_queryset(self):
+        return self.request.user.routes.all()
 
 
 class StepViewSet(ReadWriteOnlyModelViewSet):
@@ -340,12 +374,29 @@ class StepViewSet(ReadWriteOnlyModelViewSet):
     serializer_class = StepSerializer
 
 
+class UserStepNestedViewSet(viewsets.ModelViewSet):
+    queryset = Step.objects.all()
+    serializer_class = UserStepNestedSerializer
+    permission_classes = (IsOwnerOrNothing,)
+
+    def get_queryset(self):
+        return Step.objects.filter(track__route__created_by=self.request.user)
+
+
 class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
 
 
-class CustomBrowsableAPIRenderer(BrowsableAPIRenderer):
-    def get_default_renderer(self, view):
-        return JSONRenderer()
+class UserRatingViewSet(viewsets.ModelViewSet):
+    queryset = Rating.objects.all()
+    serializer_class = RatingSerializer
+    permission_classes = (IsUserOwnerOrNothing,)
+
+    def pre_save(self, obj):
+        obj.user = self.request.user
+
+    def get_queryset(self):
+        return self.request.user.ratings.all()
+
 

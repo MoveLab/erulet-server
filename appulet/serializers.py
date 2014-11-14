@@ -17,6 +17,14 @@ class HighlightSerializer(serializers.ModelSerializer):
         model = Highlight
 
 
+class UserHighlightSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Highlight
+        exclude = ('created_by',)
+        read_only_fields = ('id',)
+
+
 class BoxSerializer(serializers.ModelSerializer):
     server_id = serializers.IntegerField(source='id')
 
@@ -64,14 +72,17 @@ class HighlightNestedSerializer(serializers.ModelSerializer):
 
 
 class StepSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
         model = Step
 
+from rest_framework.parsers import JSONParser
+from rest_framework.renderers import JSONRenderer
+
 
 class StepNestedSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
     highlights = HighlightNestedSerializer(many=True)
 
     class Meta:
@@ -79,15 +90,24 @@ class StepNestedSerializer(serializers.ModelSerializer):
         fields = ('server_id', 'absolute_time', 'order', 'latitude', 'longitude', 'altitude', 'precision', 'highlights')
 
 
+class UserStepNestedSerializer(serializers.ModelSerializer):
+    server_id = serializers.IntegerField(source='id', read_only=True)
+    highlights = HighlightSerializer(many=True)
+
+    class Meta:
+        model = Step
+        fields = ('server_id', 'absolute_time', 'order', 'latitude', 'longitude', 'altitude', 'precision', 'highlights')
+
+
 class TrackSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
         model = Track
 
 
 class TrackNestedSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
     steps = StepNestedSerializer(many=True)
 
     class Meta:
@@ -96,11 +116,12 @@ class TrackNestedSerializer(serializers.ModelSerializer):
 
 
 class RouteSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
+    owner = serializers.Field(source='created_by.username')
 
     class Meta:
         model = Route
-        fields = ('server_id', 'official', 'last_modified')
+        fields = ('owner', 'server_id', 'official', 'last_modified', 'created_by')
 
 
 class RouteNestedSerializer(serializers.ModelSerializer):
@@ -108,20 +129,27 @@ class RouteNestedSerializer(serializers.ModelSerializer):
     reference = ReferenceSerializer(many=False)
     map = MapSerializer(many=False)
     created_by = serializers.RelatedField(many=False)
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
     average_rating = serializers.Field()
     total_ratings = serializers.Field()
+    top_five_user_highlights = serializers.SerializerMethodField('get_top_five_user_highlights')
+    owner = serializers.Field(source='created_by.username')
 
     class Meta:
         model = Route
-        fields = ('server_id', 'official', 'average_rating', 'total_ratings', 'id_route_based_on', 'created_by', 'map', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'track', 'created', 'last_modified')
+        fields = ('owner', 'top_five_user_highlights', 'server_id', 'official', 'average_rating', 'total_ratings', 'id_route_based_on', 'map', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'track', 'created', 'last_modified')
+
+    def get_top_five_user_highlights(self, obj):
+        obj.get_top_five_user_highlights()
 
 
 class RatingSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
+    owner = serializers.Field(source='user.username')
 
     class Meta:
         model = Rating
+        exclude = ('user',)
 
 
 

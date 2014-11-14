@@ -12,31 +12,49 @@
             <li><a href={% url 'show_home'  %}><span style="color:#269abc;">Return to Holet Frontend</span></a></li>
 
                                 <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Nested Access Points
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">JSON Access Points
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-        <li><a href="/api/nested_routes/">Routes</a></li>
-        <li><a href="/api/nested_tracks/">Tracks</a></li>
+        <li><a href="/api/nested_routes/">Holet's Routes Nested</a></li>
+        <li><a href="/api/routes/">Holet's Routes Flat</a></li>
+        <li><a href="/api/nested_user_routes/">User Routes Nested</a></li>
+        <li><a href="/api/user_routes/">User Routes Flat</a></li>
 </ul>
     </li>
 
                                     <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Flat Access Points
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">File-Upload Access Points
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-        <li><a href="/api/routes/">Routes</a></li>
-        <li><a href="/api/tracks/">Tracks</a></li>
-        <li><a href="/api/steps/">Steps</a></li>
-        <li><a href="/api/highlights/">Highlights</a></li>
-        <li><a href="/api/interactive_images/">Interactive Images</a></li>
-        <li><a href="/api/boxes/">Boxes</a></li>
-        <li><a href="/api/ratings/">Ratings</a></li>
+        <li><a href="{% url 'post_media' %}">Highlight Media Upload</a></li>
+</ul>
+    </li>
+
+
+                                    <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">File-Download Access Points
+                                    <span class="caret"></span></a>
+                                <ul class="dropdown-menu" role="menu">
         <li><a href="/api/media/">Media</a></li>
 </ul>
     </li>
 
         {{ block.super}}
 {% endblock %}
+
+{% block script %}
+
+{{ block.super }}
+
+    <script>
+    if("{{ name }}".indexOf("Nested") >= 0){
+    $('.form-switcher a[name="html-tab"]').hide();
+    $('.form-switcher a[name="raw-tab"]').tab('show').hide();
+    }
+    </script>
+
+{% endblock %}
+
 
 {% block footer %}
 
