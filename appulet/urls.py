@@ -4,14 +4,14 @@ from appulet.views import *
 
 
 router = routers.DefaultRouter()
-router.register(r'holet_routes', RouteViewSet)
+router.register(r'routes', RouteViewSet)
 router.register(r'my_routes', UserRouteViewSet)
-router.register(r'holet_routes_nested', RouteNestedViewSet)
+router.register(r'nested_routes', RouteNestedViewSet)
 router.register(r'my_routes_nested', UserRouteNestedViewSet)
 router.register(r'my_steps_nested', UserStepNestedViewSet)
-router.register(r'all_ratings', RatingViewSet)
+router.register(r'ratings', RatingViewSet)
 router.register(r'my_ratings', UserRatingViewSet)
-router.register(r'holet_highlights', HighlightViewSet)
+router.register(r'highlights', HighlightViewSet)
 router.register(r'my_highlights', UserHighlightViewSet)
 
 
