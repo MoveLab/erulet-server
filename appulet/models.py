@@ -21,10 +21,6 @@ class Track(models.Model):
     created = models.DateTimeField(auto_now_add=True, default=datetime.now())
 
     def __unicode__(self):
-        names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
-        for name in names:
-            if name is not None and name is not '':
-                return name
         return str(self.id)
 
     def get_name(self, lang='oc'):
@@ -182,7 +178,7 @@ class Route(models.Model):
     name_fr = models.CharField("Name - Frensh", max_length=200, blank=True)
     name_en = models.CharField("Name - English", max_length=200, blank=True)
     reference = models.OneToOneField(Reference, blank=True, null=True, on_delete=models.SET_NULL)
-    track = models.OneToOneField(Track, blank=True, null=True)
+    track = models.OneToOneField(Track, blank=True, null=True, related_name='route')
     upload_time = models.DateTimeField(blank=True, null=True)
     gpx_track = models.FileField("GPX Track", upload_to=gpx_tracks, blank=True)
     gpx_waypoints = models.FileField("GPX Waypoints", upload_to=gpx_waypoints, blank=True)

@@ -4,10 +4,11 @@ from appulet.models import *
 
 class MapSerializer(serializers.ModelSerializer):
     map_file_name = serializers.Field()
+    server_id = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
         model = Map
-        fields = ('route', 'type', 'last_modified', 'created', 'map_file_name')
+        fields = ('server_id', 'route', 'type', 'last_modified', 'created', 'map_file_name')
 
 
 class RouteMapSerializer(serializers.ModelSerializer):
@@ -19,7 +20,7 @@ class RouteMapSerializer(serializers.ModelSerializer):
 
 
 class HighlightSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
     media_name = serializers.Field()
     average_rating = serializers.Field()
     total_ratings = serializers.Field()
@@ -38,7 +39,7 @@ class UserHighlightSerializer(serializers.ModelSerializer):
 
 
 class BoxSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
         model = Box
@@ -46,7 +47,7 @@ class BoxSerializer(serializers.ModelSerializer):
 
 
 class ReferenceSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
         model = Reference
@@ -54,7 +55,7 @@ class ReferenceSerializer(serializers.ModelSerializer):
 
 
 class RouteReferenceSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
         model = Reference
@@ -62,7 +63,7 @@ class RouteReferenceSerializer(serializers.ModelSerializer):
 
 
 class HighlightReferenceSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
         model = Reference
@@ -70,14 +71,14 @@ class HighlightReferenceSerializer(serializers.ModelSerializer):
 
 
 class InteractiveImageSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
 
     class Meta:
         model = InteractiveImage
 
 
 class InteractiveImageNestedSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
     boxes = BoxSerializer(many=True)
     original_height = serializers.Field()
     original_width = serializers.Field()
@@ -89,7 +90,7 @@ class InteractiveImageNestedSerializer(serializers.ModelSerializer):
 
 
 class HighlightNestedSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
     interactive_images = InteractiveImageNestedSerializer(many=True)
     references = HighlightReferenceSerializer(many=True)
     media_name = serializers.Field()
@@ -102,7 +103,7 @@ class HighlightNestedSerializer(serializers.ModelSerializer):
 
 
 class UserHighlightNestedSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id')
+    server_id = serializers.IntegerField(source='id', read_only=True)
     media_name = serializers.Field()
     average_rating = serializers.Field()
     total_ratings = serializers.Field()

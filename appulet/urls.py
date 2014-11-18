@@ -14,7 +14,6 @@ router.register(r'highlights', HighlightViewSet, base_name='highlight')
 router.register(r'my_highlights', UserHighlightViewSet, base_name='my_highlight')
 router.register(r'maps', MapViewSet, base_name='map')
 
-
 urlpatterns = patterns('appulet.views',
     url(r'^media/$', 'post_media', name='post_media'),
     url(r'^general_references/$', get_general_reference_files, name='get_general_reference_files'),

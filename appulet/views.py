@@ -11,7 +11,7 @@ from datetime import datetime
 import pytz
 from django.db.models import Max
 from appulet.permissions import IsOwnerOrNothing, IsUserOwnerOrNothing
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, renderer_classes, parser_classes
 from rest_framework.response import Response
 import django_filters
 from django.shortcuts import render
@@ -367,23 +367,34 @@ Endpoint for downloading all content files needed for a given route.
 def post_media(request):
     """
 API endpoint for uploading media associated with a highlight. Data must be posted as multipart form,
-with with _media_ used as the form key for the file itself.
+with _media_ used as the form key for the file itself. Note that you can post media only to a highlight that has aleady been created by the authenticated user through the my_nested_routes endpoint. Also, note that there seems to be a problem with specifying the multipart form boundary in this REST Framework page, but POSTS work fine from Postman and from the Android version of the app.
 
 **Fields**
 
 * media: The media file's binary data
-* id: The id of the highlight.
-* created_by: The user id who created this highlight.
-* name_x: The name of the highlight in language specified by language code x where x = oc, es, ca, fr, or en.
-* long_text_x: Text that should be displayed with the highlight in language specified by language code x where x = oc, es, ca, fr, or en..
-* radius: Radius, in meters on the ground, that the highlight covers.
-* type: Type of highlight.
+* server_id: The server id of the highlight to which the media is to be associated.
 
     """
     if request.method == 'POST':
-        instance = Highlight(media=request.FILES['media'], id=request.DATA['id'], created_by=request.DATA['created_by'], name_oc=request.DATA['name_oc'], name_es=request.DATA['name_es'], name_ca=request.DATA['name_ca'], name_fr=request.DATA['name_fr'], name_en=request.DATA['name_en'], long_text_oc=request.DATA['long_text_oc'], long_text_es=request.DATA['long_text_es'], long_text_ca=request.DATA['long_text_ca'], long_text_fr=request.DATA['long_text_fr'], long_text_en=request.DATA['long_text_en'], radius=request.DATA['radius'], type=request.DATA['type'])
-        instance.save()
-        return Response('uploaded')
+        this_id = request.DATA['server_id']
+        # check if highlight exists and is owned by authenticaed user
+        if Highlight.objects.filter(id=this_id).count() == 1:
+            # get highlight and add media
+            this_highlight = Highlight.objects.get(id=this_id)
+            # check if owned by user
+            if this_highlight.created_by == request.user:
+                this_highlight.media = request.FILES['media']
+                this_highlight.save()
+                # save route to update modified time
+                if Route.objects.filter(track=this_highlight.step.track).count() == 1:
+                    this_route = Route.objects.get(track=this_highlight.step.track)
+                    this_route.save()
+                return Response('uploaded')
+
+            else:
+                return Response('This is not your highlight')
+        else:
+            return Response('No highlight with that server_id exists')
 
 
 def filter_last_modified_unix_dt(queryset, value):
@@ -408,6 +419,40 @@ class MapFilter(django_filters.FilterSet):
 
 
 class MapViewSet(ReadOnlyModelViewSet):
+    """
+    API endpoint for getting map date. This is not really necessary, as the map files themselves should be downloaded from the appropriate file-download endpoint. However, it could be useful as a way to list the available map data on the server.
+
+    **Fields**
+
+    * server_id: unique integer ID assigned to the map by the server
+    * route: server ID of the route to which the map is associated, if it is a route map.
+    * type: integer taking 0 for route maps and 1 for general maps.
+    * last_modified: Date and time when map was last modified. Formated as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+    * created: Date and time when map was created. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+    * map_file_name: file name of map file on server.
+
+    **Usage**
+
+        /api/maps/
+
+        /api/maps/?modified_since=<modified_since>
+
+        /api/maps/<map_id>/
+
+    **Parameters**
+
+    * map_id: Optional. Server_id of an individual map.
+    * modified_since: Optional. Return list of only those maps that have been modified after this time. This time should be entered as a Unix time integer -- i.e., number of seconds since 1 January 1970 UTC.
+
+    **Example**
+
+    *list of all maps*: [/api/maps/](/api/maps/)
+
+    *list of all maps modified after given time:* [/api/maps/?modified_since=1416258566](/api/maps/?modified_since=1416258566)
+
+    *individual map detail:* [/api/maps/9/](/api/maps/9/)
+
+    """
     queryset = Map.objects.all()
     serializer_class = MapSerializer
     filter_class = MapFilter
@@ -457,15 +502,15 @@ class HighlightViewSet(ReadOnlyModelViewSet):
     **Parameters**
 
     * highlight_id: Optional. Server_id of an individual highlight to be viewed.
-    * modified_since: Optional. Return list of only those routes that have been modified after this time. This time should be entered as a Unix time integer -- i.e., number of seconds since 1 January 1970 UTC.
+    * modified_since: Optional. Return list of only those highlights that have been modified after this time. This time should be entered as a Unix time integer -- i.e., number of seconds since 1 January 1970 UTC.
 
     **Example**
 
-    *list of all routes*: [/api/highlights/](/api/highlights/)
+    *list of all highlights*: [/api/highlights/](/api/highlights/)
 
-    *list of all routes modified after given time:* [/api/highlights/?modified_since=1416258566](/api/highlights/?modified_since=1416258566)
+    *list of all highlights modified after given time:* [/api/highlights/?modified_since=1416258566](/api/highlights/?modified_since=1416258566)
 
-    *individual route detail:* [/api/highlights/9/](/api/highlights/9/)
+    *individual highlights detail:* [/api/highlights/9/](/api/highlights/9/)
 
     """
     queryset = Highlight.objects.filter(step__track__route__official=True)
@@ -473,7 +518,7 @@ class HighlightViewSet(ReadOnlyModelViewSet):
     filter_class = HighlightFilter
 
 
-class UserHighlightViewSet(ReadOnlyModelViewSet):
+class UserHighlightViewSet(viewsets.ModelViewSet):
     """
     API endpoint for getting user's route highlights. The only highlights that can be accessed here are those created by the authenticated user. Note that they can also be accessed through the nested route endpoints.
 
@@ -509,15 +554,15 @@ class UserHighlightViewSet(ReadOnlyModelViewSet):
     **Parameters**
 
     * highlight_id: Optional. Server_id of an individual highlight to be viewed.
-    * modified_since: Optional. Return list of only those routes that have been modified after this time. This time should be entered as a Unix time integer -- i.e., number of seconds since 1 January 1970 UTC.
+    * modified_since: Optional. Return list of only those highlights that have been modified after this time. This time should be entered as a Unix time integer -- i.e., number of seconds since 1 January 1970 UTC.
 
     **Example**
 
-    *list of all routes*: [/api/my_highlights/](/api/my_highlights/)
+    *list of all highlights*: [/api/my_highlights/](/api/my_highlights/)
 
-    *list of all routes modified after given time:* [/api/my_highlights/?modified_since=1416258566](/api/my_highlights/?modified_since=1416258566)
+    *list of all highlights modified after given time:* [/api/my_highlights/?modified_since=1416258566](/api/my_highlights/?modified_since=1416258566)
 
-    *individual route detail:* [/api/my_highlights/9/](/api/my_highlights/9/)
+    *individual highlights detail:* [/api/my_highlights/9/](/api/my_highlights/9/)
 
     """
     queryset = Highlight.objects.all()
@@ -604,9 +649,9 @@ class RouteViewSet(ReadOnlyModelViewSet):
     filter_class = RouteFilter
 
 
-class UserRouteViewSet(viewsets.ModelViewSet):
+class UserRouteViewSet(ReadOnlyModelViewSet):
     """
-    API endpoint for GET and POST requests to a user's routes. The only routes that can be accessed here are those created by the authenticated user. Note that while POST requests are possible with this endpoint, it is intended more for simply listing all of the routes of a given user. It makes more sense to do POST requests to the user's nested routes, where all writable fields are visible.
+    API endpoint for GET requests to a user's routes. The only routes that can be accessed here are those created by the authenticated user.
 
     **Fields**
 
@@ -796,13 +841,13 @@ class UserRouteNestedViewSet(viewsets.ModelViewSet):
 
     **Fields**
 
-    * owner: username of the user who created this route.
-    * server_id: unique integer id assigned to the route by the server.
-    * official: boolean that is true if route was created by Holet team, and false otherwise. (Read only.)
-    * last_modified: Date and time when route was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
-    * created: Date and time when route was created. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
-    * average_rating: the average rating users have given this route (calculated from rating model)
-    * total_ratings: total number of ratings on which the average is based.
+    * owner: username of the user who created this route. Read-only.
+    * server_id: unique integer id assigned to the route by the server. Read-only.
+    * official: boolean that is true if route was created by Holet team, and false otherwise. Read only.
+    * last_modified: Date and time when route was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"), Read-only.
+    * created: Date and time when route was created on server. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"), Read-only.
+    * average_rating: the average rating users have given this route (calculated from rating model). Read-only.
+    * total_ratings: total number of ratings on which the average is based. Read-only.
     * id_route_based_on: server id of the route the present route is based on. This field should generally be filled only for user routes: it represents the route the user was following when recording a given other route.
     * description_oc: route description in Aranese.
     * description_es: route description in Spanish.
@@ -820,27 +865,27 @@ class UserRouteNestedViewSet(viewsets.ModelViewSet):
     * name_fr: route name in French
     * name_en: route_name, in English
     * track: nested fields for track associated with this route. (Note that the track is a largely redundant data structure at this point. There is a one-to-one relationship between trakc and route, but it is the track that contains all os the steps.
-        * server_id: unique integer ID assigned to the track by the server
+        * server_id: unique integer ID assigned to the track by the server. Read-only.
         * name_oc: track name in Aranese. (This is irrelevant and can be ignored.)
         * name_es: track name in Spanish. (This is irrelevant and can be ignored.)
         * name_ca: track name in Catalan. (This is irrelevant and can be ignored.)
         * name_fr: track name in French. (This is irrelevant and can be ignored.)
         * name_en: track name in English. (This is irrelevant and can be ignored.)
-        * last_modified: Date and time when track was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+        * last_modified: Date and time when track was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"). Read-only.
         * steps: Array of steps associated with the track
-            * server_id: unique integer ID assigned to the step by the server
-            * absolute_time: Date and time when step was recorded. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),,
+            * server_id: unique integer ID assigned to the step by the server. Read-only.
+            * absolute_time: Date and time when step was recorded. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
             * order: integer indicating order of the step within the track. (This is necessary for non-highlight steps, to ensure path is drawn correctly.)
             * latitude: float latitude of the step location
             * longitude: float longitude of the step location
             * altitude: float altitude of the step location
             * precision: float precision of the step location estimate
-            * last_modified: Date and time when step was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+            * last_modified: Date and time when step was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"). Read-only.
             * highlights: array of highlights associated with this step
-                * server_id: unique integer ID assigned to the highlight by the server
-                * average_rating: average user rating for this highlight (calculated on server from the rating data)
-                * total_ratings: total ratings for this highlight (calculated on server from rating data)
-                * created_by: server ID of the user who created this highlight,
+                * server_id: unique integer ID assigned to the highlight by the server. Read-only.
+                * average_rating: average user rating for this highlight (calculated on server from the rating data). Read-only.
+                * total_ratings: total ratings for this highlight (calculated on server from rating data). Read-only.
+                * created_by: server ID of the user who created this highlight. Read-only - you do not need to (and cannot) set this when posting data, as it will be taken automatically from the authenticated user associated with the incoming request.
                 * name_oc: highlight name in Aranese
                 * name_es: highlight name in Spanish
                 * name_ca: highlight name in Catalan
@@ -853,8 +898,8 @@ class UserRouteNestedViewSet(viewsets.ModelViewSet):
                 * long_text_en: highlight description in English
                 * radius: float radius within which a user location should trigger the highlight to popup on the phone
                 * type: integer taking 0 for point of interest, 1 for waypoint, and 2 for alert
-                * media_name: file name on server of media (image or video) file associated with this highlight
-                * last_modified: date and time when highlight was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+                * media_name: file name on server of media (image or video) file associated with this highlight. Read-only.
+                * last_modified: date and time when highlight was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"), Read-only.
 
     **Usage**
 
@@ -886,6 +931,15 @@ class UserRouteNestedViewSet(viewsets.ModelViewSet):
 
     def pre_save(self, obj):
         obj.created_by = self.request.user
+
+    def post_save(self, obj, created=False):
+        these_steps = obj.track.steps.all()
+        for step in these_steps:
+            if step.highlights.all().count() > 0:
+                these_highlights = step.highlights.all()
+                for highlight in these_highlights:
+                    highlight.created_by = self.request.user
+                    highlight.save()
 
     def get_queryset(self):
         return self.request.user.routes.all()
