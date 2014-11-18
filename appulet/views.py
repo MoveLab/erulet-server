@@ -1,23 +1,24 @@
 import os
 import zipfile
-import StringIO
 from rest_framework import viewsets
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
 from rest_framework.generics import mixins
 from django.http import HttpResponse, HttpResponseRedirect
 from appulet.serializers import *
 from appulet.models import *
-from django.conf import settings
 from PIL import Image
 from django.conf import settings
 from datetime import datetime
 import pytz
 from django.db.models import Max
 from appulet.permissions import IsOwnerOrNothing, IsUserOwnerOrNothing
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+import django_filters
+from django.shortcuts import render
+import markdown
 
 
-class ReadOnlyModelViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class ReadOnlyModelViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     A viewset that provides `retrieve`, and 'list` actions.
 
@@ -37,7 +38,7 @@ class WriteOnlyModelViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet):
     pass
 
 
-class ReadWriteOnlyModelViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.ListModelMixin):
+class ReadWriteOnlyModelViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet, mixins.ListModelMixin, mixins.RetrieveModelMixin):
     """
     A viewset that provides `retrieve`, 'list`, and `create` actions.
 
@@ -47,7 +48,34 @@ class ReadWriteOnlyModelViewSet(mixins.CreateModelMixin, viewsets.GenericViewSet
     pass
 
 
+def show_file_download_endpoint(request, view):
+    context = {}
+    context['title'] = string.capwords(" ".join(view.split("_")))
+    context['help_text'] = markdown.markdown(eval(view).__doc__)
+    return render(request, 'rest_framework/file_download_endpoints.html', context)
+
+
 def get_route_map(request, route_id, last_updated_unix_time_utc=0):
+    """
+Endpoint for downloading route maps.
+
+**Usage**
+
+    /api/route_map/<route_id>/
+
+    /api/route_map/<route_id>/<modified_since>/
+
+**Parameters**
+
+* route_id: server_id of the route whose map you are requesting
+* modified_since: Optional. If there have been no modifications to the map since the entered time, the server will return an HTML response indicating this (and no file will be sent). This time should be entered as a Unix time integer -- i.e., number of seconds since 1 January 1970 UTC.
+
+**Examples**
+
+* [/api/route_map/9/](/api/route_map/9/)
+
+* [/api/route_map/9/1416250115/](/api/route_map/9/1416250115/)
+    """
     last_updated = pytz.utc.localize(datetime.fromtimestamp(int(last_updated_unix_time_utc)))
     # CASE 0: No route
     if Route.objects.filter(id=route_id).count() == 0:
@@ -76,6 +104,26 @@ def get_route_map(request, route_id, last_updated_unix_time_utc=0):
 
 
 def get_general_map(request, last_updated_unix_time_utc=0):
+    """
+Endpoint for downloading the general map used for the app's itinerary selection activity.
+
+**Usage**
+
+    /api/general_map/
+
+    /api/general_map/<modified_since>/
+
+**Parameters**
+
+* modified_since: Optional. If there have been no modifications to the map since the entered time, the server will return an HTML response indicating this (and no file will be sent). This time should be entered as a Unix time integer -- i.e., number of seconds since 1 January 1970 UTC.
+
+**Examples**
+
+* [/api/general_map/](/api/general_map/)
+
+* [/api/general_map/1416250115/](/api/general_map/1416250115/)
+    """
+
     last_updated = pytz.utc.localize(datetime.fromtimestamp(int(last_updated_unix_time_utc)))
     # CASE 0: No general maps on server
     if Map.objects.filter(type=1).count() == 0:
@@ -103,6 +151,31 @@ def get_general_map(request, last_updated_unix_time_utc=0):
 
 
 def get_general_reference_files(request, max_width=None, last_updated_unix_time_utc=0):
+    """
+Endpoint for downloading the general references displayed in the app as html.
+
+**Usage**
+
+    /api/general_references/
+
+    /api/general_references/<max_width>/
+
+    /api/general_references/<max_width>/<modified_since>/
+
+**Parameters**
+
+* max_width: Optional. This will ensure that all image and video files returned as part of this reference will not exceed this width. The idea is that you should pass the width of the user's device, and thereby ensure that the user receives the smallest necessary files. Should be entered as an integer representing the number of pixels.
+* modified_since: Optional. If there have been no modifications to the reference since the entered time, the server will return an HTML response indicating this (and no file will be sent). This time should be entered as a Unix time integer -- i.e., number of seconds since 1 January 1970 UTC.
+
+**Examples**
+
+[/api/general_references/](/api/general_references/)
+
+[/api/general_references/400/](/api/general_references/400/)
+
+[/api/general_references/400/1416250115/](/api/general_references/400/1416250115/)
+    """
+
     last_updated = pytz.utc.localize(datetime.fromtimestamp(int(last_updated_unix_time_utc)))
     these_references = Reference.objects.filter(general=True)
     # CASE 0: no references in database
@@ -156,6 +229,32 @@ def get_general_reference_files(request, max_width=None, last_updated_unix_time_
 
 
 def get_route_content_files(request, route_id, max_width=None, last_updated_unix_time_utc=0):
+    """
+Endpoint for downloading all content files needed for a given route.
+
+**Usage**
+
+    /api/route_content/<route_id>/
+
+    /api/route_content/<route_id>/<max_width>/
+
+    /api/route_content/<route_id>/<max_width>/<modified_since>/
+
+**Parameters**
+
+* route_id: server_id of the route whose content you are requesting
+* max_width: Optional. This will ensure that all image and video files returned as part of this reference will not exceed this width. The idea is that you should pass the width of the user's device, and thereby ensure that the user receives the smallest necessary files. Should be entered as an integer representing the number of pixels.
+* modified_since: Optional. If there have been no modifications to the content since the entered time, the server will return an HTML response indicating this (and no file will be sent). This time should be entered as a Unix time integer -- i.e., number of seconds since 1 January 1970 UTC.
+
+**Examples**
+
+[/api/route_content/9/](/api/route_content/9/)
+
+[/api/route_content/9/400/](/api/route_content/9/400/)
+
+[/api/route_content/9/400/1416250115/](/api/route_content/9/400/1416250115/)
+    """
+
     last_updated = pytz.utc.localize(datetime.fromtimestamp(int(last_updated_unix_time_utc)))
     # CASE 0: Route does not exists: return message saying this
     if Route.objects.filter(id=route_id).count() == 0:
@@ -287,22 +386,51 @@ with with _media_ used as the form key for the file itself.
         return Response('uploaded')
 
 
+def filter_last_modified_unix_dt(queryset, value):
+    if not value:
+        return queryset
+
+    try:
+        unix_time = int(value)
+        t = datetime.fromtimestamp(unix_time)
+        result = queryset.filter(last_modified__gt=t)
+        return result
+    except ValueError:
+        return queryset
+
+
+class MapFilter(django_filters.FilterSet):
+    modified_since = django_filters.Filter(action=filter_last_modified_unix_dt)
+
+    class Meta:
+        model = Map
+        fields = ['modified_since']
+
+
 class MapViewSet(ReadOnlyModelViewSet):
     queryset = Map.objects.all()
     serializer_class = MapSerializer
-    filter_fields = 'id'
+    filter_class = MapFilter
+
+
+class HighlightFilter(django_filters.FilterSet):
+    modified_since = django_filters.Filter(action=filter_last_modified_unix_dt)
+
+    class Meta:
+        model = Highlight
+        fields = ['modified_since']
 
 
 class HighlightViewSet(ReadOnlyModelViewSet):
     queryset = Highlight.objects.filter(step__track__route__official=True)
     serializer_class = HighlightSerializer
-    filter_fields = ('id', 'created_by')
+    filter_class = HighlightFilter
 
 
 class UserHighlightViewSet(viewsets.ModelViewSet):
     queryset = Highlight.objects.all()
     serializer_class = UserHighlightSerializer
-    filter_fields = ('id', 'created_by')
+    filter_class = HighlightFilter
     permission_classes = (IsOwnerOrNothing,)
 
     def pre_save(self, obj):
@@ -337,16 +465,91 @@ class ReferenceViewSet(ReadOnlyModelViewSet):
     serializer_class = ReferenceSerializer
 
 
+class RouteFilter(django_filters.FilterSet):
+    modified_since = django_filters.Filter(action=filter_last_modified_unix_dt)
+
+    class Meta:
+        model = Route
+        fields = ['modified_since']
+
+
 class RouteViewSet(ReadOnlyModelViewSet):
+    """
+    API endpoint for getting Holet's routes. These are the routes created by the Holet team for users to follow, and they cannot be changed by users, so only GET requests are allowed here.
+
+    **Fields**
+
+    * owner: username of the user who created this route.
+    * server_id: unique integer id assigned to the route by the server.
+    * official: bolean that is true if route was created by Holet team, and false otherwise.
+    * last_modified: Date and time when route was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+    *  created_by: User id of the user who created this route.
+
+    **Usage**
+
+        /api/routes/
+
+        /api/routes/<route_id>/
+
+        /api/routes/<route_id>/?modified_since=<modified_since>
+
+    **Parameters**
+
+    * route_id: Optional. Server_id of an individual route to be viewed.
+    * modified_since: Optional. Return list of only those routes that have been modified after this time. This time should be entered as a Unix time integer -- i.e., number of seconds since 1 January 1970 UTC.
+
+    **Example**
+
+    *list of all routes*: [/api/routes/](/api/routes/)
+
+    *individual route detail:* [/api/routes/9/](/api/routes/9/)
+
+    *individual route detail with time cutoff:* [/api/routes/9/?modified_since=1416258566](/api/routes/9/?modified_since=1416258566)
+
+    """
     queryset = Route.objects.filter(official=True)
     serializer_class = RouteSerializer
-    filter_fields = ('id', 'created_by')
+    filter_class = RouteFilter
 
 
 class UserRouteViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for GET and POST requests to a user's routes. The only routes that can be accessed here are those created by the authenticated user. Note that while POST requests are possible with this endpoint, it is intended more for simply listing all of the routes of a given user. It makes more sense to do POST requests to the user's nested routes, where all writable fields are visible.
+
+    **Fields**
+
+    * owner: username of the user who created this route.
+    * server_id: unique integer id assigned to the route by the server.
+    * official: boolean that is true if route was created by Holet team, and falase otherwise.
+    * last_modified: Date and time when route was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+    *  created_by: User id of the user who created this route.
+
+    **Usage**
+
+        /api/my_routes/
+
+        /api/my_routes/<route_id>/
+
+        /api/my_routes/<route_id>/?modified_since=<modified_since>
+
+    **Parameters**
+
+    * route_id: Optional. Server_id of an individual route to be viewed.
+    * modified_since: Optional. Return list of only those routes that have been modified after this time. This time should be entered as a Unix time integer -- i.e., number of seconds since 1 January 1970 UTC.
+
+    **Example**
+
+    *list of all routes created by current user*: [/api/my_routes/](/api/my_routes/)
+
+    *individual route detail:* [/api/my_routes/9/](/api/my_routes/9/)
+
+    *individual route detail with time cutoff:* [/api/my_routes/9/?modified_since=1416258566](/api/my_routes/9/?modified_since=1416258566)
+
+
+    """
     queryset = Route.objects.filter(official=False)
     serializer_class = RouteSerializer
-    filter_fields = ('id', 'created_by')
+    filter_class = RouteFilter
     permission_classes = (IsOwnerOrNothing,)
 
     def get_queryset(self):
@@ -354,44 +557,188 @@ class UserRouteViewSet(viewsets.ModelViewSet):
 
 
 class RouteNestedViewSet(ReadOnlyModelViewSet):
+    """
+    API endpoint for getting Holet's routes, including all nested data models. These are the routes created by the Holet team for users to follow, and they cannot be changed by users, so only GET requests are allowed here.
+
+    **Fields**
+
+    * owner: username of the user who created this route.
+    * server_id: unique integer id assigned to the route by the server.
+    * official: boolean that is true if route was created by Holet team, and falase otherwise.
+    * last_modified: Date and time when route was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+    * created: Date and time when route was created. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+    * created_by: User id of the user who created this route.
+    * average_rating: the average rating users have given this route (calculated from rating model)
+    * total_ratings: total number of ratings on which the average is based.
+    * id_route_based_on: server id of the route the present route is based on. This field should generally be filled only for user routes: it represents the route the user was following when recording a given other route.
+    * description_oc: route description in Aranese.
+    * description_es: route description in Spanish.
+    * description_ca: route description in Catalan.
+    * description_fr: route description in French.
+    * description_en: route description in English
+    * short_description_oc: route's short description in Aranese. (This is primarily used for displaying the route on the webside, and it will often be blank).
+    * short_description_es: route's short description in Spanish. (This is primarily used for displaying the route on the webside, and it will often be blank)
+    * short_description_ca: route's short description in Catalan. (This is primarily used for displaying the route on the webside, and it will often be blank)
+    * short_description_fr: route's short description in Frensh. (This is primarily used for displaying the route on the webside, and it will often be blank)
+    * short_description_en: route's short description in English. (This is primarily used for displaying the route on the webside, and it will often be blank)
+    * name_oc: route name in Aranese
+    * name_es: route name in Spanish
+    * name_ca: route name in Catalan
+    * name_fr: route name in Frensh
+    * name_en: route_name, in Englih
+    * reference: nested fields for up to 1 reference.
+        * server_id: unique integer ID assigned to the reference by the server
+        * name_oc: reference name in Aranese
+        * name_es: reference name in Spanish
+        * name_ca: reference name in Catalan
+        * name_fr: reference name in French
+        * name_en: reference name in English
+        * html_file: path on server to the zip file containing the reference's html file and associated resources
+        * last_modified: Date and time when reference was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+        * created: Date and time when reference was created. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+    * top_five_user_highlights: nested array of up to 5 highlights. These are highlights saved by users, with the top five selected based on highest average ratings
+    * map: nested fields for the route map
+        * last_modified: Date and time when map was last modified. Formated as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+        * created: Date and time when map was created. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+        * map_file_name: file name of map file on server.
+    * track: nested fields for track associated with this route. (Note that the track is a largely redundant data structure at this point. There is a one-to-one relationship between trakc and route, but it is the track that contains all os the steps.
+        * server_id: unique integer ID assigned to the track by the server
+        * name_oc: track name in Aranese. (This is irrelevant and can be ignored.)
+        * name_es: track name in Spanish. (This is irrelevant and can be ignored.)
+        * name_ca: track name in Catalan. (This is irrelevant and can be ignored.)
+        * name_fr: track name in French. (This is irrelevant and can be ignored.)
+        * name_en: track name in English. (This is irrelevant and can be ignored.)
+        * last_modified: Date and time when track was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+        * steps: Array of steps associated with the track
+            * server_id: unique integer ID assigned to the step by the server
+            * absolute_time: Date and time when step was recorded. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),,
+            * order: integer indicating order of the step within the track. (This is necessary for non-highlight steps, to ensure path is drawn correctly.)
+            * latitude: float latitude of the step location
+            * longitude: float longitude of the step location
+            * altitude: float altitude of the step location
+            * precision: float precision of the step location estimate
+            * last_modified: Date and time when step was last modified. Formated as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+            * highlights: array of highlights associated with this step
+                * server_id: unique integer ID assigned to the highlight by the server
+                * average_rating: average user rating for this highlight (calculated on server from the rating data)
+                * total_ratings: total ratings for this highlight (calculated on server from rating data)
+                * created_by: server ID of the user who created this highlight,
+                * name_oc: highlight name in Aranese
+                * name_es: wpV02-inici pista Varrad\u00f2s,
+                * name_ca: wpV02-inici pista Varrad\u00f2s,
+                * name_fr: wpV02-inici pista Varrad\u00f2s,
+                * name_en: wpV02-inici pista Varrad\u00f2s,
+                * long_text_oc: ,
+                * long_text_es: ,
+                * long_text_ca: ,
+                * long_text_fr: ,
+                * long_text_en: ,
+                * radius: null,
+                * type: 1,
+                * interactive_images: [],
+                * references: [],
+                * media_name: ,
+                * last_modified: 2014-10-11T00:00:00Z
+
+
+
+    **Usage**
+
+        /api/nested_routes/
+
+        /api/nested_routes/<route_id>/
+
+    **Example**
+
+    *list of all routes*: [/api/nested_routes/](/api/nested_routes/)
+
+    *individual route detail:* [/api/nested_routes/9/](/api/nested_routes/9/)
+
+
+    """
     queryset = Route.objects.filter(official=True)
     serializer_class = RouteNestedSerializer
-    filter_fields = ('id', 'created_by')
+    filter_class = RouteFilter
 
 
 class UserRouteNestedViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint for getting Holet's routes. These are the routes created by the Holet team for users to follow, and they cannot be changed by users, so only GET requests are allowed here.
+
+    **Fields**
+
+    * owner: username of the user who created this route.
+    * server_id: unique integer id assigned to the route by the server.
+    * official: bolean that is true if route was created by Holet team, and falase otherwise.
+    * last_modified: Date and time when route was last modified. Formated as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+    *  created_by": User id of the user who created this route.
+
+    **Usage**
+
+        /api/nested_routes/
+
+        /api/nested_routes/<route_id>/
+
+    **Example**
+
+    *list of all routes*: [/api/nested_routes/](/api/nested_routes/)
+
+    *individual route detail:* [/api/nested_routes/9/](/api/nested_routes/9/)
+
+
+    """
     queryset = Route.objects.filter(official=False)
     serializer_class = RouteNestedSerializer
-    filter_fields = ('id', 'created_by')
+    filter_class = RouteFilter
     permission_classes = (IsOwnerOrNothing,)
 
     def get_queryset(self):
         return self.request.user.routes.all()
 
 
+class StepFilter(django_filters.FilterSet):
+    modified_since = django_filters.Filter(action=filter_last_modified_unix_dt)
+
+    class Meta:
+        model = Step
+        fields = ['modified_since']
+
+
 class StepViewSet(ReadWriteOnlyModelViewSet):
     queryset = Step.objects.all()
     serializer_class = StepSerializer
+    filter_class = StepFilter
 
 
 class UserStepNestedViewSet(viewsets.ModelViewSet):
     queryset = Step.objects.all()
     serializer_class = UserStepNestedSerializer
     permission_classes = (IsOwnerOrNothing,)
+    filter_class = StepFilter
 
     def get_queryset(self):
         return Step.objects.filter(track__route__created_by=self.request.user)
 
 
+class RatingFilter(django_filters.FilterSet):
+    modified_since = django_filters.Filter(action=filter_last_modified_unix_dt)
+
+    class Meta:
+        model = Rating
+        fields = ['modified_since']
+
+
 class RatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
+    filter_class = RatingFilter
 
 
 class UserRatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = RatingSerializer
     permission_classes = (IsUserOwnerOrNothing,)
+    filter_class = RatingFilter
 
     def pre_save(self, obj):
         obj.user = self.request.user

@@ -1,18 +1,19 @@
 from django.conf.urls import patterns, url, include
-from rest_framework import routers
+import routers
 from appulet.views import *
 
 
-router = routers.DefaultRouter()
-router.register(r'routes', RouteViewSet)
-router.register(r'my_routes', UserRouteViewSet)
-router.register(r'nested_routes', RouteNestedViewSet)
-router.register(r'my_routes_nested', UserRouteNestedViewSet)
-router.register(r'my_steps_nested', UserStepNestedViewSet)
-router.register(r'ratings', RatingViewSet)
-router.register(r'my_ratings', UserRatingViewSet)
-router.register(r'highlights', HighlightViewSet)
-router.register(r'my_highlights', UserHighlightViewSet)
+router = routers.OrderedDefaultRouter()
+router.register(r'routes', RouteViewSet, base_name='route')
+router.register(r'my_routes', UserRouteViewSet, base_name='my_route')
+router.register(r'nested_routes', RouteNestedViewSet, base_name='nested_route')
+router.register(r'my_nested_routes', UserRouteNestedViewSet, base_name='my_nested_route')
+router.register(r'my_nested_steps', UserStepNestedViewSet, base_name='my_nested_step')
+router.register(r'ratings', RatingViewSet, base_name='rating')
+router.register(r'my_ratings', UserRatingViewSet, base_name='my_rating')
+router.register(r'highlights', HighlightViewSet, base_name='highlight')
+router.register(r'my_highlights', UserHighlightViewSet, base_name='my_highlight')
+router.register(r'maps', MapViewSet, base_name='map')
 
 
 urlpatterns = patterns('appulet.views',
@@ -27,5 +28,6 @@ urlpatterns = patterns('appulet.views',
     url(r'^route_map/(?P<route_id>[0-9]+)/(?P<last_updated_unix_time_utc>[0-9]+)/$', get_route_map, name='get_route_map_last_updated'),
     url(r'^general_map/$', get_general_map, name='get_general_map'),
     url(r'^general_map/(?P<last_updated_unix_time_utc>[0-9]+)/$', get_general_map, name='get_general_map_last_updated'),
+    url(r'^file_download_endpoint/(?P<view>\w+)/$', show_file_download_endpoint, name='show_file_download_endpoint'),
     url(r'^', include(router.urls)),
 )

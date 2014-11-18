@@ -15,11 +15,19 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">JSON Access Points
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-        <li><a href="/api/nested_routes/">Holet's Routes Nested</a></li>
-        <li><a href="/api/routes/">Holet's Routes Flat</a></li>
-        <li><a href="/api/nested_user_routes/">User Routes Nested</a></li>
-        <li><a href="/api/user_routes/">User Routes Flat</a></li>
-</ul>
+        <li><a href="{% url 'route-list' %}">Holet's Routes Flat</a></li>
+        <li><a href="{% url 'nested_route-list' %}">Holet's Routes Nested</a></li>
+        <li><a href="{% url 'my_route-list' %}">User's Routes Flat</a></li>
+        <li><a href="{% url 'my_nested_route-list' %}">User's Routes Nested</a></li>
+        <li><a href="{% url 'my_nested_step-list' %}">User's Steps Nested</a></li>
+        <li><a href="{% url 'rating-list' %}">All Ratings</a></li>
+        <li><a href="{% url 'my_rating-list' %}">User's Ratings</a></li>
+        <li><a href="{% url 'highlight-list' %}">Holet's Highlights</a></li>
+        <li><a href="{% url 'my_highlight-list' %}">User's Highlights</a></li>
+        <li><a href="{% url 'map-list' %}">Maps</a></li>
+
+
+ </ul>
     </li>
 
                                     <li class="dropdown">
@@ -35,9 +43,13 @@
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">File-Download Access Points
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-        <li><a href="/api/media/">Media</a></li>
+        <li><a href="{% url 'show_file_download_endpoint' 'get_route_map' %}">Route Maps</a></li>
+        <li><a href="{% url 'show_file_download_endpoint' 'get_general_map' %}">General Map</a></li>
+        <li><a href="{% url 'show_file_download_endpoint' 'get_general_reference_files' %}">General References</a></li>
+        <li><a href="{% url 'show_file_download_endpoint' 'get_route_content_files' %}">Route Content</a></li>
 </ul>
     </li>
+
 
         {{ block.super}}
 {% endblock %}

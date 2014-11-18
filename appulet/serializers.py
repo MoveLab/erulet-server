@@ -10,11 +10,23 @@ class MapSerializer(serializers.ModelSerializer):
         fields = ('route', 'type', 'last_modified', 'created', 'map_file_name')
 
 
+class RouteMapSerializer(serializers.ModelSerializer):
+    map_file_name = serializers.Field()
+
+    class Meta:
+        model = Map
+        fields = ('last_modified', 'created', 'map_file_name')
+
+
 class HighlightSerializer(serializers.ModelSerializer):
     server_id = serializers.IntegerField(source='id')
+    media_name = serializers.Field()
+    average_rating = serializers.Field()
+    total_ratings = serializers.Field()
 
     class Meta:
         model = Highlight
+        fields = ('server_id', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_name', 'last_modified')
 
 
 class UserHighlightSerializer(serializers.ModelSerializer):
@@ -37,6 +49,15 @@ class ReferenceSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Reference
+        exclude = ("id",)
+
+
+class RouteReferenceSerializer(serializers.ModelSerializer):
+    server_id = serializers.IntegerField(source='id')
+
+    class Meta:
+        model = Reference
+        exclude = ("id", "highlight", "general")
 
 
 class InteractiveImageSerializer(serializers.ModelSerializer):
@@ -55,7 +76,7 @@ class InteractiveImageNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InteractiveImage
-        fields = ('server_id', 'image_file', 'image_name', 'original_height', 'original_width', 'boxes')
+        fields = ('server_id', 'image_file', 'image_name', 'original_height', 'original_width', 'boxes', 'last_modified')
 
 
 class HighlightNestedSerializer(serializers.ModelSerializer):
@@ -68,7 +89,7 @@ class HighlightNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Highlight
-        fields = ('server_id', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'interactive_images', 'references', 'media_name')
+        fields = ('server_id', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'interactive_images', 'references', 'media_name', 'last_modified')
 
 
 class StepSerializer(serializers.ModelSerializer):
@@ -87,7 +108,7 @@ class StepNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Step
-        fields = ('server_id', 'absolute_time', 'order', 'latitude', 'longitude', 'altitude', 'precision', 'highlights')
+        fields = ('server_id', 'absolute_time', 'order', 'latitude', 'longitude', 'altitude', 'precision', 'highlights', 'last_modified')
 
 
 class UserStepNestedSerializer(serializers.ModelSerializer):
@@ -96,7 +117,7 @@ class UserStepNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Step
-        fields = ('server_id', 'absolute_time', 'order', 'latitude', 'longitude', 'altitude', 'precision', 'highlights')
+        fields = ('server_id', 'absolute_time', 'order', 'latitude', 'longitude', 'altitude', 'precision', 'highlights', 'last_modified')
 
 
 class TrackSerializer(serializers.ModelSerializer):
@@ -112,7 +133,7 @@ class TrackNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Track
-        fields = ('server_id', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'steps')
+        fields = ('server_id', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'steps', 'last_modified')
 
 
 class RouteSerializer(serializers.ModelSerializer):
@@ -126,8 +147,8 @@ class RouteSerializer(serializers.ModelSerializer):
 
 class RouteNestedSerializer(serializers.ModelSerializer):
     track = TrackNestedSerializer(many=False)
-    reference = ReferenceSerializer(many=False)
-    map = MapSerializer(many=False)
+    reference = RouteReferenceSerializer(many=False)
+    map = RouteMapSerializer(many=False)
     created_by = serializers.RelatedField(many=False)
     server_id = serializers.IntegerField(source='id', read_only=True)
     average_rating = serializers.Field()

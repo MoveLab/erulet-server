@@ -1,0 +1,41 @@
+{% extends "rest_framework/api.html" %}
+
+{% block head %}
+    {{ block.super }}
+<style>
+    body{
+    margin-top:70px;
+    }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+
+    <body class="{% block bodyclass %}{% endblock %} container">
+
+    <div class="wrapper">
+
+        {% block navbar %}
+            {{ block.super }}
+        {% endblock %}
+
+        {% block breadcrumbs %}
+        {% endblock %}
+
+        <div class="container theme-showcase" role="main">
+            <div class="page-header">
+                <h1>{{ title }}</h1>
+            </div>
+
+        <p>{{ help_text | safe}}</p>
+
+        </div>
+    </div>
+    </body>
+
+    {% block script %}
+        {{ block.super }}
+    {% endblock %}
+
+{% endblock %}
