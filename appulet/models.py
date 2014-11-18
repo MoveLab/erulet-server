@@ -308,7 +308,7 @@ class Highlight(models.Model):
     long_text_en = models.CharField("Description - English", max_length=2000, blank=True)
     media = models.FileField(upload_to=make_media_uuid('holet/highlights'), blank=True, null=True)
     radius = models.FloatField(blank=True, null=True)
-    TYPE_CHOICES = ((0, 'point of interest'), (1, 'waypoint'),)
+    TYPE_CHOICES = ((0, 'point of interest'), (1, 'waypoint'), (2, 'alert'),)
     type = models.IntegerField(choices=TYPE_CHOICES)
     step = models.ForeignKey(Step, blank=True, null=True, related_name='highlights')
     order = models.IntegerField(blank=True, null=True)

@@ -624,23 +624,49 @@ class RouteNestedViewSet(ReadOnlyModelViewSet):
                 * total_ratings: total ratings for this highlight (calculated on server from rating data)
                 * created_by: server ID of the user who created this highlight,
                 * name_oc: highlight name in Aranese
-                * name_es: wpV02-inici pista Varrad\u00f2s,
-                * name_ca: wpV02-inici pista Varrad\u00f2s,
-                * name_fr: wpV02-inici pista Varrad\u00f2s,
-                * name_en: wpV02-inici pista Varrad\u00f2s,
-                * long_text_oc: ,
-                * long_text_es: ,
-                * long_text_ca: ,
-                * long_text_fr: ,
-                * long_text_en: ,
-                * radius: null,
-                * type: 1,
-                * interactive_images: [],
-                * references: [],
-                * media_name: ,
-                * last_modified: 2014-10-11T00:00:00Z
-
-
+                * name_es: highlight name in Spanish
+                * name_ca: highlight name in Catalan
+                * name_fr: highlight name in French
+                * name_en: highlight name in English
+                * long_text_oc: highlight description in Aranese
+                * long_text_es: highlight description in Spanish
+                * long_text_ca: highlight description in Catalan
+                * long_text_fr: highlight description in French
+                * long_text_en: highlight description in English
+                * radius: float radius within which a user location should trigger the highlight to popup on the phone
+                * type: integer taking 0 for point of interest, 1 for waypoint, and 2 for alert
+                * media_name: file name on server of media (image or video) file associated with this highlight
+                * last_modified: date and time when highlight was last modified. Formated as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+                * interactive_images: array of interactive images associated with this highlight:
+                    * server_id: unique integer ID assigned to the interactive image by the server
+                    * image_file: path on server of the image file for thsi interactive image
+                    * image_name: file name on server of the image file for this interactive image
+                    * original_height: integer representing pixel height of the original interactive image image file (before rescaling for device)
+                    * original_width: integer representing pixel height of the original interactive image image file (before rescaling for device)
+                    * boxes:  array of 'interaction boxes' for this image. These are the areas in the image where the user can press for more information
+                        * server_id: unique integer ID assigned to the box by the server
+                        * interactive_image: server ID for the interactive image to which this box is related
+                        * message_oc: message that pops up when user presses the box - Aranese
+                        * message_es: message that pops up when user presses the box - Spanish
+                        * message_ca: message that pops up when user presses the box - Catalan
+                        * message_fr: message that pops up when user presses the box - French
+                        * message_en: message that pops up when user presses the box - English
+                        * max_y: integer representing maximum y-coordinate of the box location on the image (in pixels)
+                        * min_y: integer representing minimum y-coordinate of the box location on the image (in pixels)
+                        * max_x: integer representing maximum x-coordinate of the box location on the image (in pixels)
+                        * min_x: integer representing minimum x-coordinate of the box location on the image (in pixels)
+                        * last_modified: date and time when box was last modified. Formated as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+                        * created: date and time when box was created. Formated as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+                * references: array of references associated with this highlight:
+                    * server_id: unique integer ID assigned to the reference by the server
+                    * name_oc: reference name in Aranese
+                    * name_es: reference name in Spanish
+                    * name_ca: reference name in Catalan
+                    * name_fr: reference name in French
+                    * name_en: reference name in English
+                    * html_file: path on server to the zip file containing the reference's html file and associated resources
+                    * last_modified: Date and time when reference was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
+                    * created: Date and time when reference was created. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
 
     **Usage**
 

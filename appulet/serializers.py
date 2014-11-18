@@ -42,6 +42,7 @@ class BoxSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Box
+        exclude = ('id',)
 
 
 class ReferenceSerializer(serializers.ModelSerializer):
@@ -53,6 +54,14 @@ class ReferenceSerializer(serializers.ModelSerializer):
 
 
 class RouteReferenceSerializer(serializers.ModelSerializer):
+    server_id = serializers.IntegerField(source='id')
+
+    class Meta:
+        model = Reference
+        exclude = ("id", "highlight", "general")
+
+
+class HighlightReferenceSerializer(serializers.ModelSerializer):
     server_id = serializers.IntegerField(source='id')
 
     class Meta:
@@ -82,7 +91,7 @@ class InteractiveImageNestedSerializer(serializers.ModelSerializer):
 class HighlightNestedSerializer(serializers.ModelSerializer):
     server_id = serializers.IntegerField(source='id')
     interactive_images = InteractiveImageNestedSerializer(many=True)
-    references = ReferenceSerializer(many=True)
+    references = HighlightReferenceSerializer(many=True)
     media_name = serializers.Field()
     average_rating = serializers.Field()
     total_ratings = serializers.Field()
