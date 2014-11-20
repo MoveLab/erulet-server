@@ -214,7 +214,6 @@ def login_from_app(request):
 
 
 @login_required
-@csrf_exempt
 def show_credentials(request):
     this_user = request.user
     if Token.objects.filter(user=this_user).count() > 0:
@@ -223,7 +222,7 @@ def show_credentials(request):
         token_object = Token.objects.create(user=this_user)
         token = token_object.key
     json_response = {'username': request.user.username, 'token': token}
-    return HttpResponse(json.dumps(json_response), content_type="application/json")
+    return render(request, 'registration/credentials.html', {'credentials':json.dumps(json_response)})
 
 
 def parse_gpx_track(this_route, this_track):
