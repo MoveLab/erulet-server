@@ -2,7 +2,8 @@
 from django.shortcuts import render, render_to_response, get_object_or_404
 from django.views.generic.edit import FormView
 from django.core.urlresolvers import reverse_lazy
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.views import login as view_login
 import gpxpy
 import gpxpy.gpx
 from django.http import HttpResponseRedirect
@@ -21,6 +22,11 @@ from django.forms.models import modelformset_factory
 from django.db.models import Count
 from django import forms
 from django.utils.translation import ugettext as _
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
 
 
 def show_landing_page(request):
@@ -184,6 +190,38 @@ class RegisterFromApp(FormView):
         user = authenticate(username=request.POST['username'], password=request.POST['password1'])
         login(self.request, user)
         return HttpResponseRedirect(reverse('show_profile_mob', kwargs={'token': token.key, 'username': new_user.username}))
+
+
+class RegisterFromAppNew(FormView):
+    template_name = 'registration/register_mob.html'
+    form_class = RegistrationForm
+    success_url = reverse_lazy('auth_login_mob')
+
+    def form_valid(self, form):
+        new_user = form.save()
+        Token.objects.create(user=new_user)
+        request = self.request
+        user = authenticate(username=request.POST['username'], password=request.POST['password1'])
+        login(self.request, user)
+        return HttpResponseRedirect(reverse('show_credentials'))
+
+
+@sensitive_post_parameters()
+@csrf_protect
+@never_cache
+def login_from_app(request):
+    return view_login(request=request, template_name='registration/login_mob.html')
+
+
+@login_required
+def show_credentials(request):
+    this_user = request.user
+    if Token.objects.filter(user=this_user).count() > 0:
+        token = this_user.auth_token.key
+    else:
+        token = Token.objects.create(user=this_user)
+    json_response = {'username': request.user.username, 'token': token}
+    return HttpResponse(json.dumps(json_response), content_type="application/json")
 
 
 def parse_gpx_track(this_route, this_track):

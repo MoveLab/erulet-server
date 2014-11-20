@@ -14,6 +14,7 @@ admin.autodiscover()
 urlpatterns = patterns('', url(r'^admin/', include(admin.site.urls)),
     (r'^i18n/', include('django.conf.urls.i18n')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^show_credentials/$', show_credentials, name='show_credentials'),
     url(r'^api/', include('appulet.urls')),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
@@ -61,9 +62,11 @@ urlpatterns += i18n_patterns('',
     url(r'^route_detail/(?P<id>[0-9]+)/$', show_route_detail, name='show_route_detail'),
     url(r'^privacy/', show_privacy_policy, name='show_privacy_policy'),
     url(r'^accounts/login/$', 'django.contrib.auth.views.login', name='auth_login'),
+    url(r'^login/mob/$', login_from_app , name='auth_login_mob'),
     url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}, name='auth_logout'),
     url(r'^$', show_landing_page, name='show_landing_page'),
     url(r'^register/$', RegistrationView.as_view(), name='auth_register'),
     url(r'^register/mob/$', RegisterFromApp.as_view(), name='auth_register_mob'),
+    url(r'^register/mobnew/$', RegisterFromAppNew.as_view(), name='auth_register_mob_new'),
     url(r'^accounts/profile/token=(?P<token>\w+),username=(?P<username>\w+)$', show_profile_mob, name='show_profile_mob'),
     url('^accounts/profile/$', show_profile, name='show_profile'),)
