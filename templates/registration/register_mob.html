@@ -1,29 +1,28 @@
-{% extends "registration/registration_base.html" %}
-{% load staticfiles %}
-{% load i18n %}
+{% extends "frontulet/mobile_base.html" %}
+{%  load i18n %}
 
-{% block navbar %}
+{% block head_content %}
+
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
 
 {% endblock %}
 
-{% block main_body %}
-    <!-- Container -->
-    <div id="container">
-        <!-- Header -->
-        <div id="header">
-            <div id="branding">
-                <h1 id="site-name">{% trans "Holet Registration" %}</h1>
-            </div>
-        </div>
-        <!-- END Header -->
-        <!-- Content -->
-        <div id="content" class="colM">
-            <div id="content-main">
+{% block body_content %}
+
+<div data-role="page">
+
+	<div data-role="header"><h1>{% trans 'Eth Holet Registration' %}</h1>
+</div>
+
+
+<div role="main" class="ui-content">
                 {% if form.errors %}
                     <p>{{ form.errors }}</p>
                 {% endif %}
                 <h1>Registration:</h1>
-                <form method="post" action=".">
+                <form method="post">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <input type="submit" value="{% trans "Register" %}"/>
@@ -32,17 +31,5 @@
                     document.getElementById('id_username').focus()
                 </script>
             </div>
-            <br class="clear"/>
         </div>
-        <!-- END Content -->
-
-        <div id="footer"></div>
- <div id="content" class="colM">
-    <p>Important: This site is under construction and is not yet operating with a secure connection. Please DO NOT register with a password that you use for any other site because data potentially could be stolen on transmission. (We will have the secure version up and running very soon.)</p>
-</div>
-    </div>
-    <!-- END Container -->
 {% endblock %}
-
-
-

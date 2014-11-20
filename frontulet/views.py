@@ -181,7 +181,7 @@ class RegistrationView(FormView):
 class RegisterFromApp(FormView):
     template_name = 'registration/register_mob.html'
     form_class = RegistrationForm
-    success_url = reverse_lazy('show_profile')
+    success_url = reverse_lazy('show_credentials')
 
     def form_valid(self, form):
         new_user = form.save()
@@ -189,7 +189,7 @@ class RegisterFromApp(FormView):
         request = self.request
         user = authenticate(username=request.POST['username'], password=request.POST['password1'])
         login(self.request, user)
-        return HttpResponseRedirect(reverse('show_profile_mob', kwargs={'token': token.key, 'username': new_user.username}))
+        return HttpResponseRedirect(reverse('show_credentials'))
 
 
 class RegisterFromAppNew(FormView):
@@ -1111,7 +1111,7 @@ def show_survey(request, mob, survey_name, route_id=None):
 
 def show_survey_submitted(request, response_code, mob):
     if response_code == 'ok':
-        message = _('Thank you!')
+        message = _('Thank you!') + '<div id="survey_response" style="display:none;">ok</div>'
     else:
         message = _('Error')
     return render(request, 'frontulet/simple_message' + mob + '.html', {'message': message})
