@@ -219,7 +219,8 @@ def show_credentials(request):
     if Token.objects.filter(user=this_user).count() > 0:
         token = this_user.auth_token.key
     else:
-        token = Token.objects.create(user=this_user)
+        token_object = Token.objects.create(user=this_user)
+        token = token_object.key
     json_response = {'username': request.user.username, 'token': token}
     return HttpResponse(json.dumps(json_response), content_type="application/json")
 
