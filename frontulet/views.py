@@ -26,7 +26,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.debug import sensitive_post_parameters
 from django.views.decorators.cache import never_cache
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 
 
 def show_landing_page(request):
@@ -214,6 +214,7 @@ def login_from_app(request):
 
 
 @login_required
+@csrf_exempt
 def show_credentials(request):
     this_user = request.user
     if Token.objects.filter(user=this_user).count() > 0:
