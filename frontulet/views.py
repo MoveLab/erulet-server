@@ -1114,4 +1114,4 @@ def show_survey_submitted(request, response_code, mob):
         message = _('Thank you!') + '<div id="survey_response" style="display:none;">ok</div>'
     else:
         message = _('Error')
-    return render(request, 'frontulet/simple_message' + mob + '.html', {'message': message})
+    return render(request, 'frontulet/simple_message' + mob + '.html', {'message': message, 'response_code': response_code})

@@ -25,7 +25,7 @@
 
 <br><div class="border-row"></div><div class="border-row"></div><div class="border-row"></div><br>
 
-<form method="post">{% csrf_token %}
+<form method="post" action="#">{% csrf_token %}
     {{ formset.management_form }}
     {% for form in formset %}
         <h3>{% if lang == 'es' %}{{ form.initial.question.question_es }}{% elif lang == 'ca' %}{{ form.initial.question.question_ca }}{% elif lang == 'fr' %}{{ form.initial.question.question_fr }}{% elif lang == 'en' %}{{ form.initial.question.question_en }}{% else %}{{ form.initial.question.question_oc }}{% endif %}</h3>
@@ -36,8 +36,6 @@
 </form>
 
 </div>
-
-<div id="survey_response" style="display:none;">no</div>
 
 </div>
 

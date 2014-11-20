@@ -14,7 +14,7 @@
 
 {% block body_content %}
 
-<div data-role="page">
+<div data-role="page" data-url="{% url 'show_survey_submitted_mob' response_code %}">
 
 	<div data-role="header"><h1>{% trans 'Eth Holet Survey' %}</h1>
 </div>
