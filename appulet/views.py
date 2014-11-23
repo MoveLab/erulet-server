@@ -372,15 +372,15 @@ with _media_ used as the form key for the file itself. Note that you can post me
 **Fields**
 
 * media: The media file's binary data
-* server_id: The server id of the highlight to which the media is to be associated.
+* id_on_creator_device: The unique integer id assigned to the highlight by the user's device. This value should have been posted to the highlight when it was initially created via the my_nested_routes endpoint.
 
     """
     if request.method == 'POST':
-        this_id = request.DATA['server_id']
+        this_id_on_creator_device = request.DATA['id_on_creator_device']
         # check if highlight exists and is owned by authenticaed user
-        if Highlight.objects.filter(id=this_id).count() == 1:
+        if Highlight.objects.filter(id_on_creator_device=this_id_on_creator_device).count() == 1:
             # get highlight and add media
-            this_highlight = Highlight.objects.get(id=this_id)
+            this_highlight = Highlight.objects.get(id_on_creator_device=this_id_on_creator_device)
             # check if owned by user
             if this_highlight.created_by == request.user:
                 this_highlight.media = request.FILES['media']
