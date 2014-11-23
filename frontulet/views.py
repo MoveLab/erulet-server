@@ -1073,6 +1073,8 @@ def delete_general_reference(request, reference_id):
     else:
         return render(request, 'registration/no_permission_must_login.html')
 
+import floppyforms
+
 
 def show_survey(request, mob, survey_name, route_id=None):
     args = {}
@@ -1082,9 +1084,9 @@ def show_survey(request, mob, survey_name, route_id=None):
     this_route = None
     if route_id and Route.objects.filter(id=route_id).count() == 1:
         this_route = Route.objects.get(id=route_id)
-    widgets = {'response': forms.Textarea(attrs={'rows': 3, 'class': 'form-control'})}
+    widgets = {'integer_response': floppyforms.RangeInput(attrs={'min': 0, 'max': 100, 'step': 1})}
     extra = this_scheme.questions.all().count()
-    survey_formset = modelformset_factory(SurveyResponse, fields=('response',), extra=extra, labels={'response': ''}, widgets=widgets)
+    survey_formset = modelformset_factory(SurveyResponse, fields=('integer_response',), extra=extra, labels={'integer_response': ''}, widgets=widgets)
     if request.method == 'POST':
         formset = survey_formset(request.POST)
         if formset.is_valid():

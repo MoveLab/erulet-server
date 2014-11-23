@@ -525,6 +525,7 @@ class UserHighlightViewSet(viewsets.ModelViewSet):
     **Fields**
 
     * server_id: unique integer ID assigned to the highlight by the server
+    * id_on_creator_device: unique integer ID assigned to the highlight by the device of the user who created it. (This allows user to post highlight in nested route and then find it on server without having to grab the server id.)
     * average_rating: average user rating for this highlight (calculated on server from the rating data)
     * total_ratings: total ratings for this highlight (calculated on server from rating data)
     * created_by: server ID of the user who created this highlight,
@@ -883,6 +884,7 @@ class UserRouteNestedViewSet(viewsets.ModelViewSet):
             * last_modified: Date and time when step was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"). Read-only.
             * highlights: array of highlights associated with this step
                 * server_id: unique integer ID assigned to the highlight by the server. Read-only.
+                * id_on_creator_device: unique integer ID assigned to the highlight by the device of the user who created it. (This allows user to post highlight in nested route and then find it on server without having to grab the server id.)
                 * average_rating: average user rating for this highlight (calculated on server from the rating data). Read-only.
                 * total_ratings: total ratings for this highlight (calculated on server from rating data). Read-only.
                 * created_by: server ID of the user who created this highlight. Read-only - you do not need to (and cannot) set this when posting data, as it will be taken automatically from the authenticated user associated with the incoming request.

@@ -110,7 +110,7 @@ class UserHighlightNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Highlight
-        fields = ('server_id', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_name', 'last_modified')
+        fields = ('server_id', 'id_on_creator_device', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_name', 'last_modified')
 
 
 class StepSerializer(serializers.ModelSerializer):

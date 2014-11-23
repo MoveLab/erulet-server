@@ -55,6 +55,7 @@ INSTALLED_APPS = (
     'rest_framework',
     'leaflet',
     'corsheaders',
+    'floppyforms',
 )
 
 MIDDLEWARE_CLASSES = (

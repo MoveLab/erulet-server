@@ -9,6 +9,7 @@ import codecs
 from PIL import Image
 from datetime import datetime
 from django.db.models import Avg
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class Track(models.Model):
@@ -292,6 +293,7 @@ class Map(models.Model):
 
 class Highlight(models.Model):
     created_by = models.ForeignKey(User, blank=True, null=True, related_name='highlights', on_delete=models.SET_NULL)
+    id_on_creator_device = models.IntegerField(blank=True, null=True)
     name_oc = models.CharField("Name - Aranese", max_length=100, blank=True)
     name_es = models.CharField("Name - Spanish", max_length=100, blank=True)
     name_ca = models.CharField("Name - Catalan", max_length=100, blank=True)
@@ -523,6 +525,7 @@ class SurveyResponse(models.Model):
     survey_instance = models.ForeignKey(SurveyInstance, related_name='responses')
     question = models.ForeignKey(SurveyQuestion, related_name='responses')
     response = models.TextField(blank=True)
+    integer_response = models.IntegerField(blank=True, null=True,  validators=[MinValueValidator(0), MaxValueValidator(100)])
     last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
     created = models.DateTimeField(auto_now_add=True, default=datetime.now())
 
