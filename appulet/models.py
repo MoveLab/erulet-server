@@ -225,11 +225,7 @@ class Route(models.Model):
         return ''
 
     def get_average_rating(self):
-        these_ratings = self.ratings.all()
-        if these_ratings.count() == 0:
-            return -1
-        else:
-            return sum([r.rating for r in these_ratings])/these_ratings.count()
+        return self.ratings.aggregate(Avg('rating'))['rating__avg']
 
     def get_total_ratings(self):
         return self.ratings.all().count()
@@ -357,11 +353,7 @@ class Highlight(models.Model):
             return ''
 
     def get_average_rating(self):
-        these_ratings = self.ratings.all()
-        if these_ratings.count() == 0:
-            return -1
-        else:
-            return sum([r.rating for r in these_ratings])/these_ratings.count()
+        return self.ratings.aggregate(Avg('rating'))['rating__avg']
 
     def get_total_ratings(self):
         return self.ratings.all().count()
