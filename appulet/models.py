@@ -260,7 +260,7 @@ class RouteTranslationVCS(models.Model):
     name_en = models.CharField("Name - English", max_length=200, blank=True)
 
     def __unicode__(self):
-        return self.highlight.__unicode__()
+        return self.route.__unicode__()
 
 
 class Map(models.Model):
