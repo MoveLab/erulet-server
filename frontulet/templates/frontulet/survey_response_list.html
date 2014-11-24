@@ -34,10 +34,10 @@
         {% for question in questions %}
 
             <h3>{{ question.question }}</h3>
-            <p>{% trans "Average Response:" %} {{ question.average_response }}</p>
+            <p>{% trans "Average Response:" %} {{ question.average_response |floatformat }}</p>
             <p>{% trans "Minimum Response:" %} {{ question.min_response }}</p>
             <p>{% trans "Maximum Response:" %} {{ question.max_response }}</p>
-            <p>{% trans "Response Standard Deviation:" %} {{ question.sd_responses }}</p>
+            <p>{% trans "Response Standard Deviation:" %} {{ question.sd_responses|floatformat }}</p>
             <p>{% trans "Number of Responses:" %} {{ question.total_responses }}</p>
 
         {% endfor %}
