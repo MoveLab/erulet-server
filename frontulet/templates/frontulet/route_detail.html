@@ -23,6 +23,12 @@
     {% leaflet_css %}
 
 
+            <script src={% static "frontulet/jquery/1.11.1/jquery.min.js" %}></script>
+    <script src={% static "frontulet/bootstrap-3.2.0-dist/js/bootstrap.min.js" %}></script>
+<link href="{% static "frontulet/bootstrap-star-rating/css/star-rating.min.css" %}" media="all" rel="stylesheet" type="text/css" />
+        <script src="{% static "frontulet/bootstrap-star-rating/js/star-rating.min.js" %}" type="text/javascript"></script>
+
+
     <script type="text/javascript">
 
         var wp_icon_class = L.Icon.Default.extend({
@@ -134,9 +140,23 @@
                 <small>{{ short_description }} </small>
                 {% if owner %}<a class="btn btn-default btn-sm" href={% url "edit_route" id %} role="button">
                     <span class="glyphicon glyphicon-edit"></span> </a> <button class="btn btn-default" onclick="confirm_delete_route()"> <span class="glyphicon glyphicon-remove-circle"></span> </button> <a class="btn btn-default" href={% url 'make_new_route_reference' id %}> <span class="glyphicon glyphicon-upload"></span>  <span class="glyphicon glyphicon-book"></span> </a>{% endif %}</h1>
+
         {% if average_rating >= 0 and total_ratings > 0 %}
             <p><strong>{% trans "Average Rating:" %} {{ average_rating|floatformat }}</strong> ({{ total_ratings }} {% if total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %})</p>
         {% endif %}
+
+        {% if request.user.is_authenticated %}
+               <form class="form-inline" role="form">
+  <div class="form-group">
+    <div class="input-group">
+<input id="route_stars" type="number" class="rating" min=0 max=5 step=1 data-size="sm" data-show-clear="false" data-show-caption="false">
+    </div>
+  </div>
+  <button type="button" class="btn btn-primary btn-sm">Rate it!</button>
+</form>
+
+        {% endif %}
+
             <p>{{ description }}</p>
 
             {% if has_reference %}
@@ -179,6 +199,22 @@
 
             <div class="col-md-12">
                 <h3>{{ highlight.name }}</h3>
+                    {% if highlight.average_rating >= 0 and highlight.total_ratings > 0 %}
+            <p><strong>{% trans "Average Rating:" %} {{ highlight.average_rating|floatformat }}</strong> ({{ highlight.total_ratings }} {% if highlight.total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %})</p>
+        {% endif %}
+
+                    {% if request.user.is_authenticated %}
+   <form class="form-inline" role="form">
+  <div class="form-group">
+    <div class="input-group">
+<input id="highlight_stars" type="number" class="rating" min=0 max=5 step=1 data-size="sm" data-show-clear="false" data-show-caption="false">
+    </div>
+  </div>
+  <button type="button" class="btn btn-primary btn-sm">Rate it!</button>
+</form>
+
+        {% endif %}
+
 
                 {% for ii in highlight.interactive_images %}
 
@@ -341,6 +377,7 @@
 
     // fixing bootstrap margins on references
     $(".highlight-info-container").find(':header').css('margin', '0px');
+
 
     </script>
 
