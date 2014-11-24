@@ -1,0 +1,49 @@
+{% extends "frontulet/base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+{% block bootstrap_css %}
+    {{ block.super }}
+    <link rel="stylesheet" href={% static "frontulet/bootstrap-3.2.0-dist/css/bootstrap-theme.min.css" %}>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block head_additions %}
+    <link rel="stylesheet" href={% static "frontulet/form_style.css" %}>
+
+    <link rel="stylesheet" href={% static "frontulet/route_detail_style.css" %}>
+
+
+{% endblock %}
+
+{% block body_property_extras %}role="document"{% endblock %}
+
+{% block page_id %}routes{% endblock %}
+
+{% block main_body %}
+
+    <div class="container theme-showcase" role="main">
+
+
+        <div class="page-header">
+            <h1>{% trans "Survey Results" %}
+            </h1>
+        </div>
+
+
+        {% for question in questions %}
+
+            <h3>{{ question.question }}</h3>
+            <p>{% trans "Average Response:" %} {{ question.average_response }}</p>
+            <p>{% trans "Minimum Response:" %} {{ question.min_response }}</p>
+            <p>{% trans "Maximum Response:" %} {{ question.max_response }}</p>
+            <p>{% trans "Response Standard Deviation:" %} {{ question.sd_responses }}</p>
+            <p>{% trans "Number of Responses:" %} {{ question.total_responses }}</p>
+
+        {% endfor %}
+
+
+    </div>
+
+
+{% endblock %}

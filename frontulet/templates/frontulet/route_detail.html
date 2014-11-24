@@ -62,7 +62,7 @@
         'maxHeight': '300',
         'minHeight': '300',
         'closeButton': false,
-         'autoPan': true,
+         'autoPan': true
         };
 
         {% for step in steps %}
@@ -134,6 +134,9 @@
                 <small>{{ short_description }} </small>
                 {% if owner %}<a class="btn btn-default btn-sm" href={% url "edit_route" id %} role="button">
                     <span class="glyphicon glyphicon-edit"></span> </a> <button class="btn btn-default" onclick="confirm_delete_route()"> <span class="glyphicon glyphicon-remove-circle"></span> </button> <a class="btn btn-default" href={% url 'make_new_route_reference' id %}> <span class="glyphicon glyphicon-upload"></span>  <span class="glyphicon glyphicon-book"></span> </a>{% endif %}</h1>
+        {% if average_rating >= 0 and total_ratings > 0 %}
+            <p><strong>{% trans "Average Rating:" %} {{ average_rating }}</strong> ({{ total_ratings }} {% if total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %})</p>
+        {% endif %}
             <p>{{ description }}</p>
 
             {% if has_reference %}

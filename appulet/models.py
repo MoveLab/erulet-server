@@ -8,7 +8,7 @@ from django.conf import settings
 import codecs
 from PIL import Image
 from datetime import datetime
-from django.db.models import Avg
+from django.db.models import Avg, Min, Max, StdDev
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
@@ -508,6 +508,32 @@ class SurveyQuestion(models.Model):
 
     def __unicode__(self):
         return self.survey_scheme.unique_name + ' question ' + str(self.id)
+
+    def get_question(self, lang='oc'):
+        result = ''
+        lang_questions_dict = {'oc': self.question_oc, 'es': self.question_es, 'ca': self.question_ca, 'fr': self.question_fr, 'en': self.question_en}
+        if lang_questions_dict[lang] is not None and lang_questions_dict[lang] != '':
+            result = lang_questions_dict[lang]
+        else:
+                for question in lang_questions_dict.values():
+                    if question is not None and question != '':
+                        result = question
+        return result
+
+    def get_average_response(self):
+        return self.responses.aggregate(Avg('integer_response'))['integer_response__avg']
+
+    def get_min_response(self):
+        return self.responses.aggregate(Min('integer_response'))['integer_response__min']
+
+    def get_max_response(self):
+        return self.responses.aggregate(Max('integer_response'))['integer_response__max']
+
+    def get_sd_responses(self):
+        return self.responses.aggregate(StdDev('integer_response'))['integer_response__stddev']
+
+    def get_total_responses(self):
+        return self.responses.all().count()
 
 
 class SurveyInstance(models.Model):

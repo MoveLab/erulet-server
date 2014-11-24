@@ -143,7 +143,7 @@ def show_route_detail(request, id):
         owner = request.user == this_route.created_by
         these_steps = this_route.track.steps.all().order_by('order')
         these_highlights_localized = map(lambda h: {'id': h.id, 'name': h.get_name(request.LANGUAGE_CODE), 'long_text': h.get_long_text(request.LANGUAGE_CODE), 'media': h.media, 'image': h.image, 'video': h.video, 'media_ext': h.media_ext, 'radius': h.radius, 'type': h.type, 'step': h.step, 'order': h.order, 'references': map(lambda r: {'id': r.id, 'name': r.get_name(request.LANGUAGE_CODE), 'html': r.get_reference_html(request.LANGUAGE_CODE).replace('src="', 'src="'+r.reference_url_base+'/').replace('../general_references', '/media/holet/references/general_references').split('</head>')[-1].split('</html>')[0]}, [ref for ref in h.references.all()]), 'interactive_images': [ii for ii in h.interactive_images.all()]}, [hl for hl in Highlight.objects.filter(step__in=these_steps).order_by('type', 'order')])
-        context = {'owner': owner, 'name': this_route.get_name(request.LANGUAGE_CODE), 'short_description': this_route.get_short_description(request.LANGUAGE_CODE), 'description': this_route.get_description(request.LANGUAGE_CODE), 'has_reference': has_reference, 'reference_html': reference_html, 'steps': these_steps, 'these_highlights': these_highlights_localized, 'id': this_id}
+        context = {'owner': owner, 'name': this_route.get_name(request.LANGUAGE_CODE), 'short_description': this_route.get_short_description(request.LANGUAGE_CODE), 'description': this_route.get_description(request.LANGUAGE_CODE), 'average_rating': this_route.get_average_rating(), 'total_ratings': this_route.get_total_ratings(), 'has_reference': has_reference, 'reference_html': reference_html, 'steps': these_steps, 'these_highlights': these_highlights_localized, 'id': this_id}
     return render(request, 'frontulet/route_detail.html', context)
 
 
@@ -1117,3 +1117,10 @@ def show_survey_submitted(request, response_code, mob):
     else:
         message = _('Error')
     return render(request, 'frontulet/simple_message' + mob + '.html', {'message': message, 'response_code': response_code})
+
+
+def show_survey_results(request):
+    lang = request.LANGUAGE_CODE
+    questions = map(lambda x: {'question': x.get_question(lang), 'average_response': x.get_average_response(), 'total_responses': x.get_total_responses(), 'min_response': x.get_min_response(), 'max_response': x.get_max_response(), 'sd_responses': x.get_sd_responses}, list(SurveyQuestion.objects.all()))
+    context = {'questions': questions}
+    return render(request, 'frontulet/survey_response_list.html', context)
