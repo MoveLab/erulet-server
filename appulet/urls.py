@@ -27,5 +27,6 @@ urlpatterns = patterns('appulet.views',
     url(r'^general_map/$', get_general_map, name='get_general_map'),
     url(r'^general_map/(?P<last_updated_unix_time_utc>[0-9]+)/$', get_general_map, name='get_general_map_last_updated'),
     url(r'^file_download_endpoint/(?P<view>\w+)/$', show_file_download_endpoint, name='show_file_download_endpoint'),
+    url(r'^mobile_pages/$', show_mobile_pages_help, name='show_mobile_pages'),
     url(r'^', include(router.urls)),
 )

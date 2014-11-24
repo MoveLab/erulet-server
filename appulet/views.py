@@ -1062,3 +1062,6 @@ class UserRatingViewSet(viewsets.ModelViewSet):
         return self.request.user.ratings.all()
 
 
+def show_mobile_pages_help(request):
+    context = {}
+    return render(request, 'rest_framework/mobile_webpages.html', context)

@@ -1,0 +1,134 @@
+{% extends "rest_framework/api.html" %}
+{% load i18n %}
+
+{% block head %}
+    {{ block.super }}
+<style>
+    body{
+    margin-top:70px;
+    }
+    </style>
+{% endblock %}
+
+
+{% block body %}
+
+    <body class="{% block bodyclass %}{% endblock %} container">
+
+    <div class="wrapper">
+
+        {% block navbar %}
+            {{ block.super }}
+        {% endblock %}
+
+        {% block breadcrumbs %}
+        {% endblock %}
+
+        <div class="container theme-showcase" role="main">
+            <div class="page-header">
+                <h1>Mobile Webpages</h1>
+                        <p>In addition to the API endpoints, the following URLs may be used to access webpages formatted for mobile devices.</p>
+            </div>
+
+    <h2>Manual</h2>
+     <p><p>Used in webview accessed from app's main switchboard.</p>
+<p><strong>Usage</strong></p>
+<pre><code>http://holet.movelab.net/&lt;language code&gt;/manual/_mob/</code></pre>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>language code: The code for the user's current language preference. (Aranese: oc, Spanish: es, Catalan: ca, French: fr, English: en.)</li>
+</ul>
+<p><strong>Examples</strong></p>
+<ul>
+<li>
+<p><a href="http://holet.movelab.net/en/manual/_mob/">http://holet.movelab.net/en/manual/_mob/</a></p>
+</li>
+</ul></p>
+
+    <h2>Before leaving</h2>
+     <p><p>Used in webview accessed from app's main switchboard.</p>
+<p><strong>Usage</strong></p>
+<pre><code>http://holet.movelab.net/&lt;language code&gt;/before_leaving/_mob/</code></pre>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>language code: The code for the user's current language preference. (Aranese: oc, Spanish: es, Catalan: ca, French: fr, English: en.)</li>
+</ul>
+<p><strong>Examples</strong></p>
+<ul>
+<li>
+<p><a href="http://holet.movelab.net/en/before_leaving/_mob/">http://holet.movelab.net/en/before_leaving/_mob/</a></p>
+</li>
+</ul></p>
+
+    <h2>Credits</h2>
+     <p><p>Used in webview accessed from app's main switchboard.</p>
+<p><strong>Usage</strong></p>
+<pre><code>http://holet.movelab.net/&lt;language code&gt;/about/_mob/</code></pre>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>language code: The code for the user's current language preference. (Aranese: oc, Spanish: es, Catalan: ca, French: fr, English: en.)</li>
+</ul>
+<p><strong>Examples</strong></p>
+<ul>
+<li>
+<p><a href="http://holet.movelab.net/en/about/_mob/">http://holet.movelab.net/en/about/_mob/</a></p>
+</li>
+</ul></p>
+
+    <h2>User Registration</h2>
+     <p><p>Used in webview accessed from app's menu.</p>
+<p><strong>Usage</strong></p>
+<pre><code>http://holet.movelab.net/&lt;language code&gt;/register/mob/</code></pre>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>language code: The code for the user's current language preference. (Aranese: oc, Spanish: es, Catalan: ca, French: fr, English: en.)</li>
+</ul>
+<p><strong>Examples</strong></p>
+<ul>
+<li>
+<p><a href="http://holet.movelab.net/en/register/mob/">http://holet.movelab.net/en/register/mob/</a></p>
+</li>
+</ul></p>
+
+    <h2>User Login</h2>
+     <p><p>Used in webview accessed from app's menu.</p>
+<p><strong>Usage</strong></p>
+<pre><code>http://holet.movelab.net/&lt;language code&gt;/login/mob/</code></pre>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>language code: The code for the user's current language preference. (Aranese: oc, Spanish: es, Catalan: ca, French: fr, English: en.)</li>
+</ul>
+<p><strong>Examples</strong></p>
+<ul>
+<li>
+<p><a href="http://holet.movelab.net/en/login/mob/">http://holet.movelab.net/en/login/mob/</a></p>
+</li>
+</ul></p>
+
+    <h2>Survey</h2>
+     <p><p>Used in webview that pops up when user exists from the detailed itinerary view.</p>
+<p><strong>Usage</strong></p>
+<pre><code>http://holet.movelab.net/&lt;language code&gt;/survey/mob/route_survey/&lt;route id&gt;/</code></pre>
+<p><strong>Parameters</strong></p>
+<ul>
+<li>language code: The code for the user's current language preference. (Aranese: oc, Spanish: es, Catalan: ca, French: fr, English: en.)</li>
+<li>route id: The server id (integer) of the route that the user was following, and about which the user's survey responses will be focused.</li>
+</ul>
+<p><strong>Examples</strong></p>
+<ul>
+<li>
+<p><a href="http://holet.movelab.net/en/survey/mob/route_survey/9/">http://holet.movelab.net/en/survey/mob/route_survey/10/</a></p>
+</li>
+</ul></p>
+
+
+
+        </div>
+    </div>
+    </body>
+
+    {% block script %}
+        {{ block.super }}
+    {% endblock %}
+
+{% endblock %}
