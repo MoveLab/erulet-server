@@ -76,7 +76,7 @@
 </ul></p>
 
     <h2>User Registration</h2>
-     <p><p>Used in webview accessed from app's menu.</p>
+     <p><p>Used in webview accessed from app's menu.  If the user successfully registers for a new account, the server response includes a <code>div</code> element with <code>id=credentials</code>, containing a JSON string as its inner html. The JSON string has keys for <code>username</code> and <code>token</code>, which should be saved by the device and used for subsequent REST requests.</p></p>
 <p><strong>Usage</strong></p>
 <pre><code>http://holet.movelab.net/&lt;language code&gt;/register/mob/</code></pre>
 <p><strong>Parameters</strong></p>
@@ -91,7 +91,7 @@
 </ul></p>
 
     <h2>User Login</h2>
-     <p><p>Used in webview accessed from app's menu.</p>
+     <p><p>Used in webview accessed from app's menu. If the user successfully logs in to an existing account, the server response includes a <code>div</code> element with <code>id=credentials</code>, containing a JSON string as its inner html. The JSON string has keys for <code>username</code> and <code>token</code>, which should be saved by the device and used for subsequent REST requests.</p>
 <p><strong>Usage</strong></p>
 <pre><code>http://holet.movelab.net/&lt;language code&gt;/login/mob/</code></pre>
 <p><strong>Parameters</strong></p>
