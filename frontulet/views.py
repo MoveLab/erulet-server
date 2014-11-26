@@ -1104,7 +1104,7 @@ def show_survey(request, mob, survey_name, route_id=None):
 
     else:
         initial = []
-        for question in this_scheme.questions.all():
+        for question in this_scheme.questions.all().order_by('id'):
             initial.append({'question': question})
         formset = survey_formset(queryset=SurveyResponse.objects.none(), initial=initial)
         args['formset'] = formset
