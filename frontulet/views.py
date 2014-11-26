@@ -602,7 +602,7 @@ def set_up_reference(reference):
             this_extension = name_split[-1]
             if this_extension == 'html':
                 lang_code = name_split[0].split('-')[-1][:2]
-                if lang_code not in ['to'] + map(lambda x: x[0].upper(), settings.LANGUAGES) + map(lambda x: x[0].lower(), settings.LANGUAGES):
+                if lang_code not in ['to', 'TO'] + map(lambda x: x[0].upper(), settings.LANGUAGES) + map(lambda x: x[0].lower(), settings.LANGUAGES):
                     reference.delete()
                     return _('At least one HTML file in your ZIP archive was missing a supported language code. Please make sure each HTML has a file name that ends in either -oc.html, -es,html, -ca.html, -fr.html, -en.html, or -to.html.')
                 else:
