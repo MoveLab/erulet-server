@@ -94,6 +94,11 @@
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
                                     <li><a href={% url 'show_before_leaving' %}>{% trans "Before Leaving" %}</a></li>
+                        {% if request.user.is_authenticated %}
+                        {% for group in request.user.groups.all %}
+                        {% if group.name == 'scientists' %}
+                                    <li><a href={% url "show_general_references" %}>{% trans "General Reference" %}</a></li>
+                                    {% endif %}{% endfor %}{% endif %}
                                     <li><a href={% url "show_manual" %}>{% trans "App Manual" %}</a></li>
                                 </ul>
                             </li>
