@@ -1064,7 +1064,7 @@ def edit_general_reference(request, reference_id):
                     return render(request, 'frontulet/upload_error.html', args)
         else:
             args['form'] = ReferenceForm(instance=this_reference)
-        return render(request, 'frontulet/edit_reference.html', args)
+        return render(request, 'frontulet/edit_general_reference.html', args)
     else:
         return render(request, 'registration/no_permission_must_login.html')
 
