@@ -5,6 +5,7 @@
 {% block head_additions %}
     <!-- Custom styles for this template -->
     <link rel="stylesheet" href={% static "frontulet/carousel.css" %}>
+
 {% endblock %}
 
 {% block page_id %}landing_page{% endblock %}
@@ -204,8 +205,6 @@
 
         <hr class="featurette-divider">
 
-        <hr class="featurette-divider">
-
         <div class="row featurette">
             <div class="col-md-5">
                 <img class="featurette-image img-responsive" style="border:solid" alt="Generic placeholder image"
@@ -287,14 +286,16 @@
 
             <p>{% trans "Holet is built from free and open source code. Check out our <a href='api'>API</a> or fork us on <a href='http://github.com/MoveLab'>Github</a>!" %}</p>
 
-            <p>{% trans "Content by" %} <a href="http://www.ceab.csic.es/web/?p=1636">Lluís Camarero</a> &middot; {% trans "Website and server backend by" %} <a href="http://johnrbpalmer.com">John R.B. Palmer</a> &middot; {% trans "Android app by" %} <a href="http://www.creaf.cat/en/personal/agust%C3%AD-escobar-r%C3%BAbies">Agustí Escobar Rúbies</a> &middot; {% trans "Mobile HTML5 app by" %} <a href="http://wuyingren.github.io/">Jordi López</a></p>
+            <p>{% trans "Content by" %} <a href="http://www.loopweb.org/joomlaloop/index.php/homepage/people/103-luis-camarero">Lluís Camarero</a> &middot; {% trans "Website and server backend by" %} <a href="http://johnrbpalmer.com">John R.B. Palmer</a> &middot; {% trans "Android app by" %} <a href="http://www.creaf.cat/en/personal/agust%C3%AD-escobar-r%C3%BAbies">Agustí Escobar Rúbies</a> &middot; {% trans "Mobile HTML5 app by" %} <a href="http://wuyingren.github.io/">Jordi López</a></p>
 
             <p>&copy; 2014 {% trans "Holet Team and Movement Ecology Lab (CEAB-CSIC & CREAF)" %}</p>
 
-                    <img width=150px src={% static 'frontulet/logos/footer/movelab_small.jpg' %}>
-                    <img width=150px src={% static 'frontulet/logos/footer/ceab-uab-creaf_small.jpg' %}>
+                <a href="http://www.loopweb.org"><img height="50px" class="center" src="{% static "frontulet/logos/logoLOOP.png" %}"></a>
 
-                        <p class="pull-right"><img src={% static 'frontulet/logos/footer/SUDEAU2_small.jpg' %}></p>
+                   <a href="http://movelab.net"><img width=180px src={% static 'frontulet/logos/footer/movelab_small.jpg' %}></a>
+                    <a href="http://www.creaf.cat"><img width=180px src={% static 'frontulet/logos/footer/ceab-uab-creaf_small.jpg' %}></a>
+
+                        <p class="pull-right"><a href="http://www.sudeau.eu/"><img src={% static 'frontulet/logos/footer/SUDEAU2_small.jpg' %}></a></p>
 
             </div>
     </footer>

@@ -64,7 +64,7 @@
         {% if request.user.is_authenticated %}
             <div class="row">
                 <div class="col-md-4">
-                    <a class="btn btn-primary btn-block" href={% url 'show_route_list' 'mine' %}>List My Routes</a>
+                    <a class="btn btn-primary btn-block" href={% url 'show_route_list' 'mine' %}>{% trans "List My Routes" %}</a>
                 </div>
                 <div class="col-md-8">{% trans "View a list of the routes you have created on your own hikes." %}</div>
             </div>

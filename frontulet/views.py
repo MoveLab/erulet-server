@@ -768,6 +768,14 @@ def edit_highlight_reference(request, route_id, reference_id):
         return render(request, 'registration/no_permission_must_login.html')
 
 
+def delete_highlight_media(request, route_id, highlight_id):
+    if request.user.is_authenticated():
+        this_highlight = Highlight.objects.get(pk=highlight_id)
+        if this_highlight.created_by == request.user:
+            this_highlight.media.delete(save=True)
+    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + '#h' + str(highlight_id))
+
+
 def delete_highlight_reference(request, route_id, reference_id):
     this_reference = Reference.objects.get(pk=reference_id)
     this_highlight = this_reference.highlight
