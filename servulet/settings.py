@@ -121,7 +121,7 @@ LANGUAGES = (
     ('oc', _('Aranese')),
     ('es', _('Spanish')),
     ('ca', _('Catalan')),
-    ('fr', _('Frensh')),
+    ('fr', _('French')),
     ('en', _('English')),
 )
 

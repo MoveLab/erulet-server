@@ -12,11 +12,11 @@
                     <div class="navbar-collapse collapse">
 
                         <ul class="nav navbar-nav navbar-right">
-                            <li><p class="navbar-text">{% trans "Already registered?" %}
+                            <li><p class="navbar-text">{% trans "already_registered_q" %}
                                 <a href="{% url "auth_login" %}">Log in</a></p>
                             </li>
-   <li><p class="navbar-text">{% trans "Want to continue using without registering?" %}
-                                <a href="{% url "show_home" %}">{% trans "Return to home page" %}</a></p>
+   <li><p class="navbar-text">{% trans "use_without_registering" %}
+                                <a href="{% url "show_home" %}">{% trans "return_home" %}</a></p>
                             </li>
                         </ul>
                     </div>
@@ -34,7 +34,7 @@
         <!-- Header -->
         <div id="header">
             <div id="branding">
-                <h1 id="site-name">{% trans "Holet Registration" %}</h1>
+                <h1 id="site-name">{% trans "holet_registration" %}</h1>
             </div>
         </div>
         <!-- END Header -->
@@ -48,7 +48,7 @@
                 <form method="post" action=".">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <input type="submit" value="{% trans "Register" %}"/>
+                    <input type="submit" value="{% trans "register" %}"/>
                 </form>
                 <script type="text/javascript">
                     document.getElementById('id_username').focus()
@@ -60,7 +60,6 @@
 
         <div id="footer"></div>
  <div id="content" class="colM">
-    <p>Important: This site is under construction and is not yet operating with a secure connection. Please DO NOT register with a password that you use for any other site because data potentially could be stolen on transmission. (We will have the secure version up and running very soon.)</p>
 </div>
     </div>
     <!-- END Container -->

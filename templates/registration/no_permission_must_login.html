@@ -12,7 +12,7 @@
                     <div class="navbar-collapse collapse">
 
                         <ul class="nav navbar-nav navbar-right">
-   <li><p class="navbar-text"><a href="{% url "show_home" %}">{% trans "Return to home page" %}</a></p>
+   <li><p class="navbar-text"><a href="{% url "show_home" %}">{% trans "return_home" %}</a></p>
                             </li>
                         </ul>
                     </div>
@@ -30,17 +30,17 @@
         <!-- Header -->
         <div id="header">
             <div id="branding">
-                <h1 id="site-name">{% trans "Holet Permission Denied" %}</h1>
+                <h1 id="site-name">{% trans "holet_permission_denied" %}</h1>
             </div>
         </div>
         <!-- END Header -->
         <!-- Content -->
         <div id="content" class="colM">
             <div id="content-main">
-             {% trans "You need to log in in order to make or edit routes." %}
+             {% trans "login_to_edit_routes" %}
             </div>
             <br class="clear"/>
-   <a class="btn btn-default btn-sm" href={% url 'auth_login' %}>Log In</a> <a class="btn btn-default btn-sm" href={% url 'auth_register' %}>{% trans "Register" %}</a>
+   <a class="btn btn-default btn-sm" href={% url 'auth_login' %}>Log In</a> <a class="btn btn-default btn-sm" href={% url 'auth_register' %}>{% trans "register" %}</a>
 
         </div>
         <!-- END Content -->

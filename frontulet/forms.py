@@ -89,10 +89,10 @@ class ReferenceForm(forms.ModelForm):
             if content_type in allowed_content_types:
                 pass
             else:
-                raise forms.ValidationError(_('Filetype not supported.'))
+                raise forms.ValidationError(_('filetype_not_supported'))
             return uploaded_file
         else:
-            raise forms.ValidationError(_('No file selected.'))
+            raise forms.ValidationError(_('no_file_selected'))
 
 
 class RouteForm(forms.ModelForm):
@@ -109,10 +109,10 @@ class RouteForm(forms.ModelForm):
         allowed_content_types = ['text/xml', 'application/octet-stream']
         if content_type in allowed_content_types:
             if uploaded_file._size > 2621440:
-                raise forms.ValidationError(_('Please keep filesize under 2.5 MB. Current filesize %s') % (filesizeformat(uploaded_file._size)))
+                raise forms.ValidationError(_('keep_filesize_under') % (filesizeformat(uploaded_file._size)))
 
         else:
-            raise forms.ValidationError(_('Filetype not supported.'))
+            raise forms.ValidationError(_('filetype_not_supported'))
 
         return uploaded_file
 
@@ -138,10 +138,10 @@ class OfficialRouteForm(forms.ModelForm):
         allowed_content_types = ['text/xml', 'application/octet-stream']
         if content_type in allowed_content_types:
             if uploaded_file._size > 2621440:
-                raise forms.ValidationError(_('Please keep filesize under 2.5 MB. Current filesize %s') % (filesizeformat(uploaded_file._size)))
+                raise forms.ValidationError(_('keep_filesize_under') % (filesizeformat(uploaded_file._size)))
 
         else:
-            raise forms.ValidationError(_('Filetype not supported.'))
+            raise forms.ValidationError(_('filetype_not_supported'))
 
         return uploaded_file
 
@@ -155,12 +155,12 @@ class EditOfficialRouteForm(forms.ModelForm):
 
 class RegistrationForm(forms.ModelForm):
     error_messages = {
-        'duplicate_username': _("A user with that username already exists."),
-        'password_mismatch': _("The two password fields didn't match."),
+        'duplicate_username': _("username_already_exists"),
+        'password_mismatch': _("passwords_no_match"),
     }
-    username = forms.RegexField(label=_("Username"), max_length=30, regex=r'^[\w.@+-]+$', error_messages={'invalid': _("This value may contain only letters, numbers and @/./+/-/_ characters.")})
-    password1 = forms.CharField(label=_("Choose Password"), widget=forms.PasswordInput)
-    password2 = forms.CharField(label=_("Confirm Password"), widget=forms.PasswordInput)
+    username = forms.RegexField(label=_("username"), max_length=30, regex=r'^[\w.@+-]+$', error_messages={'invalid': _("value_only_letters_numbers_")})
+    password1 = forms.CharField(label=_("choose_password"), widget=forms.PasswordInput)
+    password2 = forms.CharField(label=_("confirm_password"), widget=forms.PasswordInput)
     class Meta:
         model = User
         fields = ("username",)

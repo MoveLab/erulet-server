@@ -32,7 +32,7 @@
             div.style.textAlign = 'center';
             div.style.backgroundColor = '#F6D10A';
             div.setAttribute('id', 'cookie-law');
-            div.innerHTML = "{% trans 'Our website uses cookies. By continuing we assume your permission to deploy cookies. For more information on our site policies, please see our' %} <a href='{% url 'show_privacy_policy' %}'' rel='nofollow' title='{% trans 'Privacy Policy' %}'>{% trans 'privacy policy' %}</a>.&nbsp;&nbsp;<a class='close-cookie-banner' href='javascript:void(0);' onclick='removeMe();'><span style='cursor: pointer;'>X</span></a>";
+            div.innerHTML = "{% trans 'cookies_a' %} <a href='{% url 'show_privacy_policy' %}'' rel='nofollow' title='{% trans 'cookies_b' %}'>{% trans 'cookies_c' %}</a>.&nbsp;&nbsp;<a class='close-cookie-banner' href='javascript:void(0);' onclick='removeMe();'><span style='cursor: pointer;'>X</span></a>";
             // Be advised the Close Banner 'X' link requires jQuery
 
             // bodytag.appendChild(div); // Adds the Cookie Law Banner just before the closing </body> tag
@@ -136,7 +136,7 @@
                 {% endfor %}
                 {% for highlight in route.highlights %}
 
-                        var popup_text = '<p><strong>{{ highlight.route_name }}: {{ highlight.name }}</strong></p><p>{{ highlight.long_text }}</p><a href="{% url "show_route_detail" highlight.route_id %}#h{{ highlight.highlight_id }}">{% trans "View Details" %}</a>';
+                        var popup_text = '<p><strong>{{ highlight.route_name }}: {{ highlight.name }}</strong></p><p>{{ highlight.long_text }}</p><a href="{% url "show_route_detail" highlight.route_id %}#h{{ highlight.highlight_id }}">{% trans "view_details" %}</a>';
 
                             {% if highlight.type == 1 %}
 
@@ -153,7 +153,7 @@
                         {% endfor %}
 
 
-                route_popup_text = "<p><strong>{{ route.name}}</strong></p><p>{{ route.description }}</p><a href='{% url 'show_route_detail' route.route_id %}'>{% trans 'View Details' %}</a>"
+                route_popup_text = "<p><strong>{{ route.name}}</strong></p><p>{{ route.description }}</p><a href='{% url 'show_route_detail' route.route_id %}'>{% trans 'view_details' %}</a>"
 
                 L.polyline(these_latlngs, {weight: 5, opacity: 1, color: 'black'}).addTo(map);
                 L.polyline(these_latlngs, {weight: 2, opacity: 1, color: colors[color_counter % colors.length]}).bindPopup(route_popup_text).addTo(map);

@@ -37,10 +37,13 @@
 
         <div class="page-header">
 
-    <h1 class="center">{{ title }}</h1>
-    <img height="100px" class="center" src="{% static "frontulet/icons/ic_erulet_new.png" %}">
+    <h1 class="center" style="font-size: 48px;font-weight: 700;">{{ title }}</h1>
+    <img height="144px" class="center" src="{% static "frontulet/icons/ic_erulet_new.png" %}">
 
 </div>
+
+    <h5 class="center">{% trans "Eth Holet (pronunciació: er-ulet) és un personatge de la mitologia aranesa. És un follet que viu amagat als boscos, i representa l'esperit de la Natura. Aquesta aplicació permet a Eth Holet introduir-se en el vostre dispositiu, i guiar-vos al llarg de diversos itineraris en espais naturals en els que l'aigua és protagonista." %}</h5>
+
 
             <div class="row featurette">
 
@@ -50,27 +53,27 @@
 
     <h2 class="center">{{ line1|safe }}</h2>
 
-    <img height="70px" class="center" src="{% static "frontulet/logos/SUDEAU2blue.jpg" %}">
+    <a href="http://www.sudeau.eu/"><img height="70px" class="center" src="{% static "frontulet/logos/SUDEAU2blue.jpg" %}"></a>
 
     <h3 class="center">{{ line2|safe }}</h3>
 
-    <img height="70px" class="center" src="{% static "frontulet/logos/logoLOOP.png" %}">
+    <a href="http://www.loopweb.org"><img height="70px" class="center" src="{% static "frontulet/logos/logoLOOP.png" %}"></a>
 
     <h3 class="center" style="color:grey;">{{ line3|safe }}</h3>
 
-    <img height="70px" class="center" src="{% static "frontulet/logos/ceab-uab-creaf.jpg" %}">
+    <a href="http://www.creaf.cat"><img height="70px" class="center" src="{% static "frontulet/logos/ceab-uab-creaf.jpg" %}"></a>
 
     <h3 class="center">{{ line4|safe }}</h3>
 
-    <img height="70px" class="center" src="{% static "frontulet/logos/movelab.jpg" %}">
+    <a href="http://www.movelab.net/"><img height="70px" class="center" src="{% static "frontulet/logos/movelab.jpg" %}"></a>
 
     <h3 class="center">{{ line5|safe }}</h3>
 
-    <img height="70px" class="center" src="{% static "frontulet/logos/ajuntament.jpg" %}">
+    <a href="http://www.vielha-mijaran.org/"><img height="70px" class="center" src="{% static "frontulet/logos/ajuntament.jpg" %}"></a>
 
     <h3 class="center">{{ line6|safe }}</h3>
 
-    <img height="70px" class="center" src="{% static "frontulet/logos/sudeu.jpg" %}">
+    <a href="http://www.interreg-sudoe.eu/"><img height="130px" class="center" src="{% static "frontulet/logos/sudeu.jpg" %}"></a>
 
     <h3 class="center">{{ line7|safe }}</h3>
 
@@ -80,11 +83,11 @@
 
         <br><br>
 
-            <h4>{% trans "Holet is built from free and open source code. Check out our <a href='../api/'>API</a> or fork us on <a href='http://github.com/MoveLab'>Github</a>!" %}</h4>
+            <h4>{% trans "built_from_foss" %}</h4>
 <br>
-            <h5>{% trans "Content by" %} <a href="http://www.ceab.csic.es/web/?p=1636">Lluís Camarero</a> &middot; {% trans "Website and server backend by" %} <a href="http://johnrbpalmer.com">John R.B. Palmer</a> &middot; {% trans "Android app by" %} <a href="http://www.creaf.cat/en/personal/agust%C3%AD-escobar-r%C3%BAbies">Agustí Escobar Rúbies</a> &middot; {% trans "Mobile HTML5 app by" %} <a href="http://wuyingren.github.io/">Jordi López</a></h5>
+            <h5>{% trans "content_by" %} <a href="http://www.ceab.csic.es/web/?p=1636">Lluís Camarero</a> &middot; {% trans "website_and_server_by" %} <a href="http://johnrbpalmer.com">John R.B. Palmer</a> &middot; {% trans "android_by" %} <a href="http://www.creaf.cat/en/personal/agust%C3%AD-escobar-r%C3%BAbies">Agustí Escobar Rúbies</a> and <a href="http://johnrbpalmer.com">John R.B. Palmer</a> &middot; {% trans "html5_by" %} <a href="http://wuyingren.github.io/">Jordi López</a> &middot; {% trans "ios_by" %} <a href="http://www.omatech.com/">Omatech</a></h5>
 
-            <h5>&copy; 2014 {% trans "by the Holet Team at the Movement Ecology Lab (CEAB-CSIC) and CREAF" %}</h5>
+            <h5>&copy; 2014 {% trans "holet_team" %}</h5>
 
 
 

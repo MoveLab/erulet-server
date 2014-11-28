@@ -37,7 +37,7 @@
 
     <input id="scroll_position" type="text" name="scroll_position" style="display: none;" value="0">
 
-          <input id="submit_button" type="submit" class="btn btn-success btn-lg" value="{% trans "Save All" %}" style="position:fixed;top:50px; margin: 0 auto"/>
+          <input id="submit_button" type="submit" class="btn btn-success btn-lg" value="{% trans "save_all" %}" style="position:fixed;top:50px; margin: 0 auto"/>
 </form>
 
         </div>
@@ -57,7 +57,7 @@
     $("form").addClass("form-horizontal").attr("role", "form");
 
     $("#submit_button").click(function() {
-    $("#page_title").html('<h1>{% trans "Saving, please wait." %} <i class="fa fa-refresh fa-spin"></i></h1>');
+    $("#page_title").html('<h1>{% trans "saving_please_wait" %} <i class="fa fa-refresh fa-spin"></i></h1>');
 
     })
 

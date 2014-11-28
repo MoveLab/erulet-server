@@ -85,6 +85,11 @@ body {
 /* Featurettes
 ------------------------- */
 
+.featurette-top-divider {
+  margin: 20px 0; /* Space out the Bootstrap <hr> more */
+}
+
+
 .featurette-divider {
   margin: 40px 0; /* Space out the Bootstrap <hr> more */
 }

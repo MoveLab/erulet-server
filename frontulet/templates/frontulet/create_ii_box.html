@@ -17,15 +17,15 @@
         <div id="page_title" class="page-header">
             {% block title %}
                 {% if editing %}
-                <h1>{% trans "Edit interaction box" %}
-            <small>{% trans "Edit message or drag mouse to change box dimensions and location on the image." %}</small>
+                <h1>{% trans "edit_ii_box" %}
+            <small>{% trans "edit_ii_box_text" %}</small>
                 </h1>
                 {% else %}
-                <h1>{% trans "Add interaction box" %}
-            <small>{% trans "Drag mouse over photo to set coordinates, then add a message in at least one language." %}</small>
+                <h1>{% trans "add_ii_box" %}
+            <small>{% trans "add_ii_box_text" %}</small>
                 </h1>{% endif %}{% endblock %}
             <button id="lang_button" type="button" class="btn btn-primary"><span
-                    class="glyphicon glyphicon-chevron-down"></span> {% trans "Show all languages" %}
+                    class="glyphicon glyphicon-chevron-down"></span> {% trans "show_all_languages" %}
             </button>
 
 
@@ -41,8 +41,8 @@
                     {{ form.as_p }}
 
 
-                    <input id="submit_button" type="submit" value="{% trans "Save and add more" %}"/>
-                    <input id="cancel_button" type="button" value="{% trans "Done" %}"/>
+                    <input id="submit_button" type="submit" value="{% trans "save_and_add_more" %}"/>
+                    <input id="cancel_button" type="button" value="{% trans "done" %}"/>
 
                 </form>
 

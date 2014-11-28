@@ -11,10 +11,10 @@
                     <div class="navbar-collapse collapse">
                         <ul class="nav navbar-nav navbar-right">
 
-                            <li><p class="navbar-text">{% trans "Don't have an account?" %}
-                                <a href="{% url "auth_register" %}">{% trans "Register" %}</a></p>
+                            <li><p class="navbar-text">{% trans "dont_have_an_account" %}
+                                <a href="{% url "auth_register" %}">{% trans "register" %}</a></p>
                             </li>
-                               <li><p class="navbar-text">{% trans "Want to continue using without registering?" %} <a href="{% url "show_home" %}">{% trans "Return to home page" %}</a></p>
+                               <li><p class="navbar-text">{% trans "use_without_registering" %} <a href="{% url "show_home" %}">{% trans "return_home" %}</a></p>
                             </li>
                         </ul>
                     </div>
@@ -33,7 +33,7 @@
         <div id="header">
             <div id="branding">
 
-                <h1 id="site-name">{% trans "Holet Login" %}</h1>
+                <h1 id="site-name">{% trans "holet_login" %}</h1>
 
             </div>
 
@@ -48,7 +48,7 @@
 
 
                 {% if form.errors %}
-                    <p>{% trans "Your username and password didn't match. Please try again." %}</p>
+                    <p>{% trans "error_username_password_no_match" %}</p>
                 {% endif %}
 
                 <form method="post" action="{% url 'django.contrib.auth.views.login' %}">
