@@ -80,8 +80,8 @@ def show_manual(request, mob=''):
     context['main_page_text'] = _(u"manual_main_screen_text")
     context['select_itineraries_title'] = _(u"manual_itinerary_selection")
     context['select_itineraries_text'] = _(u"manual_itinerary_selection_text")
-    context['my_itineraries_title'] = _(u"ELS MEUS ITINERARIES")
-    context['my_itineraries_text'] = _(u"<ul class='no_bullet'><li class='image_bullet edit'>Obre la pantalla d'edició de l'itinerari.</li><li class='image_bullet upload'>Envia el nostre itinerari al núvol.</li><li class='image_bullet delete'>Esborra l'itinerari</li></ul>")
+    context['my_itineraries_title'] = _(u"manual_my_routes")
+    context['my_itineraries_text'] = _(u"my_itineraries_text")
     context['itineraries_title'] = _(u"manual_itineraries")
     context['itineraries_text'] = _(u"manual_itineraries_text")
     context['buttons_title'] = _(u"manual_buttons")
@@ -1122,9 +1122,9 @@ def show_survey(request, mob, survey_name, route_id=None):
 
 def show_survey_submitted(request, response_code, mob):
     if response_code == 'ok':
-        message = _('Thank you!') + '<div id="survey_response" style="display:none;">ok</div>'
+        message = _('thank_you') + '<div id="survey_response" style="display:none;">ok</div>'
     else:
-        message = _('Error')
+        message = _('survey_error')
     return render(request, 'frontulet/simple_message' + mob + '.html', {'message': message, 'response_code': response_code})
 
 

@@ -142,7 +142,7 @@
                     <span class="glyphicon glyphicon-edit"></span> </a> <button class="btn btn-default" onclick="confirm_delete_route()"> <span class="glyphicon glyphicon-remove-circle"></span> </button> <a class="btn btn-default" href={% url 'make_new_route_reference' id %}> <span class="glyphicon glyphicon-upload"></span>  <span class="glyphicon glyphicon-book"></span> </a>{% endif %}</h1>
 
         {% if average_rating >= 0 and total_ratings > 0 %}
-            <p><strong>{% trans "Average Rating:" %} {{ average_rating|floatformat }}</strong> ({{ total_ratings }} {% if total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %})</p>
+            <p><strong>{% trans "average_rating:" %} {{ average_rating|floatformat }}</strong> ({{ total_ratings }} {% if total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %})</p>
         {% endif %}
 
         {% if request.user.is_authenticated %}
@@ -200,7 +200,7 @@
             <div class="col-md-12">
                 <h3>{{ highlight.name }}</h3>
                     {% if highlight.average_rating >= 0 and highlight.total_ratings > 0 %}
-            <p><strong>{% trans "Average Rating:" %} {{ highlight.average_rating|floatformat }}</strong> ({{ highlight.total_ratings }} {% if highlight.total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %})</p>
+            <p><strong>{% trans "average_rating:" %} {{ highlight.average_rating|floatformat }}</strong> ({{ highlight.total_ratings }} {% if highlight.total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %})</p>
         {% endif %}
 
                     {% if request.user.is_authenticated %}
@@ -245,7 +245,7 @@
                 {% if highlight.media %}
                                         <div class="highlight-media-container">
 
-<div id='confirm_delete_highlight_alert{{ highlight.id }}' class='alert alert-warning' role='alert'><p><strong>{% trans "warning" %}</strong>{% trans "Are you sure you want to delete this highlight's media file (the image or video below)?" %}</p><br><button onclick="hide_highlight_alert_by_id({{ highlight.id }})" role="button" class='btn btn-success'>{% trans "no_go_back" %}</button> <a class='btn btn-warning' href={% url 'delete_highlight_media' id highlight.id %}>{% trans "yes_delete_it" %}</a></div>
+<div id='confirm_delete_highlight_alert{{ highlight.id }}' class='alert alert-warning' role='alert'><p><strong>{% trans "warning" %}</strong>{% trans "sure_delete_highlight_media_q" %}</p><br><button onclick="hide_highlight_alert_by_id({{ highlight.id }})" role="button" class='btn btn-success'>{% trans "no_go_back" %}</button> <a class='btn btn-warning' href={% url 'delete_highlight_media' id highlight.id %}>{% trans "yes_delete_it" %}</a></div>
 
     {% if owner %}<button class="btn btn-default" onclick="confirm_delete_highlight({{ highlight.id }})"> <span class="glyphicon glyphicon-remove-circle"></span> </button>{% endif %}
 
@@ -256,7 +256,7 @@
                     {% elif highlight.video %}
                         <video height="100%" width="100%" controls>
                             <source type="video/{{ highlight.media_ext }}" src={{ highlight.media.url }}>
-                            {%  trans "Your browser does not support the video tag." %}
+                            {%  trans "no_video_browser" %}
                         </video>
                     {% endif %}
                     </div>

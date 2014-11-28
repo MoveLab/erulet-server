@@ -26,7 +26,7 @@
 
 
         <div class="page-header">
-            <h1>{% trans "Survey Results" %}
+            <h1>{% trans "survey_results" %}
             </h1>
         </div>
 
@@ -34,11 +34,11 @@
         {% for question in questions %}
 
             <h3>{{ question.question }}</h3>
-            <p>{% trans "Average Response:" %} {{ question.average_response |floatformat }}</p>
-            <p>{% trans "Minimum Response:" %} {{ question.min_response }}</p>
-            <p>{% trans "Maximum Response:" %} {{ question.max_response }}</p>
-            <p>{% trans "Response Standard Deviation:" %} {{ question.sd_responses|floatformat }}</p>
-            <p>{% trans "Number of Responses:" %} {{ question.total_responses }}</p>
+            <p>{% trans "average_response:" %} {{ question.average_response |floatformat }}</p>
+            <p>{% trans "minimum_response:" %} {{ question.min_response }}</p>
+            <p>{% trans "maximum_response:" %} {{ question.max_response }}</p>
+            <p>{% trans "response_standard_deviation:" %} {{ question.sd_responses|floatformat }}</p>
+            <p>{% trans "number_of_responses:" %} {{ question.total_responses }}</p>
 
         {% endfor %}
 

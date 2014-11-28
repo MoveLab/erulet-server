@@ -72,18 +72,18 @@
                                 <a href="#" class="frontulet_toggle_routes dropdown-toggle" data-toggle="dropdown">{% trans "navbar_routes" %}
                                     <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href={% url 'show_route_list_all' %}>{% trans "All Routes" %}</a></li>
+                                    <li><a href={% url 'show_route_list_all' %}>{% trans "all_routes" %}</a></li>
                                     {% if request.user.is_authenticated %}
-                                        <li><a href={% url 'show_route_list' 'mine' %}>{% trans "My Routes" %}</a></li>
-                                        <li><a href={% url 'show_route_list' 'others' %}>{% trans "Other Hikers' Routes" %}</a></li>
+                                        <li><a href={% url 'show_route_list' 'mine' %}>{% trans "my_routes" %}</a></li>
+                                        <li><a href={% url 'show_route_list' 'others' %}>{% trans "other_hikers_routes" %}</a></li>
                                     {% endif %}
-                                    <li><a href={% url 'show_route_list' 'official' %}>{% trans "Holet's Routes" %}</a></li>
+                                    <li><a href={% url 'show_route_list' 'official' %}>{% trans "holets_routes" %}</a></li>
                                     {% if request.user.is_authenticated %}
                                     <li class="divider"></li>
                                     <li><a href={% url "make_new_route" %}>{% trans "navbar_routes_add_new" %}</a></li>
                                     {% endif %}
                                     <li class="divider"></li>
-                                    <li><a href={% url "show_survey_results" %}>{% trans "Survey results" %}</a></li>
+                                    <li><a href={% url "show_survey_results" %}>{% trans "survey_results" %}</a></li>
 
 
                                 </ul>

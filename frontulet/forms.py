@@ -22,10 +22,10 @@ class InteractiveImageForm(forms.ModelForm):
                 pass
 
             else:
-                raise forms.ValidationError(_('Filetype not supported.'))
+                raise forms.ValidationError(_('filetype_not_supported'))
             return uploaded_file
         else:
-            raise forms.ValidationError(_('No file selected.'))
+            raise forms.ValidationError(_('error_no_file_selected'))
 
 
 class BoxForm(forms.ModelForm):
@@ -70,7 +70,7 @@ class HighlightForm(forms.ModelForm):
                 pass
 
             else:
-                raise forms.ValidationError(_('Filetype not supported.'))
+                raise forms.ValidationError(_('filetype_not_supported'))
             return uploaded_file
 
 

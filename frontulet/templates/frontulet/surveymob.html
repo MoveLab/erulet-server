@@ -16,13 +16,13 @@
 
 <div data-role="page">
 
-	<div data-role="header"><h1>{% trans 'Eth Holet Survey' %}</h1>
+	<div data-role="header"><h1>{% trans 'eth_holet_survey' %}</h1>
 </div>
 
 
 <div role="main" class="ui-content">
 
-<h4>{% trans "A Eth Holet li agradaria conèixer la teva opinió sobre l’aigua i el medi ambient, i sobre la participació de la ciutadania en la seva gestió. Si us plau, respon en una escala de 0 a 100 les preguntes següents:" %}</h4>
+<h4>{% trans "survey_intro" %}</h4>
 
 <br><div class="border-row"></div><div class="border-row"></div><div class="border-row"></div><br>
 
@@ -33,7 +33,7 @@
         {{ form.as_p }}
           <br><div class="border-row"></div><div class="border-row"></div><div class="border-row"></div><br>
     {% endfor %}
-          <input type="submit" value="{% trans "Submit" %}"/>
+          <input type="submit" value="{% trans "submit" %}"/>
 </form>
 
 </div>

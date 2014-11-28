@@ -21,9 +21,9 @@
 
         <div class="starter-template" style="position:relative">
 
-        <div id="page_title" class="page-header"><h1>{% trans 'Eth Holet Survey' %}</h1></div>
+        <div id="page_title" class="page-header"><h1>{% trans 'eth_holet_survey' %}</h1></div>
 
-<h4>{% trans  "A Eth Holet li agradaria conèixer la teva opinió sobre l’aigua i el medi ambient, i sobre la participació de la ciutadania en la seva gestió. Si us plau, respon en una escala de 0 a 100 les preguntes següents:" %}</h4>
+<h4>{% trans  "survey_intro" %}</h4>
 
 <br><div class="border-row"></div><div class="border-row"></div><div class="border-row"></div><br>
 
@@ -57,7 +57,7 @@
 
 
         $("#new_route_form").hide();
-        $("#page_title").html('<h1>{% trans "Processing" %}</h1>');
+        $("#page_title").html('<h1>{% trans "processing" %}</h1>');
         $("#progress_spinner").show();
 
     })

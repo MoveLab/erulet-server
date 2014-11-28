@@ -64,7 +64,7 @@
         {% if request.user.is_authenticated %}
             <div class="row">
                 <div class="col-md-4">
-                    <a class="btn btn-primary btn-block" href={% url 'show_route_list' 'mine' %}>{% trans "List My Routes" %}</a>
+                    <a class="btn btn-primary btn-block" href={% url 'show_route_list' 'mine' %}>{% trans "list_my_routes" %}</a>
                 </div>
                 <div class="col-md-8">{% trans "home_list_my_routes_text" %}</div>
             </div>
@@ -111,9 +111,9 @@
             <div class="row">
                 <div class="col-md-4">
 
-                    <a class="btn btn-primary btn-block" href={% url 'auth_register' %}>{% trans "Register" %}</a>
+                    <a class="btn btn-primary btn-block" href={% url 'auth_register' %}>{% trans "home_register" %}</a>
                 </div>
-                <div class="col-md-8">{% trans "Register your account. This will let you track your hikes and create your own routes." %}</div>
+                <div class="col-md-8">{% trans "home_register_text" %}</div>
             </div>
 
             <br>
