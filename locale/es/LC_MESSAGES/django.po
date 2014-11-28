@@ -1,0 +1,1598 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Eth Holet\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2014-11-28 11:26+0100\n"
+"PO-Revision-Date: Fri, 28 Nov 2014 10:21:30 +0000\n"
+"Last-Translator: John Palmer\n"
+"Language-Team: John Palmer\n"
+"Language: Spanish\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Loco https://localise.biz\n"
+"X-Loco-Source-Locale: ca_ES\n"
+"X-Loco-Target-Locale: es_ES\n"
+"X-Loco-Project-Id: 3758\n"
+"X-Loco-Tagged: server po-file strings\n"
+"X-Loco-Lookup: id\n"
+"X-Loco-Api-Version: 1.0.8\n"
+
+#: appulet/models.py:83 appulet/models.py:177 appulet/models.py:257
+#: appulet/models.py:294
+#, fuzzy
+msgid "Name - Aranese"
+msgstr "Aranés"
+
+#: appulet/models.py:84 appulet/models.py:178 appulet/models.py:258
+#: appulet/models.py:295
+#, fuzzy
+msgid "Name - Spanish"
+msgstr "Español"
+
+#: appulet/models.py:85 appulet/models.py:179 appulet/models.py:259
+#: appulet/models.py:296
+#, fuzzy
+msgid "Name - Catalan"
+msgstr "Català"
+
+#: appulet/models.py:86
+#, fuzzy
+msgid "Name - French"
+msgstr "Français"
+
+#: appulet/models.py:87 appulet/models.py:181 appulet/models.py:261
+#: appulet/models.py:298
+#, fuzzy
+msgid "Name - English"
+msgstr "English"
+
+#: appulet/models.py:88
+msgid "ZIP file"
+msgstr ""
+
+#: appulet/models.py:89
+#, fuzzy
+msgid "Highlight"
+msgstr "Editar una reseña"
+
+#: appulet/models.py:167 appulet/models.py:247 appulet/models.py:299
+msgid "Description - Aranese"
+msgstr ""
+
+#: appulet/models.py:168 appulet/models.py:248 appulet/models.py:300
+msgid "Description - Spanish"
+msgstr ""
+
+#: appulet/models.py:169 appulet/models.py:249 appulet/models.py:301
+msgid "Description - Catalan"
+msgstr ""
+
+#: appulet/models.py:170 appulet/models.py:250
+msgid "Description - French"
+msgstr ""
+
+#: appulet/models.py:171 appulet/models.py:251 appulet/models.py:303
+msgid "Description - English"
+msgstr ""
+
+#: appulet/models.py:172 appulet/models.py:252
+msgid "Short Description - Aranese"
+msgstr ""
+
+#: appulet/models.py:173 appulet/models.py:253
+msgid "Short Description - Spanish"
+msgstr ""
+
+#: appulet/models.py:174 appulet/models.py:254
+msgid "Short Description - Catalan"
+msgstr ""
+
+#: appulet/models.py:175
+msgid "Short Description - Frensh"
+msgstr ""
+
+#: appulet/models.py:176 appulet/models.py:256
+msgid "Short Description - English"
+msgstr ""
+
+#: appulet/models.py:180 appulet/models.py:260 appulet/models.py:297
+msgid "Name - Frensh"
+msgstr ""
+
+#: appulet/models.py:182
+#, fuzzy
+msgid "Reference"
+msgstr "Nuevo artículo"
+
+#: appulet/models.py:183
+msgid "Track"
+msgstr ""
+
+#: appulet/models.py:185
+msgid "GPX Track"
+msgstr ""
+
+#: appulet/models.py:186
+msgid "GPX Waypoints"
+msgstr ""
+
+#: appulet/models.py:187
+msgid "GPX Points-of-interest"
+msgstr ""
+
+#: appulet/models.py:188
+msgid "Official Route"
+msgstr ""
+
+#: appulet/models.py:255
+msgid "Short Description - French"
+msgstr ""
+
+#: appulet/models.py:302
+msgid "Description - Frensh"
+msgstr ""
+
+#: appulet/models.py:304
+msgid "Media"
+msgstr ""
+
+#: appulet/models.py:305
+msgid "Radius"
+msgstr ""
+
+#: appulet/models.py:307
+msgid "Type"
+msgstr ""
+
+#: appulet/models.py:424
+msgid "Message - Aranese"
+msgstr ""
+
+#: appulet/models.py:425
+msgid "Message - Spanish"
+msgstr ""
+
+#: appulet/models.py:426
+msgid "Message - Catalan"
+msgstr ""
+
+#: appulet/models.py:427
+msgid "Message - French"
+msgstr ""
+
+#: appulet/models.py:428
+msgid "Message - English"
+msgstr ""
+
+#: frontulet/forms.py:25 frontulet/forms.py:73
+#, fuzzy
+msgid "Filetype not supported."
+msgstr "Tipo de fichero no compatible."
+
+#: frontulet/forms.py:28
+#, fuzzy
+msgid "No file selected."
+msgstr "No hay ningún fichero seleccionado."
+
+#: frontulet/forms.py:92 frontulet/forms.py:115 frontulet/forms.py:144
+msgid "filetype_not_supported"
+msgstr "Tipo de fichero no compatible."
+
+#: frontulet/forms.py:95
+msgid "no_file_selected"
+msgstr "No hay ningún fichero seleccionado."
+
+#: frontulet/forms.py:112 frontulet/forms.py:141
+msgid "keep_filesize_under"
+msgstr "Por favor, el fichero ha de ser menor de 2.5 MB. tamaño actual %s"
+
+#: frontulet/forms.py:158
+msgid "username_already_exists"
+msgstr "Este nombre de usuario/a ya existe."
+
+#: frontulet/forms.py:159
+msgid "passwords_no_match"
+msgstr "Los dos campos de contraseña no son iguales."
+
+#: frontulet/forms.py:161 frontulet/templates/frontulet/user_profile.html:29
+msgid "username"
+msgstr "Nombre de usuario/a"
+
+#: frontulet/forms.py:161
+msgid "value_only_letters_numbers_"
+msgstr ""
+"Este campo solo puede contener letras, números y los caracteres @/./+/-/_ ."
+
+#: frontulet/forms.py:162
+msgid "choose_password"
+msgstr "Escoge una contraseña"
+
+#: frontulet/forms.py:163
+msgid "confirm_password"
+msgstr "Confirma la contraseña"
+
+#: frontulet/views.py:50
+msgid ""
+"Aquesta aplicació per dispositius mòbils ha estat desenvolupada en el marc "
+"del projecte"
+msgstr ""
+
+#: frontulet/views.py:51
+msgid "Coordinació i disseny de continguts:"
+msgstr ""
+
+#: frontulet/views.py:52
+msgid "LOOP<br>una unitat mixta"
+msgstr ""
+
+#: frontulet/views.py:53
+msgid "Disseny tècnic:"
+msgstr ""
+
+#: frontulet/views.py:54
+#, fuzzy
+msgid "Organitza:"
+msgstr "Organiza:"
+
+#: frontulet/views.py:55
+#, fuzzy
+msgid "Financia:"
+msgstr "Financia:"
+
+#: frontulet/views.py:56
+msgid "Han col·laborat:"
+msgstr ""
+
+#: frontulet/views.py:57
+msgid ""
+"Lluís Camarero, Agustí Escobar, John Palmer, Jordi Catalan, Frederic "
+"Bartumeus, Roser Faure, Enric Ballesteros, Guillermo de Mendoza, Claudio "
+"Aventin - Aran Culturau, Ferran Cardeñes"
+msgstr ""
+
+#: frontulet/views.py:63
+msgid "before_leaving_gps_title"
+msgstr "NAVEGACIÓN CON GPS"
+
+#: frontulet/views.py:64
+msgid "before_leaving_gps_text"
+msgstr ""
+"<p>El sistema de guía por GPS es una ayuda a la navegación. En condiciones "
+"óptimas, nos puede conducir por los itinerarios con mucha precisión. Pero "
+"hay muchos factores (como el relieve del terreno, obstáculos o nubes que "
+"distorsionen la señal del satélite, o la sensibilidad de nuestro propio "
+"dispositivo) que pueden afectar la precisión. Por esto es importante prestar "
+"también atención a las indicaciones escritas en los puntos de ruta y "
+"procurar estimar en todo momento nuestra posición a partir de la "
+"interpretación del mapa, como maneras de confirmar el posicionamento GPS. La "
+"aplicación nos muestra nuestra posición rodeada per un círculo azul que "
+"representa la precisión de la localitzación, que puede ser variable. Hay que "
+"tener en cuenta que nuestra posición real puede estar en cualquier punto "
+"dentro de este círculo.</p><p>Tiene que estar activada en el dispositivo la "
+"opción de localitzación por GPS.</p><p>El consumo de batería por el sistema "
+"GPS es alto, hay que tener la batería cargada al 100% cuando se inicia el "
+"itinerario. Para ahorrar al máximo la batería es recomendable llevar el "
+"dispositiu en modo de espera durante el itinerario, pero en un sitio donde "
+"se pueda oir la señal acústica y la vibración de aviso cuando lleguemos a "
+"algún punto de interés.</p><p>También es recomendable ponerlo en modo "
+"“avión” en zonas sin cobertura para evitar el gasto de buscar señal sin "
+"éxito</p>"
+
+#: frontulet/views.py:65
+msgid "before_leaving_safety_title"
+msgstr "SEGURIDAD"
+
+#: frontulet/views.py:66
+msgid "before_leaving_safety_text"
+msgstr ""
+"<p>En los itinerarios a pie, especialmente aquellos en zona de alta montaña:"
+"</p><ul><li>Antes de escoger un itinerario, valoremos la dificultad y "
+"nuestras capacidades y experiencia.</li><li>Hay que llevar calzado adecuado."
+"</li><li>Aunque al salir el tiempo sea bueno, es recomendable llevar en la "
+"mochila alguna pieza de abrigo y un impermeable en previsión de un cambio de "
+"tiempo repentino o de tener que abrigar a alguien que haya sufrido un "
+"accidente.</li><li>Es preciso beber lo suficiente durante la caminata para "
+"mantener una buena hidratación, y protegernos del sol con sombrero, gafas y "
+"crema protectora.</li><li>En los itinerarios en coche: Alguna de las "
+"personas que no conducen es quien ha de manipular y mirar el dispositivo "
+"móvil, para evitar distracciones de quien conduce.</li></ul><p>En caso de "
+"accidente, hay que seguir el protocolo PAS - Proteger, Avisar, Socorrer</"
+"p><ul><li>PROTEGER a quien ha sufrido el accidente y a nosotros, para evitar "
+"empeorar las consecuencias</li><li>AVISAR a los servicios de socorro: llamar "
+"al 112 (general) o al 973 640 080 (Pompièrs Val dAran). Hay quer tener en "
+"cuenta que en muchas zonas de alta montaña no hay cobertura. Por eso es "
+"conveniente recordar cual es el último lugar donde hemos encontrado.</"
+"li><li>SOCORRER a las personas heridas, en la medida de nuestros "
+"conocimientos de primeros auxilios y si tenemos la seguridad de no agravar "
+"la situación.</li></ul>"
+
+#: frontulet/views.py:67
+msgid "before_leaving_environment_title"
+msgstr "RESPETO POR EL MEDIO"
+
+#: frontulet/views.py:68
+msgid "before_leaving_environment_text"
+msgstr ""
+"<p>El aumento de la frecuentación del medio natural ha hecho que incluso "
+"actividades aparentemente inocuas tengan efectos negativos. Por ello es muy "
+"importante observar un comportamiento respetuoso con el medio y extremar las "
+"precauciones para no alterarlo. La regla general es que no dejemos ningún "
+"rastro de nuestro paso. Los principales impactos que se han detectado y "
+"algunas maneras de evitarlos son:</p><p>Erosión y compactación del terreno "
+"por el pisoteo - Evitemos caminar por fuera de los senderos marcados y tomar "
+"atajos. En los senderos estrechos y en pendiente, como norma de cortesía, "
+"quien baja cede el paso a quien sube.</p><p>Molestias a la fauna, en "
+"especial a las especies protegidas, tanto a los individuos como a su hàbitat "
+"- Evitemos gritar y hacer ruidos excesivos. Cuidemos de que nuestro perro no "
+"persiga ni ataque a la fauna salvaje. Respetemos sus hábitats: por ejemplo, "
+"no movamos rocas o troncos que les puedan servir de refugio, no tiremos "
+"piedras a los rios e ibones, ni pongamos obstáculos al flujo de agua de los "
+"rios. Recordemos que el baño y los deportes acuáticos no están permitidos en "
+"los ibones.</p><p>Recolección de especies botánicas, en especial las "
+"protegidas - Evitemos arrancar flores y plantas. Respetemos las regulaciones "
+"en la recogida de especies comestibles, como las setas y otras. No "
+"recolectemos frutos y bayas con métodos agresivos para las plantas.</"
+"p><p>Generación de residuos - No dejemos ningún tipo de desechos en el "
+"medio, incluyendo los que puedan servir de alimento para la fauna salvaje: "
+"no forman parte de su dieta natural y les hacen cambiar sus hábitos de "
+"alimentación y de comportamiento.</p><p>Incendios forestales - Si tenemos "
+"que hacer fuego, hagámoslo solo en los lugares expresamente acondicionados, "
+"y vigilémoslo. No tiremos colillas de cigarrillo, ni encendidas ni apagadas."
+"</p>"
+
+#: frontulet/views.py:79
+msgid "manual_main_screen"
+msgstr "PANTALLA PRINCIPAL:"
+
+#: frontulet/views.py:80
+msgid "manual_main_screen_text"
+msgstr ""
+"<p>Permite acceder a información general de la app y a la pantalla de "
+"selección de itinerarios.</p><p>El botón de menú secundario permite fijar "
+"las preferencias (el idioma y el intervalo de tiempo entre posicionamientos "
+"GPS consecutivos) y registrarse como usuario/a (opcional).</p>"
+
+#: frontulet/views.py:81
+msgid "manual_itinerary_selection"
+msgstr "SELECCIÓN DE ITINERARIOS"
+
+#: frontulet/views.py:82
+msgid "manual_itinerary_selection_text"
+msgstr ""
+"<p>Despliega el mapa general con todos los itinerarios disponibles.</"
+"p><p>Clicando sobre cada uno de los itinerarios se despliega una descripción "
+"general del itinerario.</p><p>Haciendo clic sobre la descripción entramos "
+"dentro del itinerario, con dos opciones:</p><ul><li>VISUALIZAR la ruta (nos "
+"permite hacer un recorrido virtual de la ruta)</li><li>RECORRER la ruta "
+"(activa el sistema de guía de la ruta, graba el recorrido y nos permite "
+"añadir información propia al itinerario).</li></ul><p>El botón de menú "
+"secundario permite editar nuestros itinerarios y hacer la valoración de los "
+"itineraris compartidos.</p>"
+
+#: frontulet/views.py:83
+msgid "ELS MEUS ITINERARIES"
+msgstr ""
+
+#: frontulet/views.py:84
+msgid ""
+"<ul class='no_bullet'><li class='image_bullet edit'>Obre la pantalla "
+"d'edició de l'itinerari.</li><li class='image_bullet upload'>Envia el nostre "
+"itinerari al núvol.</li><li class='image_bullet delete'>Esborra l'itinerari</"
+"li></ul>"
+msgstr ""
+
+#: frontulet/views.py:85
+msgid "manual_itineraries"
+msgstr "ITINERARIOS:"
+
+#: frontulet/views.py:86
+msgid "manual_itineraries_text"
+msgstr ""
+"<p>Sobre los mapas de los itinerarios pueden aparecer tres tipos de iconos:</"
+"p><ul class='no_bullet'><li class='image_bullet waypoint'>Punto de ruta. "
+"Clicando sobre el obtenemos información de como llegar desde aquí al "
+"siguiente punto de ruta.</li><li class='image_bullet poi'>Punto de interés. "
+"Clicando sobre el se despliega información sobre algún tema de interés "
+"relacionado con el lugar donde nos encontramos.</li><li class='image_bullet "
+"holet_alert'>Aviso. Clicando sobre el obtenemos avisos sobre temas de "
+"seguridad o afectacions al medio ambiente en el lugar donde nos encontramos."
+"</li></ul><p>Durante el recorrido el vibrador y una señal acústica del "
+"dispositivo nos avisarán de que estamos llegando a alguno de estos puntos.</"
+"p>"
+
+#: frontulet/views.py:87
+msgid "manual_buttons"
+msgstr "BOTONES DE CONTROL:"
+
+#: frontulet/views.py:88
+msgid "manual_buttons_text"
+msgstr ""
+"<p>Dentre de los itinerarios (virtuales o reales) tenemos botones que nos "
+"permiten hacer acciones.</p><ul class='no_bullet'><li class='image_bullet "
+"stop'>Final del recorrido. Sale del itinerario y nos da la opción de guardar "
+"el recorrido y la información que hemos introducido.</li><li "
+"class='image_bullet add_info'>Añadir información. Permite al usuario/a "
+"añadir información (comentarios, fotos y vídeos) con su localitzación "
+"geográfica.</li><li class='image_bullet compass'>Brújula. Abre la utilidad "
+"de brújula.</li><li class='image_bullet where'>Posición actual. Muestra en "
+"el mapa nuestra posición.</li></ul>"
+
+#: frontulet/views.py:111
+msgid "route_list_my_routes"
+msgstr "Mis itinerarios"
+
+#: frontulet/views.py:114
+msgid "route_list_other_hikers_routes"
+msgstr "Itinerarios de los amigos de Eth Holet"
+
+#: frontulet/views.py:117 frontulet/views.py:124
+msgid "route_list_holets_routes"
+msgstr "Itinerarios de Eth Holet"
+
+#: frontulet/views.py:120 frontulet/views.py:127
+msgid "route_list_all_routes"
+msgstr "Todos los itinerarios"
+
+#: frontulet/views.py:134
+msgid "no_route"
+msgstr "No hay ningún itinerario"
+
+#: frontulet/views.py:134
+msgid "no_route_text"
+msgstr ""
+"No hay ningún itinerario con el identificador que pides. Prueba con otro "
+"identificador."
+
+#: frontulet/views.py:403
+msgid "error_wrong_file_type"
+msgstr ""
+"Tipo de fichero incorrecto: Asegurate de que el fichero que has seleccionado "
+"sea JPG, PNG, GIF, MP4, WEBM, o OGG."
+
+#: frontulet/views.py:486
+msgid "highlight_translation"
+msgstr "Traducción de reseñas de Eth Holet"
+
+#: frontulet/views.py:572
+msgid "route_translation"
+msgstr "Traducción de itinerarios de Eth Holet"
+
+#: frontulet/views.py:598
+msgid "zip_error_path_outside_archive"
+msgstr ""
+"Hay algún fichero en tu carpeta ZIP que tiene una ruta que empieza por \"../"
+"\". Por favor, no asignes a los ficheros de la carpeta rutas que se dirijan "
+"fuera de la propia carpeta."
+
+#: frontulet/views.py:600
+msgid "zip_error_absolute_path"
+msgstr ""
+"Hay algún fichero en tu carpeta ZIP que tiene una ruta. Por favor, no "
+"asignes a los ficheros de la carpeta rutas que se dirijan fuera de la propia "
+"carpeta."
+
+#: frontulet/views.py:607
+msgid "zip_error_language_code"
+msgstr ""
+"Hay algún fichero HTML en tu carpeta ZIP al que le falta el código de alguno "
+"de los idiomas compatibles. Por favor, asegurate de que todos los HTML "
+"tienen un nombre que acaba en -oc.html, -es,html, -ca.html, -fr.html, -en."
+"html, o -to.html."
+
+#: frontulet/views.py:612
+msgid "zip_error_file_types"
+msgstr ""
+"Has intentado cargar una carpeta ZIP que contiene ficheros que no son HTML, "
+"CSS, JPG, PNG, GIF, o MP4. Por favor, comprueba que la carpeta ZIP solo "
+"contiene ficheros de estos tipos."
+
+#: frontulet/views.py:615
+msgid "zip_error_more_than_five"
+msgstr ""
+"Hay más de cinco ficheros HTML en esta carpeta ZIP. Por favor, no incluyas "
+"más de un fichero HTML para cada uno de los idiomas compatibles (aranés, "
+"español, catalán, francés e inglés)."
+
+#: frontulet/views.py:618
+msgid "zip_error_no_html"
+msgstr ""
+"No hay ficheros HTML en esta carpeta ZIP. Por favor, incluye como mínimo un "
+"fichero HTML."
+
+#: frontulet/views.py:652
+msgid "zip_error_no_zip_no_html"
+msgstr ""
+"Has intentado cargar algo que no es un fichero HTML o ZIP. Por favor, "
+"comprueba el fichero y vuelve a probar."
+
+#: frontulet/views.py:1125
+msgid "Thank you!"
+msgstr ""
+
+#: frontulet/views.py:1127
+#, fuzzy
+msgid "Error"
+msgstr "Error"
+
+#: frontulet/templates/frontulet/about.html:45
+msgid ""
+"Eth Holet (pronunciació: er-ulet) és un personatge de la mitologia aranesa. "
+"És un follet que viu amagat als boscos, i representa l'esperit de la Natura. "
+"Aquesta aplicació permet a Eth Holet introduir-se en el vostre dispositiu, i "
+"guiar-vos al llarg de diversos itineraris en espais naturals en els que "
+"l'aigua és protagonista."
+msgstr ""
+
+#: frontulet/templates/frontulet/about.html:86
+msgid "built_from_foss"
+msgstr ""
+"Eth Holet está programado en código libre y abierto. Comprueba nuestra <a "
+"href='../api/'>API</a> o síguenos en <a href='http://github.com/"
+"MoveLab'>Github</a>!"
+
+#: frontulet/templates/frontulet/about.html:88
+#: frontulet/templates/frontulet/landing_page.html:289
+msgid "content_by"
+msgstr "Contenidos:"
+
+#: frontulet/templates/frontulet/about.html:88
+#: frontulet/templates/frontulet/landing_page.html:289
+msgid "website_and_server_by"
+msgstr "Website y apoyo desde el servidor:"
+
+#: frontulet/templates/frontulet/about.html:88
+#: frontulet/templates/frontulet/landing_page.html:289
+msgid "android_by"
+msgstr "Aplicación Android:"
+
+#: frontulet/templates/frontulet/about.html:88
+#: frontulet/templates/frontulet/landing_page.html:289
+msgid "html5_by"
+msgstr "Aplicación Mobile HTML5:"
+
+#: frontulet/templates/frontulet/about.html:88
+#: frontulet/templates/frontulet/landing_page.html:289
+msgid "ios_by"
+msgstr ""
+
+#: frontulet/templates/frontulet/about.html:90
+#: frontulet/templates/frontulet/landing_page.html:291
+msgid "holet_team"
+msgstr "por el equip de Eth Holet del LOOP y MoveLab (CEAB-CSIC y CREAF)"
+
+#: frontulet/templates/frontulet/base.html:61
+msgid "navbar_toggle_navigation"
+msgstr "Alternar navegación"
+
+#: frontulet/templates/frontulet/base.html:70
+msgid "navbar_home"
+msgstr "Inicio"
+
+#: frontulet/templates/frontulet/base.html:72
+msgid "navbar_routes"
+msgstr "Itinerarios"
+
+#: frontulet/templates/frontulet/base.html:75
+msgid "All Routes"
+msgstr ""
+
+#: frontulet/templates/frontulet/base.html:77
+msgid "My Routes"
+msgstr ""
+
+#: frontulet/templates/frontulet/base.html:78
+msgid "Other Hikers' Routes"
+msgstr ""
+
+#: frontulet/templates/frontulet/base.html:80
+msgid "Holet's Routes"
+msgstr ""
+
+#: frontulet/templates/frontulet/base.html:83
+msgid "navbar_routes_add_new"
+msgstr "Añade un nuevo itinerario"
+
+#: frontulet/templates/frontulet/base.html:86
+msgid "Survey results"
+msgstr ""
+
+#: frontulet/templates/frontulet/base.html:91
+msgid "navbar_map"
+msgstr "Mapa"
+
+#: frontulet/templates/frontulet/base.html:93
+msgid "navbar_reference"
+msgstr "Información de referencia"
+
+#: frontulet/templates/frontulet/base.html:96
+msgid "navbar_before_leaving"
+msgstr "Antes de salir"
+
+#: frontulet/templates/frontulet/base.html:100
+msgid "navbar_general_reference"
+msgstr "Artículos generales"
+
+#: frontulet/templates/frontulet/base.html:102
+msgid "navbar_app_manual"
+msgstr "Manual de la App"
+
+#: frontulet/templates/frontulet/base.html:107
+msgid "navbar_about"
+msgstr "Sobre Eth Holet"
+
+#: frontulet/templates/frontulet/base.html:113
+msgid "navbar_translation"
+msgstr "Traducción"
+
+#: frontulet/templates/frontulet/base.html:117
+msgid "navbar_translation_r_oc"
+msgstr "Traducir itinerarios al: Aranés"
+
+#: frontulet/templates/frontulet/base.html:118
+msgid "navbar_translation_r_es"
+msgstr "Traducir itinerarios al: Español"
+
+#: frontulet/templates/frontulet/base.html:119
+msgid "navbar_translation_r_fr"
+msgstr "Traducir itinerarios al: Francés"
+
+#: frontulet/templates/frontulet/base.html:120
+msgid "navbar_translation_r_en"
+msgstr "Traducir itinerarios al: Inglés"
+
+#: frontulet/templates/frontulet/base.html:121
+msgid "navbar_translation_r_oc_es"
+msgstr "Traducir itinerarios al: Aranés y español"
+
+#: frontulet/templates/frontulet/base.html:122
+msgid "navbar_translation_r_all"
+msgstr "Traducir itinerarios al: Todos"
+
+#: frontulet/templates/frontulet/base.html:124
+#: frontulet/templates/frontulet/base.html:129
+msgid "navbar_translation_h_oc"
+msgstr "Traducir reseñas al: Aranés"
+
+#: frontulet/templates/frontulet/base.html:125
+msgid "navbar_translation_h_es"
+msgstr "Traducir reseñas al: Español"
+
+#: frontulet/templates/frontulet/base.html:126
+msgid "navbar_translation_h_fr"
+msgstr "Traducir reseñas al: Francés"
+
+#: frontulet/templates/frontulet/base.html:127
+msgid "navbar_translation_h_en"
+msgstr "Traducir reseñas al: Inglés"
+
+#: frontulet/templates/frontulet/base.html:128
+msgid "navbar_translation_h_oc_es"
+msgstr "Traducir reseñas al: Aranés y español"
+
+#: frontulet/templates/frontulet/base.html:145
+msgid "logout"
+msgstr "salir"
+
+#: frontulet/templates/frontulet/base.html:150
+#: templates/registration/login.html:67
+#: templates/registration/login_mob.html:40
+#: templates/registration/no_permission_must_be _translator.html:43
+msgid "login"
+msgstr "entrar"
+
+#: frontulet/templates/frontulet/base.html:153
+#: templates/registration/login.html:15
+#: templates/registration/no_permission_must_be _translator.html:43
+#: templates/registration/no_permission_must_login.html:43
+#: templates/registration/register.html:51
+#: templates/registration/register_mob.html:28
+#: templates/registration/registration_base.html:38
+msgid "register"
+msgstr "Registrarse"
+
+#: frontulet/templates/frontulet/before_leaving_ca.html:28
+#: frontulet/templates/frontulet/before_leaving_mob_ca.html:27
+msgid "before_leaving"
+msgstr "Antes de salir"
+
+#: frontulet/templates/frontulet/create_ii.html:6
+msgid "new_ii"
+msgstr "Añadir una nueva imagen interactiva"
+
+#: frontulet/templates/frontulet/create_ii.html:6
+msgid "new_ii_text"
+msgstr "cargar una imagen que tendrá áreas clicables"
+
+#: frontulet/templates/frontulet/create_ii.html:7
+msgid "new_ii_explanation"
+msgstr ""
+"Para crear una imagen interactiva, cargar primero un fichero de imagen en "
+"esta página. En la página siguiente podrás crear áreas clicables sobre la "
+"imagen y especificar el texto que se mostrará cuando se clica cada área."
+
+#: frontulet/templates/frontulet/create_ii_box.html:20
+msgid "edit_ii_box"
+msgstr "Editar la ventana de interacción"
+
+#: frontulet/templates/frontulet/create_ii_box.html:21
+msgid "edit_ii_box_text"
+msgstr ""
+"Editar el mensaje o arrastrar el cursor para cambiar las dimensiones y la "
+"posición de la ventana sobre la imagen."
+
+#: frontulet/templates/frontulet/create_ii_box.html:24
+msgid "add_ii_box"
+msgstr "Añadir una ventana de interacción"
+
+#: frontulet/templates/frontulet/create_ii_box.html:25
+msgid "add_ii_box_text"
+msgstr ""
+"Arrastra el cursor sobre la foto para fijar las coordenadas y después añadir "
+"un mensaje al menos en un idioma."
+
+#: frontulet/templates/frontulet/create_ii_box.html:28
+#: frontulet/templates/frontulet/edit_highlight.html:13
+msgid "show_all_languages"
+msgstr "Mostrar todos los idiomas"
+
+#: frontulet/templates/frontulet/create_ii_box.html:44
+msgid "save_and_add_more"
+msgstr "Guardar y añadir más"
+
+#: frontulet/templates/frontulet/create_ii_box.html:45
+msgid "done"
+msgstr "Hecho"
+
+#: frontulet/templates/frontulet/create_reference.html:6
+msgid "new_reference"
+msgstr "Nuevo artículo"
+
+#: frontulet/templates/frontulet/create_reference.html:6
+msgid "new_reference_from_zip"
+msgstr "Crear un nuevo artículo desde un fichero ZIP."
+
+#: frontulet/templates/frontulet/create_reference.html:7
+msgid "new_reference_text"
+msgstr ""
+"Para crear un nuevo artículo utilizar este formulario para cargar una "
+"carpeta ZIP que contenga entre uno y cinco ficheros HTML junto con todos los "
+"ficheros CSS, JPG, PNG, GIF, y/o MP4 relacionados (solo estos tipos de "
+"ficheros están permitidos). Los ficheros HTML han de tener nombres que "
+"acaben en -XX.html, donde XX es el código del idioma. Utilizar oc para el "
+"aranés, es para el español, ca para el catalán, fr para el francés, en para "
+"el inglés y to para todos los idiomas (nota: se pueden utilizar mayúscules y "
+"códigos de tres letras, pero solo se evaluarán las dos primeras letras "
+"después del guión. Los ficheros acabados en '-to.html' se mostrarán a los "
+"usuarios/as de todos los idiomas). Comprobar que los enlaces en los ficheros "
+"HTML utilizan rutas relativas (p.ex. src='poi.png' y no src='http://holet."
+"com/poi.png') excepto si son enlaces a otro servidor. En este caso utilizar "
+"la ruta absoluta al servidor en cuestión (p.ex. src='http://upload.wikimedia."
+"org/wikipedia/commons/thumb/f/fe/Agapanthia_pustulifera_copulation_1.jpg). "
+"No es imprescindible incluir los CSS relacionados. Si no se incluye ningún "
+"CSS el servidor creará uno que se utilizará cuando el artículo se muestre en "
+"la app Eth Holet en los móviles. Cuando el artículo se muestre en este "
+"website utilizará un único CSS para adaptarse al formato de la web, "
+"independientemente de si se ha incluido un fichero CSS."
+
+#: frontulet/templates/frontulet/create_reference.html:10
+#: frontulet/templates/frontulet/create_route.html:8
+#: frontulet/templates/frontulet/edit_general_reference.html:10
+#: frontulet/templates/frontulet/edit_reference.html:10
+#: frontulet/templates/frontulet/edit_route.html:7
+#, fuzzy
+msgid "Show all languages"
+msgstr "Mostrar todos los idiomas"
+
+#: frontulet/templates/frontulet/create_route.html:6
+msgid "new_route"
+msgstr "Nuevo itinerario"
+
+#: frontulet/templates/frontulet/create_route.html:6
+msgid "new_route_text"
+msgstr "Crear un nuevo itinerario utilizando ficheros GPX"
+
+#: frontulet/templates/frontulet/edit_general_reference.html:6
+#, fuzzy
+msgid "Edit Reference"
+msgstr "Editar el artículo"
+
+#: frontulet/templates/frontulet/edit_general_reference.html:6
+msgid "Change reference name or replace HTML by uploading a ZIP file."
+msgstr ""
+
+#: frontulet/templates/frontulet/edit_general_reference.html:7
+msgid ""
+"To replace the reference HTML, use this form to upload a ZIP file that "
+"contains between one and five HTML files along with all linked CSS, JPG, "
+"PNG, GIF, and/or MP4 files (no other file types are allowed). The HTML files "
+"should have names ending in -XX.html, where XX is the language code. Use oc "
+"for Aranese, es for Spanish, ca for Catalan, fr for French, en for English, "
+"and to for all languages. (Note tha tyou can also use capital letters and "
+"you can use three-letter codes; only the first two letters after the '-' "
+"will be evaluated. Also, note that files ending in '-to.html' will be "
+"displayed for all language users.) Make sure the links in the HTML file use "
+"relative paths (e.g. src='poi.png' not src='http://holet.com/poi.png') "
+"unless they are links to resources that are hosted on another server (in "
+"which case use the absolute path to that server (e.g. src='http://upload."
+"wikimedia.org/wikipedia/commons/thumb/f/fe/"
+"Agapanthia_pustulifera_copulation_1.jpg/500px-"
+"Agapanthia_pustulifera_copulation_1.jpg'). Note that it is not necessary to "
+"include linked CSS. If no CSS file is included, the server will create one, "
+"which will be used when the reference is displayed in the Holet mobile apps. "
+"(When the reference is displayed on this website, it will use unique CSS to "
+"match the website's formatting, regardless of whether you include your own "
+"CSS file with it.)"
+msgstr ""
+
+#: frontulet/templates/frontulet/edit_general_reference.html:16
+msgid "Cancel"
+msgstr ""
+
+#: frontulet/templates/frontulet/edit_highlight.html:12
+msgid "edit_highlight"
+msgstr "Editar una reseña"
+
+#: frontulet/templates/frontulet/edit_highlight.html:24
+#: frontulet/templates/frontulet/form_base.html:35
+msgid "submit"
+msgstr "Enviar"
+
+#: frontulet/templates/frontulet/edit_ii.html:6
+msgid "replace_ii"
+msgstr "Cambiar una imagen interactiva"
+
+#: frontulet/templates/frontulet/edit_ii.html:6
+msgid "replace_ii_text"
+msgstr "Cargar una nueva imagen que tendrá áreas clicables."
+
+#: frontulet/templates/frontulet/edit_ii.html:7
+msgid "replace_ii_explanation"
+msgstr ""
+"Para cambiar una imagen interactiva, cargar primero un fichero de imagen en "
+"esta página. En la página siguiente podrás crear áreas clicables sobre la "
+"imagen y especificar el texto que se mostrará cuando se clica sobre cada "
+"área."
+
+#: frontulet/templates/frontulet/edit_profile.html:6
+msgid "edit_profile"
+msgstr "Editar el perfil"
+
+#: frontulet/templates/frontulet/edit_reference.html:6
+msgid "edit_reference"
+msgstr "Editar el artículo"
+
+#: frontulet/templates/frontulet/edit_reference.html:6
+msgid "edit_reference_text"
+msgstr ""
+"Cambiar el nombre del artículo o cargar una carpeta ZIP para cambiar el "
+"fichero HTML."
+
+#: frontulet/templates/frontulet/edit_reference.html:7
+msgid "edit_reference_explanation"
+msgstr ""
+"Para cambiar un artículo en HTML utilizar este formulario para cargar una "
+"carpeta ZIP que contenga entre uno y cinco ficheros HTML junto con todos los "
+"ficheros CSS, JPG, PNG, GIF, y/o MP4 relacionados (solo estos tipos de "
+"ficheros están permitidos). Los ficheros HTML han de tener nombres que "
+"acaben en -XX.html, donde XX es el código del idioma. Utilizar oc para el "
+"aranés, es para el español, ca para el catalán, fr para el francés, en para "
+"el inglés y to para todos los idiomas (nota: se pueden utilizar mayúscules y "
+"códigos de tres letras, pero solo se evaluarán las dos primeras letras "
+"después del guión. Los ficheros acabados en '-to.html' se mostrarán a los "
+"usuarios/as de todos los idiomas). Comprobar que los enlaces en los ficheros "
+"HTML utilizan rutas relativas (p.ex. src='poi.png' y no src='http://holet."
+"com/poi.png') excepto si son enlaces a otro servidor. En este caso utilizar "
+"la ruta absoluta al servidor en cuestión (p.ex. src='http://upload.wikimedia."
+"org/wikipedia/commons/thumb/f/fe/Agapanthia_pustulifera_copulation_1.jpg). "
+"No es imprescindible incluir los CSS relacionados. Si no se incluye ningún "
+"CSS el servidor creará uno que se utilizará cuando el artículo se muestre en "
+"la app Eth Holet en los móviles. Cuando el artículo se muestre en este "
+"website utilizará un único CSS para adaptarse al formato de la web, "
+"independientemente de si se ha incluido un fichero CSS."
+
+#: frontulet/templates/frontulet/edit_reference.html:16
+msgid "edit_ref_cancel"
+msgstr "Cancelar"
+
+#: frontulet/templates/frontulet/edit_route.html:5
+msgid "edit_route"
+msgstr "Editar el itinerario"
+
+#: frontulet/templates/frontulet/form_base.html:63
+msgid "processing_long"
+msgstr "Procesando, espera por favor. (Esto puede tardar unos pocos minutos)"
+
+#: frontulet/templates/frontulet/formset_base.html:40
+msgid "save_all"
+msgstr "Guardar todo"
+
+#: frontulet/templates/frontulet/formset_base.html:60
+msgid "saving_please_wait"
+msgstr "Guardando, espera por favor"
+
+#: frontulet/templates/frontulet/general_references.html:29
+msgid "general_references"
+msgstr "Artículos generales"
+
+#: frontulet/templates/frontulet/general_references.html:44
+#, fuzzy
+msgid "Warning!"
+msgstr "¡Atención! "
+
+#: frontulet/templates/frontulet/general_references.html:44
+#: frontulet/templates/frontulet/route_detail.html:173
+#: frontulet/templates/frontulet/route_detail.html:273
+msgid "sure_delete_ref_q"
+msgstr "¿Seguro que quieres borrar este artículo?"
+
+#: frontulet/templates/frontulet/general_references.html:44
+#: frontulet/templates/frontulet/route_detail.html:138
+#: frontulet/templates/frontulet/route_detail.html:173
+#: frontulet/templates/frontulet/route_detail.html:248
+#: frontulet/templates/frontulet/route_detail.html:273
+#: frontulet/templates/frontulet/view_ii.html:18
+msgid "no_go_back"
+msgstr "No, vuelve atrás"
+
+#: frontulet/templates/frontulet/general_references.html:44
+#: frontulet/templates/frontulet/route_detail.html:138
+#: frontulet/templates/frontulet/route_detail.html:173
+#: frontulet/templates/frontulet/route_detail.html:248
+#: frontulet/templates/frontulet/route_detail.html:273
+#: frontulet/templates/frontulet/view_ii.html:18
+msgid "yes_delete_it"
+msgstr "Sí, bórralo"
+
+#: frontulet/templates/frontulet/home.html:31
+#: frontulet/templates/frontulet/home.html:35
+msgid "welcome"
+msgstr "Eth Holet te da la bienvenida"
+
+#: frontulet/templates/frontulet/home.html:32
+#: frontulet/templates/frontulet/home.html:36
+#: frontulet/templates/frontulet/home.html:41
+msgid "what_today"
+msgstr "¿Que te gustaría hacer hoy?"
+
+#: frontulet/templates/frontulet/home.html:40
+msgid "welcome_exclaimation"
+msgstr "¡Eth Holet te da la bienvenida!"
+
+#: frontulet/templates/frontulet/home.html:50
+msgid "home_add_route"
+msgstr "Añadir un itinerario"
+
+#: frontulet/templates/frontulet/home.html:52
+msgid "home_add_route_text"
+msgstr "Añadir un nuevo itinerario utilizando ficheros GPX."
+
+#: frontulet/templates/frontulet/home.html:58
+msgid "home_list_all_routes"
+msgstr "Mostrar todos los itinerarios"
+
+#: frontulet/templates/frontulet/home.html:60
+msgid "home_list_all_routes_text"
+msgstr "Ver una lista de todos los itinerarios."
+
+#: frontulet/templates/frontulet/home.html:67
+msgid "List My Routes"
+msgstr ""
+
+#: frontulet/templates/frontulet/home.html:69
+msgid "home_list_my_routes_text"
+msgstr "Ver una lista de los itinerarios que has creado en tus caminatas."
+
+#: frontulet/templates/frontulet/home.html:76
+msgid "home_list_others_routes"
+msgstr "Mostrar los itinerarios de los amigos de Eth Holet"
+
+#: frontulet/templates/frontulet/home.html:78
+msgid "home_list_others_routes_text"
+msgstr ""
+"Ver una lista de los itinerarios que han creado los amigos de Eth Holet. "
+
+#: frontulet/templates/frontulet/home.html:87
+msgid "home_list_holets_routes"
+msgstr "Mostrar los itinerarios de Eth Holet"
+
+#: frontulet/templates/frontulet/home.html:89
+msgid "home_list_holets_routes_text"
+msgstr ""
+"Ver los itinerarios que han creado los científicos que están detrás de Eth "
+"Holet."
+
+#: frontulet/templates/frontulet/home.html:94
+msgid "home_consult_map"
+msgstr "Consultar el mapa"
+
+#: frontulet/templates/frontulet/home.html:96
+msgid "home_consult_map_text"
+msgstr "Ver un mapa interactivo con todas las rutas."
+
+#: frontulet/templates/frontulet/home.html:104
+msgid "home_view_profile"
+msgstr "Ver mi perfil"
+
+#: frontulet/templates/frontulet/home.html:106
+msgid "home_view_profile_text"
+msgstr "Ver y editar tu perfil"
+
+#: frontulet/templates/frontulet/home.html:114
+#, fuzzy
+msgid "Register"
+msgstr "Registrarse"
+
+#: frontulet/templates/frontulet/home.html:116
+msgid ""
+"Register your account. This will let you track your hikes and create your "
+"own routes."
+msgstr ""
+
+#: frontulet/templates/frontulet/home.html:124
+msgid "home_login"
+msgstr "Entrar"
+
+#: frontulet/templates/frontulet/home.html:126
+msgid "home_login_text"
+msgstr "Conéctate para ver tus datos, si ya tienes una cuenta."
+
+#: frontulet/templates/frontulet/landing_page.html:34
+#: frontulet/templates/frontulet/landing_page.html:75
+msgid "meet_holet"
+msgstr "Réunete con Eth Holet"
+
+#: frontulet/templates/frontulet/landing_page.html:36
+#: frontulet/templates/frontulet/landing_page.html:77
+msgid "lp_meet_holet_text"
+msgstr ""
+"Eth Holet (se pronuncia er-ulet) es un personaje de la mitología aranesa. Es "
+"un duende que vive escondido en los bosques, y representa el espíritu de la "
+"Naturaleza. Y ahora viene a encontrarse contigo . . . ¡en una app!"
+
+#: frontulet/templates/frontulet/landing_page.html:38
+#: frontulet/templates/frontulet/landing_page.html:79
+msgid "lp_learn_more"
+msgstr "Saber más"
+
+#: frontulet/templates/frontulet/landing_page.html:47
+#: frontulet/templates/frontulet/landing_page.html:88
+msgid "lp_discover_waters"
+msgstr "Descubre las aguas de la Val d'Aran"
+
+#: frontulet/templates/frontulet/landing_page.html:49
+#: frontulet/templates/frontulet/landing_page.html:90
+msgid "lp_guide_along_rivers"
+msgstr ""
+"Eth Holet te guiará a lo largo de los ríos y hasta arriba a los ibones, y te "
+"enseñará los secretos de las aguas de sus escondites en los bosques y "
+"montañas."
+
+#: frontulet/templates/frontulet/landing_page.html:51
+#: frontulet/templates/frontulet/landing_page.html:92
+msgid "dive_in"
+msgstr "Zambúllete"
+
+#: frontulet/templates/frontulet/landing_page.html:60
+#: frontulet/templates/frontulet/landing_page.html:101
+msgid "lp_new_guide"
+msgstr "Pasea con un guía diferente"
+
+#: frontulet/templates/frontulet/landing_page.html:62
+#: frontulet/templates/frontulet/landing_page.html:103
+msgid "lp_sights_along_the_way"
+msgstr ""
+"Eth Holet te seguirá a donde vayas y te avisará de lugares de interés a lo "
+"largo del camino. Disfruta de contenidos multimedia interactivos - y crea "
+"los tuyos propios."
+
+#: frontulet/templates/frontulet/landing_page.html:64
+#: frontulet/templates/frontulet/landing_page.html:105
+msgid "start_your_adventure"
+msgstr "Empieza tu aventura"
+
+#: frontulet/templates/frontulet/landing_page.html:131
+msgid "guided_hikes"
+msgstr "Itinerarios guiados"
+
+#: frontulet/templates/frontulet/landing_page.html:133
+msgid "lp_holet_will _guide_you"
+msgstr ""
+"Eth Holet te guiará a través de los caminos de la Val d'Aran. Recibirás "
+"avisos e información suplementaria cuando estés cerca de los puntos de "
+"interés."
+
+#: frontulet/templates/frontulet/landing_page.html:141
+msgid "all_about_water"
+msgstr "Todo sobre el agua"
+
+#: frontulet/templates/frontulet/landing_page.html:143
+msgid "lp_learn_about_rivers_and_lakes"
+msgstr ""
+"Aprende sobre los ríos e ibones de la Val d'Aran. Eth Holet está lleno de "
+"contenidos divulgativos hechos por científicos que han trabajado aquí desde "
+"hace años."
+
+#: frontulet/templates/frontulet/landing_page.html:151
+msgid "lp_personalized_maps"
+msgstr "Mapas personalizados"
+
+#: frontulet/templates/frontulet/landing_page.html:153
+msgid "lp_track_and_record"
+msgstr ""
+"Rastrea y graba tus itinerarios, y añade tus propias fotos, vídeos y notas "
+"al mapa. Guárdalos para volver a visitarlos."
+
+#: frontulet/templates/frontulet/landing_page.html:167
+msgid "lp_garona"
+msgstr "El camino del Garona"
+
+#: frontulet/templates/frontulet/landing_page.html:167
+msgid "lp_garona_short_text"
+msgstr "Aprende todo sobre el río principal de la Val d'Aran"
+
+#: frontulet/templates/frontulet/landing_page.html:170
+msgid "lp_garona_long_text"
+msgstr ""
+"El Garona ofrece la posibilidad de conocer un ecosistema fluvial, los usos y "
+"aprovechamientos humanos que se han hecho desde antiguo, y como estos han "
+"modificado y configurado el río actual. Este itinerario entre el Pont "
+"d’Arròs y Casarilh tiene dos variantes: en coche siguiendo la N-230 y la "
+"C-28 y a pie siguiendo el Camin Reiau y el GR-211. La distancia total es de "
+"11 km, con un desnivel acumulado de 184 m. El camino no presenta ninguna "
+"dificultad, y es adecuado para cualquier persona con una forma física media. "
+"La variante en coche hace el itinerario accesible a todo tipo de visitantes."
+
+#: frontulet/templates/frontulet/landing_page.html:185
+msgid "lp_escunhau"
+msgstr "Estanho d’Escunhau."
+
+#: frontulet/templates/frontulet/landing_page.html:185
+msgid "lp_escunhau_short_text"
+msgstr ""
+"Explora el ibón que drena hacia el subsuelo y descubre su jardín sumergido."
+
+#: frontulet/templates/frontulet/landing_page.html:188
+msgid "lp_escunhau_long_text"
+msgstr ""
+"El Estanho d’Escunhau está situado bajo unas escarpadas paredes de roca "
+"calcárea con formas erosivas peculiares, como por ejemplo la sima por donde "
+"el ibón desagua hacia la cavidad más profunda de Cataluña. Su característica "
+"principal es la abundancia de varias plantas acuáticas, que forman un "
+"auténtico jardín sumergido y que se pueden distinguir desde las orillas. "
+"Itinerario de 10 km y 795 m de desnivel por pista, seguido de 1.8 km y 200 m "
+"de desnivel a pie, para acabar con un circuito (1 km) alrededor del Estanho "
+"d’Escunhau. El itinerario es adecuado para cualquier persona con un mínimo "
+"de forma física."
+
+#: frontulet/templates/frontulet/landing_page.html:196
+msgid "lp_pois"
+msgstr "Ibones de Pois y de Còth deth Hòro."
+
+#: frontulet/templates/frontulet/landing_page.html:196
+msgid "lp_pois_short_text"
+msgstr "Recorre los ibones más elevados en una ruta de alta montaña."
+
+#: frontulet/templates/frontulet/landing_page.html:199
+msgid "lp_pois_long_text"
+msgstr ""
+"Estos ibones son típicamente alpinos, con aguas de tipo carbonatado. Se "
+"hallan en un paisaje de morfología glaciar de rocas calcáreas y areniscas "
+"con formas espectaculares. La ruta tiene vistas impresionantes del Aneto y "
+"su glaciar. Es una ruta circular de alta montaña de 10 km y 1040 m de "
+"desnivel, con salida desde el aparcamiento del Plan dera Artiga de Lin. El "
+"itinerario es adecuado para personas con un buen entrenamiento y experiencia "
+"en alta montaña."
+
+#: frontulet/templates/frontulet/landing_page.html:214
+msgid "Bassa d’Oles."
+msgstr ""
+
+#: frontulet/templates/frontulet/landing_page.html:214
+msgid "lp_oles_short_text"
+msgstr "Visita en familia un ibón domesticado."
+
+#: frontulet/templates/frontulet/landing_page.html:217
+msgid "lp_oles_long_text"
+msgstr ""
+"La Bassa d’Oles es un estanque de origen natural que posteriormente fue "
+"represado. Se practica la pesca intensiva, y el estanque se repuebla "
+"regularmente con truchas. Es por tanto un ejemplo de ecosistema acuático "
+"fuertemente humanizado. Está rodeado de un pinar de pino silvestre de gran "
+"valor paisajístico. El interés principal radica en el importante tapiz de "
+"vegetación acuática sumergida y las islas de juncos que se hallan aquí. "
+"Itinerario circular de 1.7 km con 50 m de desnivell por los alrededores de "
+"la Bassa d’Oles, apto para todos los públicos."
+
+#: frontulet/templates/frontulet/landing_page.html:225
+msgid "lp_redon"
+msgstr "Estanh Redon."
+
+#: frontulet/templates/frontulet/landing_page.html:225
+msgid "lp_redon_short_text"
+msgstr "Descubre que nos revela la ciencia sobre el cambio ambiental."
+
+#: frontulet/templates/frontulet/landing_page.html:228
+msgid "lp_redon_long_text"
+msgstr ""
+"El Redon es uno de los grandes ibones de los Pirineos. Tiene aguas muy "
+"transparentes y está encajonado en un circo de roca granítica y paredes "
+"escarpadas. Ha sido objeto de investigaciones científicas desde hace "
+"décadas, y en su orilla hay un pequeño laboratorio de campo y una estación "
+"meteorológica. Las investigaciones han demostrado que el Redon es un "
+"centinela de los cambios ambientals globales del pasado y el presente, como "
+"por ejemplo la contaminación atmosférica o el cambioi climático. Itinerario "
+"de 3.6 km con 600 m de desnivel. Es adecuado para personas acostumbradas a "
+"caminar por la montaña y con una condición física media."
+
+#: frontulet/templates/frontulet/landing_page.html:243
+msgid "lp_varrados"
+msgstr "Val de Varradòs."
+
+#: frontulet/templates/frontulet/landing_page.html:243
+msgid "lp_varrados_st"
+msgstr ""
+"Experimenta la fuerza del agua y conoce los hábitats acuáticos más extremos."
+
+#: frontulet/templates/frontulet/landing_page.html:246
+msgid "lp_varrados_lt"
+msgstr ""
+"El valle de Varradòs tiene un relieve escarpado que da lugar a una intensa "
+"actividad de aludes y a cascadas impresionantes. En la cabecera del valle, "
+"la zona de la Sèrra de Pica Palomèra es una de las más recónditas del Aran. "
+"Los ibones que encontramos aquí son hábitats extrems, debido a la acidez de "
+"sus aguas. El itinerario tiene dos partes: primero 10 km de pista asfaltada, "
+"para recorrer el río de Varradòs y visitar el Saut deth Pish; después, "
+"itinerario circular a peu de 12 km y 980 m de desnivell, para visitar los "
+"ibones Nere de Uèrri y de Pica Palomèra. Para hacer el itinerario a pie es "
+"imprescindible tener un buen sentido de la orientación, buena forma física y "
+"experiencia en alta montaña."
+
+#: frontulet/templates/frontulet/landing_page.html:264
+msgid "lp_back_to_top"
+msgstr "Volver arriba"
+
+#: frontulet/templates/frontulet/landing_page.html:269
+msgid "privacy"
+msgstr "Privacidad"
+
+#: frontulet/templates/frontulet/landing_page.html:270
+msgid "terms"
+msgstr "Condiciones"
+
+#: frontulet/templates/frontulet/landing_page.html:273
+msgid "organitza"
+msgstr "Organiza:"
+
+#: frontulet/templates/frontulet/landing_page.html:277
+msgid "financa"
+msgstr "Financia:"
+
+#: frontulet/templates/frontulet/landing_page.html:287
+msgid "lp_holet_is_FOSS"
+msgstr ""
+"Eth Holet está programado en código libre y abierto. Comprueba nuestra <a "
+"href='../api/'>API</a> o síguenos en <a href='http://github.com/"
+"MoveLab'>Github</a>!"
+
+#: frontulet/templates/frontulet/manual_ca.html:79
+#: frontulet/templates/frontulet/manual_mob_ca.html:89
+msgid "manual"
+msgstr "Manual"
+
+#: frontulet/templates/frontulet/map.html:35
+msgid "cookies_a"
+msgstr ""
+"Este website utiliza cookies. Si continuas navegando aquí consideramos que "
+"aceptas su uso. para tener más información por favor mira nuestra"
+
+#: frontulet/templates/frontulet/map.html:35
+msgid "cookies_b"
+msgstr "Política de privacidad"
+
+#: frontulet/templates/frontulet/map.html:35
+msgid "cookies_c"
+msgstr "política de privacidad"
+
+#: frontulet/templates/frontulet/map.html:139
+#: frontulet/templates/frontulet/map.html:156
+msgid "view_details"
+msgstr "Ver los detalles"
+
+#: frontulet/templates/frontulet/privacy.html:11
+msgid "holet_privacy_policy"
+msgstr "Política de privacidad de Eth Holet"
+
+#: frontulet/templates/frontulet/route_detail.html:87
+#: frontulet/templates/frontulet/route_detail.html:259
+msgid "Your browser does not support the video tag."
+msgstr ""
+
+#: frontulet/templates/frontulet/route_detail.html:138
+#: frontulet/templates/frontulet/route_detail.html:248
+#: frontulet/templates/frontulet/route_detail.html:273
+#: frontulet/templates/frontulet/view_ii.html:18
+msgid "warning"
+msgstr "¡Atención! "
+
+#: frontulet/templates/frontulet/route_detail.html:138
+msgid "warning_confirm_delete_route"
+msgstr ""
+"¿Seguro que quieres borrar este itinerario (y todas las reseñas, artículos, "
+"imágenes interactivas y otros contenidos asociados)?"
+
+#: frontulet/templates/frontulet/route_detail.html:145
+#: frontulet/templates/frontulet/route_detail.html:203
+msgid "Average Rating:"
+msgstr ""
+
+#: frontulet/templates/frontulet/route_detail.html:145
+#: frontulet/templates/frontulet/route_detail.html:203
+msgid "vote"
+msgstr ""
+
+#: frontulet/templates/frontulet/route_detail.html:145
+#: frontulet/templates/frontulet/route_detail.html:203
+msgid "votes"
+msgstr ""
+
+#: frontulet/templates/frontulet/route_detail.html:163
+#, fuzzy
+msgid "View Detailed Reference"
+msgstr "ver el artículo detallado"
+
+#: frontulet/templates/frontulet/route_detail.html:173
+#, fuzzy
+msgid "warning "
+msgstr "¡Atención! "
+
+#: frontulet/templates/frontulet/route_detail.html:248
+msgid ""
+"Are you sure you want to delete this highlight's media file (the image or "
+"video below)?"
+msgstr ""
+
+#: frontulet/templates/frontulet/route_list.html:36
+msgid "view_route"
+msgstr "Ver itinerario"
+
+#: frontulet/templates/frontulet/simple_messagemob.html:19
+#: frontulet/templates/frontulet/surveymob.html:19
+#: frontulet/templates/frontulet/surveyweb.html:24
+msgid "Eth Holet Survey"
+msgstr ""
+
+#: frontulet/templates/frontulet/success.html:5
+msgid "success"
+msgstr "éxito"
+
+#: frontulet/templates/frontulet/survey_response_list.html:29
+msgid "Survey Results"
+msgstr ""
+
+#: frontulet/templates/frontulet/survey_response_list.html:37
+msgid "Average Response:"
+msgstr ""
+
+#: frontulet/templates/frontulet/survey_response_list.html:38
+msgid "Minimum Response:"
+msgstr ""
+
+#: frontulet/templates/frontulet/survey_response_list.html:39
+msgid "Maximum Response:"
+msgstr ""
+
+#: frontulet/templates/frontulet/survey_response_list.html:40
+msgid "Response Standard Deviation:"
+msgstr ""
+
+#: frontulet/templates/frontulet/survey_response_list.html:41
+msgid "Number of Responses:"
+msgstr ""
+
+#: frontulet/templates/frontulet/surveymob.html:25
+#: frontulet/templates/frontulet/surveyweb.html:26
+msgid ""
+"A Eth Holet li agradaria conèixer la teva opinió sobre l’aigua i el medi "
+"ambient, i sobre la participació de la ciutadania en la seva gestió. Si us "
+"plau, respon en una escala de 0 a 100 les preguntes següents:"
+msgstr ""
+
+#: frontulet/templates/frontulet/surveymob.html:36
+#: frontulet/templates/frontulet/surveyweb.html:37
+#, fuzzy
+msgid "Submit"
+msgstr "Enviar"
+
+#: frontulet/templates/frontulet/surveyweb.html:60
+#, fuzzy
+msgid "Processing"
+msgstr "Procesando, espera por favor. (Esto puede tardar unos pocos minutos)"
+
+#: frontulet/templates/frontulet/upload_error.html:6
+msgid "error"
+msgstr "Error"
+
+#: frontulet/templates/frontulet/user_profile.html:26
+msgid "profile"
+msgstr "Perfil en Eth Holet"
+
+#: frontulet/templates/frontulet/user_profile.html:30
+msgid "first_name"
+msgstr "Nombre"
+
+#: frontulet/templates/frontulet/user_profile.html:31
+msgid "last_name"
+msgstr "Apellidos"
+
+#: frontulet/templates/frontulet/user_profile.html:32
+msgid "email"
+msgstr "E-Mail"
+
+#: frontulet/templates/frontulet/user_profile.html:33
+msgid "n_routes_created"
+msgstr "Número de itinerarios creados"
+
+#: frontulet/templates/frontulet/user_profile.html:34
+msgid "n_poi_created"
+msgstr "Número de puntos de interés creados"
+
+#: frontulet/templates/frontulet/view_ii.html:18
+msgid "sure_delete_ii"
+msgstr "¿Seguro que quieres borrar esta imagen interactiva?"
+
+#: frontulet/templates/frontulet/view_ii.html:20
+#, fuzzy
+msgid "Interactive Image"
+msgstr "Imagen interactiva"
+
+#: frontulet/templates/frontulet/view_ii.html:21
+msgid "drag_mouse"
+msgstr ""
+"Arrastra el cursor por la foto y clica sobre las áreas coloreadas que "
+"aparecen."
+
+#: frontulet/templates/frontulet/view_ii.html:35
+msgid "Back to route"
+msgstr ""
+
+#: frontulet/templates/frontulet/view_ii.html:136
+msgid "close"
+msgstr "Cerrar"
+
+#: frontulet/templates/frontulet/wrong_file_type.html:6
+#: frontulet/templates/frontulet/wrong_file_type_ii.html:6
+msgid "wrong_file_type"
+msgstr "Tipo de fichero erróneo"
+
+#: frontulet/templates/frontulet/wrong_file_type.html:6
+msgid "wrong_file_type_text"
+msgstr ""
+"Solo puedes cargar un fichero HTML, o una carpeta ZIP que contenga solo "
+"ficheros JPG, PNG, GIF, MP4, HTML, y/o CSS. ¿Quieres volver a intentarlo?"
+
+#: frontulet/templates/frontulet/wrong_file_type_ii.html:6
+msgid "ii_file_types"
+msgstr ""
+"Solo puedes cargar un fichero JPG, PNG, o GIF como imagen interactiva. "
+"¿Quieres volver a intentarlo?"
+
+#: servulet/settings.py:121
+msgid "Aranese"
+msgstr "Aranés"
+
+#: servulet/settings.py:122
+msgid "Spanish"
+msgstr "Español"
+
+#: servulet/settings.py:123
+msgid "Catalan"
+msgstr "Català"
+
+#: servulet/settings.py:124
+msgid "French"
+msgstr "Français"
+
+#: servulet/settings.py:125
+msgid "English"
+msgstr "English"
+
+#: templates/admin/base_site.html:4
+msgid "holet_admin"
+msgstr "Admin Eth Holet"
+
+#: templates/admin/base_site.html:7
+msgid "holet_administration"
+msgstr "Administración de Eth Holet"
+
+#: templates/registration/credentials.html:16
+#: templates/registration/login.html:36
+#: templates/registration/login_mob.html:16
+msgid "holet_login"
+msgstr "Eth Holet Login"
+
+#: templates/registration/login.html:14
+#: templates/registration/registration_base.html:37
+msgid "dont_have_an_account"
+msgstr "¿No tienes una cuenta?"
+
+#: templates/registration/login.html:17
+#: templates/registration/register.html:18
+msgid "use_without_registering"
+msgstr "¿Quieres continuar sin registrarte?"
+
+#: templates/registration/login.html:17
+#: templates/registration/no_permission_must_be _translator.html:15
+#: templates/registration/no_permission_must_login.html:15
+#: templates/registration/no_permission_not_yours.html:15
+#: templates/registration/register.html:19
+msgid "return_home"
+msgstr "Volver a la página inicial"
+
+#: templates/registration/login.html:51
+#: templates/registration/login_mob.html:24
+msgid "error_username_password_no_match"
+msgstr ""
+"Tu nombre de usuario/a y la contraseña no coinciden. Por favor, vuelve a "
+"intentarlo."
+
+#: templates/registration/no_permission_must_be _translator.html:33
+#: templates/registration/no_permission_must_login.html:33
+#: templates/registration/no_permission_not_yours.html:33
+msgid "holet_permission_denied"
+msgstr "Permiso denegado por Eth Holet"
+
+#: templates/registration/no_permission_must_be _translator.html:40
+msgid "translator_must_be_logged_in"
+msgstr ""
+"Hay que conectarse como traductor/a registrado/a para poder acceder a las "
+"páginas de traducción. Si eres traductor/a y necesitas registrar tu cuenta, "
+"por favor contacta con los administradores del proyecto."
+
+#: templates/registration/no_permission_must_login.html:40
+msgid "login_to_edit_routes"
+msgstr ""
+"Hay que conectarse como usuario/a registrado/a para crear o editar "
+"itinerarios."
+
+#: templates/registration/no_permission_not_yours.html:40
+msgid "only_edit_your_routes"
+msgstr "Solo puedes editar los itinerarios que tu has creado."
+
+#: templates/registration/register.html:15
+msgid "already_registered_q"
+msgstr "¿Ya te has registrado?"
+
+#: templates/registration/register.html:37
+#: templates/registration/register_mob.html:16
+msgid "holet_registration"
+msgstr "Registro en Eth Holet"
+
+#~ msgid "and-implemented-by-the-movement-ecology-lab-ceab-c"
+#~ msgstr ""
+#~ "Y ha sido implementado por el Observatorio Limnológico de los Pirineos-"
+#~ "LOOP y el Movement Ecology Lab, con apoyo del CEAB-CSIC, el CREAF y la UB."
+
+#~ msgid "credits_organized_by_old_version"
+#~ msgstr ""
+#~ "Eth Holet ha sido organizado por el Ayuntamiento de Vielha e Mijaran."
+
+#~ msgid "home_register"
+#~ msgstr "Registrarse"
+
+#~ msgid "home_register_text"
+#~ msgstr ""
+#~ "Registra tu cuenta. Esto te permitirá rastrear tus caminatas y crear tus "
+#~ "propios itinerarios."
+
+#~ msgid "it-was-financed-by-the-european-union-through-the-"
+#~ msgstr ""
+#~ "Ha sido financiado por la Unión Europea a través del proyecto Sud'Eau2."
+
+#~ msgid "lp_holet_team"
+#~ msgstr "Equipo de Eth Holet: LOOP y MoveLab (CEAB-CSIC, CREAF y UB)"
+
+#~ msgid "navbar_translation_h_all"
+#~ msgstr "Traducir reseñas al: Todos"
