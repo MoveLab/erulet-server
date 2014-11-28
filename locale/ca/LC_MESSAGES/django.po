@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Eth Holet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue, 21 Oct 2014 23:41:16 +0100\n"
-"PO-Revision-Date: Fri, 28 Nov 2014 13:11:27 +0000\n"
+"PO-Revision-Date: Fri, 28 Nov 2014 13:40:27 +0000\n"
 "Last-Translator: John Palmer\n"
 "Language-Team: John Palmer\n"
 "Language: Catalan (Spain)\n"
@@ -428,6 +428,31 @@ msgstr "graus"
 msgid "description"
 msgstr "Descripció: "
 
+#. Source text: Descripció - Aranès
+#: appulet/models.py:167 appulet/models.py:247 appulet/models.py:299 loco:#: 547855a1f1612903df0e50b6
+msgid "description_aranese"
+msgstr "Descripció - Aranès"
+
+#. Source text: Descripció - Català
+#: appulet/models.py:169 appulet/models.py:249 appulet/models.py:301 loco:#: 547855a1f1612903df0e50b8
+msgid "description_catalan"
+msgstr "Descripció - Català"
+
+#. Source text: Descripció - Anglès
+#: appulet/models.py:171 appulet/models.py:251 appulet/models.py:303 loco:#: 547855a1f1612903df0e50ba
+msgid "description_english"
+msgstr "Descripció - Anglès"
+
+#. Source text: Descripció - Francès
+#: appulet/models.py:170 appulet/models.py:250 loco:547855a1f1612903df0e50b9
+msgid "description_french"
+msgstr "Descripció - Francès"
+
+#. Source text: Descripció - Castellà
+#: appulet/models.py:168 appulet/models.py:248 appulet/models.py:300 loco:#: 547855a1f1612903df0e50b7
+msgid "description_spanish"
+msgstr "Descripció - Castellà"
+
 #. Source text: Ubicació destí: 
 #: loco:5446e1f7f1612903df0ab521
 msgid "destination"
@@ -711,6 +736,21 @@ msgstr "Articles generals"
 #: loco:5446e1faf1612903df0ab579
 msgid "global_rating"
 msgstr "Valoració global"
+
+#. Source text: Punts d'interès GPX
+#: appulet/models.py:187 loco:547855a2f1612903df0e50c5
+msgid "gpx_poi"
+msgstr "Punts d'interès GPX"
+
+#. Source text: Recorregut GPX
+#: appulet/models.py:185 loco:547855a2f1612903df0e50c3
+msgid "gpx_track"
+msgstr "Recorregut GPX"
+
+#. Source text: Punts de ruta GPX
+#: appulet/models.py:186 loco:547855a2f1612903df0e50c4
+msgid "gpx_waypoints"
+msgstr "Punts de ruta GPX"
 
 #. Source text: Editar l'article
 #: frontulet/templates/frontulet/edit_general_reference.html:6 loco:#: 547855a2f1612903df0e50e6
@@ -1332,19 +1372,31 @@ msgstr ""
 msgid "manual_itineraries"
 msgstr "ITINERARIS:"
 
-#. Source text: <p>Sobre els mapes dels itineraris poden aparèixer tres tipus d'icones:</p><ul class='no_bullet'><li class='image_bullet waypoint'>Punt de ruta. Clicant a sobre obtenim informació de com arribar des d'aquí al següent punt de ruta.</li><li class='image_bullet poi'>Punt d'interès. Clicant a sobre es desplega informació sobre algun tema d'interès relacionat amb el lloc on ens trobem.</li><li class='image_bullet holet_alert'>Avís. Clicant a sobre obtenim avisos sobre temes de seguretat o afectacions al medi ambient en el lloc on ens trobem.</li></ul><p>Durant el recorregut el vibrador i un senyal acústic del dispositiu ens avisaran que estem arribant a algun d'aquests punts.</p>
+#. Source text: <p>Sobre els mapes dels itineraris poden apar&egrave;ixer tres tipus d'icones:</p>
+#. <ul class="no_bullet">
+#. <li class="image_bullet_tall waypoint">Punt de ruta. Clicant a sobre obtenim informaci&oacute; de com arribar des d'aqu&iacute; al seg&uuml;ent punt de ruta.</li>
+#. <li class="image_bullet_tall poi">Punt d'inter&egrave;s. Clicant a sobre es desplega informaci&oacute; sobre algun tema d'inter&egrave;s relacionat amb el lloc on ens trobem.</li>
+#. <li class="image_bullet_tall holet_alert">Av&iacute;s. Clicant a sobre obtenim avisos sobre temes de seguretat o afectacions al medi ambient en el lloc on ens trobem.</li>
+#. </ul>
+#. <p>Durant el recorregut el vibrador i un senyal ac&uacute;stic del dispositiu ens avisaran que estem arribant a algun d'aquests punts.</p>
 #: frontulet/views.py:86 loco:545119d2f1612903df0b74d0
 msgid "manual_itineraries_text"
 msgstr ""
-"<p>Sobre els mapes dels itineraris poden aparèixer tres tipus d'icones:</p><"
-"ul class='no_bullet'><li class='image_bullet waypoint'>Punt de ruta. Clicant "
-"a sobre obtenim informació de com arribar des d'aquí al següent punt de ruta.</"
-"li><li class='image_bullet poi'>Punt d'interès. Clicant a sobre es desplega "
-"informació sobre algun tema d'interès relacionat amb el lloc on ens trobem.</"
-"li><li class='image_bullet holet_alert'>Avís. Clicant a sobre obtenim avisos "
-"sobre temes de seguretat o afectacions al medi ambient en el lloc on ens "
-"trobem.</li></ul><p>Durant el recorregut el vibrador i un senyal acústic del "
-"dispositiu ens avisaran que estem arribant a algun d'aquests punts.</p>"
+"<p>Sobre els mapes dels itineraris poden apar&egrave;ixer tres tipus d'icones:</"
+"p>\n"
+"<ul class=\"no_bullet\">\n"
+"<li class=\"image_bullet_tall waypoint\">Punt de ruta. Clicant a sobre obtenim "
+"informaci&oacute; de com arribar des d'aqu&iacute; al seg&uuml;ent punt de "
+"ruta.</li>\n"
+"<li class=\"image_bullet_tall poi\">Punt d'inter&egrave;s. Clicant a sobre es "
+"desplega informaci&oacute; sobre algun tema d'inter&egrave;s relacionat amb "
+"el lloc on ens trobem.</li>\n"
+"<li class=\"image_bullet_tall holet_alert\">Av&iacute;s. Clicant a sobre "
+"obtenim avisos sobre temes de seguretat o afectacions al medi ambient en el "
+"lloc on ens trobem.</li>\n"
+"</ul>\n"
+"<p>Durant el recorregut el vibrador i un senyal ac&uacute;stic del dispositiu "
+"ens avisaran que estem arribant a algun d'aquests punts.</p>"
 
 #. Source text: SELECCIÓ DITINERARIS:
 #: frontulet/views.py:81 loco:545119d2f1612903df0b74cd
@@ -1377,6 +1429,11 @@ msgstr ""
 "itineraris.</p><p>El botó de menú secundari permet fixar les preferències (l'"
 "idioma i l'interval de temps entre posicionaments GPS consecutius) i "
 "registrar-se com a usuari/a (opcional).</p>"
+
+#. Source text: Material gràfic
+#: appulet/models.py:304 loco:547855a2f1612903df0e50c9
+msgid "media"
+msgstr "Material gràfic"
 
 #. Source text: Troba’t amb Eth Holet
 #: frontulet/templates/frontulet/landing_page.html:34
@@ -1728,6 +1785,11 @@ msgstr "Res"
 msgid "now_logged_in_as"
 msgstr "T'has connectat com\n"
 
+#. Source text: Itinerari oficial
+#: appulet/models.py:188 loco:547855a2f1612903df0e50c6
+msgid "official_route"
+msgstr "Itinerari oficial"
+
 #. Source text: Ara mateix no tens connexió a Internet. Torna a provar més tard, si us plau.
 #: loco:54761a3af1612903df0e1076
 msgid "offline_try_again"
@@ -1823,6 +1885,11 @@ msgstr "Processant, espera si us plau. (Això pot tardar uns pocs minuts)"
 #: frontulet/templates/frontulet/user_profile.html:26 loco:#: 545119d7f1612903df0b7570
 msgid "profile"
 msgstr "Perfil a Eth Holet"
+
+#. Source text: Radi
+#: appulet/models.py:305 loco:547855a2f1612903df0e50ca
+msgid "radius"
+msgstr "Radi"
 
 #. Source text: Segur que vols continuar?
 #: loco:5446e1faf1612903df0ab564
@@ -1971,6 +2038,31 @@ msgstr "Abans de sortir"
 #: loco:5446e1faf1612903df0ab566
 msgid "shared_itineraries"
 msgstr "Itineraris compartits..."
+
+#. Source text: Descripció breu - Aranès
+#: appulet/models.py:172 appulet/models.py:252 loco:547855a1f1612903df0e50bb
+msgid "short_description_aranese"
+msgstr "Descripció breu - Aranès"
+
+#. Source text: Descripció breu - Català
+#: appulet/models.py:174 appulet/models.py:254 loco:547855a1f1612903df0e50bd
+msgid "short_description_catalan"
+msgstr "Descripció breu - Català"
+
+#. Source text: Descripció breu - Anglès
+#: appulet/models.py:176 appulet/models.py:256 loco:547855a1f1612903df0e50bf
+msgid "short_description_english"
+msgstr "Descripció breu - Anglès"
+
+#. Source text: Descripció breu - Francès
+#: appulet/models.py:175 loco:547855a1f1612903df0e50be
+msgid "short_description_french"
+msgstr "Descripció breu - Francès"
+
+#. Source text: Descripció breu - Castellà
+#: appulet/models.py:173 appulet/models.py:253 loco:547855a1f1612903df0e50bc
+msgid "short_description_spanish"
+msgstr "Descripció breu - Castellà"
 
 #. Source text: Mostrar tots els idiomes
 #: frontulet/templates/frontulet/create_ii_box.html:28
@@ -2127,6 +2219,11 @@ msgstr "Distància total"
 #: loco:5446e1f9f1612903df0ab54c
 msgid "total_time"
 msgstr "Temps total"
+
+#. Source text: Recorregut
+#: appulet/models.py:183 loco:547855a2f1612903df0e50c2
+msgid "track"
+msgstr "Recorregut"
 
 #. Source text: Eth Holet està seguint la teva ruta.
 #: loco:5446e1f7f1612903df0ab50c
@@ -2454,3 +2551,8 @@ msgstr ""
 "Hi ha algun fitxer en la teva carpeta ZIP que té una ruta que comença amb \"../\". "
 "Si us plau, no assignis als fitxers de la carpeta rutes que s'adrecin fora de "
 "la pròpia carpeta."
+
+#. Source text: Fitxer ZIP
+#: appulet/models.py:88 loco:547855a1f1612903df0e50b4
+msgid "zip_file"
+msgstr "Fitxer ZIP"
