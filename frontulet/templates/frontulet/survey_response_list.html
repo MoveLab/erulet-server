@@ -33,7 +33,7 @@
 
         {% for question in questions %}
 
-            <h3>{{ question.question }}</h3>
+            <h3>{{ question.question| safe }}</h3>
             <p>{% trans "average_response:" %} {{ question.average_response |floatformat }}</p>
             <p>{% trans "minimum_response:" %} {{ question.min_response }}</p>
             <p>{% trans "maximum_response:" %} {{ question.max_response }}</p>

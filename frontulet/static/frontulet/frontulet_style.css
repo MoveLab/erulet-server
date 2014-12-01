@@ -58,3 +58,7 @@
 .navbar-wrapper .navbar .container {
   width: auto;
 }
+
+.navbar-wrapper [name=language] {
+    margin-right:5px;
+}

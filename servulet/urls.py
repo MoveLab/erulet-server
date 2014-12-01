@@ -20,6 +20,7 @@ urlpatterns = patterns('', url(r'^admin/', include(admin.site.urls)),
 
 urlpatterns += i18n_patterns('',
     url(r'^home/', show_home, name='show_home'),
+    url(r'^survey/$', show_survey, name='show_general_survey_web'),
     url(r'^survey/(?P<mob>\w+)/(?P<survey_name>\w+)/$', show_survey),
     url(r'^survey/(?P<mob>\w+)/(?P<survey_name>\w+)/(?P<route_id>[0-9]+)/$', show_survey),
     url(r'^survey_submitted/(?P<mob>\w+)/(?P<response_code>\w+)/$', show_survey_submitted, name='show_survey_submitted'),

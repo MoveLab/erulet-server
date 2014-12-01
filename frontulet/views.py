@@ -1086,7 +1086,7 @@ def delete_general_reference(request, reference_id):
 import floppyforms
 
 
-def show_survey(request, mob, survey_name, route_id=None):
+def show_survey(request, mob='web', survey_name='general_survey', route_id=None):
     args = {}
     args.update(csrf(request))
     lang = request.LANGUAGE_CODE
@@ -1118,7 +1118,7 @@ def show_survey(request, mob, survey_name, route_id=None):
         formset = survey_formset(queryset=SurveyResponse.objects.none(), initial=initial)
         args['formset'] = formset
         args['lang'] = lang
-    return render_to_response('frontulet/survey' + mob + '.html', args)
+    return render(request, 'frontulet/survey' + mob + '.html', args)
 
 
 def show_survey_submitted(request, response_code, mob):
@@ -1131,6 +1131,6 @@ def show_survey_submitted(request, response_code, mob):
 
 def show_survey_results(request):
     lang = request.LANGUAGE_CODE
-    questions = map(lambda x: {'question': x.get_question(lang), 'average_response': x.get_average_response(), 'total_responses': x.get_total_responses(), 'min_response': x.get_min_response(), 'max_response': x.get_max_response(), 'sd_responses': x.get_sd_responses}, list(SurveyQuestion.objects.all()))
+    questions = map(lambda x: {'question': x.get_question(lang), 'average_response': x.get_average_response(), 'total_responses': x.get_total_responses(), 'min_response': x.get_min_response(), 'max_response': x.get_max_response(), 'sd_responses': x.get_sd_responses}, list(SurveyQuestion.objects.all().order_by('id')))
     context = {'questions': questions}
     return render(request, 'frontulet/survey_response_list.html', context)
