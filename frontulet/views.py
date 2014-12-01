@@ -98,7 +98,7 @@ def show_map(request):
     route_list = list()
     for route in Route.objects.all():
         these_track_steps = filter(lambda step: step.order is not None, route.track.steps.all().order_by('order'))
-        these_highlight_steps = filter(lambda step: step.order is None, route.track.steps.all())
+        these_highlight_steps = route.track.steps.all()
         these_highlights = map(lambda highlight: {'route_name': highlight.step.track.route.get_name(request.LANGUAGE_CODE), 'route_id': highlight.step.track.route.id, 'highlight_id': highlight.id, 'latitude': highlight.step.latitude, 'longitude': highlight.step.longitude, 'name': highlight.get_name(request.LANGUAGE_CODE), 'long_text': highlight.get_long_text(request.LANGUAGE_CODE), 'type': highlight.type}, [hl for hl in Highlight.objects.filter(step__in=these_highlight_steps).order_by('order')])
         route_list.append({'track_steps': these_track_steps, 'highlights': these_highlights, 'name': route.get_name(request.LANGUAGE_CODE), 'description': route.get_description(request.LANGUAGE_CODE), 'route_id': str(route.id)})
     context = {'routes': Route.objects.all(), 'route_list': route_list}
