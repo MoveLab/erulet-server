@@ -116,12 +116,19 @@
                 }
             });
 
+           var alert_icon_class = L.Icon.Default.extend({
+            options: {
+                iconUrl: '{% static "frontulet/icons/map_markers/ic_marker_alert.png" %}'
+            }
+           });
+
             var wp_icon = new wp_icon_class;
             var poi_icon = new poi_icon_class;
+            var alert_icon = new alert_icon_class;
 
             var poi_markers = new L.LayerGroup();
-
             var wp_markers = new L.LayerGroup();
+            var alert_markers = new L.LayerGroup();
 
             var route_popup_text;
 
@@ -147,6 +154,10 @@
 
                                  poi_markers.addLayer(L.marker([{{ highlight.latitude }}, {{ highlight.longitude }}], {icon: poi_icon}).bindPopup(popup_text));
 
+                            {% elif highlight.type == 2 %}
+
+                                 alert_markers.addLayer(L.marker([{{ highlight.latitude }}, {{ highlight.longitude }}], {icon: alert_icon}).bindPopup(popup_text));
+
 
                             {% endif %}
 
@@ -165,7 +176,8 @@
 
                 var overlays = {
                 'points of interest': poi_markers,
-                'waypoints': wp_markers
+                'waypoints': wp_markers,
+                'alerts': alert_markers
             };
 
 

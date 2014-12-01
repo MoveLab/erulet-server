@@ -43,12 +43,21 @@
             }
         });
 
+        var alert_icon_class = L.Icon.Default.extend({
+            options: {
+                iconUrl: '{% static "frontulet/icons/map_markers/ic_marker_alert.png" %}'
+            }
+        });
+
         var wp_icon = new wp_icon_class;
         var poi_icon = new poi_icon_class;
+        var alert_icon = new alert_icon_class;
+
 
 
         var poi_markers = new L.LayerGroup();
         var wp_markers = new L.LayerGroup();
+        var alert_markers = new L.LayerGroup();
 
         var these_latlngs = [];
 
@@ -94,6 +103,10 @@
 
                         poi_markers.addLayer(L.marker([{{ highlight.step.latitude }}, {{ highlight.step.longitude }}], {icon: poi_icon}).bindPopup(popup_text, popup_options));
 
+                    {% elif highlight.type == 2 %}
+
+                        alert_markers.addLayer(L.marker([{{ highlight.step.latitude }}, {{ highlight.step.longitude }}], {icon: alert_icon}).bindPopup(popup_text, popup_options));
+
 
                     {% endif %}
 
@@ -110,6 +123,7 @@
 
             wp_markers.addTo(map);
             poi_markers.addTo(map);
+            alert_markers.addTo(map);
 
         }
 
