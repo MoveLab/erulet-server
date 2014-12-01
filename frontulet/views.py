@@ -108,23 +108,23 @@ def show_map(request):
 def show_route_list(request, whose=''):
     if request.user.is_authenticated():
         if whose == 'mine':
-            routes = Route.objects.filter(created_by=request.user)
+            routes = Route.objects.filter(created_by=request.user).order_by('display_order')
             title = _('route_list_my_routes')
         elif whose == 'others':
-            routes = Route.objects.exclude(created_by=request.user)
+            routes = Route.objects.exclude(created_by=request.user).order_by('display_order')
             title = _("route_list_other_hikers_routes")
         elif whose == 'official':
-            routes = Route.objects.filter(official=True)
+            routes = Route.objects.filter(official=True).order_by('display_order')
             title = _("route_list_holets_routes")
         else:
-            routes = Route.objects.all()
+            routes = Route.objects.all().order_by('display_order')
             title = _("route_list_all_routes")
     else:
         if whose == 'official':
-            routes = Route.objects.filter(official=True)
+            routes = Route.objects.filter(official=True).order_by('display_order')
             title = _("route_list_holets_routes")
         else:
-            routes = Route.objects.all()
+            routes = Route.objects.all().order_by('display_order')
             title = _("route_list_all_routes")
     routes_localized = map(lambda route: {'name': route.get_name(request.LANGUAGE_CODE), 'short_description': route.get_short_description(request.LANGUAGE_CODE), 'id': route.id}, [r for r in routes])
     context = {'routes': routes_localized, 'title': title}

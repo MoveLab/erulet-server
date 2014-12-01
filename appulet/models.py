@@ -188,6 +188,7 @@ class Route(models.Model):
     official = models.BooleanField(_("official_route"), default=False)
     last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
     created = models.DateTimeField(auto_now_add=True, default=datetime.now())
+    display_order = models.PositiveSmallIntegerField(blank=True, null=True)
 
     def __unicode__(self):
         names = [self.name_oc, self.name_es, self.name_ca, self.name_fr, self.name_en]
