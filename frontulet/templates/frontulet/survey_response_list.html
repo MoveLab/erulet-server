@@ -33,12 +33,21 @@
 
         {% for question in questions %}
 
+            <div class="row">
+            <div class="col-lg-12">
             <h3>{{ question.question| safe }}</h3>
-            <p>{% trans "average_response:" %} {{ question.average_response |floatformat }}</p>
-            <p>{% trans "minimum_response:" %} {{ question.min_response }}</p>
-            <p>{% trans "maximum_response:" %} {{ question.max_response }}</p>
-            <p>{% trans "response_standard_deviation:" %} {{ question.sd_responses|floatformat }}</p>
-            <p>{% trans "number_of_responses:" %} {{ question.total_responses }}</p>
+            </div>
+            </div>
+            <div class="row">
+            <div class="col-lg-6">
+            <h4 style="text-align: right;"><span style="color:grey;">{% trans "average_response:" %}</span> <span style="color:red;">{{ question.average_response |floatformat }}</span></h4>
+            </div>
+            <div class="col-lg-6">
+            <h4><span style="color:grey;">{% trans "number_of_responses:" %}</span> <span style="color:red;">{{ question.total_responses }}</span></h4>
+            </div>
+            </div>
+
+                      <br><div class="border-row"></div><div class="border-row"></div><div class="border-row"></div><br>
 
         {% endfor %}
 

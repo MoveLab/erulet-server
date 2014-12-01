@@ -22,13 +22,20 @@
                 </h1>{% endblock %}
        </div>
 
+    <div class="row">
     <div id="outer_container">
 
 
-                <div id="view_alert_message" class="alert alert-info alert-dismissible" role="alert"></div>
                 <img id="photo" src={{ image_url }}>
                 <canvas height={{ original_height }} width={{ original_width }} id="view_canvas_background"></canvas>
                 <canvas height={{ original_height }} width={{ original_width }} id="view_canvas"></canvas>
+
+    </div>
+
+        </div>
+    <div class="row">
+    <div id="view_alert_message" class="alert alert-info alert-dismissible center-block" role="alert"></div>
+
 
     </div>
 
@@ -61,7 +68,7 @@ var window_height=window.innerHeight
 || document.documentElement.clientHeight
 || document.body.clientHeight;
 
-var display_width = Math.min(.97* window_width, {{ original_width }});
+var display_width = Math.min(.70* window_width, {{ original_width }});
 var sf = display_width/{{ original_width }};
 var display_height = sf*{{ original_height }};
 
@@ -79,9 +86,11 @@ canvas_background.style.height = display_height + "px";
                 (rectY <= pointY) && (rectY + rectHeight >= pointY);
     }
 
+    // removing fill by making totally transparent; this way easy to restore later
+    var fill_style = 'rgba(0, 0, 255, 0)';
 
     function drawAreas(){
-        ctxb.fillStyle = 'rgba(0, 0, 255, .3)';
+        ctxb.fillStyle = fill_style;
         {% for box in boxes %}
             ctxb.fillRect({{ box.box.min_x }}, {{ box.box.min_y }}, {{ box.box.max_x }}-{{ box.box.min_x }}, {{ box.box.max_y }}-{{ box.box.min_y }});
         {% endfor %}
@@ -92,7 +101,7 @@ canvas_background.style.height = display_height + "px";
     function draw(rectX, rectY, rectWidth, rectHeight){
                 if(!alertup){
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = 'rgba(0, 0, 255,.3)';
+        ctx.fillStyle = fill_style;
         ctx.fillRect(rectX, rectY, rectWidth, rectHeight);
         ctx.beginPath();
         ctx.strokeStyle = "#00FFFF";
