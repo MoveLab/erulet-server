@@ -472,7 +472,7 @@ class Rating(models.Model):
     def __unicode__(self):
         this_name = 'Rating ' + str(self.id)
         if self.highlight is not None:
-            this_name = 'Rating for highlight: ' + self.highlight__unicode__()
+            this_name = 'Rating for highlight: ' + self.highlight.__unicode__()
         elif self.route is not None:
             this_name = 'Rating for route: ' + self.route.__unicode__()
         return this_name
