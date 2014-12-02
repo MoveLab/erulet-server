@@ -503,6 +503,37 @@ class Rating(models.Model):
             this_name = 'Rating for route: ' + self.route.__unicode__()
         return this_name
 
+    # functions for grabbing latest route and highlight stats so that these can be
+    # easily returned to apps in POST responses
+    def get_average_route_rating(self):
+        if self.route:
+            return self.route.average_rating
+        else:
+            return None
+
+    def get_total_route_ratings(self):
+        if self.route:
+            return self.route.total_ratings
+        else:
+            return None
+
+    def get_average_highlight_rating(self):
+        if self.highlight:
+            return self.highlight.average_rating
+        else:
+            return None
+
+    def get_total_highlight_ratings(self):
+        if self.highlight:
+            return self.highlight.total_ratings
+        else:
+            return None
+
+    average_route_rating = property(get_average_route_rating)
+    total_route_ratings = property(get_total_route_ratings)
+    average_highlight_rating = property(get_average_highlight_rating)
+    total_highlight_ratings = property(get_total_highlight_ratings)
+
 
 class SurveyScheme(models.Model):
     unique_name = models.CharField(max_length=100, unique=True)

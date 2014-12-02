@@ -211,6 +211,10 @@ class UserRouteNestedSerializer(serializers.ModelSerializer):
 class RatingSerializer(serializers.ModelSerializer):
     server_id = serializers.IntegerField(source='id', read_only=True)
     owner = serializers.Field(source='user.username')
+    average_route_rating = serializers.Field()
+    total_route_ratings = serializers.Field()
+    average_highlight_rating = serializers.Field()
+    total_highlight_ratings = serializers.Field()
 
     class Meta:
         model = Rating

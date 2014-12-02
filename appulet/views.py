@@ -1020,6 +1020,10 @@ class UserRatingViewSet(viewsets.ModelViewSet):
 
     * owner: username of the user who created this rating.
     * server_id: unique integer id assigned to the rating by the server.
+    * average_route_rating: Float representing average rating of the route (if any) associated with this rating. This field can be used to update ratings in the app from the response to a rating POST.
+    * total_route_ratings: Integer representing total number of ratings of the route (if any) associated with this rating. (Only one rating per user is counted.) This field can be used to update ratings in the app from the response to a rating POST.
+    * average_highlight_rating: Float representing average rating of the highlight (if any) associated with this rating. This field can be used to update ratings in the app from the response to a rating POST.
+    * total_highlight_ratings: Integer representing total number of ratings of the highlight (if any) associated with this rating. (Only one rating per user is counted.) This field can be used to update ratings in the app from the response to a rating POST.
     * rating: integer between 0 and 5,
     * time: Date and time when rating was done. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
     * highlight: the server ID of the highlight to which this rating is associated (if it is for a highlight)

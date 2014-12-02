@@ -467,7 +467,13 @@
             success: function (data) {
                 $('#route_rating_progress').hide();
                 $('#route_rating_alert').fadeIn(400).delay(3000).fadeOut(400);
-                $('#route_average_rating').val('<strong>{% trans "average_rating" %} {{ route.get_average_rating|floatformat }}</strong> ({% with total_ratings=route.get_total_ratings %}{{ total_ratings }} {% if total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %}{% endwith %})');
+                var new_average = data['average_route_rating'];
+                var new_total = data['total_route_ratings'];
+                var votes = {% trans "votes" %};
+                if(new_total == 1){
+                    votes = {% trans "vote" %};
+                }
+                $('#route_average_rating').val('<strong>{% trans "average_rating" %} ' + String(new_average) + '</strong> (' + String(new_total) + ' ' + String(votes) + ')');
             }
         });
         return suppress(event);
@@ -497,9 +503,13 @@
             success: function (data) {
                 $('#highlight_rating_processing_' + highlight_id).hide();
                 $('#highlight_rating_alert_' + highlight_id).fadeIn(400).delay(3000).fadeOut(400);
-                {% for highlight in these_highlights %}
-                $('#highlight_average_rating_' + highlight_id).val('<strong>{% trans "average_rating" %} {{ highlight.get_average_rating|floatformat }}</strong> ({% with total_ratings=highlight.get_total_ratings %}{{ total_ratings }} {% if total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %}{% endwith %})');
-                {% endfor %}
+                var new_average = data['average_route_rating'];
+                var new_total = data['total_route_ratings'];
+                var votes = {% trans "votes" %};
+                if(new_total == 1){
+                    votes = {% trans "vote" %};
+                }
+                $('#highlight_average_rating_' + highlight_id).val('<strong>{% trans "average_rating" %} ' + String(new_average) + '</strong> (' + String(new_total) + ' ' + String(votes) + ')');
             }
         });
         return suppress(event);
