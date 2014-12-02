@@ -133,6 +133,7 @@ def show_route_list(request, whose=''):
 
 def show_route_detail(request, id):
     context = {'name': _('no_route'), 'short_description': '', 'description': _('no_route_text')}
+    context.update(csrf(request))
     this_id = int(id)
     lang = request.LANGUAGE_CODE
     if Route.objects.filter(pk=this_id):

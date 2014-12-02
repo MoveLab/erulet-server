@@ -160,13 +160,13 @@
         {% endif %}
 
         {% if request.user.is_authenticated %}
-               <form class="form-inline" role="form" method="post" id="route_rating_form">
+               <form class="form-inline" role="form" method="post" id="route_rating_form">{% csrf_token %}
   <div class="form-group">
     <div class="input-group">
 <input id="route_stars" type="number" class="rating" min=0 max=5 step=1 data-size="sm" data-show-clear="false" data-show-caption="false" value="{{ user_route_rating }}">
     </div>
   </div>
-  <button type="button" onclick="submit_rating(event)" class="btn btn-primary btn-sm">{% trans "Rate it!" %}</button>
+  <button type="submit" class="btn btn-primary btn-sm">{% trans "Rate it!" %}</button>
   <div id="route_rating_alert" style="display:none;">sent!</div>
 </form>
 
@@ -430,8 +430,8 @@
     return false;
 }
 
-
-    function submit_rating(event) {
+    $(document).ready(function() {
+    $('form#route_rating_form').submit(function(event) {
         var this_rating = $("#route_stars").val();
         $.ajax({
             type: 'post',
@@ -442,16 +442,17 @@
             headers: {
                 'Authorization': 'Token {{ request.user.auth_token.key }}'
             },
-            data: JSON.stringify({
+            data: {
                 'rating': this_rating,
                 'route': {{ id }}
-            }),
+            },
             success: function (data) {
                 $('#route_rating_alert').fadeIn(400).delay(3000).fadeOut(400);
             }
         });
         return suppress(event);
-    }
+    });
+    });
 
     </script>
 
