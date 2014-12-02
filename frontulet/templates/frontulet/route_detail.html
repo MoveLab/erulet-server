@@ -446,6 +446,9 @@
                 'rating': this_rating,
                 'route': {{ id }}
             },
+            beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+            },
             success: function (data) {
                 $('#route_rating_alert').fadeIn(400).delay(3000).fadeOut(400);
             }
