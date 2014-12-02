@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Eth Holet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue, 21 Oct 2014 23:41:16 +0100\n"
-"PO-Revision-Date: Tue, 02 Dec 2014 04:04:17 +0000\n"
+"PO-Revision-Date: Tue, 02 Dec 2014 19:18:21 +0000\n"
 "Last-Translator: John Palmer\n"
 "Language-Team: John Palmer\n"
 "Language: Spanish\n"
@@ -1146,13 +1146,13 @@ msgstr "Ubicación:"
 msgid "location_not_enabled"
 msgstr "La localización del dispositivo no está activada; hay que activarla."
 
-#. Source text: Log in to existing account
+#. Source text: Entrar
 #: frontulet/templates/frontulet/base.html:150
 #: templates/registration/login.html:67
 #: templates/registration/login_mob.html:40
 #: templates/registration/no_permission_must_be _translator.html:43 loco:#: 545119d4f1612903df0b7504
 msgid "login"
-msgstr "entrar"
+msgstr "Entrar"
 
 #. Source text: Cal que et connectis com a usuari/a registrat/da per crear o editar itineraris.
 #: templates/registration/no_permission_must_login.html:40 loco:#: 545119d8f1612903df0b758a
@@ -2022,7 +2022,7 @@ msgstr "¿Seguro que quieres continuar?"
 msgid "reference"
 msgstr "Nuevo artículo"
 
-#. Source text: Register new account
+#. Source text: Registrar-se
 #: frontulet/templates/frontulet/base.html:153
 #: templates/registration/login.html:15
 #: templates/registration/no_permission_must_be _translator.html:43

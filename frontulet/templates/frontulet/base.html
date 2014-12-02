@@ -83,7 +83,7 @@
                                     <li><a href={% url "make_new_route" %}>{% trans "navbar_routes_add_new" %}</a></li>
                                     {% endif %}
                                     <li class="divider"></li>
-                                    <li><a href={% url "show_general_survey_web" %}>{% trans "eth_holet_survey" %}</a></li>
+                                    <li><a onclick="window.open(this.href, 'mywin', 'left=200,top=20,width=500,height=700,scrollbars=1,menubar=0,status=0,titlebar=0,toolbar=1,resizable=1'); return false;" href={% url "show_general_survey_web" %}>{% trans "eth_holet_survey" %}</a></li>
                                     <li><a href={% url "show_survey_results" %}>{% trans "survey_results" %}</a></li>
 
 

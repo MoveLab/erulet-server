@@ -30,3 +30,14 @@
 </div>
 
 {% endblock %}
+
+{% block body_scripts %}
+{{ block.super }}
+
+         <script>
+        $(document).ready(function() {
+            window.close();
+        });
+    </script>
+
+{% endblock %}

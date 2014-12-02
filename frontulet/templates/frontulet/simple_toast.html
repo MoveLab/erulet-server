@@ -1,0 +1,33 @@
+{% extends "frontulet/mobile_base.html" %}
+{% load staticfiles %}
+{% load i18n %}
+
+
+{% block head_content %}
+
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+
+{% endblock %}
+
+
+{% block body_content %}
+
+<div data-role="page" data-url="{% url 'show_survey_submitted_mob' response_code %}">
+
+	<div data-role="header"><h1>{% trans 'eth_holet_survey' %}</h1>
+</div>
+
+
+<div role="main" class="ui-content">
+
+                <h1>{{ message|safe }}</h1>
+
+</div>
+
+</div>
+
+
+{% endblock %}

@@ -145,7 +145,7 @@ def show_route_detail(request, id):
             reference_html = reference_html_raw.replace('src="', 'src="'+this_route.reference.reference_url_base+'/').replace('../general_references', '/media/holet/references/general_references')
         owner = request.user == this_route.created_by
         these_steps = this_route.track.steps.all().order_by('order')
-        these_highlights_localized = map(lambda h: {'id': h.id, 'average_rating': h.get_average_rating(), 'total_ratings': h.get_total_ratings(), 'user_rating': h.get_user_rating(request.user), 'name': h.get_name(lang), 'long_text': h.get_long_text(lang), 'media': h.media, 'image': h.image, 'video': h.video, 'media_ext': h.media_ext, 'radius': h.radius, 'type': h.type, 'step': h.step, 'order': h.order, 'references': map(lambda r: {'id': r.id, 'name': r.get_name(lang), 'html': re.sub('(?i)href="(?=((?!http//)[^>]+).mp4")', 'href="/media/holet/references/' + str(r.id) + '/', r.get_reference_html(lang).replace('src="', 'src="'+r.reference_url_base+'/').replace('href="../general_references', 'onclick="window.open(this.href, \'mywin\', \'left=20,top=20,width=400,height=600,scrollbars=1,menubar=0,status=0,titlebar=0,toolbar=1,resizable=1\'); return false;" href="/media/holet/references/general_references').split('</head>')[-1].split('</html>')[0])}, [ref for ref in h.references.all()]), 'interactive_images': [ii for ii in h.interactive_images.all()]}, [hl for hl in Highlight.objects.filter(step__in=these_steps).order_by('type', 'order')])
+        these_highlights_localized = map(lambda h: {'id': h.id, 'average_rating': h.get_average_rating(), 'total_ratings': h.get_total_ratings(), 'user_rating': h.get_user_rating(request.user), 'name': h.get_name(lang), 'long_text': h.get_long_text(lang), 'media': h.media, 'image': h.image, 'video': h.video, 'media_ext': h.media_ext, 'radius': h.radius, 'type': h.type, 'step': h.step, 'order': h.order, 'references': map(lambda r: {'id': r.id, 'name': r.get_name(lang), 'html': re.sub('(?i)href="(?=((?!http//)[^>]+).mp4")', 'href="/media/holet/references/' + str(r.id) + '/', r.get_reference_html(lang).replace('src="', 'src="'+r.reference_url_base+'/').replace('href="../general_references', 'onclick="window.open(this.href, \'mywin\', \'left=20,top=20,width=500,height=700,scrollbars=1,menubar=0,status=0,titlebar=0,toolbar=1,resizable=1\'); return false;" href="/media/holet/references/general_references').split('</head>')[-1].split('</html>')[0])}, [ref for ref in h.references.all()]), 'interactive_images': [ii for ii in h.interactive_images.all()]}, [hl for hl in Highlight.objects.filter(step__in=these_steps).order_by('type', 'order')])
         context = {'owner': owner, 'name': this_route.get_name(lang), 'short_description': this_route.get_short_description(lang), 'description': this_route.get_description(lang), 'average_rating': this_route.get_average_rating(), 'total_ratings': this_route.get_total_ratings(), 'user_route_rating': this_route.get_user_rating(request.user), 'has_reference': has_reference, 'reference_html': reference_html, 'steps': these_steps, 'these_highlights': these_highlights_localized, 'id': this_id, 'route': this_route}
     return render(request, 'frontulet/route_detail.html', context)
 
@@ -1102,7 +1102,7 @@ def show_survey(request, mob='web', survey_name='general_survey', route_id=None)
     this_route = None
     if route_id and Route.objects.filter(id=route_id).count() == 1:
         this_route = Route.objects.get(id=route_id)
-    widgets = {'integer_response': floppyforms.RangeInput(attrs={'min': 0, 'max': 100, 'step': 1})}
+    widgets = {'integer_response': floppyforms.RangeInput(attrs={'min': 0, 'max': 100, 'step': 1, 'data-highlight': 'true'})}
     extra = this_scheme.questions.all().count()
     survey_formset = modelformset_factory(SurveyResponse, fields=('integer_response',), extra=extra, labels={'integer_response': ''}, widgets=widgets)
     if request.method == 'POST':
@@ -1126,7 +1126,7 @@ def show_survey(request, mob='web', survey_name='general_survey', route_id=None)
         formset = survey_formset(queryset=SurveyResponse.objects.none(), initial=initial)
         args['formset'] = formset
         args['lang'] = lang
-    return render(request, 'frontulet/survey' + mob + '.html', args)
+    return render(request, 'frontulet/surveymob.html', args)
 
 
 def show_survey_submitted(request, response_code, mob):

@@ -3,18 +3,18 @@ msgstr ""
 "Project-Id-Version: Eth Holet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue, 21 Oct 2014 23:41:16 +0100\n"
-"PO-Revision-Date: Tue, 02 Dec 2014 04:04:17 +0000\n"
+"PO-Revision-Date: Tue, 02 Dec 2014 19:18:21 +0000\n"
 "Last-Translator: John Palmer\n"
 "Language-Team: John Palmer\n"
-"Language: French\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"Language: Catalan (Spain)\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Generator: Loco https://localise.biz\n"
 "X-Loco-Source-Locale: ca_ES\n"
-"X-Loco-Target-Locale: fr_FR\n"
+"X-Loco-Target-Locale: ca_ES\n"
 "X-Loco-Project-Id: 3758\n"
 "X-Loco-Lookup: id\n"
 "X-Loco-Api-Version: 1.0.8"
@@ -1145,13 +1145,13 @@ msgstr "Ubicació:"
 msgid "location_not_enabled"
 msgstr "La localització del dispositiu no està activada; cal activar-la."
 
-#. Source text: Log in to existing account
+#. Source text: Entrar
 #: frontulet/templates/frontulet/base.html:150
 #: templates/registration/login.html:67
 #: templates/registration/login_mob.html:40
 #: templates/registration/no_permission_must_be _translator.html:43 loco:#: 545119d4f1612903df0b7504
 msgid "login"
-msgstr "Log in to existing account"
+msgstr "Entrar"
 
 #. Source text: Cal que et connectis com a usuari/a registrat/da per crear o editar itineraris.
 #: templates/registration/no_permission_must_login.html:40 loco:#: 545119d8f1612903df0b758a
@@ -1437,18 +1437,18 @@ msgstr "ITINERARIS:"
 msgid "manual_itineraries_text"
 msgstr ""
 "<p>Sobre els mapes dels itineraris poden apar&egrave;ixer tres tipus d'icones:</"
-"p>\n"
-"<ul class=\"no_bullet\">\n"
+"p>"
+"<ul class=\"no_bullet\">"
 "<li class=\"image_bullet_tall waypoint\">Punt de ruta. Clicant a sobre obtenim "
 "informaci&oacute; de com arribar des d'aqu&iacute; al seg&uuml;ent punt de "
-"ruta.</li>\n"
+"ruta.</li>"
 "<li class=\"image_bullet_tall poi\">Punt d'inter&egrave;s. Clicant a sobre es "
 "desplega informaci&oacute; sobre algun tema d'inter&egrave;s relacionat amb "
-"el lloc on ens trobem.</li>\n"
+"el lloc on ens trobem.</li>"
 "<li class=\"image_bullet_tall holet_alert\">Av&iacute;s. Clicant a sobre "
 "obtenim avisos sobre temes de seguretat o afectacions al medi ambient en el "
-"lloc on ens trobem.</li>\n"
-"</ul>\n"
+"lloc on ens trobem.</li>"
+"</ul>"
 "<p>Durant el recorregut el vibrador i un senyal ac&uacute;stic del dispositiu "
 "ens avisaran que estem arribant a algun d'aquests punts.</p>"
 
@@ -1578,12 +1578,12 @@ msgstr "Els meus itineraris..."
 #: frontulet/views.py:84 loco:547855a2f1612903df0e50db
 msgid "my_itineraries_text"
 msgstr ""
-"<ul class=\"no_bullet\">\n"
+"<ul class=\"no_bullet\">"
 "<li class=\"image_bullet edit\">Obre la pantalla d'edici&oacute; de l'itinerari.</"
-"li>\n"
+"li>"
 "<li class=\"image_bullet upload\">Envia el nostre itinerari al n&uacute;vol.</"
-"li>\n"
-"<li class=\"image_bullet delete\">Esborra l'itinerari</li>\n"
+"li>"
+"<li class=\"image_bullet delete\">Esborra l'itinerari</li>"
 "</ul>"
 
 #. Source text: Els meus itineraris
@@ -2017,7 +2017,7 @@ msgstr "Segur que vols continuar?"
 msgid "reference"
 msgstr "Nou article"
 
-#. Source text: Register new account
+#. Source text: Registrar-se
 #: frontulet/templates/frontulet/base.html:153
 #: templates/registration/login.html:15
 #: templates/registration/no_permission_must_be _translator.html:43
@@ -2026,7 +2026,7 @@ msgstr "Nou article"
 #: templates/registration/register_mob.html:28
 #: templates/registration/registration_base.html:38 loco:545119d4f1612903df0b7505
 msgid "register"
-msgstr "Register new account"
+msgstr "Registrar-se"
 
 #. Source text: Registrar usuari/a
 #: loco:5446e1faf1612903df0ab569
