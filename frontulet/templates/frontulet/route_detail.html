@@ -438,6 +438,12 @@
 
     $('#route_stars').rating('update', {{ user_route_rating }});
 
+        {% for highlight in these_highlights %}
+
+             $('#highlight_stars_' + {{ highlight.id }}).rating('update', {{ highlight.user_rating }});
+
+        {% endfor %}
+
     $('form#route_rating_form').submit(function(event) {
         var this_rating = $("#route_stars").val();
         var csrftoken = $.cookie('csrftoken');
