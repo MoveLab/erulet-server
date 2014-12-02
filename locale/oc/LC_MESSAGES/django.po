@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Eth Holet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue, 21 Oct 2014 23:41:16 +0100\n"
-"PO-Revision-Date: Sun, 30 Nov 2014 22:27:43 +0000\n"
+"PO-Revision-Date: Tue, 02 Dec 2014 04:04:17 +0000\n"
 "Last-Translator: John Palmer\n"
 "Language-Team: John Palmer\n"
 "Language: Aranese\n"
@@ -1245,17 +1245,10 @@ msgstr "Equipa d'Eth Holet: LOOP e MoveLab (CEAB-CSIC, CREAF i UB)"
 
 #. Source text: Eth Holet et guiarà a través dels camins de la Val d’Aran. Rebràs avisos i informació suplementària quan estiguis a prop dels punts d’interès.
 #: frontulet/templates/frontulet/landing_page.html:132 loco:#: 545119d6f1612903df0b7546
-msgid "lp_holet_will _guide_you"
+msgid "lp_holet_will_guide_you"
 msgstr ""
 "Eth Holet te guidarà a trauès des camins dera Val d’Aran. Receberàs avisi e "
 "informacion suplementària quan sigues a pròp des punts d’interès."
-
-#. Source text: Eth Holet et guiarà a través dels camins de la Val d’Aran. Rebràs avisos i informació suplementària quan estiguis a prop dels punts d’interès.
-#: frontulet/templates/frontulet/landing_page.html:133 loco:#: 547855a2f1612903df0e50ed
-msgid "lp_holet_will_guide_you"
-msgstr ""
-"Eth Holet te guidarà a trauès des camins dera Val d'Aran. Receberàs avisi e "
-"informacion suplementàra quan sigues a pròp des punts d'interès."
 
 #. Source text: Aprèn sobre els rius i estanys de la Val d’Aran. Eth Holet està ple de materials divulgatius fets per científics que han treballat aquí des de fa anys.
 #: frontulet/templates/frontulet/landing_page.html:143 loco:#: 545119d6f1612903df0b7548
@@ -1448,7 +1441,7 @@ msgstr ""
 "<p>Pendent eth recorrut eth vibrador e ua senhau acustica deth dispositiu mos "
 "avisar&agrave;n qu'arribam a b&egrave;th un d'aguesti punts.</p>"
 
-#. Source text: SELECCIÓ DITINERARIS:
+#. Source text: SELECCIÓ D'ITINERARIS:
 #: frontulet/views.py:81 loco:545119d2f1612903df0b74cd
 msgid "manual_itinerary_selection"
 msgstr "SELECCION D'ITINERARIS:"

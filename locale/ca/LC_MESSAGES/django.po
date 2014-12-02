@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Eth Holet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue, 21 Oct 2014 23:41:16 +0100\n"
-"PO-Revision-Date: Sun, 30 Nov 2014 22:27:42 +0000\n"
+"PO-Revision-Date: Tue, 02 Dec 2014 04:04:17 +0000\n"
 "Last-Translator: John Palmer\n"
 "Language-Team: John Palmer\n"
 "Language: Catalan (Spain)\n"
@@ -1255,13 +1255,6 @@ msgstr "Equip d'Eth Holet: LOOP i MoveLab (CEAB-CSIC, CREAF i UB)"
 
 #. Source text: Eth Holet et guiarà a través dels camins de la Val d’Aran. Rebràs avisos i informació suplementària quan estiguis a prop dels punts d’interès.
 #: frontulet/templates/frontulet/landing_page.html:132 loco:#: 545119d6f1612903df0b7546
-msgid "lp_holet_will _guide_you"
-msgstr ""
-"Eth Holet et guiarà a través dels camins de la Val d’Aran. Rebràs avisos i "
-"informació suplementària quan estiguis a prop dels punts d’interès."
-
-#. Source text: Eth Holet et guiarà a través dels camins de la Val d’Aran. Rebràs avisos i informació suplementària quan estiguis a prop dels punts d’interès.
-#: frontulet/templates/frontulet/landing_page.html:133 loco:#: 547855a2f1612903df0e50ed
 msgid "lp_holet_will_guide_you"
 msgstr ""
 "Eth Holet et guiarà a través dels camins de la Val d’Aran. Rebràs avisos i "
@@ -1459,10 +1452,10 @@ msgstr ""
 "<p>Durant el recorregut el vibrador i un senyal ac&uacute;stic del dispositiu "
 "ens avisaran que estem arribant a algun d'aquests punts.</p>"
 
-#. Source text: SELECCIÓ DITINERARIS:
+#. Source text: SELECCIÓ D'ITINERARIS:
 #: frontulet/views.py:81 loco:545119d2f1612903df0b74cd
 msgid "manual_itinerary_selection"
-msgstr "SELECCIÓ DITINERARIS:"
+msgstr "SELECCIÓ D'ITINERARIS:"
 
 #. Source text: <p>Desplega el mapa general amb tots els itineraris disponibles.</p><p>Clicant sobre cadascun dels itineraris es desplega una descripció general de l'itinerari.</p><p>Fent clic a sobre de la descripció entrem dintre de l'itinerari, amb dues opcions:</p><ul><li>VISUALITZAR la ruta (ens permet fer un recorregut virtual de la ruta)</li><li>RECÓRRER la ruta (activa el sistema de guia de la ruta, enregistra el recorregut i ens permet afegir informació pròpia a l'itinerari).</li></ul><p>El botó de menú secundari permet editar els nostres itineraris i fer la valoració dels itineraris compartits.</p>
 #: frontulet/views.py:82 loco:545119d2f1612903df0b74ce
