@@ -156,7 +156,7 @@
                     <span class="glyphicon glyphicon-edit"></span> </a> <button class="btn btn-default" onclick="confirm_delete_route()"> <span class="glyphicon glyphicon-remove-circle"></span> </button> <a class="btn btn-default" href={% url 'make_new_route_reference' id %}> <span class="glyphicon glyphicon-upload"></span>  <span class="glyphicon glyphicon-book"></span> </a>{% endif %}</h1>
 
         {% if average_rating >= 0 and total_ratings > 0 %}
-            <p><strong>{% trans "average_rating" %} {{ average_rating|floatformat }}</strong> ({{ total_ratings }} {% if total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %})</p>
+            <p id="route_average_rating"><strong>{% trans "average_rating" %} {{ average_rating|floatformat }}</strong> ({{ total_ratings }} {% if total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %})</p>
         {% endif %}
 
         {% if request.user.is_authenticated %}
@@ -215,7 +215,7 @@
             <div class="col-md-12">
                 <h3>{{ highlight.name }}</h3>
                     {% if highlight.average_rating >= 0 and highlight.total_ratings > 0 %}
-            <p><strong>{% trans "average_rating" %} {{ highlight.average_rating|floatformat }}</strong> ({{ highlight.total_ratings }} {% if highlight.total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %})</p>
+            <p id="highlight_average_rating_{{ highlight.id }}"><strong>{% trans "average_rating" %} {{ highlight.average_rating|floatformat }}</strong> ({{ highlight.total_ratings }} {% if highlight.total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %})</p>
         {% endif %}
 
                     {% if request.user.is_authenticated %}
@@ -467,6 +467,7 @@
             success: function (data) {
                 $('#route_rating_progress').hide();
                 $('#route_rating_alert').fadeIn(400).delay(3000).fadeOut(400);
+                $('#route_average_rating').val('<strong>{% trans "average_rating" %} {{ route.get_average_rating|floatformat }}</strong> ({% with total_ratings=route.get_total_ratings %}{{ total_ratings }} {% if total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %}{% endwith %})');
             }
         });
         return suppress(event);
@@ -496,6 +497,9 @@
             success: function (data) {
                 $('#highlight_rating_processing_' + highlight_id).hide();
                 $('#highlight_rating_alert_' + highlight_id).fadeIn(400).delay(3000).fadeOut(400);
+                {% for highlight in these_highlights %}
+                $('#highlight_average_rating_' + highlight_id).val('<strong>{% trans "average_rating" %} {{ highlight.get_average_rating|floatformat }}</strong> ({% with total_ratings=highlight.get_total_ratings %}{{ total_ratings }} {% if total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %}{% endwith %})');
+                {% endfor %}
             }
         });
         return suppress(event);
