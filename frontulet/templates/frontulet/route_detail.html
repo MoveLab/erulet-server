@@ -163,11 +163,11 @@
                <form class="form-inline" role="form" method="post" id="route_rating_form">{% csrf_token %}
   <div class="form-group">
     <div class="input-group">
-<input id="route_stars" type="number" class="rating" min=0 max=5 step=1 data-size="sm" data-show-clear="false" data-show-caption="false" value="{{ user_route_rating }}">
+<input id="route_stars" type="number" class="rating" min=0 max=5 step=1 data-size="sm" data-show-clear="false" data-show-caption="false">
     </div>
   </div>
-  <button type="submit" class="btn btn-primary btn-sm">{% trans "Rate it!" %}</button>
-  <div id="route_rating_alert" style="display:none;">sent!</div>
+  <button type="submit" class="btn btn-primary btn-sm">{% trans "Rate it!" %}</button>  <i id="route_rating_processing" style="display: none;" class="fa fa-refresh fa-spin"></i><i style="display: none;" id="route_rating_alert" class="fa fa-check-circle"></i>
+
 </form>
 
         {% endif %}
@@ -219,13 +219,15 @@
         {% endif %}
 
                     {% if request.user.is_authenticated %}
-   <form class="form-inline" role="form">
+
+   <form class="form-inline" role="form" method="post">{% csrf_token %}
   <div class="form-group">
     <div class="input-group">
-<input id="highlight_stars" type="number" class="rating" min=0 max=5 step=1 data-size="sm" data-show-clear="false" data-show-caption="false" value="{{ highlight.user_rating }}">
+<input id="highlight_stars_{{ highlight.id }}" type="number" class="rating" min=0 max=5 step=1 data-size="sm" data-show-clear="false" data-show-caption="false">
     </div>
   </div>
-  <button type="button" class="btn btn-primary btn-sm">{% trans "Rate it!" %}</button>
+  <button type="button" onclick="post_rating({{ highlight.id }}, event)" class="btn btn-primary btn-sm">{% trans "Rate it!" %}</button>   <i id="highlight_rating_processing_{{ highlight.id }}" style="display: none;" class="fa fa-refresh fa-spin"></i><i style="display: none;" id="highlight_rating_alert_{{ highlight.id }}" class="fa fa-check-circle"></i>
+
 </form>
 
         {% endif %}
@@ -433,9 +435,13 @@
 }
 
     $(document).ready(function() {
+
+    $('#route_stars').rating('update', {{ user_route_rating }});
+
     $('form#route_rating_form').submit(function(event) {
         var this_rating = $("#route_stars").val();
         var csrftoken = $.cookie('csrftoken');
+         $('#route_rating_progress').show();
         $.ajax({
             type: 'post',
             url: 'http://holet.movelab.net/api/my_ratings/',
@@ -453,12 +459,42 @@
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
             success: function (data) {
+                $('#route_rating_progress').hide();
                 $('#route_rating_alert').fadeIn(400).delay(3000).fadeOut(400);
             }
         });
         return suppress(event);
     });
     });
+
+        function post_rating(highlight_id, event) {
+        var this_rating = $("#highlight_stars_" + highlight_id).val();
+        var csrftoken = $.cookie('csrftoken');
+        $('#highlight_rating_processing_' + highlight_id).show();
+        $.ajax({
+            type: 'post',
+            url: 'http://holet.movelab.net/api/my_ratings/',
+            contentType: 'application/json',
+            dataType: 'json',
+            async: true,
+            headers: {
+                'Authorization': 'Token {{ request.user.auth_token.key }}'
+            },
+            data: JSON.stringify({
+                'rating': this_rating,
+                'highlight': highlight_id
+            }),
+            beforeSend: function(xhr, settings){
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+            },
+            success: function (data) {
+                $('#highlight_rating_processing_' + highlight_id).hide();
+                $('#highlight_rating_alert_' + highlight_id).fadeIn(400).delay(3000).fadeOut(400);
+            }
+        });
+        return suppress(event);
+    }
+
 
     </script>
 

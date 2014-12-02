@@ -239,7 +239,7 @@ class Route(models.Model):
 
     def get_user_rating(self, user):
         if self.ratings.filter(user=user).count() > 0:
-            return self.ratings.filter(user=user).latest('time')
+            return self.ratings.filter(user=user).latest('time').rating
         else:
             return 0
 
@@ -377,7 +377,7 @@ class Highlight(models.Model):
 
     def get_user_rating(self, user):
         if self.ratings.filter(user=user).count() > 0:
-            return self.ratings.filter(user=user).latest('time')
+            return self.ratings.filter(user=user).latest('time').rating
         else:
             return 0
 
