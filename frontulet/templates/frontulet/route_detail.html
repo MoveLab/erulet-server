@@ -467,8 +467,8 @@
             success: function (data) {
                 $('#route_rating_progress').hide();
                 $('#route_rating_alert').fadeIn(400).delay(3000).fadeOut(400);
-                var new_average = data['average_route_rating'];
-                var new_total = data['total_route_ratings'];
+                var new_average = data.average_route_rating;
+                var new_total = data.total_route_ratings;
                 var votes = "{% trans 'votes' %}";
                 if(new_total == 1){
                     votes = "{% trans 'vote' %}";
@@ -503,8 +503,8 @@
             success: function (data) {
                 $('#highlight_rating_processing_' + highlight_id).hide();
                 $('#highlight_rating_alert_' + highlight_id).fadeIn(400).delay(3000).fadeOut(400);
-                var new_average = data['average_route_rating'];
-                var new_total = data['total_route_ratings'];
+                var new_average = data.average_highlight_rating;
+                var new_total = data.total_highlight_ratings;
                 var votes = "{% trans 'votes' %}";
                 if(new_total == 1){
                     votes = "{% trans 'vote' %}";
