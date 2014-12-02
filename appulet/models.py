@@ -7,6 +7,7 @@ import string
 from django.conf import settings
 import codecs
 from PIL import Image
+import pytz
 from datetime import datetime
 from django.db.models import Avg, Min, Max, StdDev
 from django.core.validators import MaxValueValidator, MinValueValidator
@@ -227,10 +228,20 @@ class Route(models.Model):
         return ''
 
     def get_average_rating(self):
-        return self.ratings.aggregate(Avg('rating'))['rating__avg']
+        these_ratings = self.ratings.order_by('user', '-time').distinct('user').values_list('rating')
+        if these_ratings and len(these_ratings) > 0:
+            sum([v[0] for v in these_ratings])/float(len(these_ratings))
+        else:
+            return None
 
     def get_total_ratings(self):
-        return self.ratings.all().count()
+        return self.ratings.all().order_by('user').distinct('user').count()
+
+    def get_user_rating(self, user):
+        if self.ratings.filter(user=user).count() > 0:
+            return self.ratings.filter(user=user).latest('time')
+        else:
+            return 0
 
     def get_top_five_user_highlights(self):
         top_five = Highlight.objects.filter(step__track__route__official=False, step__track__route__id_route_based_on=self).annotate(mean_rating=Avg('ratings__rating')).order_by('-mean_rating')[:5]
@@ -355,10 +366,20 @@ class Highlight(models.Model):
             return ''
 
     def get_average_rating(self):
-        return self.ratings.aggregate(Avg('rating'))['rating__avg']
+        these_ratings = self.ratings.order_by('user', '-time').distinct('user').values_list('rating')
+        if these_ratings and len(these_ratings) > 0:
+            sum([v[0] for v in these_ratings])/float(len(these_ratings))
+        else:
+            return None
 
     def get_total_ratings(self):
-        return self.ratings.all().count()
+        return self.ratings.all().order_by('user').distinct('user').count()
+
+    def get_user_rating(self, user):
+        if self.ratings.filter(user=user).count() > 0:
+            return self.ratings.filter(user=user).latest('time')
+        else:
+            return 0
 
     image = property(test_image)
     video = property(test_video)
@@ -461,10 +482,14 @@ class Box(models.Model):
         return html
 
 
+def get_now_utc():
+    return datetime.now(pytz.utc)
+
+
 class Rating(models.Model):
     rating = models.IntegerField()
     user = models.ForeignKey(User, related_name='ratings')
-    time = models.DateTimeField(default=datetime.now(), blank=True)
+    time = models.DateTimeField(default=get_now_utc, blank=True, null=True)
     highlight = models.ForeignKey(Highlight, blank=True, null=True, related_name='ratings')
     route = models.ForeignKey(Route, blank=True, null=True, related_name='ratings')
     last_modified = models.DateTimeField(auto_now=True, default=datetime.now())
