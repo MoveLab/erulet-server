@@ -230,7 +230,7 @@ class Route(models.Model):
     def get_average_rating(self):
         these_ratings = self.ratings.order_by('user', '-time').distinct('user').values_list('rating')
         if these_ratings and len(these_ratings) > 0:
-            sum([v[0] for v in these_ratings])/float(len(these_ratings))
+            return sum([v[0] for v in these_ratings])/float(len(these_ratings))
         else:
             return None
 
@@ -368,7 +368,7 @@ class Highlight(models.Model):
     def get_average_rating(self):
         these_ratings = self.ratings.order_by('user', '-time').distinct('user').values_list('rating')
         if these_ratings and len(these_ratings) > 0:
-            sum([v[0] for v in these_ratings])/float(len(these_ratings))
+            return sum([v[0] for v in these_ratings])/float(len(these_ratings))
         else:
             return None
 
