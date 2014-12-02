@@ -442,10 +442,10 @@
             headers: {
                 'Authorization': 'Token {{ request.user.auth_token.key }}'
             },
-            data: {
+            data: JSON.stringify({
                 'rating': this_rating,
                 'route': {{ id }}
-            },
+            }),
             success: function (data) {
                 $('#route_rating_alert').fadeIn(400).delay(3000).fadeOut(400);
             }
