@@ -580,8 +580,14 @@ def translate_routes(request, lang='all', scroll_position=''):
 
 def add_css(this_reference):
     this_path = os.path.dirname(this_reference.html_file.path)
-    new_css_file = open(os.path.join(this_path, 'erholet-ref-style.css'), 'w')
-    new_css_file.write('body{width:94%}img {width:100%; margin-bottom:5px}')
+    new_css_file = open(os.path.join(this_path, 'holet-ref-style.css'), 'w')
+    new_css_file.write('body{width:94%}img{width:100%; margin-bottom:5px}')
+    new_css_file.close()
+
+
+def add_css_to_dir(dir):
+    new_css_file = open(os.path.join(dir, 'holet-ref-style.css'), 'w')
+    new_css_file.write('body{width:94%}img{width:100%; margin-bottom:5px}')
     new_css_file.close()
 
 
@@ -623,6 +629,7 @@ def set_up_reference(reference):
             if reference.general:
                 general_reference_path = os.path.join(os.path.dirname(this_dir), 'general_references')
                 this_file.extractall(path=general_reference_path)
+                add_css_to_dir(general_reference_path)
             for html_path in html_file_paths:
                 with codecs.open(html_path[1], 'r', 'iso-8859-1') as f:
                     this_html_original = f.read()
