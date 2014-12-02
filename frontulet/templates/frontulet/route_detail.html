@@ -473,7 +473,7 @@
                 if(new_total == 1){
                     votes = "{% trans 'vote' %}";
                 }
-                $('#route_average_rating').val('<strong>{% trans "average_rating" %} ' + String(new_average) + '</strong> (' + String(new_total) + ' ' + String(votes) + ')');
+                $('#route_average_rating').text('<strong>{% trans "average_rating" %} ' + String(new_average) + '</strong> (' + String(new_total) + ' ' + String(votes) + ')');
             }
         });
         return suppress(event);
@@ -509,7 +509,7 @@
                 if(new_total == 1){
                     votes = "{% trans 'vote' %}";
                 }
-                $('#highlight_average_rating_' + highlight_id).val('<strong>{% trans "average_rating" %} ' + String(new_average) + '</strong> (' + String(new_total) + ' ' + String(votes) + ')');
+                $('#highlight_average_rating_' + highlight_id).text('<strong>{% trans "average_rating" %} ' + String(new_average) + '</strong> (' + String(new_total) + ' ' + String(votes) + ')');
             }
         });
         return suppress(event);
