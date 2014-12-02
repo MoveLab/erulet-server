@@ -433,6 +433,7 @@
     $(document).ready(function() {
     $('form#route_rating_form').submit(function(event) {
         var this_rating = $("#route_stars").val();
+        var csrftoken = $.cookie('csrftoken');
         $.ajax({
             type: 'post',
             url: 'http://holet.movelab.net/api/my_ratings/',
@@ -447,7 +448,7 @@
                 'route': {{ id }}
             },
             beforeSend: function(xhr, settings){
-            xhr.setRequestHeader("X-CSRFToken", $.cookie('csrftoken'));
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
             success: function (data) {
                 $('#route_rating_alert').fadeIn(400).delay(3000).fadeOut(400);
