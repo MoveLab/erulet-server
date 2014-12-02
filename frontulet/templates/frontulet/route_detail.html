@@ -445,10 +445,10 @@
             headers: {
                 'Authorization': 'Token {{ request.user.auth_token.key }}'
             },
-            data: {
+            data: JSON.stringify({
                 'rating': this_rating,
                 'route': {{ id }}
-            },
+            }),
             beforeSend: function(xhr, settings){
             xhr.setRequestHeader("X-CSRFToken", csrftoken);
             },
