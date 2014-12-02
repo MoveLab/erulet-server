@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Eth Holet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue, 21 Oct 2014 23:41:16 +0100\n"
-"PO-Revision-Date: Tue, 02 Dec 2014 19:18:21 +0000\n"
+"PO-Revision-Date: Tue, 02 Dec 2014 19:28:13 +0000\n"
 "Last-Translator: John Palmer\n"
 "Language-Team: John Palmer\n"
 "Language: Catalan (Spain)\n"
@@ -1437,18 +1437,18 @@ msgstr "ITINERARIS:"
 msgid "manual_itineraries_text"
 msgstr ""
 "<p>Sobre els mapes dels itineraris poden apar&egrave;ixer tres tipus d'icones:</"
-"p>"
-"<ul class=\"no_bullet\">"
+"p>\n"
+"<ul class=\"no_bullet\">\n"
 "<li class=\"image_bullet_tall waypoint\">Punt de ruta. Clicant a sobre obtenim "
 "informaci&oacute; de com arribar des d'aqu&iacute; al seg&uuml;ent punt de "
-"ruta.</li>"
+"ruta.</li>\n"
 "<li class=\"image_bullet_tall poi\">Punt d'inter&egrave;s. Clicant a sobre es "
 "desplega informaci&oacute; sobre algun tema d'inter&egrave;s relacionat amb "
-"el lloc on ens trobem.</li>"
+"el lloc on ens trobem.</li>\n"
 "<li class=\"image_bullet_tall holet_alert\">Av&iacute;s. Clicant a sobre "
 "obtenim avisos sobre temes de seguretat o afectacions al medi ambient en el "
-"lloc on ens trobem.</li>"
-"</ul>"
+"lloc on ens trobem.</li>\n"
+"</ul>\n"
 "<p>Durant el recorregut el vibrador i un senyal ac&uacute;stic del dispositiu "
 "ens avisaran que estem arribant a algun d'aquests punts.</p>"
 
@@ -1578,12 +1578,12 @@ msgstr "Els meus itineraris..."
 #: frontulet/views.py:84 loco:547855a2f1612903df0e50db
 msgid "my_itineraries_text"
 msgstr ""
-"<ul class=\"no_bullet\">"
+"<ul class=\"no_bullet\">\n"
 "<li class=\"image_bullet edit\">Obre la pantalla d'edici&oacute; de l'itinerari.</"
-"li>"
+"li>\n"
 "<li class=\"image_bullet upload\">Envia el nostre itinerari al n&uacute;vol.</"
-"li>"
-"<li class=\"image_bullet delete\">Esborra l'itinerari</li>"
+"li>\n"
+"<li class=\"image_bullet delete\">Esborra l'itinerari</li>\n"
 "</ul>"
 
 #. Source text: Els meus itineraris
@@ -2005,6 +2005,11 @@ msgstr "Perfil a Eth Holet"
 #: appulet/models.py:305 loco:547855a2f1612903df0e50ca
 msgid "radius"
 msgstr "Radi"
+
+#. Source text: opina!
+#: loco:547e120ff1612903df0eceea
+msgid "rate_it"
+msgstr "opina!"
 
 #. Source text: Segur que vols continuar?
 #: loco:5446e1faf1612903df0ab564

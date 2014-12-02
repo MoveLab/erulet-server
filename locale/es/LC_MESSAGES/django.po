@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Eth Holet\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: Tue, 21 Oct 2014 23:41:16 +0100\n"
-"PO-Revision-Date: Tue, 02 Dec 2014 19:18:21 +0000\n"
+"PO-Revision-Date: Tue, 02 Dec 2014 19:28:13 +0000\n"
 "Last-Translator: John Palmer\n"
 "Language-Team: John Palmer\n"
 "Language: Spanish\n"
@@ -2011,6 +2011,11 @@ msgstr "Perfil en Eth Holet"
 #: appulet/models.py:305 loco:547855a2f1612903df0e50ca
 msgid "radius"
 msgstr "Radio"
+
+#. Source text: opina!
+#: loco:547e120ff1612903df0eceea
+msgid "rate_it"
+msgstr "¡opina!"
 
 #. Source text: Segur que vols continuar?
 #: loco:5446e1faf1612903df0ab564

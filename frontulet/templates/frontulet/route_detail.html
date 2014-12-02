@@ -166,7 +166,7 @@
 <input id="route_stars" type="number" class="rating" min=0 max=5 step=1 data-size="sm" data-show-clear="false" data-show-caption="false">
     </div>
   </div>
-  <button type="submit" class="btn btn-primary btn-sm">{% trans "Rate it!" %}</button>  <i id="route_rating_processing" style="display: none;" class="fa fa-refresh fa-spin"></i><i style="display: none;" id="route_rating_alert" class="fa fa-check-circle"></i>
+  <button type="submit" class="btn btn-primary btn-sm">{% trans "rate_it" %}</button>  <i id="route_rating_processing" style="display: none;" class="fa fa-refresh fa-spin"></i><i style="display: none;" id="route_rating_alert" class="fa fa-check-circle"></i>
 
 </form>
 
@@ -226,7 +226,7 @@
 <input id="highlight_stars_{{ highlight.id }}" type="number" class="rating" min=0 max=5 step=1 data-size="sm" data-show-clear="false" data-show-caption="false">
     </div>
   </div>
-  <button type="button" onclick="post_rating({{ highlight.id }}, event)" class="btn btn-primary btn-sm">{% trans "Rate it!" %}</button>   <i id="highlight_rating_processing_{{ highlight.id }}" style="display: none;" class="fa fa-refresh fa-spin"></i><i style="display: none;" id="highlight_rating_alert_{{ highlight.id }}" class="fa fa-check-circle"></i>
+  <button type="button" onclick="post_rating({{ highlight.id }}, event)" class="btn btn-primary btn-sm">{% trans "rate_it" %}</button>   <i id="highlight_rating_processing_{{ highlight.id }}" style="display: none;" class="fa fa-refresh fa-spin"></i><i style="display: none;" id="highlight_rating_alert_{{ highlight.id }}" class="fa fa-check-circle"></i>
 
 </form>
 
