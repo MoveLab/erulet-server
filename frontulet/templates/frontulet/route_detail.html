@@ -505,9 +505,9 @@
                 $('#highlight_rating_alert_' + highlight_id).fadeIn(400).delay(3000).fadeOut(400);
                 var new_average = data['average_route_rating'];
                 var new_total = data['total_route_ratings'];
-                var votes = {% trans "votes" %};
+                var votes = "{% trans 'votes' %}";
                 if(new_total == 1){
-                    votes = {% trans "vote" %};
+                    votes = "{% trans 'vote' %}";
                 }
                 $('#highlight_average_rating_' + highlight_id).val('<strong>{% trans "average_rating" %} ' + String(new_average) + '</strong> (' + String(new_total) + ' ' + String(votes) + ')');
             }
