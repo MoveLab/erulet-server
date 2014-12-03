@@ -113,6 +113,13 @@ class UserHighlightNestedSerializer(serializers.ModelSerializer):
         fields = ('server_id', 'id_on_creator_device', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_name', 'last_modified')
 
 
+class StepSerializer(serializers.ModelSerializer):
+    server_id = serializers.IntegerField(source='id', read_only=True)
+
+    class Meta:
+        model = Step
+
+
 class UserTopFiveHighlightNestedSerializer(serializers.ModelSerializer):
     server_id = serializers.IntegerField(source='id', read_only=True)
     media_url = serializers.Field()
@@ -126,16 +133,6 @@ class UserTopFiveHighlightNestedSerializer(serializers.ModelSerializer):
     class Meta:
         model = Highlight
         fields = ('server_id', 'latitude', 'longitude', 'altitude', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_url', 'step')
-
-
-class StepSerializer(serializers.ModelSerializer):
-    server_id = serializers.IntegerField(source='id', read_only=True)
-
-    class Meta:
-        model = Step
-
-from rest_framework.parsers import JSONParser
-from rest_framework.renderers import JSONRenderer
 
 
 class StepNestedSerializer(serializers.ModelSerializer):
