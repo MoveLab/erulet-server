@@ -121,10 +121,11 @@ class UserTopFiveHighlightNestedSerializer(serializers.ModelSerializer):
     latitude = serializers.Field()
     longitude = serializers.Field()
     altitude = serializers.Field()
+    step = StepSerializer(many=False)
 
     class Meta:
         model = Highlight
-        fields = ('server_id', 'latitude', 'longitude', 'altitude', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_url')
+        fields = ('server_id', 'latitude', 'longitude', 'altitude', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_url', 'step')
 
 
 class StepSerializer(serializers.ModelSerializer):
