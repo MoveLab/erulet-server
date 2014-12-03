@@ -382,12 +382,28 @@ class Highlight(models.Model):
         else:
             return 0
 
+    def get_lat(self):
+        return self.step.latitude
+
+    def get_lon(self):
+        return self.step.longitude
+
+    def get_altitude(self):
+        return self.step.altitude
+
+    def get_media_url(self):
+        return self.media.url
+
     image = property(test_image)
     video = property(test_video)
     media_ext = property(get_media_ext)
     media_name = property(get_media_file_name)
+    media_url = property(get_media_url)
     average_rating = property(get_average_rating)
     total_ratings = property(get_total_ratings)
+    latitude = property(get_lat)
+    longitude = property(get_lon)
+    altitude = property(get_altitude)
 
 
 class HighlightTranslationVCS(models.Model):

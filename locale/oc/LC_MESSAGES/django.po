@@ -1426,18 +1426,18 @@ msgstr "ITINERARIS:"
 msgid "manual_itineraries_text"
 msgstr ""
 "<p>Sus es mapes des itineraris p&ograve;den apar&eacute;isher tres tipes d'ic&"
-"ograve;nes:</p>\n"
-"<ul class=\"no_bullet\">\n"
+"ograve;nes:</p>"
+"<ul class=\"no_bullet\">"
 "<li class=\"image_bullet_tall waypoint\">Punt de rota. Clicant dess&uacute;s "
 "auem era informacion de com arribar des d'ac&iacute; ath seg&uuml;ent punt de "
-"rota.</li>\n"
+"rota.</li>"
 "<li class=\"image_bullet_tall poi\">Punt d'inter&egrave;s. Clicant dess&uacute;"
 "s se desplegue informacion sus b&egrave;th t&egrave;ma d'inter&egrave;s "
-"restacat damb eth l&ograve;c a on mos trobam.</li>\n"
+"restacat damb eth l&ograve;c a on mos trobam.</li>"
 "<li class=\"image_bullet_tall holet_alert\">Av&iacute;s. Clicant dess&uacute;s "
 "mos avise des t&egrave;mes de seguretat o des afectacions en miei ambient "
-"deth l&ograve;c a on mos trobam.</li>\n"
-"</ul>\n"
+"deth l&ograve;c a on mos trobam.</li>"
+"</ul>"
 "<p>Pendent eth recorrut eth vibrador e ua senhau acustica deth dispositiu mos "
 "avisar&agrave;n qu'arribam a b&egrave;th un d'aguesti punts.</p>"
 
