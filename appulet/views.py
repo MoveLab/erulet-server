@@ -260,6 +260,8 @@ Endpoint for downloading all content files needed for a given route.
     if Route.objects.filter(id=route_id).count() == 0:
         return HttpResponse("Route does not exist")
     this_route = Route.objects.get(id=route_id)
+    if not this_route.official and not this_route.created_by == request.user:
+        return HttpResponse("Permission denied")
     this_route_ref = None
     these_highlights = None
     these_references = None
