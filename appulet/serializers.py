@@ -125,9 +125,6 @@ class UserTopFiveHighlightNestedSerializer(serializers.ModelSerializer):
     media_url = serializers.Field()
     average_rating = serializers.Field()
     total_ratings = serializers.Field()
-    latitude = serializers.Field()
-    longitude = serializers.Field()
-    altitude = serializers.Field()
     step = StepSerializer(many=False)
 
     class Meta:
