@@ -118,6 +118,7 @@ class StepSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Step
+        exclude = ('id',)
 
 
 class UserTopFiveHighlightNestedSerializer(serializers.ModelSerializer):
@@ -129,7 +130,7 @@ class UserTopFiveHighlightNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Highlight
-        fields = ('server_id', 'latitude', 'longitude', 'altitude', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_url', 'step')
+        fields = ('server_id', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_url', 'step')
 
 
 class StepNestedSerializer(serializers.ModelSerializer):
