@@ -111,7 +111,7 @@ def show_route_list(request, whose=''):
             routes = Route.objects.filter(created_by=request.user).order_by('display_order')
             title = _('route_list_my_routes')
         elif whose == 'others':
-            routes = Route.objects.exclude(created_by=request.user).order_by('display_order')
+            routes = Route.objects.exclude(created_by=request.user).exclude(official=True).order_by('display_order')
             title = _("route_list_other_hikers_routes")
         elif whose == 'official':
             routes = Route.objects.filter(official=True).order_by('display_order')
