@@ -249,6 +249,7 @@ class Route(models.Model):
 
     average_rating = property(get_average_rating)
     total_ratings = property(get_total_ratings)
+    top_five_user_highlights = property(get_top_five_user_highlights)
 
 
 class RouteTranslationVCS(models.Model):

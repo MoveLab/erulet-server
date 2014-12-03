@@ -183,15 +183,12 @@ class RouteNestedSerializer(serializers.ModelSerializer):
     server_id = serializers.IntegerField(source='id', read_only=True)
     average_rating = serializers.Field()
     total_ratings = serializers.Field()
-    top_five_user_highlights = serializers.SerializerMethodField('get_top_five_user_highlights')
+    top_five_user_highlights = serializers.Field()
     owner = serializers.Field(source='created_by.username')
 
     class Meta:
         model = Route
         fields = ('owner', 'top_five_user_highlights', 'server_id', 'official', 'average_rating', 'total_ratings', 'id_route_based_on', 'map', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'track', 'created', 'last_modified')
-
-    def get_top_five_user_highlights(self, obj):
-        obj.get_top_five_user_highlights()
 
 
 class UserRouteNestedSerializer(serializers.ModelSerializer):
