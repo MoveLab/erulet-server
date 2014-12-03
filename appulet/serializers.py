@@ -183,7 +183,7 @@ class RouteNestedSerializer(serializers.ModelSerializer):
     server_id = serializers.IntegerField(source='id', read_only=True)
     average_rating = serializers.Field()
     total_ratings = serializers.Field()
-    top_five_user_highlights = serializers.Field()
+    top_five_user_highlights = UserHighlightNestedSerializer()
     owner = serializers.Field(source='created_by.username')
 
     class Meta:
