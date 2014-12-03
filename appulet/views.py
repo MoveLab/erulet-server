@@ -376,11 +376,11 @@ with _media_ used as the form key for the file itself. Note that you can post me
 
     """
     if request.method == 'POST':
-        this_id_on_creator_device = request.DATA['id_on_creator_device']
+        this_id = request.DATA['server_id']
         # check if highlight exists and is owned by authenticaed user
-        if Highlight.objects.filter(id_on_creator_device=this_id_on_creator_device).count() == 1:
+        if Highlight.objects.filter(id=this_id).count() == 1:
             # get highlight and add media
-            this_highlight = Highlight.objects.get(id_on_creator_device=this_id_on_creator_device)
+            this_highlight = Highlight.objects.get(id=this_id)
             # check if owned by user
             if this_highlight.created_by == request.user:
                 this_highlight.media = request.FILES['media']
