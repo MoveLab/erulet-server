@@ -248,8 +248,8 @@ class Route(models.Model):
         if these_highlights.count() > 0:
             these_highlights_list = list(these_highlights)
             these_highlights_list.sort(key=lambda x: x.average_rating, reverse=True)
-            top_five = these_highlights_list[:5]
-            return top_five
+            top_five_ids = [h.id for h in these_highlights_list[:5]]
+            return Highlight.objects.filter(id__in=top_five_ids)
         else:
             return None
 
