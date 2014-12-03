@@ -738,11 +738,37 @@ class RouteNestedViewSet(ReadOnlyModelViewSet):
         * html_file: path on server to the zip file containing the reference's html file and associated resources
         * last_modified: Date and time when reference was last modified. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
         * created: Date and time when reference was created. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
-    * top_five_user_highlights: nested array of up to 5 highlights. These are highlights saved by users, with the top five selected based on highest average ratings
     * map: nested fields for the route map
         * last_modified: Date and time when map was last modified. Formated as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
         * created: Date and time when map was created. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
         * map_file_name: file name of map file on server.
+    * top_five_user_highlights: nested array of up to 5 highlights. These are highlights saved by users, with the top five selected based on highest average ratings
+        * server_id: unique integer ID assigned to the highlight by the server
+        * average_rating: average user rating for this highlight (calculated on server from the rating data)
+        * total_ratings: total ratings for this highlight (calculated on server from rating data)
+        * created_by: server ID of the user who created this highlight,
+        * name_oc: highlight name in Aranese
+        * name_es: highlight name in Spanish
+        * name_ca: highlight name in Catalan
+        * name_fr: highlight name in French
+        * name_en: highlight name in English
+        * long_text_oc: highlight description in Aranese
+        * long_text_es: highlight description in Spanish
+        * long_text_ca: highlight description in Catalan
+        * long_text_fr: highlight description in French
+        * long_text_en: highlight description in English
+        * radius: float radius within which a user location should trigger the highlight to popup on the phone
+        * type: integer taking 0 for point of interest, 1 for waypoint, and 2 for alert
+        * media_url: URL on the server for media (image or video) file associated with this highlight. Note that we use the URL for these highlights but a file name for the highlights that are directly part of this route (below). This is because the route highlight content should be downloaded for offline use from the route content endpoint. For top-five user highlights, on the other hand, include only links to the media using html <img> tags for security.
+        * step: the a JSON object representing the step to which this highlight was attached. Note that here we have step nested inside of highlight, whereas the normal route highlights are nested inside of steps.
+            * server_id: unique integer ID assigned to the step by the server
+            * absolute_time: Date and time when step was recorded. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),,
+            * order: integer indicating order of the step within the track. (This is necessary for non-highlight steps, to ensure path is drawn correctly.)
+            * latitude: float latitude of the step location
+            * longitude: float longitude of the step location
+            * altitude: float altitude of the step location
+            * precision: float precision of the step location estimate
+            * last_modified: Date and time when step was last modified. Formated as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),            
     * track: nested fields for track associated with this route. (Note that the track is a largely redundant data structure at this point. There is a one-to-one relationship between trakc and route, but it is the track that contains all os the steps.
         * server_id: unique integer ID assigned to the track by the server
         * name_oc: track name in Aranese. (This is irrelevant and can be ignored.)
