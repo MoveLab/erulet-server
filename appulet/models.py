@@ -392,7 +392,10 @@ class Highlight(models.Model):
         return self.step.altitude
 
     def get_media_url(self):
-        return self.media.url
+        if self.media:
+            return self.media.url
+        else:
+            return None
 
     image = property(test_image)
     video = property(test_video)
