@@ -24,13 +24,15 @@ class HighlightSerializer(serializers.ModelSerializer):
     media_name = serializers.Field()
     average_rating = serializers.Field()
     total_ratings = serializers.Field()
+    media_url = serializers.Field()
 
     class Meta:
         model = Highlight
-        fields = ('server_id', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_name', 'last_modified')
+        fields = ('server_id', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_name', 'media_url', 'last_modified')
 
 
 class UserHighlightSerializer(serializers.ModelSerializer):
+    media_url = serializers.Field()
 
     class Meta:
         model = Highlight
@@ -96,10 +98,11 @@ class HighlightNestedSerializer(serializers.ModelSerializer):
     media_name = serializers.Field()
     average_rating = serializers.Field()
     total_ratings = serializers.Field()
+    media_url = serializers.Field()
 
     class Meta:
         model = Highlight
-        fields = ('server_id', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'interactive_images', 'references', 'media_name', 'last_modified')
+        fields = ('server_id', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'interactive_images', 'references', 'media_name', 'media_url', 'last_modified')
 
 
 class UserHighlightNestedSerializer(serializers.ModelSerializer):
@@ -107,10 +110,11 @@ class UserHighlightNestedSerializer(serializers.ModelSerializer):
     media_name = serializers.Field()
     average_rating = serializers.Field()
     total_ratings = serializers.Field()
+    media_url = serializers.Field()
 
     class Meta:
         model = Highlight
-        fields = ('server_id', 'id_on_creator_device', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_name', 'last_modified')
+        fields = ('server_id', 'id_on_creator_device', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_name', 'media_url', 'last_modified')
 
 
 class StepSerializer(serializers.ModelSerializer):

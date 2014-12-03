@@ -768,7 +768,7 @@ class RouteNestedViewSet(ReadOnlyModelViewSet):
             * longitude: float longitude of the step location
             * altitude: float altitude of the step location
             * precision: float precision of the step location estimate
-            * last_modified: Date and time when step was last modified. Formated as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),            
+            * last_modified: Date and time when step was last modified. Formated as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),
     * track: nested fields for track associated with this route. (Note that the track is a largely redundant data structure at this point. There is a one-to-one relationship between trakc and route, but it is the track that contains all os the steps.
         * server_id: unique integer ID assigned to the track by the server
         * name_oc: track name in Aranese. (This is irrelevant and can be ignored.)
