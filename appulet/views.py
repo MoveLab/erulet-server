@@ -763,7 +763,6 @@ class RouteNestedViewSet(ReadOnlyModelViewSet):
         * step: the a JSON object representing the step to which this highlight was attached. Note that here we have step nested inside of highlight, whereas the normal route highlights are nested inside of steps.
             * server_id: unique integer ID assigned to the step by the server
             * absolute_time: Date and time when step was recorded. Formatted as [ECMA 262](http://ecma-international.org/ecma-262/5.1/#sec-15.9.1.15) date time string (e.g. "2014-11-11T15:16:49.854Z"),,
-            * order: integer indicating order of the step within the track. (This is necessary for non-highlight steps, to ensure path is drawn correctly.)
             * latitude: float latitude of the step location
             * longitude: float longitude of the step location
             * altitude: float altitude of the step location

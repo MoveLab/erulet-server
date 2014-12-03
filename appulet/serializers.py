@@ -125,13 +125,21 @@ class StepSerializer(serializers.ModelSerializer):
         exclude = ('id',)
 
 
+class StepForTopFiveSerializer(serializers.ModelSerializer):
+    server_id = serializers.IntegerField(source='id', read_only=True)
+
+    class Meta:
+        model = Step
+        exclude = ('id', 'track', 'order')
+
+
 class UserTopFiveHighlightNestedSerializer(serializers.ModelSerializer):
     server_id = serializers.IntegerField(source='id', read_only=True)
     media_name = serializers.Field()
     media_url = serializers.Field()
     average_rating = serializers.Field()
     total_ratings = serializers.Field()
-    step = StepSerializer(many=False)
+    step = StepForTopFiveSerializer(many=False)
 
     class Meta:
         model = Highlight
