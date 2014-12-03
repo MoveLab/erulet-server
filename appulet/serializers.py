@@ -198,7 +198,7 @@ class RouteNestedSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Route
-        fields = ('owner', 'top_five_user_highlights', 'server_id', 'official', 'average_rating', 'total_ratings', 'id_route_based_on', 'map', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'track', 'created', 'last_modified')
+        fields = ('owner', 'server_id', 'official', 'average_rating', 'total_ratings', 'id_route_based_on', 'map', 'description_oc', 'description_es', 'description_ca', 'description_fr', 'description_en', 'short_description_oc', 'short_description_es', 'short_description_ca', 'short_description_fr', 'short_description_en', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'reference', 'created', 'last_modified', 'top_five_user_highlights', 'track')
 
 
 class UserRouteNestedSerializer(serializers.ModelSerializer):
