@@ -244,8 +244,14 @@ class Route(models.Model):
             return 0
 
     def get_top_five_user_highlights(self):
-        top_five = Highlight.objects.filter(step__track__route__official=False, step__track__route__id_route_based_on=self).annotate(mean_rating=Avg('ratings__rating')).order_by('-mean_rating')[:5]
-        return top_five
+        these_highlights = Highlight.objects.filter(step__track__route__official=False, step__track__route__id_route_based_on=self)
+        if these_highlights.count() > 0:
+            these_highlights_list = list(these_highlights)
+            these_highlights_list.sort(key=lambda x: x.average_rating, reverse=True)
+            top_five = these_highlights_list[:5]
+            return top_five
+        else:
+            return None
 
     average_rating = property(get_average_rating)
     total_ratings = property(get_total_ratings)
