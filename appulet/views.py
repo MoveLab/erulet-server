@@ -372,7 +372,7 @@ with _media_ used as the form key for the file itself. Note that you can post me
 **Fields**
 
 * media: The media file's binary data
-* id_on_creator_device: The unique integer id assigned to the highlight by the user's device. This value should have been posted to the highlight when it was initially created via the my_nested_routes endpoint.
+* server_id: The unique integer id assigned to the highlight by the server. This value can be obtained in the server response when the route is first posted and then used in the subsquent media post.
 
     """
     if request.method == 'POST':
