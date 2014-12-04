@@ -155,9 +155,9 @@
                 {% if owner %}<a class="btn btn-default btn-sm" href={% url "edit_route" id %} role="button">
                     <span class="glyphicon glyphicon-edit"></span> </a> <button class="btn btn-default" onclick="confirm_delete_route()"> <span class="glyphicon glyphicon-remove-circle"></span> </button> <a class="btn btn-default" href={% url 'make_new_route_reference' id %}> <span class="glyphicon glyphicon-upload"></span>  <span class="glyphicon glyphicon-book"></span> </a>{% endif %}</h1>
 
-        {% if average_rating >= 0 and total_ratings > 0 %}
-            <p id="route_average_rating"><strong>{% trans "average_rating" %} {{ average_rating|floatformat }}</strong> ({{ total_ratings }} {% if total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %})</p>
-        {% endif %}
+
+            <p id="route_average_rating">{% if average_rating >= 0 and total_ratings > 0 %}<strong>{% trans "average_rating" %} {{ average_rating|floatformat }}</strong> ({{ total_ratings }} {% if total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %}){% endif %}</p>
+
 
         {% if request.user.is_authenticated %}
                <form class="form-inline" role="form" method="post" id="route_rating_form">{% csrf_token %}
@@ -214,9 +214,9 @@
 
             <div class="col-md-12">
                 <h3>{{ highlight.name }}</h3>
-                    {% if highlight.average_rating >= 0 and highlight.total_ratings > 0 %}
-            <p id="highlight_average_rating_{{ highlight.id }}"><strong>{% trans "average_rating" %} {{ highlight.average_rating|floatformat }}</strong> ({{ highlight.total_ratings }} {% if highlight.total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %})</p>
-        {% endif %}
+
+            <p id="highlight_average_rating_{{ highlight.id }}">{% if highlight.average_rating >= 0 and highlight.total_ratings > 0 %}<strong>{% trans "average_rating" %} {{ highlight.average_rating|floatformat }}</strong> ({{ highlight.total_ratings }} {% if highlight.total_ratings == 1 %}{% trans "vote" %}{% else %}{% trans "votes" %}{% endif %}){% endif %}</p>
+
 
                     {% if request.user.is_authenticated %}
 
