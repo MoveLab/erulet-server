@@ -582,13 +582,13 @@ def translate_routes(request, lang='all', scroll_position=''):
 def add_css(this_reference):
     this_path = os.path.dirname(this_reference.html_file.path)
     new_css_file = open(os.path.join(this_path, 'holet-ref-style.css'), 'w')
-    new_css_file.write('body{width:94%}img{width:100%; margin-bottom:5px}')
+    new_css_file.write('body{width:94%; font-family: Arial, Helvetica, sans-serif;}img{width:100%; margin-bottom:5px}')
     new_css_file.close()
 
 
 def add_css_to_dir(dir):
     new_css_file = open(os.path.join(dir, 'holet-ref-style.css'), 'w')
-    new_css_file.write('body{width:94%}img{width:100%; margin-bottom:5px}')
+    new_css_file.write('body{width:94%; font-family: Arial, Helvetica, sans-serif;}img{width:100%; margin-bottom:5px}')
     new_css_file.close()
 
 

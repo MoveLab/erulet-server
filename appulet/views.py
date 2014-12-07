@@ -746,7 +746,8 @@ class RouteNestedViewSet(ReadOnlyModelViewSet):
         * server_id: unique integer ID assigned to the highlight by the server
         * average_rating: average user rating for this highlight (calculated on server from the rating data)
         * total_ratings: total ratings for this highlight (calculated on server from rating data)
-        * created_by: server ID of the user who created this highlight,
+        * created_by: server ID of the user who created this highlight.
+        * created_by_username: username of the user who created this highlight. (Used so that the app can filter out the highlight if it is created by the app's user.)
         * name_oc: highlight name in Aranese
         * name_es: highlight name in Spanish
         * name_ca: highlight name in Catalan

@@ -403,6 +403,9 @@ class Highlight(models.Model):
         else:
             return None
 
+    def get_created_by_username(self):
+        return self.created_by.username
+
     image = property(test_image)
     video = property(test_video)
     media_ext = property(get_media_ext)
@@ -413,6 +416,7 @@ class Highlight(models.Model):
     latitude = property(get_lat)
     longitude = property(get_lon)
     altitude = property(get_altitude)
+    created_by_username = property(get_created_by_username)
 
 
 class HighlightTranslationVCS(models.Model):

@@ -140,10 +140,11 @@ class UserTopFiveHighlightNestedSerializer(serializers.ModelSerializer):
     average_rating = serializers.Field()
     total_ratings = serializers.Field()
     step = StepForTopFiveSerializer(many=False)
+    created_by_username = serializers.Field()
 
     class Meta:
         model = Highlight
-        fields = ('server_id', 'average_rating', 'total_ratings', 'created_by', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_name', 'media_url', 'step')
+        fields = ('server_id', 'average_rating', 'total_ratings', 'created_by', 'created_by_username', 'name_oc', 'name_es', 'name_ca', 'name_fr', 'name_en', 'long_text_oc', 'long_text_es', 'long_text_ca', 'long_text_fr', 'long_text_en', 'radius', 'type', 'media_name', 'media_url', 'step')
 
 
 class StepNestedSerializer(serializers.ModelSerializer):
