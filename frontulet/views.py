@@ -662,7 +662,7 @@ def set_up_reference(reference):
 
 
 def make_new_route_reference(request, route_id):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
         args = {}
         args.update(csrf(request))
 
@@ -693,7 +693,7 @@ def make_new_route_reference(request, route_id):
 
 
 def edit_route_reference(request, route_id):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
         args = {}
         args.update(csrf(request))
         this_route = Route.objects.get(pk=route_id)
@@ -718,7 +718,7 @@ def edit_route_reference(request, route_id):
 
 
 def make_new_highlight_reference(request, route_id, highlight_id):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
         args = {}
         args.update(csrf(request))
 
@@ -750,7 +750,7 @@ def make_new_highlight_reference(request, route_id, highlight_id):
 
 
 def edit_highlight_reference(request, route_id, reference_id):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
         this_reference = Reference.objects.get(pk=reference_id)
         this_highlight = this_reference.highlight
         args = {}
@@ -778,39 +778,42 @@ def edit_highlight_reference(request, route_id, reference_id):
 
 
 def delete_highlight_media(request, route_id, highlight_id):
-    if request.user.is_authenticated():
-        this_highlight = Highlight.objects.get(pk=highlight_id)
-        if this_highlight.created_by == request.user:
-            this_highlight.media.delete(save=True)
-    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + '#h' + str(highlight_id))
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
+        if request.user.is_authenticated():
+            this_highlight = Highlight.objects.get(pk=highlight_id)
+            if this_highlight.created_by == request.user:
+                this_highlight.media.delete(save=True)
+        return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + '#h' + str(highlight_id))
 
 
 def delete_highlight_reference(request, route_id, reference_id):
-    this_reference = Reference.objects.get(pk=reference_id)
-    this_highlight = this_reference.highlight
-    trees_to_delete = []
-    if request.user.is_authenticated():
-        if this_reference.highlight.created_by == request.user:
-            if this_reference.html_file:
-                trees_to_delete.append(os.path.dirname(this_reference.html_file.path))
-            this_reference.delete()
-            for this_tree in trees_to_delete:
-                shutil.rmtree(this_tree)
-    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + '#h' + str(this_highlight.id))
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
+        this_reference = Reference.objects.get(pk=reference_id)
+        this_highlight = this_reference.highlight
+        trees_to_delete = []
+        if request.user.is_authenticated():
+            if this_reference.highlight.created_by == request.user:
+                if this_reference.html_file:
+                    trees_to_delete.append(os.path.dirname(this_reference.html_file.path))
+                this_reference.delete()
+                for this_tree in trees_to_delete:
+                    shutil.rmtree(this_tree)
+        return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + '#h' + str(this_highlight.id))
 
 
 def delete_route_reference(request, route_id):
-    this_route = Route.objects.get(id=route_id)
-    this_reference = this_route.reference
-    trees_to_delete = []
-    if request.user.is_authenticated():
-        if this_reference.route.created_by == request.user:
-            if this_reference.html_file:
-                trees_to_delete.append(os.path.dirname(this_reference.html_file.path))
-            this_reference.delete()
-            for this_tree in trees_to_delete:
-                shutil.rmtree(this_tree)
-    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}))
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
+        this_route = Route.objects.get(id=route_id)
+        this_reference = this_route.reference
+        trees_to_delete = []
+        if request.user.is_authenticated():
+            if this_reference.route.created_by == request.user:
+                if this_reference.html_file:
+                    trees_to_delete.append(os.path.dirname(this_reference.html_file.path))
+                this_reference.delete()
+                for this_tree in trees_to_delete:
+                    shutil.rmtree(this_tree)
+        return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}))
 
 
 def delete_route(request, route_id):
@@ -873,7 +876,7 @@ def edit_profile(request):
 
 
 def create_ii(request, highlight_id):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
         args = {}
         args.update(csrf(request))
         this_ii = InteractiveImage()
@@ -899,7 +902,7 @@ def create_ii(request, highlight_id):
 
 
 def edit_ii(request, ii_id):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
         args = {}
         args.update(csrf(request))
         this_ii = InteractiveImage.objects.get(id=ii_id)
@@ -921,7 +924,7 @@ def edit_ii(request, ii_id):
 
 
 def create_ii_box(request, ii_id):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
         args = {}
         args.update(csrf(request))
         this_ii = InteractiveImage.objects.get(id=ii_id)
@@ -954,7 +957,7 @@ def create_ii_box(request, ii_id):
 
 
 def edit_ii_box(request, ii_id, box_id):
-    if request.user.is_authenticated():
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
         args = {}
         args.update(csrf(request))
         this_ii = InteractiveImage.objects.get(id=ii_id)
@@ -1012,11 +1015,17 @@ def view_ii(request, ii_id):
 def delete_ii(request, ii_id):
     args = {}
     args.update(csrf(request))
-    this_ii = InteractiveImage.objects.get(id=ii_id)
-    this_highlight_id = this_ii.highlight.id
-    this_route_id = this_ii.highlight.step.track.route.id
-    this_ii.delete()
-    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': this_route_id}) +"#h" + str(this_highlight_id) )
+    if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
+        this_ii = InteractiveImage.objects.get(id=ii_id)
+        if this_ii.highlight.created_by == request.user:
+            this_highlight_id = this_ii.highlight.id
+            this_route_id = this_ii.highlight.step.track.route.id
+            this_ii.delete()
+            return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': this_route_id}) +"#h" + str(this_highlight_id) )
+        else:
+            return render(request, 'registration/no_permission_must_login.html')
+    else:
+            return render(request, 'registration/no_permission_must_login.html')
 
 
 def show_general_references(request):
