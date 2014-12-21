@@ -399,6 +399,7 @@ def edit_highlight(request, route_id, highlight_id):
                 form = HighlightForm(request.POST, request.FILES, instance=this_highlight)
                 args['form'] = form
                 if form.is_valid():
+                    this_highlight.step.track.route.save()
                     form.save()
                     return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + "#h" + str(highlight_id))
                 else:
@@ -670,19 +671,20 @@ def make_new_route_reference(request, route_id):
             this_reference = Reference()
             this_reference.save()
             this_route = Route.objects.get(pk=route_id)
-            this_route.reference = this_reference
-            this_route.save()
-            form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
-            args['form'] = form
-            if form.is_valid():
-                form.save()
-                setup_response = set_up_reference(this_reference)
-                if setup_response == 'OK':
-                    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}))
-                else:
-                    args['form'] = ReferenceForm()
-                    args['error_message'] = setup_response
-                    return render(request, 'frontulet/upload_error.html', args)
+            if this_route.created_by == request.user:
+                this_route.reference = this_reference
+                this_route.save()
+                form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
+                args['form'] = form
+                if form.is_valid():
+                    form.save()
+                    setup_response = set_up_reference(this_reference)
+                    if setup_response == 'OK':
+                        return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}))
+                    else:
+                        args['form'] = ReferenceForm()
+                        args['error_message'] = setup_response
+                        return render(request, 'frontulet/upload_error.html', args)
         else:
             args['form'] = ReferenceForm()
 
@@ -697,22 +699,24 @@ def edit_route_reference(request, route_id):
         args = {}
         args.update(csrf(request))
         this_route = Route.objects.get(pk=route_id)
-        this_reference = Reference.objects.get(pk=this_route.reference.id)
-        if request.method == 'POST':
-            form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
-            args['form'] = form
-            if form.is_valid():
-                form.save()
-                setup_response = set_up_reference(this_reference)
-                if setup_response == 'OK':
-                    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}))
-                else:
-                    args['form'] = ReferenceForm()
-                    args['error_message'] = setup_response
-                    return render(request, 'frontulet/upload_error.html', args)
-        else:
-            args['form'] = ReferenceForm(instance=this_reference)
-        return render(request, 'frontulet/edit_reference.html', args)
+        if this_route.created_by == request.user:
+            this_reference = Reference.objects.get(pk=this_route.reference.id)
+            if request.method == 'POST':
+                form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
+                args['form'] = form
+                if form.is_valid():
+                    this_route.save()
+                    form.save()
+                    setup_response = set_up_reference(this_reference)
+                    if setup_response == 'OK':
+                        return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}))
+                    else:
+                        args['form'] = ReferenceForm()
+                        args['error_message'] = setup_response
+                        return render(request, 'frontulet/upload_error.html', args)
+            else:
+                args['form'] = ReferenceForm(instance=this_reference)
+            return render(request, 'frontulet/edit_reference.html', args)
     else:
         return render(request, 'registration/no_permission_must_login.html')
 
@@ -721,60 +725,63 @@ def make_new_highlight_reference(request, route_id, highlight_id):
     if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
         args = {}
         args.update(csrf(request))
-
-        if request.method == 'POST':
-            this_highlight = Highlight.objects.get(pk=highlight_id)
-            this_reference = Reference()
-            this_reference.highlight = this_highlight
-            this_reference.save()
-            form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
-            args['form'] = form
-            if form.is_valid():
-                form.save()
-                setup_response = set_up_reference(this_reference)
-                if setup_response == 'OK':
-                    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + "#h" + str(highlight_id))
+        this_highlight = Highlight.objects.get(pk=highlight_id)
+        if this_highlight.step.track.route.created_by == request.user:
+            if request.method == 'POST':
+                this_reference = Reference()
+                this_reference.highlight = this_highlight
+                this_reference.save()
+                form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
+                args['form'] = form
+                if form.is_valid():
+                    this_highlight.step.track.route.save()
+                    form.save()
+                    setup_response = set_up_reference(this_reference)
+                    if setup_response == 'OK':
+                        return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + "#h" + str(highlight_id))
+                    else:
+                        args['form'] = ReferenceForm()
+                        args['error_message'] = setup_response
+                        return render(request, 'frontulet/upload_error.html', args)
                 else:
-                    args['form'] = ReferenceForm()
-                    args['error_message'] = setup_response
-                    return render(request, 'frontulet/upload_error.html', args)
+                    this_reference.delete()
             else:
-                this_reference.delete()
+                args['form'] = ReferenceForm()
+
+            return render(request, 'frontulet/create_reference.html', args)
+
         else:
-            args['form'] = ReferenceForm()
-
-        return render(request, 'frontulet/create_reference.html', args)
-
-    else:
-        return render(request, 'registration/no_permission_must_login.html')
+            return render(request, 'registration/no_permission_must_login.html')
 
 
 def edit_highlight_reference(request, route_id, reference_id):
     if request.user.is_authenticated() and 'scientists' in [group.name for group in request.user.groups.all()]:
         this_reference = Reference.objects.get(pk=reference_id)
         this_highlight = this_reference.highlight
-        args = {}
-        args.update(csrf(request))
-        args['route_id'] = route_id
-        args['highlight_id'] = this_highlight.id
-        this_reference = Reference.objects.get(pk=reference_id)
-        if request.method == 'POST':
-            form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
-            args['form'] = form
-            if form.is_valid():
-                form.save()
-                setup_response = set_up_reference(this_reference)
-                if setup_response == 'OK':
-                    return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + "#h" + str(this_highlight.id))
-                else:
-                    args['form'] = ReferenceForm()
-                    args['error_message'] = setup_response
-                    return render(request, 'frontulet/upload_error.html', args)
+        if this_highlight.created_by == request.user:
+            args = {}
+            args.update(csrf(request))
+            args['route_id'] = route_id
+            args['highlight_id'] = this_highlight.id
+            this_reference = Reference.objects.get(pk=reference_id)
+            if request.method == 'POST':
+                form = ReferenceForm(request.POST, request.FILES, instance=this_reference)
+                args['form'] = form
+                if form.is_valid():
+                    this_highlight.step.track.route.save()
+                    form.save()
+                    setup_response = set_up_reference(this_reference)
+                    if setup_response == 'OK':
+                        return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + "#h" + str(this_highlight.id))
+                    else:
+                        args['form'] = ReferenceForm()
+                        args['error_message'] = setup_response
+                        return render(request, 'frontulet/upload_error.html', args)
+            else:
+                args['form'] = ReferenceForm(instance=this_reference)
+            return render(request, 'frontulet/edit_reference.html', args)
         else:
-            args['form'] = ReferenceForm(instance=this_reference)
-        return render(request, 'frontulet/edit_reference.html', args)
-    else:
-        return render(request, 'registration/no_permission_must_login.html')
+            return render(request, 'registration/no_permission_must_login.html')
 
 
 def delete_highlight_media(request, route_id, highlight_id):
@@ -783,6 +790,7 @@ def delete_highlight_media(request, route_id, highlight_id):
             this_highlight = Highlight.objects.get(pk=highlight_id)
             if this_highlight.created_by == request.user:
                 this_highlight.media.delete(save=True)
+                this_highlight.step.track.route.save()
         return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + '#h' + str(highlight_id))
 
 
@@ -796,6 +804,7 @@ def delete_highlight_reference(request, route_id, reference_id):
                 if this_reference.html_file:
                     trees_to_delete.append(os.path.dirname(this_reference.html_file.path))
                 this_reference.delete()
+                this_highlight.step.track.route.save()
                 for this_tree in trees_to_delete:
                     shutil.rmtree(this_tree)
         return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}) + '#h' + str(this_highlight.id))
@@ -811,6 +820,7 @@ def delete_route_reference(request, route_id):
                 if this_reference.html_file:
                     trees_to_delete.append(os.path.dirname(this_reference.html_file.path))
                 this_reference.delete()
+                this_route.save()
                 for this_tree in trees_to_delete:
                     shutil.rmtree(this_tree)
         return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': str(route_id)}))
@@ -881,24 +891,27 @@ def create_ii(request, highlight_id):
         args.update(csrf(request))
         this_ii = InteractiveImage()
         this_highlight = Highlight.objects.get(id=highlight_id)
-        this_ii.highlight = this_highlight
-        if request.method == 'POST':
-            this_ii.save()
-            form = InteractiveImageForm(request.POST, request.FILES, instance=this_ii)
-            if form.is_valid():
-                form.save()
-                return HttpResponseRedirect(reverse('create_ii_box', kwargs={'ii_id': this_ii.id}))
+        if this_highlight.created_by == request.user:
+            this_ii.highlight = this_highlight
+            if request.method == 'POST':
+                this_ii.save()
+                form = InteractiveImageForm(request.POST, request.FILES, instance=this_ii)
+                if form.is_valid():
+                    # save route to update modified time
+                    this_highlight.step.track.route.save()
+                    form.save()
+                    return HttpResponseRedirect(reverse('create_ii_box', kwargs={'ii_id': this_ii.id}))
+                else:
+                    args['form'] = InteractiveImageForm()
+                    this_ii.delete()
+                    return render(request, 'frontulet/wrong_file_type_ii.html', args)
+
             else:
-                args['form'] = InteractiveImageForm()
-                this_ii.delete()
-                return render(request, 'frontulet/wrong_file_type_ii.html', args)
+                args['form'] = InteractiveImageForm(instance=this_ii)
 
+            return render(request, 'frontulet/create_ii.html', args)
         else:
-            args['form'] = InteractiveImageForm(instance=this_ii)
-
-        return render(request, 'frontulet/create_ii.html', args)
-    else:
-        return render(request, 'registration/no_permission_must_login.html')
+            return render(request, 'registration/no_permission_must_login.html')
 
 
 def edit_ii(request, ii_id):
@@ -906,21 +919,23 @@ def edit_ii(request, ii_id):
         args = {}
         args.update(csrf(request))
         this_ii = InteractiveImage.objects.get(id=ii_id)
-        if request.method == 'POST':
-            form = InteractiveImageForm(request.POST, instance=this_ii)
-            if form.is_valid():
-                form.save()
-                # clear all boxes from old ii
-                for box in this_ii.boxes.all():
-                    box.delete()
-                return HttpResponseRedirect(reverse('create_ii_box', kwargs={'ii_id': this_ii.id}))
+        if this_ii.highlight.created_by == request.user:
+            if request.method == 'POST':
+                form = InteractiveImageForm(request.POST, instance=this_ii)
+                if form.is_valid():
+                    this_ii.highlight.step.track.route.save()
+                    form.save()
+                    # clear all boxes from old ii
+                    for box in this_ii.boxes.all():
+                        box.delete()
+                    return HttpResponseRedirect(reverse('create_ii_box', kwargs={'ii_id': this_ii.id}))
 
+            else:
+                args['form'] = InteractiveImageForm(instance=this_ii)
+
+            return render(request, 'frontulet/create_ii.html', args)
         else:
-            args['form'] = InteractiveImageForm(instance=this_ii)
-
-        return render(request, 'frontulet/create_ii.html', args)
-    else:
-        return render(request, 'registration/no_permission_must_login.html')
+            return render(request, 'registration/no_permission_must_login.html')
 
 
 def create_ii_box(request, ii_id):
@@ -928,32 +943,34 @@ def create_ii_box(request, ii_id):
         args = {}
         args.update(csrf(request))
         this_ii = InteractiveImage.objects.get(id=ii_id)
-        args['image_url'] = this_ii.image_file.url
-        args['display_width'] = 600.00
-        args['scaling_factor'] = args['display_width'] / this_ii.original_width
-        args['display_height'] = this_ii.original_height * args['scaling_factor']
-        args['original_height'] = this_ii.original_height
-        args['original_width'] = this_ii.original_width
-        args['route_id'] = this_ii.highlight.step.track.route.id
-        args['highlight_id'] = this_ii.highlight.id
-        args['editing'] = False
-        args['ii_id'] = ii_id
-        this_box = Box()
-        this_box.interactive_image = this_ii
-        if this_ii.boxes.count() > 0:
-            args['boxes'] = map(lambda b: {'box': b, 'message': b.get_message(request.LANGUAGE_CODE).replace('"', "'"), 'all_messages': b.get_all_messages_html().replace('"', "'")}, [box for box in this_ii.boxes.all()])
-        if request.method == 'POST':
-            form = BoxForm(request.POST, instance=this_box)
-            if form.is_valid():
-                form.save()
-                return HttpResponseRedirect(reverse('create_ii_box', kwargs={'ii_id': this_ii.id}))
+        if this_ii.highlight.created_by == request.user:
+            args['image_url'] = this_ii.image_file.url
+            args['display_width'] = 600.00
+            args['scaling_factor'] = args['display_width'] / this_ii.original_width
+            args['display_height'] = this_ii.original_height * args['scaling_factor']
+            args['original_height'] = this_ii.original_height
+            args['original_width'] = this_ii.original_width
+            args['route_id'] = this_ii.highlight.step.track.route.id
+            args['highlight_id'] = this_ii.highlight.id
+            args['editing'] = False
+            args['ii_id'] = ii_id
+            this_box = Box()
+            this_box.interactive_image = this_ii
+            if this_ii.boxes.count() > 0:
+                args['boxes'] = map(lambda b: {'box': b, 'message': b.get_message(request.LANGUAGE_CODE).replace('"', "'"), 'all_messages': b.get_all_messages_html().replace('"', "'")}, [box for box in this_ii.boxes.all()])
+            if request.method == 'POST':
+                form = BoxForm(request.POST, instance=this_box)
+                if form.is_valid():
+                    this_ii.highlight.step.track.route.save()
+                    form.save()
+                    return HttpResponseRedirect(reverse('create_ii_box', kwargs={'ii_id': this_ii.id}))
 
+            else:
+                args['form'] = BoxForm(instance=this_box)
+
+            return render(request, 'frontulet/create_ii_box.html', args)
         else:
-            args['form'] = BoxForm(instance=this_box)
-
-        return render(request, 'frontulet/create_ii_box.html', args)
-    else:
-        return render(request, 'registration/no_permission_must_login.html')
+            return render(request, 'registration/no_permission_must_login.html')
 
 
 def edit_ii_box(request, ii_id, box_id):
@@ -961,33 +978,35 @@ def edit_ii_box(request, ii_id, box_id):
         args = {}
         args.update(csrf(request))
         this_ii = InteractiveImage.objects.get(id=ii_id)
-        args['image_url'] = this_ii.image_file.url
-        args['display_width'] = 600.00
-        args['scaling_factor'] = args['display_width'] / this_ii.original_width
-        args['display_height'] = this_ii.original_height * args['scaling_factor']
-        args['original_height'] = this_ii.original_height
-        args['original_width'] = this_ii.original_width
-        args['route_id'] = this_ii.highlight.step.track.route.id
-        args['highlight_id'] = this_ii.highlight.id
-        this_box = Box.objects.get(id=box_id)
-        args['this_box'] = this_box
-        args['editing'] = True
-        args['ii_id'] = ii_id
-        other_boxes = filter(lambda b: b != this_box, [box for box in this_ii.boxes.all()])
-        if len(other_boxes) > 0:
-            args['boxes'] = map(lambda b: {'box': b, 'message': b.get_message(request.LANGUAGE_CODE).replace('"', "'"), 'all_messages': b.get_all_messages_html().replace('"', "'")}, other_boxes)
-        if request.method == 'POST':
-            form = BoxForm(request.POST, instance=this_box)
-            if form.is_valid():
-                form.save()
-                return HttpResponseRedirect(reverse('create_ii_box', kwargs={'ii_id': this_ii.id}))
+        if this_ii.highlight.created_by == request.user:
+            args['image_url'] = this_ii.image_file.url
+            args['display_width'] = 600.00
+            args['scaling_factor'] = args['display_width'] / this_ii.original_width
+            args['display_height'] = this_ii.original_height * args['scaling_factor']
+            args['original_height'] = this_ii.original_height
+            args['original_width'] = this_ii.original_width
+            args['route_id'] = this_ii.highlight.step.track.route.id
+            args['highlight_id'] = this_ii.highlight.id
+            this_box = Box.objects.get(id=box_id)
+            args['this_box'] = this_box
+            args['editing'] = True
+            args['ii_id'] = ii_id
+            other_boxes = filter(lambda b: b != this_box, [box for box in this_ii.boxes.all()])
+            if len(other_boxes) > 0:
+                args['boxes'] = map(lambda b: {'box': b, 'message': b.get_message(request.LANGUAGE_CODE).replace('"', "'"), 'all_messages': b.get_all_messages_html().replace('"', "'")}, other_boxes)
+            if request.method == 'POST':
+                form = BoxForm(request.POST, instance=this_box)
+                if form.is_valid():
+                    this_ii.highlight.step.track.route.save()
+                    form.save()
+                    return HttpResponseRedirect(reverse('create_ii_box', kwargs={'ii_id': this_ii.id}))
 
+            else:
+                args['form'] = BoxForm(instance=this_box)
+
+            return render(request, 'frontulet/create_ii_box.html', args)
         else:
-            args['form'] = BoxForm(instance=this_box)
-
-        return render(request, 'frontulet/create_ii_box.html', args)
-    else:
-        return render(request, 'registration/no_permission_must_login.html')
+            return render(request, 'registration/no_permission_must_login.html')
 
 
 def view_ii(request, ii_id):
@@ -1021,6 +1040,7 @@ def delete_ii(request, ii_id):
             this_highlight_id = this_ii.highlight.id
             this_route_id = this_ii.highlight.step.track.route.id
             this_ii.delete()
+            this_ii.highlight.step.track.route.save()
             return HttpResponseRedirect(reverse('show_route_detail', kwargs={'id': this_route_id}) +"#h" + str(this_highlight_id) )
         else:
             return render(request, 'registration/no_permission_must_login.html')
